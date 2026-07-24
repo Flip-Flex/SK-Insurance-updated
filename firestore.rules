@@ -1,0 +1,124 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isUserRole(role) {
+      return isAuthenticated() && (
+        getUserData().role == role ||
+        (role == 'Admin' && getUserData().role == 'admin') ||
+        (role == 'Manager' && getUserData().role == 'manager') ||
+        (role == 'Customer' && getUserData().role == 'customer') ||
+        (role == 'Employee' && getUserData().role == 'employee') ||
+        (role == 'Agent' && getUserData().role == 'agent') ||
+        getUserData().role == 'admin' ||
+        getUserData().role == 'Admin'
+      );
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Plans CRUD
+    match /plans/{planId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    // Users CRUD
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin') || isOwner(userId);
+    }
+
+    // Claims CRUD
+    match /claims/{claimId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Policies CRUD
+    match /policies/{policyId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Documents CRUD
+    match /documents/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Partners & Testimonials CRUD
+    match /partners/{partnerId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    // Careers CRUD
+    match /careers/{careerId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    // Gallery CRUD
+    match /gallery/{photoId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    // FAQs CRUD
+    match /faqs/{faqId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    // Blogs CRUD
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    // Settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isUserRole('Admin');
+    }
+
+    // Appointments & Tickets
+    match /appointments/{aptId} {
+      allow read: if isAuthenticated() || isUserRole('Admin') || isUserRole('Manager');
+      allow create: if true;
+      allow update, delete: if isUserRole('Admin') || isUserRole('Manager');
+    }
+
+    match /tickets/{ticketId} {
+      allow read: if isAuthenticated() || isUserRole('Admin') || isUserRole('Manager');
+      allow create: if true;
+      allow update, delete: if isUserRole('Admin') || isUserRole('Manager');
+    }
+
+    // Calculator History & Logs
+    match /calculatorHistory/{calcId} {
+      allow read, write: if true;
+    }
+
+    match /logs/{logId} {
+      allow read: if isUserRole('Admin') || isUserRole('Manager');
+      allow write: if isAuthenticated();
+    }
+  }
+}

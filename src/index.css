@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+  
+  /* Lumina Brand Primitives */
+  --color-brand-accent: #F6FF00;
+  --color-brand-hover: #DDE600;
+  --color-brand-active: #C4CC00;
+  
+  /* Neutral Light Primitives */
+  --color-neutral-0: #FFFFFF;
+  --color-neutral-50: #FAFAFA;
+  --color-neutral-100: #F4F4F5;
+  --color-neutral-200: #E4E4E7;
+  
+  /* Neutral Dark Primitives */
+  --color-neutral-700: #3F3F46;
+  --color-neutral-800: #27272A;
+  --color-neutral-900: #18181B;
+  --color-neutral-1000: #000000;
+
+  /* Border Radius */
+  --radius-btn: 14px;
+  --radius-input: 14px;
+  --radius-img: 20px;
+  --radius-card: 24px;
+  --radius-badge: 999px;
+
+  /* Premium Shadows */
+  --shadow-premium-soft: 0 8px 32px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+  --shadow-premium-dark: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+:root {
+  font-family: 'Poppins', sans-serif;
+  /* Additional Lumina tokens for standard elements */
+  --bg-level-1: var(--color-neutral-0);
+  --bg-level-2: var(--color-neutral-50);
+  --bg-level-3: var(--color-neutral-100);
+  --bg-level-4: var(--color-neutral-900);
+  --bg-level-5: var(--color-neutral-1000);
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--color-neutral-0);
+  color: var(--color-neutral-800);
+  transition: background-color 300ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark body {
+  background-color: var(--color-neutral-1000);
+  color: var(--color-neutral-0);
+}
+
+/* Glassmorphism components adapted to Lumina */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-premium-soft);
+  border-radius: var(--radius-card, 24px);
+}
+
+.dark .glass-panel {
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-premium-dark);
+  border-radius: var(--radius-card, 24px);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-neutral-1000);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Animations and Transitions */
+.transition-all-300 {
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1); /* Ease-out elegant */
+}
+
+/* Standard Nav Item Hover from Lumina */
+.glow-nav-item {
+  position: relative;
+  transition: all 300ms ease;
+  padding: 6px 16px;
+  border-radius: 8px;
+}
+
+.glow-nav-item.active::before {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 16px;
+  right: 16px;
+  height: 3px;
+  background-color: var(--color-brand-accent);
+  border-radius: 9999px;
+  transition: all 250ms ease;
+}
+
+.glow-nav-item::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: rgba(246, 255, 0, 0.05);
+  border: 1.5px solid rgba(246, 255, 0, 0.25);
+  z-index: -1;
+  opacity: 0;
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.glow-nav-item:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
