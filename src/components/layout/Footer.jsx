@@ -8,9 +8,9 @@ export const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-navy-950 text-slate-300 border-t border-white/5 pt-8 pb-12 text-left">
+    <footer className="bg-navy-950 text-slate-300 border-t border-white/5 py-6 text-left">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
           {/* Brand Panel */}
           <div className="space-y-2.5">
             <Link to="/">
