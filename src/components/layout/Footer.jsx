@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../ui/Logo';
 import { useTranslation } from '../../context/LanguageContext';
-import { FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaInstagram, FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -42,7 +42,7 @@ export const Footer = () => {
             <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-2.5 border-l-2 border-gold-400 pl-2">{t('footer_company')}</h4>
             <ul className="space-y-1.5 text-xs">
               <li><Link to="/about" className="hover:text-gold-400 transition-colors">{t('about')}</Link></li>
-              <li><Link to="/appointment" className="hover:text-gold-400 text-gold-400 font-semibold transition-colors flex items-center space-x-1"><span>📅 {t('book_appointment')}</span></Link></li>
+              <li><Link to="/appointment" className="hover:text-gold-400 text-gold-400 font-semibold transition-colors flex items-center space-x-1"><span>{t('book_appointment')}</span></Link></li>
               <li><Link to="/support" className="hover:text-gold-400 transition-colors">{t('contact')}</Link></li>
               <li><Link to="/calculator" className="hover:text-gold-400 transition-colors">{t('calc')}</Link></li>
               <li><Link to="/careers" className="hover:text-gold-400 transition-colors">Careers</Link></li>
@@ -80,7 +80,7 @@ export const Footer = () => {
                 </div>
               </li>
               <li className="flex items-start space-x-2">
-                <span className="text-gold-400 shrink-0 mt-0.5">📞</span>
+                <FaPhoneAlt className="text-gold-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-white text-[11px]">Phone Hotline</p>
                   <a 
