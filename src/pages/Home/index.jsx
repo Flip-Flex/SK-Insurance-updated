@@ -11,7 +11,6 @@ import { StickyStackedCards } from '../../components/StickyStackedCards';
 import { PremiumEditorialStats } from '../../components/PremiumEditorialStats';
 import { EditorialTrustValues } from '../../components/EditorialTrustValues';
 import { EditorialTestimonials } from '../../components/EditorialTestimonials';
-import { HeroSection } from '../../components/HeroSection';
 const AnimatedCounter = ({ value, duration = 1.5 }) => {
   const [displayValue, setDisplayValue] = React.useState('');
   const elementRef = useRef(null);
@@ -410,7 +409,18 @@ export const Home = () => {
 
   return (
     <div className="relative">
-      <HeroSection />
+      {/* Full-width Fixed Background Video Banner at the Top */}
+      <section className="relative w-full h-[45vh] sm:h-screen overflow-hidden">
+        <video 
+          className="fixed top-0 left-0 w-full h-[45vh] sm:h-screen object-cover -z-20 pointer-events-none" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+        >
+          <source src="/hero_background.mp4" type="video/mp4" />
+        </video>
+      </section>
 
       {/* Parallax Content Overlay Wrap - Scrolls up over the fixed video */}
       <div className="relative bg-neutral-0 dark:bg-neutral-1000 z-10 pt-16 pb-0 space-y-24 border-t border-black/5 dark:border-white/5 shadow-premium-dark">
