@@ -8,6 +8,9 @@ import { subscribeToCollection } from '../../services/firebaseService';
 
 import { useRef } from 'react';
 import { StickyStackedCards } from '../../components/StickyStackedCards';
+import { PremiumEditorialStats } from '../../components/PremiumEditorialStats';
+import { EditorialTrustValues } from '../../components/EditorialTrustValues';
+import { EditorialTestimonials } from '../../components/EditorialTestimonials';
 const AnimatedCounter = ({ value, duration = 1.5 }) => {
   const [displayValue, setDisplayValue] = React.useState('');
   const elementRef = useRef(null);
@@ -424,11 +427,7 @@ export const Home = () => {
 
       {/* Counters Stats Strip */}
       <section className="max-w-[1440px] mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
-          {stats.map((stat, idx) => (
-            <TrustStatCard key={idx} stat={stat} idx={idx} />
-          ))}
-        </div>
+        <PremiumEditorialStats stats={stats} />
       </section>
 
       {/* Educational Section: What is Insurance & Types */}
@@ -437,69 +436,11 @@ export const Home = () => {
       </section>
 
       {/* Trust Values Section */}
-      <section className="max-w-7xl mx-auto px-4 py-10 space-y-12">
-        <div className="text-center">
-          <span className="text-xs font-bold text-black bg-brand-accent px-3 py-1 rounded-[999px] uppercase tracking-widest">
-            Our Foundation
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-1000 dark:text-white mt-2">
-            Why SK Smart is Chosen by Global Executives
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {values.map((val, idx) => {
-            const Icon = val.icon;
-            return (
-              <div
-                key={idx}
-                className="glass-panel rounded-[24px] p-6 text-left space-y-4 hover:-translate-y-1 transition-all duration-300 border border-black/5 dark:border-white/5 group"
-              >
-                <div className="p-3 bg-neutral-100 dark:bg-neutral-900 text-neutral-1000 dark:text-white rounded-[14px] inline-block group-hover:bg-brand-accent group-hover:text-black transition-colors">
-                  <Icon className="text-xl" />
-                </div>
-                <h3 className="text-base font-bold text-neutral-1000 dark:text-white">
-                  {val.title}
-                </h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                  {val.description}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      <EditorialTrustValues values={values} />
 
 
       {/* Testimonials Strip */}
-      <section className="bg-neutral-1000 py-16 text-white border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-4 space-y-12">
-          <div className="text-center space-y-3">
-            <span className="text-xs font-bold text-brand-accent uppercase tracking-widest">Reviews</span>
-            <h2 className="text-2xl sm:text-3xl font-bold">{t('reviews_title')}</h2>
-            <p className="text-xs text-neutral-400 max-w-md mx-auto">
-              {t('reviews_subtitle')}
-            </p>
-            <div className="flex justify-center space-x-1 pt-1 text-brand-accent text-sm">
-              <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, idx) => (
-              <div key={idx} className="bg-neutral-900 border border-white/5 rounded-[24px] p-6 text-left space-y-4 flex flex-col justify-between">
-                <p className="text-xs text-neutral-300 leading-relaxed italic">
-                  "{t.quote}"
-                </p>
-                <div className="pt-2 border-t border-white/5">
-                  <h4 className="text-xs font-bold text-white">{t.author}</h4>
-                  <p className="text-[10px] text-brand-accent mt-1">{t.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <EditorialTestimonials testimonials={testimonials} />
       </div>
     </div>
   );

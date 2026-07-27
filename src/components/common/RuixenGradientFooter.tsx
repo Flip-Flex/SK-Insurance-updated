@@ -1,0 +1,184 @@
+"use client";
+
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
+
+type Stop = { offset: number; color: string };
+
+// Website brand colors: Black (bottom) → Yellow (mid) → White (top edge)
+const RUIXEN_STOPS: Stop[] = [
+  { offset: 0, color: "#000000" },    // Pure black at the floor
+  { offset: 0.3, color: "#854D0E" },  // Dark yellow/gold transition
+  { offset: 0.5, color: "#EAB308" },  // Solid yellow
+  { offset: 0.75, color: "#FDE047" }, // Bright light yellow
+  { offset: 0.95, color: "#FFFFFF" }, // Pure white
+  { offset: 1, color: "#FFFFFF00" },  // Transparent white fading out
+];
+  { offset: 0.2837, color: "#5092C7" },
+  { offset: 0.4135, color: "#E1ECFE" },
+  { offset: 0.5866, color: "#FFD400" },
+  { offset: 0.6827, color: "#FA3D1D" },
+  { offset: 0.8029, color: "#FD02F5" },
+  { offset: 1, color: "#FFC0FD00" },
+// Website brand colors: Navy (bottom) → Emerald (mid) → Gold (top edge)
+const RUIXEN_STOPS: Stop[] = [
+  { offset: 0, color: "#020617" },    // Very deep navy/black at the floor
+  { offset: 0.2, color: "#172554" },  // Navy
+  { offset: 0.4, color: "#1E3A8A" },  // Rich blue/navy
+  { offset: 0.6, color: "#059669" },  // Emerald green
+  { offset: 0.8, color: "#D97706" },  // Deep gold/amber
+  { offset: 0.95, color: "#FBBF24" }, // Bright gold
+  { offset: 1, color: "#FBBF2400" },  // Transparent gold fading out
+];
+    out.push(peak * VBH * (valley + (1 - valley) * eased));
+  }
+  return out;
+}
+
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+
+export interface RuixenGradientFooterProps {
+  /** Footer content — links, wordmark, copyright — shown above the glow. */
+  children?: ReactNode;
+  /**
+   * Height of the glow band pinned to the viewport bottom. Doubles as the
+   * scroll distance the reveal takes, and the room reserved under the content.
+   */
+  gradientHeight?: string;
+  /**
+   * Resting height of the glow, as a fraction of the band — a thin, flat strip
+   * of rainbow along the bottom edge before the scroll reveal starts. `0` keeps
+   * it hidden until the last screen.
+   */
+  minReveal?: number;
+  /** Number of blurred columns. */
+  bars?: number;
+  /** Blur in viewBox units. */
+  blur?: number;
+  /** Peak height as a fraction of the viewBox. */
+  peak?: number;
+  /** Edge height as a fraction of the peak (0..1). */
+  valley?: number;
+  /** Vertical rainbow gradient stops, floor (0) → top (1). */
+  stops?: Stop[];
+  className?: string;
+  style?: CSSProperties;
+}
+
+export function RuixenGradientFooter({
+  children,
+  gradientHeight = "65vh",
+  minReveal = 0.045,
+  bars = 9,
+  blur = 15,
+  peak = 0.98,
+  valley = 0.55,
+  stops = RUIXEN_STOPS,
+  className,
+  style,
+}: RuixenGradientFooterProps) {
+  const uid = useId().replace(/:/g, "");
+  const bandRef = useRef<HTMLDivElement>(null);
+  // minReveal = a flat strip on the floor, 1 = risen to full height.
+  const [progress, setProgress] = useState(minReveal);
+
+  useEffect(() => {
+    const el = bandRef.current;
+    if (!el) return;
+    // Bind to the element's OWN window so this tracks the right scroll context
+    // on a real page and inside the docs preview iframe alike.
+    const doc = el.ownerDocument;
+    const win = doc.defaultView ?? window;
+    const measure = () => {
+      // offsetHeight ignores the transform, so the band can measure itself.
+      const h = el.offsetHeight || 1;
+      // How much scroll is left before the end of the page. The glow starts
+      // rising once that's within its own height, and is full at the bottom.
+      const left =
+        doc.documentElement.scrollHeight - win.innerHeight - win.scrollY;
+      const t = clamp01((h - left) / h);
+      setProgress(minReveal + (1 - minReveal) * t);
+    };
+    measure();
+    win.addEventListener("scroll", measure, { passive: true });
+    win.addEventListener("resize", measure, { passive: true });
+    return () => {
+      win.removeEventListener("scroll", measure);
+      win.removeEventListener("resize", measure);
+    };
+  }, [minReveal]);
+
+  const colW = VBW / bars;
+
+  return (
+    // The glow is pinned to the viewport, so the footer reserves the same
+    // height beneath its content for the glow to land in.
+    <footer
+      className={className}
+      style={{ paddingBottom: gradientHeight, ...style }}
+    >
+      {children}
+
+        ref={bandRef}
+        aria-hidden
+        style={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: gradientHeight,
+          pointerEvents: "none",
+          transformOrigin: "bottom",
+          transform: `scaleY(${progress})`,
+          willChange: "transform",
+        }}
+      >
+        <svg
+          zIndex: -1,
+        }}
+      >
+        <svg
+          style={{ height: "100%", width: "100%", display: "block" }}
+          viewBox={`0 0 ${VBW} ${VBH}`}
+          preserveAspectRatio="none"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id={`grad-${uid}`} x1="0" y1="1" x2="0" y2="0">
+              {stops.map((s, i) => (
+                <stop key={i} offset={s.offset} stopColor={s.color} />
+              ))}
+            </linearGradient>
+            <filter
+              id={`blur-${uid}`}
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feGaussianBlur stdDeviation={blur} />
+            </filter>
+          </defs>
+          {bellHeights(bars, peak, valley).map((barH, i) => (
+            <g key={i} filter={`url(#blur-${uid})`}>
+              <rect
+                x={i * colW}
+                y={VBH - barH}
+                width={colW * 1.23}
+                height={barH}
+                fill={`url(#grad-${uid})`}
+              />
+            </g>
+          ))}
+        </svg>
+      </div>
+    </footer>
+  );
+}
