@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSp
 import { FaAward, FaCalendarAlt, FaShieldAlt, FaUsers, FaChartLine, FaTimes, FaSearchPlus, FaLinkedin, FaInstagram, FaQuoteLeft, FaArrowRight, FaMapMarkerAlt, FaHome } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
 import SplitText from '../../components/common/SplitText';
+import { useTranslation } from '../../context/LanguageContext';
 
 // Utility for animating numbers
 const Counter = ({ from, to, suffix = "", duration = 2 }) => {
