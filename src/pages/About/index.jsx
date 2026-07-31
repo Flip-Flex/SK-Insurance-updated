@@ -4,6 +4,7 @@ import { FaAward, FaCalendarAlt, FaShieldAlt, FaUsers, FaChartLine, FaTimes, FaS
 import { subscribeToCollection } from '../../services/firebaseService';
 import SplitText from '../../components/common/SplitText';
 import { useTranslation } from '../../context/LanguageContext';
+import { Timeline } from '../../components/ui/timeline';
 
 // Utility for animating numbers
 const Counter = ({ from, to, suffix = "", duration = 2 }) => {
@@ -446,58 +447,155 @@ export const About = () => {
       <HorizontalPrinciples />
 
       {/* Chapter 6: Our Journey (Timeline) */}
-      <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto overflow-hidden">
-        <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-16 lg:mb-24">Our Journey</h2>
-        
-        <div className="relative">
-          {/* Horizontal Line - Desktop */}
-          <motion.div 
-            className="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-white/10 -translate-y-1/2 origin-left"
-            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1.5 }}
-          />
-          
-          {/* Vertical Line - Mobile/Tablet */}
-          <motion.div 
-            className="lg:hidden absolute top-0 left-[18px] sm:left-[34px] w-1 h-full bg-white/10 origin-top"
-            initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true }} transition={{ duration: 1.5 }}
-          />
-
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center relative z-10 w-full lg:pb-16 lg:pt-16 gap-12 lg:gap-8 px-2 sm:px-6 lg:px-4">
-            {[
-              { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.' },
-              { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).' },
-              { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.' },
-              { year: '2025', title: 'MD Plaza Headquarters', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.' }
-            ].map((mile, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: i * 0.2 }}
-                className="flex flex-row lg:flex-col items-start lg:items-center lg:text-center w-full lg:min-w-[280px] gap-6 lg:gap-0"
-              >
-                {/* Mobile/Tablet: Timeline Dot */}
-                <div className="lg:hidden flex flex-col items-center pt-1 z-20">
-                  <div className="w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0" />
-                </div>
-
-                <div className={`flex-1 lg:flex-none lg:mb-8 ${i % 2 !== 0 ? 'lg:order-last lg:mt-8 lg:mb-0' : ''}`}>
-                  {/* Mobile/Tablet: Year */}
-                  <div className="lg:hidden text-brand-accent font-[900] text-3xl tracking-widest mb-2 opacity-80">
-                    {mile.year}
-                  </div>
-                  <h3 className="text-xl lg:text-lg font-bold text-white uppercase mb-2">{mile.title}</h3>
-                  <p className="text-base lg:text-sm text-neutral-400">{mile.desc}</p>
-                </div>
-                
-                {/* Desktop: Dot and Year */}
-                <div className="hidden lg:flex w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0 relative z-20 my-4 group cursor-default hover:scale-150 transition-transform duration-500">
-                  <div className="absolute top-8 left-1/2 -translate-x-1/2 text-4xl font-[900] text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 opacity-20 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    {mile.year}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+      <section className="py-24 sm:px-8 max-w-7xl mx-auto overflow-hidden">
+        <div className="relative w-full overflow-clip">
+          <Timeline data={[
+    {
+      title: "2024",
+      content: (
+        <div>
+          <p className="mb-8 text-xs font-normal text-neutral-400 md:text-sm">
+            Built and launched Aceternity UI and Aceternity UI Pro from scratch
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <img
+              src="https://assets.aceternity.com/templates/startup-1.webp"
+              alt="startup template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/templates/startup-2.webp"
+              alt="startup template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/templates/startup-3.webp"
+              alt="startup template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/templates/startup-4.webp"
+              alt="startup template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
           </div>
         </div>
+      ),
+    },
+    {
+      title: "Early 2023",
+      content: (
+        <div>
+          <p className="mb-8 text-xs font-normal text-neutral-400 md:text-sm">
+            I usually run out of copy, but when I see content this big, I try to
+            integrate lorem ipsum.
+          </p>
+          <p className="mb-8 text-xs font-normal text-neutral-400 md:text-sm">
+            Lorem ipsum is for people who are too lazy to write copy. But we are
+            not. Here are some more example of beautiful designs I built.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <img
+              src="https://assets.aceternity.com/pro/hero-sections.png"
+              alt="hero template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/features-section.png"
+              alt="feature template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/pro/bento-grids.png"
+              alt="bento template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/cards.png"
+              alt="cards template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Changelog",
+      content: (
+        <div>
+          <p className="mb-4 text-xs font-normal text-neutral-400 md:text-sm">
+            Deployed 5 new components on Aceternity today
+          </p>
+          <div className="mb-8">
+            <div className="flex items-center gap-2 text-xs text-neutral-300 md:text-sm">
+              ✅ Card grid component
+            </div>
+            <div className="flex items-center gap-2 text-xs text-neutral-300 md:text-sm">
+              ✅ Startup template Aceternity
+            </div>
+            <div className="flex items-center gap-2 text-xs text-neutral-300 md:text-sm">
+              ✅ Random file upload lol
+            </div>
+            <div className="flex items-center gap-2 text-xs text-neutral-300 md:text-sm">
+              ✅ Himesh Reshammiya Music CD
+            </div>
+            <div className="flex items-center gap-2 text-xs text-neutral-300 md:text-sm">
+              ✅ Salman Bhai Fan Club registrations open
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <img
+              src="https://assets.aceternity.com/pro/hero-sections.png"
+              alt="hero template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/features-section.png"
+              alt="feature template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/pro/bento-grids.png"
+              alt="bento template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+            <img
+              src="https://assets.aceternity.com/cards.png"
+              alt="cards template"
+              width={500}
+              height={500}
+              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
+            />
+          </div>
+        </div>
+      ),
+    },
+          ]} />
+        </div>
+          {/* Horizontal Line - Desktop */}
+
       </section>
 
       {/* Chapter 7: Awards Gallery */}
