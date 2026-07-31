@@ -498,8 +498,8 @@ export const StaggeredMenu = ({
 .sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 50; pointer-events: none; }
 .sm-scope .sm-logo { display: flex; align-items: center; user-select: none; }
 .sm-scope .sm-logo-img { display: block; height: 32px; width: auto; object-fit: contain; }
-.sm-scope .sm-toggle { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; border: none; cursor: pointer; color: #e9e9ef; font-weight: 500; line-height: 1; overflow: visible; }
-.sm-scope .sm-toggle:focus-visible { outline: 2px solid #ffffffaa; outline-offset: 4px; border-radius: 4px; }
+.sm-scope .sm-toggle { position: relative; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; color: #e9e9ef; font-weight: 500; line-height: 1; overflow: visible; outline: none; -webkit-tap-highlight-color: transparent; }
+.sm-scope .sm-toggle:focus-visible, .sm-scope .sm-toggle:focus { outline: none; }
 .sm-scope .sm-line:last-of-type { margin-top: 6px; }
 .sm-scope .sm-icon { position: relative; width: 24px; height: 24px; flex: 0 0 24px; display: inline-flex; align-items: center; justify-content: center; will-change: transform; }
 .sm-scope .sm-panel-itemWrap { position: relative; overflow: hidden; line-height: 1; }
