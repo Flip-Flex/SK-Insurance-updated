@@ -239,18 +239,18 @@ export const About = () => {
           <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto px-4 w-full">
             
             <div className="flex flex-col items-center space-y-4">
-              <SplitText text="Securing Wealth." className="text-3xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
-              <SplitText text="Empowering Futures." className="text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
+              <SplitText text="Securing Wealth." className="text-4xl sm:text-6xl lg:text-7xl font-[900] tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
+              <SplitText text="Empowering Futures." className="text-4xl sm:text-6xl lg:text-7xl font-[900] tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24 mt-24">
               <div className="flex flex-col items-center">
-                <SplitText text="22" className="text-4xl sm:text-6xl font-light text-white" delay={400} duration={0.8} />
+                <SplitText text="22" className="text-6xl sm:text-7xl lg:text-8xl font-[900] text-white" delay={400} duration={0.8} />
                 <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase mt-4">Years of Trust</span>
               </div>
               <div className="hidden sm:block w-[1px] h-12 bg-white/20"></div>
               <div className="flex flex-col items-center">
-                <SplitText text="5000+" className="text-4xl sm:text-6xl font-light text-white" delay={500} duration={0.8} />
+                <SplitText text="5000+" className="text-6xl sm:text-7xl lg:text-8xl font-[900] text-white" delay={500} duration={0.8} />
                 <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase mt-4">Families Protected</span>
               </div>
             </div>
