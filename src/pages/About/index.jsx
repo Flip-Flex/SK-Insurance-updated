@@ -4,6 +4,7 @@ import { FaAward, FaCalendarAlt, FaShieldAlt, FaUsers, FaChartLine, FaTimes, FaS
 import { subscribeToCollection } from '../../services/firebaseService';
 import SplitText from '../../components/common/SplitText';
 import { useTranslation } from '../../context/LanguageContext';
+import { AnimatedTestimonials } from '../../components/ui/animated-testimonials';
 
 // Utility for animating numbers
 const Counter = ({ from, to, suffix = "", duration = 2 }) => {
@@ -179,7 +180,49 @@ const HorizontalPrinciples = () => {
 
 export const About = () => {
   const [selectedAward, setSelectedAward] = useState(null);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const { t } = useTranslation();
+
+  const peopleData = [
+    {
+      name: "Mrs. Kumutha Krishnamoorthy",
+      designation: "CEO & Founder",
+      quote: "Mrs. Kumutha Krishnamoorthy is the visionary CEO & Founder of SK Smart Investments, leading the organization with a strong commitment to integrity, innovation, and customer-first financial services.",
+      src: "/kumutha_krishnamoorthy.jpg",
+      content: (
+        <div className="border-l-2 border-white/10 pl-6 space-y-6">
+          <div className="relative">
+            <div className="absolute -left-[29px] top-1.5 w-3 h-3 rounded-full bg-brand-accent" />
+            <h4 className="text-white font-bold uppercase tracking-wider text-sm mb-1">Strategic Vision</h4>
+            <p className="text-sm text-neutral-400">Leads the company's long-term strategic goals and expansion.</p>
+          </div>
+          <div className="relative">
+            <div className="absolute -left-[29px] top-1.5 w-3 h-3 rounded-full bg-brand-accent" />
+            <h4 className="text-white font-bold uppercase tracking-wider text-sm mb-1">Operational Excellence</h4>
+            <p className="text-sm text-neutral-400">Oversees daily operations ensuring seamless client experiences.</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      name: "Mr. Prakash Gajendiran",
+      designation: "Founder & MD",
+      quote: "Certified Financial Consultant & Senior Business Associate Leader with over 22 years of experience, guiding countless clients in making informed financial decisions.",
+      src: "/prakash_gajendiran.jpg",
+      content: (
+        <div className="grid grid-cols-2 gap-6 mt-8">
+          <div className="bg-neutral-900/50 p-6 rounded-[24px] border border-white/5">
+            <h4 className="text-4xl font-[900] text-white mb-2"><Counter from={0} to={22} suffix="+" /></h4>
+            <p className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Years Experience</p>
+          </div>
+          <div className="bg-neutral-900/50 p-6 rounded-[24px] border border-white/5">
+            <h4 className="text-4xl font-[900] text-white mb-2"><Counter from={0} to={3} suffix="x" /></h4>
+            <p className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Aura Achiever</p>
+          </div>
+        </div>
+      )
+    }
+  ];
 
   const [awards, setAwards] = useState([
     { title: 'Excellence in Financial Planning', tag: 'CERTIFIED EXCELLENCE', desc: 'Recognized for outstanding client portfolio management.', img: '/IMG-20260714-WA0061.jpg' },
@@ -515,66 +558,9 @@ export const About = () => {
 
       {/* Chapter 8: Leadership (The People) */}
       <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto border-t border-white/5">
-        <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-24">The People Behind</h2>
+        <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-12">The People Behind</h2>
 
-        <div className="flex flex-col gap-32">
-          {/* Kumutha */}
-          <div className="flex flex-col md:flex-row gap-16 items-center">
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="w-full md:w-2/5 relative">
-              <div className="absolute inset-0 bg-brand-accent/20 blur-[100px] rounded-full" />
-              <img src="/kumutha_krishnamoorthy.jpg" alt="Mrs. Kumutha Krishnamoorthy" className="relative z-10 w-full aspect-[3/4] object-cover object-[center_12%] rounded-[40px] grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border border-white/10" />
-            </motion.div>
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="w-full md:w-3/5 space-y-8">
-              <div>
-                <h3 className="text-4xl sm:text-5xl font-[900] text-white uppercase tracking-tight">Mrs. Kumutha Krishnamoorthy</h3>
-                <p className="text-sm font-extrabold text-brand-accent uppercase tracking-[0.3em] mt-2">CEO & Founder</p>
-              </div>
-              <p className="text-lg text-neutral-300 leading-relaxed">
-                Mrs. Kumutha Krishnamoorthy is the visionary CEO & Founder of SK Smart Investments, leading the organization with a strong commitment to integrity, innovation, and customer-first financial services.
-              </p>
-              <div className="border-l-2 border-white/10 pl-6 space-y-6">
-                <div className="relative">
-                  <div className="absolute -left-[29px] top-1.5 w-3 h-3 rounded-full bg-brand-accent" />
-                  <h4 className="text-white font-bold uppercase tracking-wider text-sm mb-1">Strategic Vision</h4>
-                  <p className="text-sm text-neutral-400">Leads the company's long-term strategic goals and expansion.</p>
-                </div>
-                <div className="relative">
-                  <div className="absolute -left-[29px] top-1.5 w-3 h-3 rounded-full bg-brand-accent" />
-                  <h4 className="text-white font-bold uppercase tracking-wider text-sm mb-1">Operational Excellence</h4>
-                  <p className="text-sm text-neutral-400">Oversees daily operations ensuring seamless client experiences.</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Prakash */}
-          <div className="flex flex-col md:flex-row-reverse gap-16 items-center">
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="w-full md:w-2/5 relative">
-              <div className="absolute inset-0 bg-brand-accent/20 blur-[100px] rounded-full" />
-              <img src="/prakash_gajendiran.jpg" alt="Mr. Prakash Gajendiran" className="relative z-10 w-full aspect-[3/4] object-cover object-top rounded-[40px] grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border border-white/10" />
-            </motion.div>
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="w-full md:w-3/5 space-y-8">
-              <div>
-                <h3 className="text-4xl sm:text-5xl font-[900] text-white uppercase tracking-tight">Mr. Prakash Gajendiran</h3>
-                <p className="text-sm font-extrabold text-brand-accent uppercase tracking-[0.3em] mt-2">Founder & MD</p>
-              </div>
-              <p className="text-lg text-neutral-300 leading-relaxed">
-                Certified Financial Consultant & Senior Business Associate Leader with over 22 years of experience, guiding countless clients in making informed financial decisions.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-6 mt-8">
-                <div className="bg-neutral-900/50 p-6 rounded-[24px] border border-white/5">
-                  <h4 className="text-4xl font-[900] text-white mb-2"><Counter from={0} to={22} suffix="+" /></h4>
-                  <p className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Years Experience</p>
-                </div>
-                <div className="bg-neutral-900/50 p-6 rounded-[24px] border border-white/5">
-                  <h4 className="text-4xl font-[900] text-white mb-2"><Counter from={0} to={3} suffix="x" /></h4>
-                  <p className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Aura Achiever</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+        <AnimatedTestimonials testimonials={peopleData} />
       </section>
 
       {/* Chapter 9: Socials & Footer CTA */}
