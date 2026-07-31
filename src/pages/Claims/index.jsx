@@ -5,40 +5,10 @@ import {
   FaPhoneAlt, FaWhatsapp, FaChevronDown, FaChevronUp, FaFileAlt, FaCheckCircle
 } from 'react-icons/fa';
 import ScrollStack, { ScrollStackItem } from '../../components/ScrollStack/ScrollStack';
-
-const AccordionItem = ({ title, children, isOpen, onClick }) => {
-  return (
-    <div className="border border-white/10 rounded-2xl bg-neutral-900/30 overflow-hidden backdrop-blur-sm transition-all duration-300">
-      <button 
-        className="w-full px-6 py-5 flex items-center justify-between text-left group cursor-pointer"
-        onClick={onClick}
-      >
-        <span className="text-lg font-bold text-white group-hover:text-brand-accent transition-colors">{title}</span>
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-brand-accent text-black' : 'bg-white/5 text-white/50 group-hover:bg-white/10'}`}>
-          {isOpen ? <FaChevronUp className="text-sm" /> : <FaChevronDown className="text-sm" />}
-        </div>
-      </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
-            <div className="px-6 pb-6 pt-2 text-neutral-400">
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../../components/ui/Accordion';
 
 export const Claims = () => {
   const [activeDocTab, setActiveDocTab] = useState('health');
-  const [activeFaq, setActiveFaq] = useState(null);
 
   const docTabs = [
     { id: 'health', label: 'Health Insurance', icon: FaHeartbeat },
@@ -399,18 +369,16 @@ export const Claims = () => {
           <h2 className="text-4xl sm:text-5xl font-[900] text-white uppercase tracking-tight">Claims FAQ</h2>
         </div>
         
-        <div className="space-y-4">
+        <Accordion type="single" collapsible className="space-y-0 border-t border-white/10">
           {faqs.map((faq, index) => (
-            <AccordionItem 
-              key={index} 
-              title={faq.q} 
-              isOpen={activeFaq === index} 
-              onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-            >
-              <p className="text-lg leading-relaxed">{faq.a}</p>
+            <AccordionItem key={index} value={`faq-${index}`}>
+              <AccordionTrigger className="text-lg">{faq.q}</AccordionTrigger>
+              <AccordionContent className="text-base leading-relaxed">
+                {faq.a}
+              </AccordionContent>
             </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </section>
 
       {/* 9. Customer Testimonials */}
