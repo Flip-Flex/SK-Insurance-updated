@@ -43,7 +43,7 @@ export const Support = () => {
           {/* Corporate Office (Spans 2 columns) */}
           <div className="lg:col-span-2 bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden group hover:border-brand-accent/30 transition-all duration-500">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="relative z-10 h-full flex flex-col justify-between">
+            <div className="relative z-10 h-full flex flex-col justify-start">
               <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-brand-accent mb-8 group-hover:scale-110 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500 shadow-xl">
                 <FaMapMarkerAlt className="text-2xl" />
               </div>
@@ -58,7 +58,7 @@ export const Support = () => {
 
           {/* Office Hours */}
           <div className="bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-2xl p-5 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
-            <div className="relative z-10 h-full flex flex-col justify-between">
+            <div className="relative z-10 h-full flex flex-col justify-start">
               <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white mb-3 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500 shadow-xl">
                 <FaClock className="text-sm" />
               </div>
@@ -72,7 +72,7 @@ export const Support = () => {
           {/* Phone */}
           <div className="bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden group hover:border-brand-accent/50 transition-all duration-500">
             <div className="absolute inset-0 bg-brand-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-            <div className="relative z-10 h-full flex flex-col justify-between">
+            <div className="relative z-10 h-full flex flex-col justify-start">
               <div className="w-12 h-12 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-4 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(246,255,0,0.2)]">
                 <FaPhoneAlt className="text-xl" />
               </div>
@@ -85,7 +85,7 @@ export const Support = () => {
 
           {/* Email */}
           <div className="lg:col-span-2 bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
-             <div className="relative z-10 h-full flex flex-col justify-between md:flex-row md:items-end">
+             <div className="relative z-10 h-full flex flex-col justify-start md:flex-row md:items-end">
                <div>
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white mb-4 group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-xl">
                     <FaEnvelope className="text-xl" />
@@ -98,7 +98,7 @@ export const Support = () => {
 
           {/* WhatsApp */}
           <a href="https://wa.me/919840723956?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services." target="_blank" rel="noopener noreferrer" className="bg-[#25D366]/10 backdrop-blur-xl border border-[#25D366]/20 rounded-3xl p-6 relative overflow-hidden group hover:border-[#25D366]/50 hover:bg-[#25D366]/20 transition-all duration-500 block">
-             <div className="relative z-10 h-full flex flex-col justify-between">
+             <div className="relative z-10 h-full flex flex-col justify-start">
                 <div className="w-12 h-12 rounded-full bg-[#25D366]/20 flex items-center justify-center text-[#25D366] mb-4 group-hover:bg-[#25D366] group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(37,211,102,0.2)]">
                   <FaWhatsapp className="text-2xl" />
                 </div>
@@ -111,7 +111,7 @@ export const Support = () => {
 
           {/* Instagram */}
           <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="bg-[#E1306C]/10 backdrop-blur-xl border border-[#E1306C]/20 rounded-3xl p-6 relative overflow-hidden group hover:border-[#E1306C]/50 hover:bg-[#E1306C]/20 transition-all duration-500 block">
-             <div className="relative z-10 h-full flex flex-col justify-between">
+             <div className="relative z-10 h-full flex flex-col justify-start">
                 <div className="w-12 h-12 rounded-full bg-[#E1306C]/20 flex items-center justify-center text-[#E1306C] mb-4 group-hover:bg-[#E1306C] group-hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(225,48,108,0.2)]">
                   <FaInstagram className="text-2xl" />
                 </div>
