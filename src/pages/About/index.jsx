@@ -212,7 +212,7 @@ export const About = () => {
     <div className="w-full bg-black min-h-screen text-white overflow-clip pb-24">
       
       {/* Chapter 1: Cinematic Hero Section */}
-      <section className="relative w-full h-[90vh] flex flex-col items-center justify-center text-center overflow-hidden">
+      <section className="relative w-full min-h-[90vh] pt-32 lg:pt-40 flex flex-col items-center justify-center text-center overflow-hidden">
         {/* Moving Gradient Background */}
         <motion.div 
           className="absolute inset-0 opacity-40 mix-blend-screen"
