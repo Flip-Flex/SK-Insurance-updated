@@ -22,14 +22,15 @@ export const StickyStackedCards = () => {
         <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col lg:flex-row lg:items-center max-w-[1440px] mx-auto px-4 lg:px-12">
           
           {/* Pinned Header */}
-          <div className="w-full lg:w-[45%] text-left space-y-5 pt-16 sm:pt-24 lg:pt-0 shrink-0 relative z-50">
-            <span className="mb-[16px] inline-block text-[11px] font-extrabold text-brand-accent tracking-[0.3em] uppercase">
-              // {t('fl_101')}
+          <div className="w-full lg:w-[45%] text-left space-y-4 lg:space-y-6 pt-24 sm:pt-28 lg:pt-0 shrink-0 relative z-50 flex flex-col items-center lg:items-start text-center lg:text-left">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] sm:text-[11px] font-extrabold text-brand-accent tracking-[0.2em] uppercase shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse shadow-[0_0_8px_rgba(246,255,0,0.8)]" />
+              {t('fl_101')}
             </span>
-            <h2 className="text-[28px] sm:text-[40px] md:text-[48px] font-[900] tracking-[-1px] text-neutral-1000 dark:text-white leading-[1.1] sm:leading-[1.15]">
+            <h2 className="text-[32px] sm:text-[40px] md:text-[52px] font-[900] tracking-[-1px] text-white leading-[1.1] sm:leading-[1.15] drop-shadow-sm">
               {t('what_is_ins_title')}
             </h2>
-            <p className="text-[14px] sm:text-[16px] text-neutral-500 dark:text-neutral-400 max-w-[50ch] leading-[1.7] font-normal tracking-wide">
+            <p className="text-[15px] sm:text-[17px] text-neutral-400 max-w-[45ch] leading-[1.8] font-medium tracking-wide">
               {t('what_is_ins_desc')}
             </p>
           </div>

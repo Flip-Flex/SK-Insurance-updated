@@ -10,6 +10,7 @@ export interface SplitTextProps {
   text: string;
   className?: string;
   delay?: number;
+  staggerDuration?: number;
   duration?: number;
   ease?: string | ((t: number) => number);
   splitType?: 'chars' | 'words' | 'lines' | 'words, chars';
@@ -25,7 +26,8 @@ export interface SplitTextProps {
 const SplitText: React.FC<SplitTextProps> = ({
   text,
   className = '',
-  delay = 50,
+  delay = 0,
+  staggerDuration = 0.05,
   duration = 1.25,
   ease = 'power3.out',
   splitType = 'chars',
@@ -111,7 +113,8 @@ const SplitText: React.FC<SplitTextProps> = ({
               ...to,
               lazy: false,
               ease,
-              stagger: delay / 1000,
+              delay: delay / 1000,
+              stagger: staggerDuration,
               scrollTrigger: {
                 trigger: el,
                 start,
@@ -144,6 +147,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       dependencies: [
         text,
         delay,
+        staggerDuration,
         duration,
         ease,
         splitType,

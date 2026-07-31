@@ -13,6 +13,7 @@ import { Support } from '../pages/Support';
 import { Blog } from '../pages/Blog';
 import { Auth } from '../pages/Auth';
 import { Dashboard } from '../pages/Dashboard';
+import { Claims } from '../pages/Claims';
 import { NotFound } from '../pages/Errors/NotFound';
 import { ProtectedRoute } from '../components/common/ProtectedRoute';
 import { PrivacyPolicy } from '../pages/PrivacyPolicy';
@@ -52,6 +53,7 @@ export const AppRoutes = () => {
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/claims" element={<Claims />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />

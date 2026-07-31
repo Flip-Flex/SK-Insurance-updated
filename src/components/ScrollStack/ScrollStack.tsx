@@ -91,8 +91,13 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   const getElementOffset = useCallback(
     (element: HTMLElement) => {
       if (useWindowScroll) {
-        const rect = element.getBoundingClientRect();
-        return rect.top + window.scrollY;
+        let top = 0;
+        let el: HTMLElement | null = element;
+        while (el) {
+          top += el.offsetTop;
+          el = el.offsetParent as HTMLElement;
+        }
+        return top;
       } else {
         return element.offsetTop;
       }
@@ -337,7 +342,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
         willChange: 'scroll-position'
       }}
     >
-      <div className="scroll-stack-inner pt-[20vh] px-20 pb-[50rem] min-h-screen">
+      <div className="scroll-stack-inner pt-10 md:pt-[20vh] px-4 md:px-20 pb-32 md:pb-[20vh] min-h-[50vh]">
         {children}
         {/* Spacer so the last pin can release cleanly */}
         <div className="scroll-stack-end w-full h-px" />

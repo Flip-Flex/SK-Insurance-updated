@@ -27,9 +27,11 @@ export const subscribeToCollection = (collectionName, callback) => {
       callback(items);
     }, (error) => {
       logger.error(`Real-time sync failed for collection: ${collectionName}`, { error: error.message });
+      callback([]); // Unblock UI on error
     });
   } catch (error) {
     logger.error(`Failed to set up real-time listener for ${collectionName}`, { error: error.message });
+    callback([]); // Unblock UI on error
     return () => {};
   }
 };

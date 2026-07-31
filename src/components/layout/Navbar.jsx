@@ -5,6 +5,7 @@ import { useTranslation } from '../../context/LanguageContext';
 import { Logo } from '../ui/Logo';
 import { FaGlobe, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { StaggeredMenu } from '../ui/StaggeredMenu';
 
 export const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -58,16 +59,16 @@ export const Navbar = () => {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isTransparent
-            ? 'bg-transparent border-b border-transparent py-5'
-            : 'bg-white/95 backdrop-blur-[20px] shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-[rgba(0,0,0,0.06)] py-3'
+            ? 'bg-neutral-900/90 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border-b border-white/5 md:border-transparent py-3 md:py-5'
+            : 'bg-neutral-950/85 backdrop-blur-[20px] shadow-premium-dark border-b border-white/10 py-3'
         }`}
         style={{ fontFamily: "'Poppins', sans-serif" }}
       >
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 flex items-center justify-between">
           {/* Left: Logo */}
           <Link to="/" className="flex items-center transition-opacity hover:opacity-90">
-            {/* If the background is transparent (dark hero), logo might be white. If solid, use dark. The user will handle logo asset choice. */}
-            <Logo showTagline={false} />
+            {/* If the background is transparent (light video hero), use dark logo. If solid (dark navbar), use light logo. */}
+            <Logo showTagline={false} isDark={!isTransparent} />
           </Link>
 
           {/* Center: Nav Links */}
@@ -81,7 +82,7 @@ export const Navbar = () => {
                   className={`relative group py-2 text-[15px] font-medium transition-colors duration-300 ${
                     active 
                       ? 'text-brand-accent' 
-                      : `${isTransparent ? 'text-white' : 'text-black'} hover:text-brand-accent`
+                      : (isTransparent ? 'text-black' : 'text-white') + ' hover:text-brand-accent'
                   }`}
                 >
                   {link.name}
@@ -99,12 +100,10 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             {/* Language Selector */}
             <div className="relative">
-              <button
-                onClick={() => setShowLangDropdown(!showLangDropdown)}
-                className={`flex items-center space-x-1.5 text-[14px] font-medium transition-colors cursor-pointer ${
-                  isTransparent ? 'text-white hover:text-brand-accent' : 'text-black hover:text-brand-accent'
-                }`}
-              >
+                <button
+                  onClick={() => setShowLangDropdown(!showLangDropdown)}
+                  className={`flex items-center space-x-1.5 text-[14px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black' : 'text-white'} hover:text-brand-accent`}
+                >
                 <FaGlobe className="text-[16px]" />
                 <span>{languages.find(l => l.code === currentLang)?.label || 'EN'}</span>
                 <FaChevronDown className="text-[10px]" />
@@ -117,7 +116,7 @@ export const Navbar = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-4 w-32 bg-white border border-[rgba(0,0,0,0.06)] rounded-[12px] shadow-lg z-50 overflow-hidden text-left"
+                    className="absolute right-0 mt-4 w-32 bg-neutral-900 border border-white/10 rounded-[12px] shadow-premium-dark z-50 overflow-hidden text-left"
                   >
                     {languages.map((lang) => (
                       <button
@@ -128,8 +127,8 @@ export const Navbar = () => {
                         }}
                         className={`w-full px-4 py-3 text-[14px] transition-colors text-left font-medium cursor-pointer ${
                           currentLang === lang.code 
-                            ? 'text-black font-bold bg-brand-accent/20' 
-                            : 'text-black hover:bg-neutral-50 hover:text-brand-accent'
+                            ? 'text-brand-accent font-bold bg-brand-accent/10' 
+                            : 'text-neutral-300 hover:bg-white/5 hover:text-brand-accent'
                         }`}
                       >
                         {lang.name}
@@ -145,9 +144,7 @@ export const Navbar = () => {
               <div className="flex items-center space-x-6">
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className={`text-[15px] font-medium transition-colors cursor-pointer ${
-                    isTransparent ? 'text-white hover:text-brand-accent' : 'text-black hover:text-brand-accent'
-                  }`}
+                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black' : 'text-white'} hover:text-brand-accent`}
                 >
                   Dashboard
                 </button>
@@ -163,10 +160,8 @@ export const Navbar = () => {
             ) : (
               <div className="flex items-center space-x-6">
                 <button
-                  onClick={handleDashboardRedirect}
-                  className={`text-[15px] font-medium transition-colors cursor-pointer ${
-                    isTransparent ? 'text-white hover:text-brand-accent' : 'text-black hover:text-brand-accent'
-                  }`}
+                  onClick={() => handleDashboardRedirect()}
+                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black' : 'text-white'} hover:text-brand-accent`}
                 >
                   Login
                 </button>
@@ -182,99 +177,110 @@ export const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Hamburger */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className={`md:hidden p-2 transition-colors z-50 cursor-pointer ${
-              isTransparent ? 'text-white hover:text-brand-accent' : 'text-black hover:text-brand-accent'
-            }`}
-          >
-            {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-          </button>
+          {/* Mobile GSAP StaggeredMenu (Handles its own toggle) */}
+          <div className="md:hidden block">
+            <StaggeredMenu
+              position="right"
+              items={navLinks.map(link => ({
+                label: link.name,
+                ariaLabel: `Go to ${link.name}`,
+                link: link.path
+              }))}
+              socialItems={[
+                { label: 'Twitter', link: 'https://twitter.com' },
+                { label: 'GitHub', link: 'https://github.com' },
+                { label: 'LinkedIn', link: 'https://linkedin.com' }
+              ]}
+              displaySocials
+              displayItemNumbering={false}
+              menuButtonColor={isTransparent ? "#000000" : "#ffffff"}
+              openMenuButtonColor="#ffffff"
+              changeMenuColorOnOpen={true}
+              colors={['#111111', '#1a1a1a']}
+              accentColor="#F6FF00"
+              isFixed={true}
+              onMenuOpen={() => setIsOpen(true)}
+              onMenuClose={() => setIsOpen(false)}
+              bottomContent={
+                <div className="flex flex-col space-y-6">
+                  {/* Mobile Language */}
+                  <div className="relative flex justify-center mb-6">
+                    <button
+                      onClick={() => setShowLangDropdown(!showLangDropdown)}
+                      className="flex items-center space-x-2 text-[16px] font-bold transition-colors cursor-pointer text-white hover:text-brand-accent"
+                    >
+                      <FaGlobe className="text-[18px]" />
+                      <span>{languages.find(l => l.code === currentLang)?.label || 'EN'}</span>
+                      <FaChevronDown className={`text-[12px] transition-transform ${showLangDropdown ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    <AnimatePresence>
+                      {showLangDropdown && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full mt-4 w-40 bg-neutral-900 border border-white/10 rounded-[12px] shadow-premium-dark z-50 overflow-hidden text-center"
+                        >
+                          {languages.map((lang) => (
+                            <button
+                              key={lang.code}
+                              onClick={() => {
+                                setCurrentLang(lang.code);
+                                setShowLangDropdown(false);
+                              }}
+                              className={`w-full px-4 py-3 text-[15px] transition-colors text-center font-medium cursor-pointer ${
+                                currentLang === lang.code 
+                                  ? 'text-brand-accent font-bold bg-brand-accent/10' 
+                                  : 'text-neutral-300 hover:bg-white/5 hover:text-brand-accent'
+                              }`}
+                            >
+                              {lang.name}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {isAuthenticated ? (
+                    <>
+                      <button
+                        onClick={() => { setIsOpen(false); navigate('/dashboard'); }}
+                        className="w-full py-4 text-white font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
+                      >
+                        Dashboard
+                      </button>
+                      <button
+                        onClick={() => { setIsOpen(false); logout(); }}
+                        className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => { setIsOpen(false); handleDashboardRedirect(); }}
+                        className="w-full py-4 text-white font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
+                      >
+                        Login
+                      </button>
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
+                      >
+                        Get Quote
+                      </button>
+                    </>
+                  )}
+                </div>
+              }
+            />
+          </div>
         </div>
       </motion.header>
-
-      {/* Fullscreen Mobile Drawer */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ y: '-100%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '-100%', opacity: 0 }}
-            transition={{ duration: 0.4, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 bg-white flex flex-col pt-[100px] px-6 pb-6 overflow-y-auto"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
-            <div className="flex flex-col space-y-8 text-center mt-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`text-[22px] font-medium tracking-tight transition-colors ${
-                    isActive(link.path) ? 'text-brand-accent' : 'text-black'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-
-            <div className="mt-auto pt-10 flex flex-col space-y-6">
-              {/* Mobile Language */}
-              <div className="flex justify-center space-x-3 mb-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => setCurrentLang(lang.code)}
-                    className={`px-4 py-2 rounded-[8px] text-[14px] font-medium transition-colors cursor-pointer ${
-                      currentLang === lang.code 
-                        ? 'bg-brand-accent/20 text-black font-bold' 
-                        : 'text-black hover:bg-neutral-50'
-                    }`}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
-              </div>
-
-              {isAuthenticated ? (
-                <>
-                  <button
-                    onClick={() => { setIsOpen(false); navigate('/dashboard'); }}
-                    className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
-                  >
-                    Dashboard
-                  </button>
-                  <motion.button
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => { setIsOpen(false); logout(); }}
-                    className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
-                  >
-                    Logout
-                  </motion.button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => { setIsOpen(false); handleDashboardRedirect(); }}
-                    className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
-                  >
-                    Login
-                  </button>
-                  <motion.button
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setIsOpen(false)}
-                    className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
-                  >
-                    Get Quote
-                  </motion.button>
-                </>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };

@@ -33,7 +33,7 @@ export const TestimonialsColumn = (props: {
           ...new Array(4).fill(0).map((_, index) => (
             <React.Fragment key={index}>
               {props.testimonials.map(({ quote, image, author, role, location }, i) => (
-                <div className="p-8 sm:p-10 rounded-[32px] border border-white/5 shadow-lg shadow-black/10 w-full bg-neutral-50/5 dark:bg-neutral-900/40 backdrop-blur-xl" key={i}>
+                <div className="p-8 sm:p-10 rounded-[32px] border border-white/5 shadow-lg shadow-black/10 w-full bg-neutral-900/40 backdrop-blur-xl" key={i}>
                   <div className="text-[15px] leading-relaxed text-neutral-300">"{quote}"</div>
                   <div className="flex items-center gap-3 mt-6">
                     <img
@@ -158,10 +158,10 @@ export const EditorialTestimonials: React.FC<EditorialTestimonialsProps> = ({ te
           </p>
         </motion.div>
         <div className="flex justify-center gap-6 mt-16 max-w-[1400px] mx-auto px-4 md:px-8 xl:px-16 overflow-hidden max-h-[738px] [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
-          <TestimonialsColumn testimonials={firstColumn.length ? firstColumn : list} className="flex-1" duration={30} />
+          <TestimonialsColumn testimonials={firstColumn.length ? firstColumn : list} className="flex-1" duration={35} />
           <TestimonialsColumn testimonials={secondColumn.length ? secondColumn : list} className="hidden md:block flex-1" duration={35} />
-          <TestimonialsColumn testimonials={thirdColumn.length ? thirdColumn : list} className="hidden lg:block flex-1" duration={40} />
-          <TestimonialsColumn testimonials={fourthColumn.length ? fourthColumn : list} className="hidden xl:block flex-1" duration={32} />
+          <TestimonialsColumn testimonials={thirdColumn.length ? thirdColumn : list} className="hidden lg:block flex-1" duration={35} />
+          <TestimonialsColumn testimonials={fourthColumn.length ? fourthColumn : list} className="hidden xl:block flex-1" duration={35} />
         </div>
       </div>
     </section>

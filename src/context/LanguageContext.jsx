@@ -30,9 +30,9 @@ const translations = {
     avg_rating: "Average Rating",
 
     // What is Insurance
-    fl_101: "Financial Literacy 101",
-    what_is_ins_title: "Understanding Insurance & Investments",
-    what_is_ins_desc: "Insurance is a critical contract designed to shield individuals from severe financial losses. Discover how it works.",
+    fl_101: "Premium Advisory",
+    what_is_ins_title: "Mastering Wealth & Protection",
+    what_is_ins_desc: "Elevate your financial security with bespoke insurance and investment strategies meticulously designed to safeguard your legacy.",
     card_1_title: "What is Insurance?",
     card_1_desc: "A risk management tool where an individual pays a small premium in exchange for protection against major losses.",
     card_2_title: "Health Cover",

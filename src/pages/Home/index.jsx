@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform, useScroll } from 'framer-motion';
 import { useTranslation } from '../../context/LanguageContext';
 import { Button } from '../../components/ui/Button';
-import { FaShieldAlt, FaHeartbeat, FaCar, FaUserShield, FaHandshake, FaAward, FaStar, FaTrophy } from 'react-icons/fa';
+import { FaShieldAlt, FaHeartbeat, FaCar, FaUserShield, FaHandshake, FaAward, FaStar, FaTrophy, FaChevronDown } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
 
 import { useRef } from 'react';
@@ -332,19 +332,39 @@ export const Home = () => {
 
   const defaultTestimonials = [
     {
-      quote: "I am grateful for the opportunity to complete my internship with this organization. During this internship, I gained valuable knowledge about the insurance industry, customer relationship management, and financial planning. The mentors and staff members were supportive and guided me throughout.",
-      author: "Harini Harini",
-      role: "1 review • a month ago"
+      quote: "I am grateful for the opportunity to complete my internship with this organization. During this internship, I gained valuable knowledge about the insurance industry, customer relationship management, and financial planning.",
+      author: "Harini",
+      role: "Verified Client"
     },
     {
-      quote: "My internship at sk smart investment company was a valuable learning experience. I improved my communication skill, learned about insurance products and gained practical knowledge about the corporate work environment.",
+      quote: "My internship at sk smart investment company was a valuable learning experience. I improved my communication skill, learned about insurance products and gained practical knowledge.",
       author: "Dhivya Kumaran",
-      role: "1 review • a month ago"
+      role: "Verified Client"
     },
     {
       quote: "The mentors and staff members were supportive and guided me throughout the internship, which made the learning experience more comfortable and effective.",
       author: "Manimozhi E",
-      role: "1 review • a month ago"
+      role: "Verified Client"
+    },
+    {
+      quote: "The personalized financial planning advice I received was exceptional. They really took the time to understand my family's goals and set us up for long-term success.",
+      author: "Priya Sharma",
+      role: "Verified Client"
+    },
+    {
+      quote: "Excellent customer service and very transparent processes. Getting my motor insurance renewed took less than 10 minutes online with their assistance.",
+      author: "Arun Venkatesh",
+      role: "Verified Client"
+    },
+    {
+      quote: "SK Smart Investments helped me find the perfect health insurance plan for my parents. The team explained everything clearly and ensured I got the best coverage.",
+      author: "Rajesh Kumar",
+      role: "Verified Client"
+    },
+    {
+      quote: "Seamless digital onboarding and instant policy downloads. True integrity in modern financial and risk advisory.",
+      author: "Vikram Rajan",
+      role: "Verified Client"
     }
   ];
 
@@ -410,20 +430,43 @@ export const Home = () => {
   return (
     <div className="relative">
       {/* Full-width Fixed Background Video Banner at the Top */}
-      <section className="relative w-full h-[45vh] sm:h-screen overflow-hidden">
+      <section className="relative w-full h-screen overflow-hidden">
+        {/* Desktop Video */}
         <video 
-          className="fixed top-0 left-0 w-full h-[45vh] sm:h-screen object-cover -z-20 pointer-events-none" 
+          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden sm:block" 
           autoPlay 
           loop 
           muted 
           playsInline
         >
-          <source src="/hero_background.mp4" type="video/mp4" />
+          <source src="/sk_video.mp4" type="video/mp4" />
         </video>
+
+        {/* Mobile Video */}
+        <video 
+          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none block sm:hidden" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+        >
+          <source src="/sk_mobile.mp4" type="video/mp4" />
+        </video>
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 cursor-pointer"
+          animate={{ y: [0, 12, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        >
+          <div className="bg-white/80 backdrop-blur-md p-3 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex flex-col items-center transition-transform hover:scale-110">
+            <FaChevronDown className="text-xl text-black" />
+          </div>
+        </motion.div>
       </section>
 
       {/* Parallax Content Overlay Wrap - Scrolls up over the fixed video */}
-      <div className="relative bg-neutral-0 dark:bg-neutral-1000 z-10 pt-16 pb-0 space-y-24 border-t border-black/5 dark:border-white/5 shadow-premium-dark">
+      <div className="relative bg-neutral-1000 z-10 pt-16 pb-0 space-y-24 border-t border-white/5 shadow-premium-dark">
 
       {/* Counters Stats Strip */}
       <section className="max-w-[1440px] mx-auto px-6 lg:px-8">

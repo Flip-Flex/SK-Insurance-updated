@@ -102,20 +102,20 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
             boxShadow,
             borderColor
           }}
-          className="w-full aspect-square rounded-[32px] p-8 sm:p-10 border glass-panel flex flex-col justify-center bg-neutral-50/95 dark:bg-neutral-1000/95 backdrop-blur-2xl cursor-pointer hover:bg-neutral-200/20 dark:hover:bg-white/5 transition-colors group"
+          className="w-full aspect-square rounded-[32px] p-8 sm:p-10 border border-white/[0.08] shadow-premium-dark flex flex-col justify-center bg-[#18181b]/80 backdrop-blur-[20px] cursor-pointer hover:bg-[#18181b]/95 transition-colors group"
         >
           <div className="flex flex-col items-start w-full">
-            <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-white dark:bg-neutral-900 text-neutral-1000 dark:text-white rounded-[16px] inline-block mb-8 shadow-sm">
-              <card.icon className="text-4xl lg:text-5xl text-neutral-1000 dark:text-white" />
+            <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-900 text-white rounded-[16px] inline-block mb-8 shadow-sm">
+              <card.icon className="text-4xl lg:text-5xl text-white" />
             </motion.div>
-            <motion.h3 layoutId={`title-${layoutId}`} className="text-2xl lg:text-3xl font-bold text-neutral-1000 dark:text-white tracking-tight mb-4">
+            <motion.h3 layoutId={`title-${layoutId}`} className="text-2xl lg:text-3xl font-bold text-white tracking-tight mb-4">
               {card.title}
             </motion.h3>
-            <motion.p layoutId={`desc-${layoutId}`} className="text-[15px] lg:text-[16px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+            <motion.p layoutId={`desc-${layoutId}`} className="text-[15px] lg:text-[16px] text-neutral-400 leading-relaxed">
               {card.desc}
             </motion.p>
             <div className="mt-6 flex items-center justify-end w-full text-brand-accent">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-neutral-500/30 dark:border-white/10 group-hover:bg-brand-accent group-hover:text-black group-hover:border-brand-accent transition-all duration-300">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 group-hover:bg-brand-accent group-hover:text-black group-hover:border-brand-accent transition-all duration-300">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </div>
             </div>
@@ -139,24 +139,24 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
               
               <motion.div
                 layoutId={layoutId}
-                className="relative w-full max-w-5xl max-h-full bg-neutral-50 dark:bg-neutral-1000 rounded-[32px] overflow-hidden border border-white/10 z-10 flex flex-col shadow-2xl"
+                className="relative w-full max-w-5xl max-h-full bg-neutral-1000 rounded-[32px] overflow-hidden border border-white/10 z-10 flex flex-col shadow-2xl"
               >
                 <button 
                   onClick={() => setIsOpen(false)} 
-                  className="absolute top-6 right-6 z-20 flex h-10 w-10 items-center justify-center bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 rounded-full text-neutral-1000 dark:text-white transition-colors"
+                  className="absolute top-6 right-6 z-20 flex h-10 w-10 items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </button>
                 
                 <div className="p-8 sm:p-12 md:p-16 w-full flex flex-col overflow-y-auto">
-                  <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-white dark:bg-neutral-900 text-neutral-1000 dark:text-white rounded-[16px] inline-block shadow-sm w-max mb-8">
-                    <card.icon className="text-4xl lg:text-5xl text-neutral-1000 dark:text-white" />
+                  <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-900 text-white rounded-[16px] inline-block shadow-sm w-max mb-8">
+                    <card.icon className="text-4xl lg:text-5xl text-white" />
                   </motion.div>
 
-                  <motion.h3 layoutId={`title-${layoutId}`} className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-1000 dark:text-white tracking-tight mb-4">
+                  <motion.h3 layoutId={`title-${layoutId}`} className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
                     {card.title}
                   </motion.h3>
-                  <motion.p layoutId={`desc-${layoutId}`} className="text-[16px] sm:text-[18px] md:text-[20px] text-neutral-500 dark:text-neutral-400 leading-relaxed pb-8 mb-8 border-b border-black/10 dark:border-white/10">
+                  <motion.p layoutId={`desc-${layoutId}`} className="text-[16px] sm:text-[18px] md:text-[20px] text-neutral-400 leading-relaxed pb-8 mb-8 border-b border-white/10">
                     {card.desc}
                   </motion.p>
                   
@@ -165,14 +165,14 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ delay: 0.1 }}
-                    className="text-neutral-1000 dark:text-white/80 text-base md:text-lg leading-relaxed"
+                    className="text-white/80 text-base md:text-lg leading-relaxed"
                   >
                     <div className="flex flex-col gap-6 md:gap-8">
                       <p>Understanding {card.title.toLowerCase()} is crucial for protecting your financial future. This detailed guide explores how these instruments work to provide a safety net for you and your loved ones.</p>
                       
                       <div>
                         <h4 className="font-bold text-xl md:text-2xl mb-4 text-brand-accent">Key Benefits & Coverage</h4>
-                        <ul className="list-disc pl-6 space-y-3 text-neutral-600 dark:text-neutral-400">
+                        <ul className="list-disc pl-6 space-y-3 text-neutral-400">
                           <li>Comprehensive protection against unforeseen events and emergencies.</li>
                           <li>Potential tax benefits under various sections of the Income Tax Act.</li>
                           <li>Complete peace of mind knowing your family's future is secured.</li>

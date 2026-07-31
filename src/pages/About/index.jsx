@@ -40,7 +40,7 @@ const Counter = ({ from, to, suffix = "", duration = 2 }) => {
 };
 
 // 3D Tilt Card Component for Awards
-const TiltCard = ({ aw, onClick }) => {
+const TiltCard = ({ aw, onClick, index = 0 }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useTransform(y, [-200, 200], [10, -10]);
@@ -60,15 +60,20 @@ const TiltCard = ({ aw, onClick }) => {
       onMouseMove={handleMouse}
       onMouseLeave={() => { x.set(0); y.set(0); }}
       onClick={onClick}
-      className="group cursor-zoom-in relative bg-neutral-900/40 rounded-[32px] border border-white/5 p-4 hover:border-brand-accent/30 transition-colors duration-500 flex flex-col h-[400px]"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, delay: index * 0.15 }}
+      className="group cursor-zoom-in relative bg-neutral-900/40 rounded-[32px] border border-white/5 p-4 hover:border-brand-accent/40 hover:bg-neutral-900/80 transition-all duration-500 flex flex-col h-[480px] shadow-2xl"
     >
       <div 
-        className="absolute inset-0 bg-gradient-to-br from-brand-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[32px] pointer-events-none"
+        className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[32px] pointer-events-none"
         style={{ transform: "translateZ(10px)" }}
       />
       
+      {/* Image Container */}
       <div 
-        className="relative w-full h-full rounded-[24px] overflow-hidden bg-black border border-white/5 shadow-2xl"
+        className="relative w-full h-[240px] shrink-0 rounded-[24px] overflow-hidden bg-black border border-white/10 group-hover:border-white/20 transition-colors duration-500"
         style={{ transform: "translateZ(30px)" }}
       >
         <img
@@ -80,13 +85,34 @@ const TiltCard = ({ aw, onClick }) => {
         
         {/* Light Sweep Effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out pointer-events-none skew-x-12" />
-
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-6 text-center">
-          <FaSearchPlus className="text-3xl text-white mb-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500" />
-          <h3 className="text-lg font-bold text-white uppercase tracking-wider transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">{aw.title}</h3>
-          <p className="text-xs text-brand-accent mt-2 font-extrabold tracking-widest transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">{aw.tag}</p>
+        
+        {/* Zoom Icon Badge */}
+        <div className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 border border-white/10">
+          <FaSearchPlus className="text-white text-lg" />
         </div>
       </div>
+
+      {/* Content Container */}
+      <div 
+        className="flex-1 flex flex-col pt-6 relative"
+        style={{ transform: "translateZ(40px)" }}
+      >
+        <div className="flex items-center gap-2 mb-3">
+          <FaAward className="text-brand-accent text-sm" />
+          <span className="text-[10px] text-brand-accent uppercase tracking-[0.2em] font-extrabold">{aw.tag}</span>
+        </div>
+        
+        <h3 className="text-xl font-[900] text-white leading-tight mb-3 group-hover:text-brand-accent transition-colors duration-300 line-clamp-2">
+          {aw.title}
+        </h3>
+        
+        <p className="text-sm text-neutral-400 font-medium line-clamp-3">
+          {aw.desc}
+        </p>
+      </div>
+
+      {/* Decorative gradient line at the bottom */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-transparent via-brand-accent to-transparent group-hover:w-1/2 transition-all duration-700 ease-out opacity-0 group-hover:opacity-100" />
     </motion.div>
   );
 };
@@ -94,7 +120,10 @@ const TiltCard = ({ aw, onClick }) => {
 // Horizontal Scroll Container
 const HorizontalPrinciples = () => {
   const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: targetRef });
+  const { scrollYProgress } = useScroll({ 
+    target: targetRef,
+    offset: ["start start", "end end"]
+  });
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]); // 4 cards = 400vw width
 
   const principles = [
@@ -108,7 +137,6 @@ const HorizontalPrinciples = () => {
     <section ref={targetRef} className="relative h-[400vh] bg-black">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden py-24">
         <div className="px-4 sm:px-8 max-w-7xl mx-auto w-full mb-12">
-          <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full">Chapter IV</span>
           <h2 className="text-4xl sm:text-5xl font-[900] text-white mt-4 uppercase">How We Work</h2>
         </div>
         
@@ -181,7 +209,7 @@ export const About = () => {
   };
 
   return (
-    <div className="w-full bg-black min-h-screen text-white overflow-hidden pb-24">
+    <div className="w-full bg-black min-h-screen text-white overflow-clip pb-24">
       
       {/* Chapter 1: Cinematic Hero Section */}
       <section className="relative w-full h-[90vh] flex flex-col items-center justify-center text-center overflow-hidden">
@@ -208,98 +236,108 @@ export const About = () => {
             />
           ))}
         </div>
+          <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto px-4 w-full">
+            <div className="mb-12">
+              <span className="text-[10px] sm:text-xs font-medium tracking-[0.3em] text-neutral-400 uppercase">Since 2004</span>
+            </div>
+            
+            <div className="flex flex-col items-center space-y-4">
+              <SplitText text="Securing Wealth." className="text-5xl sm:text-7xl lg:text-[7rem] font-light tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
+              <SplitText text="Empowering Futures." className="text-5xl sm:text-7xl lg:text-[7rem] font-medium tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
+            </div>
 
-        <div className="relative z-10 flex flex-col items-center justify-center space-y-8 w-full max-w-7xl mx-auto px-4">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
-            className="text-[10px] sm:text-xs font-extrabold uppercase tracking-[0.4em] text-brand-accent border border-brand-accent/30 px-4 py-1.5 rounded-full bg-brand-accent/5 backdrop-blur-sm"
-          >
-            About SK Smart Investments
-          </motion.div>
-
-          <div className="flex flex-col items-center space-y-2">
-            <SplitText text="Securing Wealth." className="text-5xl sm:text-7xl lg:text-[6rem] font-[900] tracking-[-2px] text-white leading-[1.1] uppercase" delay={0} duration={0.6} />
-            <SplitText text="Empowering Futures." className="text-5xl sm:text-7xl lg:text-[6rem] font-[900] tracking-[-2px] text-brand-accent leading-[1.1] uppercase" delay={150} duration={0.6} />
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 mt-12 bg-neutral-900/50 backdrop-blur-md border border-white/5 py-4 px-8 rounded-full shadow-2xl">
-            <SplitText text="22 Years of Trust." className="text-sm sm:text-base text-neutral-300 font-extrabold uppercase tracking-widest" delay={300} duration={0.6} />
-            <span className="hidden sm:block text-brand-accent opacity-50">•</span>
-            <SplitText text="5000+ Families Protected." className="text-sm sm:text-base text-neutral-300 font-extrabold uppercase tracking-widest" delay={450} duration={0.6} />
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <motion.div 
-          className="absolute bottom-12 flex flex-col items-center gap-3 text-neutral-500"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.3 }}
-        >
-          <span className="text-[10px] font-extrabold uppercase tracking-[0.2em]">Scroll to discover our story</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-brand-accent bg-neutral-950/50 backdrop-blur-md"
-          >
-            <FaArrowRight className="rotate-90" />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Chapter 2: Who We Are */}
-      <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-16 relative">
-          {/* Left - Sticky Header */}
-          <div className="lg:w-1/3">
-            <div className="sticky top-32 space-y-4">
-              <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full">Chapter I</span>
-              <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px]">Who We Are</h2>
-              <p className="text-neutral-400 font-medium">The foundation of our legacy.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24 mt-24">
+              <div className="flex flex-col items-center">
+                <SplitText text="22" className="text-4xl sm:text-6xl font-light text-white" delay={400} duration={0.8} />
+                <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase mt-4">Years of Trust</span>
+              </div>
+              <div className="hidden sm:block w-[1px] h-12 bg-white/20"></div>
+              <div className="flex flex-col items-center">
+                <SplitText text="5000+" className="text-4xl sm:text-6xl font-light text-white" delay={500} duration={0.8} />
+                <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase mt-4">Families Protected</span>
+              </div>
             </div>
           </div>
+
+
+      </section>
+
+      {/* Chapter 2: Who We Are - Cinematic Storytelling Redesign */}
+      <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           
-          {/* Right - Content */}
-          <div className="lg:w-2/3 space-y-16">
-            <motion.div 
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="space-y-8 text-lg text-neutral-300 font-normal leading-relaxed"
-            >
-              <p className="text-white font-medium text-2xl sm:text-3xl border-l-4 border-brand-accent pl-6 leading-tight">
-                At SK Smart Investments, we believe financial security begins with informed decisions and trusted guidance.
-              </p>
-              <p>
-                Our mission is to simplify the insurance journey by offering expert advice, transparent recommendations, and access to a wide range of insurance products from India's leading companies. Whether you're planning for your family's future, protecting your health, securing your business, or building long-term wealth, we provide solutions tailored to your unique financial goals.
-              </p>
-              <p>
-                We understand that every customer has different priorities and aspirations. That's why our experienced advisors carefully assess your needs before recommending insurance and investment plans that offer the right balance of protection, affordability, and long-term value.
-              </p>
+          {/* Left Side: Typography & Story */}
+          <div className="w-full lg:w-1/2 space-y-12">
+            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}>
+              <h2 className="text-sm text-brand-accent uppercase tracking-[0.3em] font-extrabold mb-4 flex items-center gap-4">
+                <span className="w-8 h-px bg-brand-accent"></span>
+                Who We Are
+              </h2>
+              <h3 className="text-4xl sm:text-5xl lg:text-6xl font-[900] text-white leading-[1.1] tracking-tight">
+                The Foundation of <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">Our Legacy.</span>
+              </h3>
             </motion.div>
 
-            {/* Parallax Image Block */}
-            <motion.div 
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="relative h-[400px] sm:h-[500px] w-full rounded-[40px] overflow-hidden group border border-white/5"
-            >
-              <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center">
-                <FaHome className="text-6xl text-neutral-800" />
-                <span className="absolute mt-24 text-neutral-600 text-xs tracking-widest uppercase font-bold">HQ Office View</span>
-              </div>
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(246,255,0,0.15)_0%,rgba(0,0,0,0)_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-              <div className="absolute bottom-8 left-8 bg-black/60 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 flex items-center gap-3">
-                <FaMapMarkerAlt className="text-brand-accent" />
-                <span className="text-xs font-bold text-white uppercase tracking-widest">Kanchipuram, TN</span>
-              </div>
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.2 }} className="space-y-6 text-lg text-neutral-400 font-medium leading-relaxed relative">
+              <div className="absolute -left-6 sm:-left-8 top-0 bottom-0 w-px bg-gradient-to-b from-brand-accent/50 to-transparent"></div>
+              <p>
+                At <strong className="text-white">SK Smart Investments</strong>, we believe financial security begins with informed decisions and trusted guidance.
+              </p>
+              <p>
+                Our mission is to simplify the insurance journey by offering expert advice, transparent recommendations, and access to a wide range of insurance products from India's leading companies.
+              </p>
+              <p>
+                Whether you're planning for your family's future, protecting your health, securing your business, or building long-term wealth, we provide solutions tailored to your unique financial goals.
+              </p>
             </motion.div>
+          </div>
+
+          {/* Right Side: Elegant Layered Glass Cards */}
+          <div className="w-full lg:w-1/2 relative h-[500px] sm:h-[600px] flex items-center justify-center">
+            {/* Ambient Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[400px] max-h-[400px] bg-brand-accent/20 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            {/* Card 1: Experience */}
+            <motion.div 
+              initial={{ opacity: 0, y: 50, rotate: -5, x: 20 }} whileInView={{ opacity: 1, y: 0, rotate: -5, x: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.4 }}
+              className="absolute top-4 sm:top-10 right-4 sm:right-12 w-64 sm:w-72 bg-neutral-900/80 backdrop-blur-xl border border-white/10 rounded-[32px] p-6 sm:p-8 shadow-2xl z-10 hover:z-30 hover:rotate-0 hover:scale-105 transition-all duration-500 cursor-default group"
+            >
+              <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center text-brand-accent mb-6 border border-white/5 group-hover:bg-brand-accent group-hover:text-black transition-colors">
+                <FaUsers className="text-xl" />
+              </div>
+              <h4 className="text-xl sm:text-2xl font-[900] text-white uppercase tracking-widest mb-2">Tailored</h4>
+              <p className="text-xs sm:text-sm text-neutral-400">Every customer has different priorities and aspirations.</p>
+            </motion.div>
+
+            {/* Card 2: Trust */}
+            <motion.div 
+              initial={{ opacity: 0, y: 50, rotate: 5, x: -20 }} whileInView={{ opacity: 1, y: 0, rotate: 5, x: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.6 }}
+              className="absolute bottom-4 sm:bottom-10 left-4 sm:left-12 w-64 sm:w-72 bg-brand-accent backdrop-blur-xl border border-brand-accent/50 rounded-[32px] p-6 sm:p-8 shadow-[0_0_40px_rgba(246,255,0,0.2)] z-20 hover:z-30 hover:rotate-0 hover:scale-105 transition-all duration-500 cursor-default"
+            >
+              <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center text-brand-accent mb-6 shadow-inner">
+                <FaShieldAlt className="text-xl" />
+              </div>
+              <h4 className="text-xl sm:text-2xl font-[900] text-black uppercase tracking-widest mb-2">Assurance</h4>
+              <p className="text-xs sm:text-sm text-black/80 font-bold">The right balance of protection, affordability, and long-term value.</p>
+            </motion.div>
+
+            {/* Floating Visual Accent Rings */}
+            <motion.div 
+              animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/20 rounded-full hidden sm:block pointer-events-none"
+            ></motion.div>
+            <motion.div 
+              animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-brand-accent/20 border-dashed rounded-full hidden sm:block pointer-events-none"
+            ></motion.div>
+
           </div>
         </div>
       </section>
 
       {/* Chapter 3: Our Impact (Statistics) */}
       <section className="py-24 px-4 sm:px-8 max-w-7xl mx-auto">
-        <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full mb-12 inline-block">Chapter II : Impact</span>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {[
             { num: 22, suffix: '+', label: 'Years of Trust' },
@@ -324,80 +362,110 @@ export const About = () => {
       </section>
 
       {/* Chapter 4: What We Believe (Vision & Mission) */}
-      <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto border-t border-white/5 mt-12">
-        <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full mb-12 inline-block">Chapter III : Core Beliefs</span>
-        
-        <div className="flex flex-col lg:flex-row gap-16">
-          {/* Vision Left */}
+      <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto relative z-10">
+        <div className="space-y-12 lg:space-y-16">
+          
+          {/* Vision Panel */}
           <motion.div 
-            initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}
-            className="lg:w-1/2 relative bg-neutral-900/30 p-12 sm:p-16 rounded-[48px] border border-white/5 overflow-hidden"
+            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}
+            className="relative w-full rounded-[48px] bg-neutral-900/40 backdrop-blur-xl border border-white/10 p-8 sm:p-12 lg:p-20 overflow-hidden group shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(246,255,0,0.05)_0%,rgba(0,0,0,0)_50%)]" />
-            <div className="text-[250px] text-white/[0.03] absolute -top-16 -left-4 font-serif leading-none pointer-events-none">"</div>
+            {/* Hover Glow */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent/15 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none"></div>
             
-            <h2 className="text-3xl font-[900] text-white mb-8 uppercase tracking-widest relative z-10 flex items-center gap-4">
-              <span className="w-8 h-8 rounded-full bg-brand-accent text-black flex items-center justify-center text-sm shadow-[0_0_15px_rgba(246,255,0,0.5)]">👁️‍🗨️</span>
-              Vision
-            </h2>
-            <p className="text-2xl sm:text-3xl text-neutral-200 leading-tight italic relative z-10 font-medium">
-              To become one of India's most trusted insurance and financial advisory firms by delivering innovative protection solutions, exceptional customer service, and lifelong financial security for every client.
-            </p>
-          </motion.div>
-
-          {/* Mission Right */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.2 }}
-            className="lg:w-1/2 p-4 sm:p-8 relative"
-          >
-            <h2 className="text-3xl font-[900] text-white mb-12 uppercase tracking-widest flex items-center gap-4">
-              <span className="w-8 h-8 rounded-full bg-brand-accent text-black flex items-center justify-center text-sm shadow-[0_0_15px_rgba(246,255,0,0.5)]">🎯</span>
-              Mission
-            </h2>
-            
-            <div className="space-y-10 relative border-l border-white/10 pl-10">
-              <motion.div 
-                className="absolute left-[-1px] top-0 w-[2px] bg-brand-accent origin-top" 
-                initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true }} transition={{ duration: 1.5, ease: "easeOut" }} 
-              />
+            <div className="relative z-10 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+              <div className="w-full lg:w-1/3 text-center lg:text-left flex flex-col items-center lg:items-start">
+                <div className="w-20 h-20 rounded-full border border-brand-accent/30 flex items-center justify-center mb-6 bg-brand-accent/5 shadow-[0_0_30px_rgba(246,255,0,0.1)]">
+                  <span className="text-3xl drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">👁️‍🗨️</span>
+                </div>
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[900] text-white uppercase tracking-tight leading-none">
+                  Our <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">Vision</span>
+                </h2>
+              </div>
               
-              {[
-                'Deliver personalized insurance and financial solutions tailored to individual needs.',
-                'Offer products from leading insurance companies with competitive pricing.',
-                'Simplify insurance through honest advice and professional guidance.',
-                'Ensure quick policy issuance and seamless renewal support.',
-                'Provide dedicated claims assistance until successful settlement.'
-              ].map((text, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5 + (i * 0.1) }}
-                  className="relative"
-                >
-                  <div className="absolute -left-[45px] top-1.5 w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_10px_rgba(246,255,0,0.8)]" />
-                  <p className="text-lg text-neutral-300">{text}</p>
-                </motion.div>
-              ))}
+              <div className="w-full lg:w-2/3 lg:border-l border-white/10 lg:pl-16 relative">
+                <div className="absolute -left-6 lg:-left-[66px] top-0 text-[120px] text-brand-accent/10 font-serif leading-none hidden lg:block">"</div>
+                <p className="text-2xl sm:text-3xl text-neutral-200 leading-relaxed font-light italic relative z-10 text-center lg:text-left">
+                  To become one of India's most trusted insurance and financial advisory firms by delivering innovative protection solutions, exceptional customer service, and lifelong financial security for every client.
+                </p>
+              </div>
             </div>
           </motion.div>
+
+          {/* Mission Panel */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.2 }}
+            className="relative w-full rounded-[48px] bg-neutral-950/80 backdrop-blur-xl border border-white/5 p-8 sm:p-12 lg:p-20 group shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]"
+          >
+            {/* Hover Glow */}
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10"></div>
+            
+            <div className="relative z-10 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+              <div className="w-full lg:w-1/3 text-center lg:text-left pt-2 flex flex-col items-center lg:items-start lg:sticky lg:top-32">
+                <div className="w-20 h-20 rounded-full border border-white/10 flex items-center justify-center mb-6 bg-white/5">
+                  <span className="text-3xl drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">🎯</span>
+                </div>
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[900] text-white uppercase tracking-tight leading-none">
+                  Our <br />
+                  <span className="text-white/30">Mission</span>
+                </h2>
+              </div>
+              
+              <div className="w-full lg:w-2/3 flex flex-col gap-4 sm:gap-6 relative">
+                {[
+                  { title: 'Personalized Solutions', text: 'Deliver tailored insurance and financial solutions to individual needs.' },
+                  { title: 'Premium Products', text: 'Offer products from leading insurance companies with competitive pricing.' },
+                  { title: 'Expert Guidance', text: 'Simplify insurance through honest advice and professional guidance.' },
+                  { title: 'Seamless Support', text: 'Ensure quick policy issuance and seamless renewal support.' },
+                  { title: 'Claims Advocacy', text: 'Provide dedicated claims assistance until successful settlement.' }
+                ].map((item, i) => (
+                  <div 
+                    key={i} 
+                    className="sticky bg-neutral-900 border border-white/5 rounded-3xl p-6 hover:bg-neutral-800 hover:border-brand-accent/30 transition-all duration-300 group/card shadow-xl"
+                    style={{ 
+                      top: `calc(100px + ${i * 20}px)`, 
+                      zIndex: i 
+                    }}
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-brand-accent/10 text-brand-accent flex items-center justify-center font-black text-sm group-hover/card:bg-brand-accent group-hover/card:text-black transition-colors">
+                        0{i + 1}
+                      </div>
+                      <h4 className="text-white font-[900] uppercase tracking-wider text-sm">{item.title}</h4>
+                    </div>
+                    <p className="text-neutral-400 text-sm leading-relaxed">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
       {/* Chapter 5: How We Work (Horizontal Sticky Scroll) */}
       <HorizontalPrinciples />
 
-      {/* Chapter 6: Our Journey (Horizontal Timeline) */}
+      {/* Chapter 6: Our Journey (Timeline) */}
       <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto overflow-hidden">
-        <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full mb-4 inline-block">Chapter V</span>
-        <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-24">Our Journey</h2>
+        <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-16 lg:mb-24">Our Journey</h2>
         
         <div className="relative">
-          {/* Horizontal Line */}
+          {/* Horizontal Line - Desktop */}
           <motion.div 
-            className="absolute top-1/2 left-0 w-full h-1 bg-white/10 -translate-y-1/2 origin-left"
+            className="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-white/10 -translate-y-1/2 origin-left"
             initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1.5 }}
           />
+          
+          {/* Vertical Line - Mobile/Tablet */}
+          <motion.div 
+            className="lg:hidden absolute top-0 left-[18px] sm:left-[34px] w-1 h-full bg-white/10 origin-top"
+            initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} viewport={{ once: true }} transition={{ duration: 1.5 }}
+          />
 
-          <div className="flex justify-between items-center relative z-10 w-full overflow-x-auto hide-scrollbar pb-16 pt-16 gap-8 px-4">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center relative z-10 w-full lg:pb-16 lg:pt-16 gap-12 lg:gap-8 px-2 sm:px-6 lg:px-4">
             {[
               { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.' },
               { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).' },
@@ -407,14 +475,24 @@ export const About = () => {
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: i * 0.2 }}
-                className="flex flex-col items-center text-center min-w-[280px] w-full"
+                className="flex flex-row lg:flex-col items-start lg:items-center lg:text-center w-full lg:min-w-[280px] gap-6 lg:gap-0"
               >
-                <div className={`mb-8 ${i % 2 !== 0 ? 'order-last mt-8 mb-0' : ''}`}>
-                  <h3 className="text-lg font-bold text-white uppercase mb-2">{mile.title}</h3>
-                  <p className="text-sm text-neutral-400">{mile.desc}</p>
+                {/* Mobile/Tablet: Timeline Dot */}
+                <div className="lg:hidden flex flex-col items-center pt-1 z-20">
+                  <div className="w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0" />
+                </div>
+
+                <div className={`flex-1 lg:flex-none lg:mb-8 ${i % 2 !== 0 ? 'lg:order-last lg:mt-8 lg:mb-0' : ''}`}>
+                  {/* Mobile/Tablet: Year */}
+                  <div className="lg:hidden text-brand-accent font-[900] text-3xl tracking-widest mb-2 opacity-80">
+                    {mile.year}
+                  </div>
+                  <h3 className="text-xl lg:text-lg font-bold text-white uppercase mb-2">{mile.title}</h3>
+                  <p className="text-base lg:text-sm text-neutral-400">{mile.desc}</p>
                 </div>
                 
-                <div className="w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0 relative z-20 my-4 group cursor-default hover:scale-150 transition-transform duration-500">
+                {/* Desktop: Dot and Year */}
+                <div className="hidden lg:flex w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0 relative z-20 my-4 group cursor-default hover:scale-150 transition-transform duration-500">
                   <div className="absolute top-8 left-1/2 -translate-x-1/2 text-4xl font-[900] text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 opacity-20 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     {mile.year}
                   </div>
@@ -428,20 +506,18 @@ export const About = () => {
       {/* Chapter 7: Awards Gallery */}
       <section className="py-24 px-4 sm:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full mb-4 inline-block">Chapter VI</span>
           <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px]">Industry Recognition</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {awards.map((aw, idx) => (
-            <TiltCard key={idx} aw={aw} onClick={() => setSelectedAward(aw)} />
+            <TiltCard key={idx} aw={aw} onClick={() => setSelectedAward(aw)} index={idx} />
           ))}
         </div>
       </section>
 
       {/* Chapter 8: Leadership (The People) */}
       <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto border-t border-white/5">
-        <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full mb-4 inline-block">Chapter VII</span>
         <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-24">The People Behind</h2>
 
         <div className="flex flex-col gap-32">
@@ -506,55 +582,116 @@ export const About = () => {
 
       {/* Chapter 9: Socials & Footer CTA */}
       <section className="py-24 px-4 sm:px-8 max-w-7xl mx-auto space-y-24">
-        {/* Socials */}
-        <div>
-          <span className="text-[10px] text-brand-accent uppercase tracking-widest border border-brand-accent/20 px-3 py-1 rounded-full mb-4 inline-block">Chapter VIII</span>
-          <h2 className="text-4xl sm:text-5xl font-[900] text-white uppercase tracking-[-1px] mb-12">Connect With Us</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="block group">
-              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gradient-to-br from-[#833ab4]/10 via-[#fd1d1d]/10 to-[#fcb045]/10 border border-white/5 rounded-[40px] p-10 flex items-center justify-between hover:border-pink-500/50 transition-all duration-500 backdrop-blur-md">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 rounded-[24px] bg-black text-pink-500 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-xl">
-                    <FaInstagram />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold uppercase tracking-wider text-white">Instagram Feed</h3>
-                    <p className="text-sm font-bold text-pink-400">@sk_smartinvestments</p>
-                  </div>
+        {/* Socials - Unified Interactive Panel */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}
+          className="relative w-full rounded-[48px] bg-neutral-900/40 border border-white/5 p-8 sm:p-16 overflow-hidden flex flex-col items-center justify-center"
+        >
+          {/* Animated Noise/Texture Background */}
+          <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+          
+          <div className="text-center mb-16 relative z-10">
+            <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-4">Join Our Network</h2>
+            <p className="text-neutral-400 text-lg max-w-xl mx-auto font-medium">Stay updated with our latest insights, company news, and financial strategies on your favorite platforms.</p>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-stretch justify-center gap-6 md:gap-8 w-full max-w-4xl relative z-10">
+            {/* Instagram */}
+            <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="group flex-1 relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] blur-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-[32px]" />
+              <div className="relative h-full flex flex-col items-center justify-center text-center bg-black border border-white/10 p-10 rounded-[32px] hover:border-pink-500/50 transition-all duration-500 overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="w-20 h-20 rounded-[24px] bg-neutral-900 flex items-center justify-center text-4xl text-neutral-500 group-hover:text-white group-hover:bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] transition-all duration-500 shadow-xl mb-6 transform group-hover:scale-110 group-hover:rotate-12">
+                  <FaInstagram />
                 </div>
-                <FaArrowRight className="text-2xl text-white/20 group-hover:text-pink-500 group-hover:-rotate-45 transition-all duration-300" />
-              </motion.div>
+                
+                <h3 className="text-2xl font-[900] uppercase tracking-wider text-white mb-2">Instagram</h3>
+                <p className="text-xs font-bold text-neutral-500 tracking-widest group-hover:text-pink-400 transition-colors uppercase">@sk_smartinvestments</p>
+                
+                <div className="mt-8 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:text-white group-hover:bg-pink-500 group-hover:border-pink-500 group-hover:-rotate-45 transition-all duration-300">
+                  <FaArrowRight />
+                </div>
+              </div>
             </a>
-            
-            <a href="https://www.linkedin.com/company/sksmartinvestments/" target="_blank" rel="noopener noreferrer" className="block group">
-              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="bg-gradient-to-br from-[#0077b5]/10 to-transparent border border-white/5 rounded-[40px] p-10 flex items-center justify-between hover:border-blue-500/50 transition-all duration-500 backdrop-blur-md">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 rounded-[24px] bg-black text-blue-500 border border-white/10 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500 shadow-xl">
-                    <FaLinkedin />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold uppercase tracking-wider text-white">LinkedIn Corporate</h3>
-                    <p className="text-sm font-bold text-blue-400">SK Smart Investments</p>
-                  </div>
+
+            {/* LinkedIn */}
+            <a href="https://www.linkedin.com/company/sksmartinvestments/" target="_blank" rel="noopener noreferrer" className="group flex-1 relative">
+              <div className="absolute inset-0 bg-[#0077b5] blur-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-[32px]" />
+              <div className="relative h-full flex flex-col items-center justify-center text-center bg-black border border-white/10 p-10 rounded-[32px] hover:border-[#0077b5]/50 transition-all duration-500 overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-[#0077b5] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="w-20 h-20 rounded-[24px] bg-neutral-900 flex items-center justify-center text-4xl text-neutral-500 group-hover:text-white group-hover:bg-[#0077b5] transition-all duration-500 shadow-xl mb-6 transform group-hover:scale-110 group-hover:-rotate-12">
+                  <FaLinkedin />
                 </div>
-                <FaArrowRight className="text-2xl text-white/20 group-hover:text-blue-500 group-hover:-rotate-45 transition-all duration-300" />
-              </motion.div>
+                
+                <h3 className="text-2xl font-[900] uppercase tracking-wider text-white mb-2">LinkedIn</h3>
+                <p className="text-xs font-bold text-neutral-500 tracking-widest group-hover:text-blue-400 transition-colors uppercase">SK Smart Investments</p>
+                
+                <div className="mt-8 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:text-white group-hover:bg-[#0077b5] group-hover:border-[#0077b5] group-hover:-rotate-45 transition-all duration-300">
+                  <FaArrowRight />
+                </div>
+              </div>
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Footer CTA */}
+        {/* Footer CTA - Total Redesign */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-          className="relative w-full bg-brand-accent text-black rounded-[48px] p-12 sm:p-20 text-center overflow-hidden flex flex-col items-center shadow-[0_0_50px_rgba(246,255,0,0.2)]"
+          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}
+          className="relative w-full rounded-[48px] bg-black border border-white/10 overflow-hidden group"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.4)_0%,rgba(0,0,0,0)_60%)]" />
-          <h2 className="text-4xl sm:text-6xl font-[900] uppercase tracking-[-1px] mb-6 relative z-10">Ready to Secure Your Future?</h2>
-          <p className="text-lg sm:text-xl font-medium max-w-2xl mx-auto mb-12 relative z-10">Let's build your financial journey together with absolute transparency and unwavering trust.</p>
-          <button className="relative z-10 bg-black text-brand-accent font-extrabold uppercase tracking-widest px-10 py-5 rounded-full text-sm hover:bg-neutral-900 hover:scale-105 transition-all flex items-center gap-4 group shadow-2xl">
-            Book a Free Consultation
-            <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
-          </button>
+          {/* Animated Background Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl pointer-events-none">
+            <motion.div 
+              className="absolute inset-0 bg-brand-accent/20 blur-[120px] rounded-[100%]"
+              animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+          
+          {/* Grain Texture */}
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.04]" />
+
+          {/* Top Border Highlight */}
+          <div className="absolute top-0 left-[10%] w-[80%] h-px bg-gradient-to-r from-transparent via-brand-accent/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+          
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between p-12 sm:p-20 gap-16 lg:gap-12">
+            
+            {/* Left Content */}
+            <div className="flex-1 text-center lg:text-left">
+              <span className="text-[10px] text-brand-accent uppercase tracking-[0.3em] border border-brand-accent/20 bg-brand-accent/5 px-4 py-2 rounded-full mb-8 inline-block backdrop-blur-md font-extrabold shadow-[0_0_20px_rgba(246,255,0,0.1)]">
+                The Next Step
+              </span>
+              <h2 className="text-5xl sm:text-7xl font-[900] text-white uppercase tracking-[-2px] mb-6 leading-[1.1]">
+                Ready to Secure <br className="hidden lg:block"/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">
+                  Your Future?
+                </span>
+              </h2>
+              <p className="text-xl text-neutral-400 font-medium max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                Let's build your financial journey together with absolute transparency and unwavering trust.
+              </p>
+            </div>
+
+            {/* Right Content - Massive Button Pill */}
+            <div className="shrink-0 flex items-center justify-center">
+              <button className="relative overflow-hidden rounded-[40px] bg-brand-accent text-black font-[900] uppercase tracking-[0.2em] p-2 pr-10 flex items-center gap-6 group/btn hover:scale-105 transition-all duration-500 shadow-[0_0_50px_rgba(246,255,0,0.15)] hover:shadow-[0_0_80px_rgba(246,255,0,0.3)] border border-brand-accent/50">
+                
+                {/* Sweep effect */}
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-[150%] group-hover/btn:translate-x-[150%] transition-transform duration-1000 ease-in-out skew-x-12" />
+                
+                <div className="relative z-10 w-20 h-20 rounded-[32px] bg-black flex items-center justify-center text-brand-accent text-3xl group-hover/btn:rotate-45 transition-transform duration-500 shadow-inner border border-white/10">
+                  <FaArrowRight />
+                </div>
+                
+                <span className="relative z-10 text-sm sm:text-base mt-0.5 whitespace-nowrap">
+                  Book Consultation
+                </span>
+              </button>
+            </div>
+
+          </div>
         </motion.div>
       </section>
 
