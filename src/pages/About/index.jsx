@@ -472,14 +472,14 @@ export const About = () => {
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.8, delay: i * 0.2 }}
-                className="flex flex-row lg:flex-col items-start lg:items-center lg:text-center w-full lg:min-w-[280px] gap-6 lg:gap-0"
+                className="flex flex-row lg:block relative items-start lg:text-center w-full lg:min-w-[280px] lg:h-[350px] gap-6 lg:gap-0"
               >
                 {/* Mobile/Tablet: Timeline Dot */}
                 <div className="lg:hidden flex flex-col items-center pt-1 z-20">
                   <div className="w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0" />
                 </div>
 
-                <div className={`flex-1 lg:flex-none lg:mb-8 ${i % 2 !== 0 ? 'lg:order-last lg:mt-8 lg:mb-0' : ''}`}>
+                <div className={`flex-1 lg:absolute lg:w-full lg:px-4 ${i % 2 === 0 ? 'lg:bottom-[calc(50%+2rem)]' : 'lg:top-[calc(50%+2rem)]'}`}>
                   {/* Mobile/Tablet: Year */}
                   <div className="lg:hidden text-brand-accent font-[900] text-3xl tracking-widest mb-2 opacity-80">
                     {mile.year}
@@ -489,8 +489,8 @@ export const About = () => {
                 </div>
                 
                 {/* Desktop: Dot and Year */}
-                <div className="hidden lg:flex w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0 relative z-20 my-4 group cursor-default hover:scale-150 transition-transform duration-500">
-                  <div className="absolute top-8 left-1/2 -translate-x-1/2 text-4xl font-[900] text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 opacity-20 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black border-4 border-brand-accent shadow-[0_0_20px_rgba(246,255,0,0.6)] flex-shrink-0 z-20 group cursor-default hover:scale-150 transition-transform duration-500">
+                  <div className={`absolute left-1/2 -translate-x-1/2 text-4xl font-[900] text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 opacity-20 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${i % 2 === 0 ? 'top-8' : 'bottom-8'}`}>
                     {mile.year}
                   </div>
                 </div>
