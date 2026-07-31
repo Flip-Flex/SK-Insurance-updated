@@ -7,13 +7,10 @@ import {
   FaWhatsapp, FaInstagram, FaCalendarAlt, FaChevronDown, 
   FaPhoneAlt 
 } from 'react-icons/fa';
-import { saveTicket } from '../../services/api';
 import { subscribeToCollection } from '../../services/firebaseService';
 
 export const Support = () => {
   const { t } = useTranslation();
-  const [contactSuccess, setContactSuccess] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [faqs, setFaqs] = useState([]);
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -21,18 +18,6 @@ export const Support = () => {
     const unsubscribe = subscribeToCollection('faqs', setFaqs);
     return () => unsubscribe();
   }, []);
-
-  const handleContactSubmit = async (e) => {
-    e.preventDefault();
-    const success = await saveTicket(form);
-    if (success) {
-      setContactSuccess(true);
-      setForm({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => {
-        setContactSuccess(false);
-      }, 4000);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -56,7 +41,7 @@ export const Support = () => {
         {/* Bento Box Contact Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Corporate Office (Spans 2 columns) */}
-          <div className="lg:col-span-2 bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group hover:border-brand-accent/30 transition-all duration-500">
+          <div className="lg:col-span-2 bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden group hover:border-brand-accent/30 transition-all duration-500">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10 h-full flex flex-col justify-between">
               <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-brand-accent mb-8 group-hover:scale-110 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500 shadow-xl">
@@ -72,154 +57,88 @@ export const Support = () => {
           </div>
 
           {/* Office Hours */}
-          <div className="bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
+          <div className="bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-2xl p-5 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
             <div className="relative z-10 h-full flex flex-col justify-between">
-              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-white mb-8 group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-xl">
-                <FaClock className="text-2xl" />
+              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white mb-3 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500 shadow-xl">
+                <FaClock className="text-sm" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-3">Office Hours</h3>
-                <p className="text-xl font-bold text-white">Mon - Sat<br/><span className="text-neutral-400">Closes 6:30 pm</span></p>
+                <h3 className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-2">Office Hours</h3>
+                <p className="text-sm font-bold text-white">Mon - Sat<br/><span className="text-neutral-400 text-xs">Closes 6:30 pm</span></p>
               </div>
             </div>
           </div>
 
           {/* Phone */}
-          <div className="bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group hover:border-brand-accent/50 transition-all duration-500">
+          <div className="bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden group hover:border-brand-accent/50 transition-all duration-500">
             <div className="absolute inset-0 bg-brand-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
             <div className="relative z-10 h-full flex flex-col justify-between">
-              <div className="w-16 h-16 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-8 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(246,255,0,0.2)]">
-                <FaPhoneAlt className="text-2xl" />
+              <div className="w-12 h-12 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-4 group-hover:bg-brand-accent group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(246,255,0,0.2)]">
+                <FaPhoneAlt className="text-xl" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-brand-accent uppercase tracking-widest mb-3">Call Us</h3>
-                <p className="text-xl font-bold text-white tracking-wide">+91 98407 23956</p>
+                <h3 className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-2">Call Us</h3>
+                <p className="text-base font-bold text-white tracking-wide">+91 98407 23956</p>
               </div>
             </div>
           </div>
 
           {/* Email */}
-          <div className="lg:col-span-2 bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
+          <div className="lg:col-span-2 bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 relative overflow-hidden group hover:border-white/20 transition-all duration-500">
              <div className="relative z-10 h-full flex flex-col justify-between md:flex-row md:items-end">
                <div>
-                  <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-white mb-8 group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-xl">
-                    <FaEnvelope className="text-2xl" />
+                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white mb-4 group-hover:bg-white group-hover:text-black transition-all duration-500 shadow-xl">
+                    <FaEnvelope className="text-xl" />
                   </div>
-                  <h3 className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-3">Email Address</h3>
-                  <p className="text-2xl sm:text-3xl font-bold text-white">skinvestments2025@gmail.com</p>
+                  <h3 className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-2">Email Address</h3>
+                  <p className="text-lg sm:text-xl font-bold text-white">skinvestments2025@gmail.com</p>
                </div>
              </div>
           </div>
 
           {/* WhatsApp */}
-          <a href="https://wa.me/919840723956?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services." target="_blank" rel="noopener noreferrer" className="bg-[#25D366]/10 backdrop-blur-xl border border-[#25D366]/20 rounded-[2.5rem] p-10 relative overflow-hidden group hover:border-[#25D366]/50 hover:bg-[#25D366]/20 transition-all duration-500 block">
+          <a href="https://wa.me/919840723956?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services." target="_blank" rel="noopener noreferrer" className="bg-[#25D366]/10 backdrop-blur-xl border border-[#25D366]/20 rounded-3xl p-6 relative overflow-hidden group hover:border-[#25D366]/50 hover:bg-[#25D366]/20 transition-all duration-500 block">
              <div className="relative z-10 h-full flex flex-col justify-between">
-                <div className="w-16 h-16 rounded-full bg-[#25D366]/20 flex items-center justify-center text-[#25D366] mb-8 group-hover:bg-[#25D366] group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(37,211,102,0.2)]">
-                  <FaWhatsapp className="text-3xl" />
+                <div className="w-12 h-12 rounded-full bg-[#25D366]/20 flex items-center justify-center text-[#25D366] mb-4 group-hover:bg-[#25D366] group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(37,211,102,0.2)]">
+                  <FaWhatsapp className="text-2xl" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#25D366] uppercase tracking-widest mb-3">WhatsApp</h3>
-                  <p className="text-xl font-bold text-white flex items-center justify-between">Chat Now <span className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">&rarr;</span></p>
+                  <h3 className="text-[10px] font-bold text-[#25D366] uppercase tracking-widest mb-2">WhatsApp</h3>
+                  <p className="text-base font-bold text-white flex items-center justify-between">Chat Now <span className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">&rarr;</span></p>
                 </div>
              </div>
           </a>
 
           {/* Instagram */}
-          <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="bg-[#E1306C]/10 backdrop-blur-xl border border-[#E1306C]/20 rounded-[2.5rem] p-10 relative overflow-hidden group hover:border-[#E1306C]/50 hover:bg-[#E1306C]/20 transition-all duration-500 block">
+          <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="bg-[#E1306C]/10 backdrop-blur-xl border border-[#E1306C]/20 rounded-3xl p-6 relative overflow-hidden group hover:border-[#E1306C]/50 hover:bg-[#E1306C]/20 transition-all duration-500 block">
              <div className="relative z-10 h-full flex flex-col justify-between">
-                <div className="w-16 h-16 rounded-full bg-[#E1306C]/20 flex items-center justify-center text-[#E1306C] mb-8 group-hover:bg-[#E1306C] group-hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(225,48,108,0.2)]">
-                  <FaInstagram className="text-3xl" />
+                <div className="w-12 h-12 rounded-full bg-[#E1306C]/20 flex items-center justify-center text-[#E1306C] mb-4 group-hover:bg-[#E1306C] group-hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(225,48,108,0.2)]">
+                  <FaInstagram className="text-2xl" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#E1306C] uppercase tracking-widest mb-3">Instagram</h3>
-                  <p className="text-xl font-bold text-white flex items-center justify-between">@sk_smart... <span className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">&rarr;</span></p>
+                  <h3 className="text-[10px] font-bold text-[#E1306C] uppercase tracking-widest mb-2">Instagram</h3>
+                  <p className="text-base font-bold text-white flex items-center justify-between">@sk_smart... <span className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">&rarr;</span></p>
                 </div>
              </div>
           </a>
         </div>
 
-        {/* Contact Form & Appointment Split */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        {/* Appointment Split */}
+        <div className="max-w-4xl mx-auto items-center">
            
-           {/* Form Side */}
-           <div className="bg-neutral-900/50 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-8 sm:p-12 relative overflow-hidden shadow-2xl">
-              <h2 className="text-3xl font-bold text-white mb-8">Send Online Inquiry</h2>
-              
-              {contactSuccess && (
-                <div className="mb-8 p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center space-x-4 text-emerald-400 text-sm shadow-[0_0_20px_rgba(16,185,129,0.15)] animate-fade-in-up">
-                  <FaCheckCircle className="text-2xl shrink-0" />
-                  <span className="font-semibold text-base">Thank you! Your inquiry has been registered. An agent will contact you shortly.</span>
-                </div>
-              )}
-
-              <form onSubmit={handleContactSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <label className="block text-xs font-bold text-neutral-400 uppercase tracking-widest">Full Name</label>
-                    <input
-                      required
-                      type="text"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full px-6 py-4 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all shadow-inner"
-                    />
-                  </div>
-                  <div className="space-y-3">
-                    <label className="block text-xs font-bold text-neutral-400 uppercase tracking-widest">Email Address</label>
-                    <input
-                      required
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-6 py-4 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all shadow-inner"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <label className="block text-xs font-bold text-neutral-400 uppercase tracking-widest">Subject</label>
-                  <input
-                    required
-                    type="text"
-                    value={form.subject}
-                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full px-6 py-4 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all shadow-inner"
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  <label className="block text-xs font-bold text-neutral-400 uppercase tracking-widest">Message</label>
-                  <textarea
-                    required
-                    rows={5}
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full px-6 py-5 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all resize-none shadow-inner"
-                  ></textarea>
-                </div>
-
-                <button 
-                  type="submit" 
-                  className="w-full mt-4 py-5 bg-white hover:bg-brand-accent text-black font-black uppercase tracking-widest rounded-2xl transition-colors shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:shadow-[0_10px_40px_rgba(246,255,0,0.3)]"
-                >
-                  {t('submit_ticket') || 'Submit Inquiry'}
-                </button>
-              </form>
-           </div>
-
            {/* Appointment Side */}
-           <div className="bg-brand-accent rounded-[2.5rem] p-8 sm:p-12 relative overflow-hidden shadow-[0_0_50px_rgba(246,255,0,0.15)] lg:sticky lg:top-32 group">
+           <div className="bg-brand-accent rounded-[2.5rem] p-8 sm:p-12 relative overflow-hidden shadow-[0_0_50px_rgba(246,255,0,0.15)] group">
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-overlay pointer-events-none"></div>
               
-              <div className="relative z-10 flex flex-col h-full min-h-[450px]">
+              <div className="relative z-10 flex flex-col h-full min-h-[400px]">
                  <div className="w-20 h-20 rounded-full bg-black flex items-center justify-center text-brand-accent mb-8 shadow-2xl">
                     <FaCalendarAlt className="text-3xl" />
                  </div>
                  
-                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-[900] text-black uppercase tracking-tighter leading-[0.9] mb-6">
+                 <h2 className="text-4xl sm:text-5xl lg:text-7xl font-[900] text-black uppercase tracking-tighter leading-[0.9] mb-6">
                     Book An<br/>Advisory<br/>Session
                  </h2>
-                 <p className="text-black/70 text-lg font-bold mb-12 max-w-sm">
+                 <p className="text-black/70 text-xl font-bold mb-12 max-w-lg">
                     Prefer a scheduled 1-on-1 consultation? Pick your date & time slot with our experts.
                  </p>
                  
