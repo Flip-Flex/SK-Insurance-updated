@@ -136,23 +136,23 @@ export const Plans = () => {
   ];
 
   const ALL_SIXTEEN_COMPANIES = [
-    { label: 'All Insurers', value: 'ALL', emblem: '🏢' },
-    { label: 'Postal Office', value: 'Postal Office', emblem: '📮' },
-    { label: 'Future Generali', value: 'Future Generali', emblem: '🏢' },
-    { label: 'Bajaj', value: 'Bajaj', emblem: '⚡' },
-    { label: 'Aditya Birla', value: 'Aditya Birla', emblem: '🛡️' },
-    { label: 'Oriental', value: 'Oriental Insurance', emblem: '🏛️' },
-    { label: 'Tata AIA', value: 'Tata AIA', emblem: '💎' },
-    { label: 'ICICI', value: 'ICICI', emblem: '🔷' },
-    { label: 'HDFC', value: 'HDFC', emblem: '🟥' },
-    { label: 'SBI', value: 'SBI', emblem: '🏛️' },
-    { label: 'Niva Bupa', value: 'Niva Bupa', emblem: '🩺' },
-    { label: 'Allianz', value: 'Allianz', emblem: '🌐' },
-    { label: 'Kotak', value: 'Kotak', emblem: '🔴' },
-    { label: 'PNB', value: 'PNB', emblem: '🏦' },
-    { label: 'Manipal Cigna', value: 'Manipal Cigna', emblem: '🏥' },
-    { label: 'Star Health', value: 'Star Health', emblem: '⭐' },
-    { label: 'Axis Max', value: 'Axis Max', emblem: '❇️' }
+    { label: 'All Insurers', value: 'ALL' },
+    { label: 'Postal Office', value: 'Postal Office' },
+    { label: 'Future Generali', value: 'Future Generali' },
+    { label: 'Bajaj', value: 'Bajaj' },
+    { label: 'Aditya Birla', value: 'Aditya Birla' },
+    { label: 'Oriental', value: 'Oriental Insurance' },
+    { label: 'Tata AIA', value: 'Tata AIA' },
+    { label: 'ICICI', value: 'ICICI' },
+    { label: 'HDFC', value: 'HDFC' },
+    { label: 'SBI', value: 'SBI' },
+    { label: 'Niva Bupa', value: 'Niva Bupa' },
+    { label: 'Allianz', value: 'Allianz' },
+    { label: 'Kotak', value: 'Kotak' },
+    { label: 'PNB', value: 'PNB' },
+    { label: 'Manipal Cigna', value: 'Manipal Cigna' },
+    { label: 'Star Health', value: 'Star Health' },
+    { label: 'Axis Max', value: 'Axis Max' }
   ];
 
   const finalFilteredPlans = plans.filter(plan => {
@@ -283,13 +283,13 @@ export const Plans = () => {
               <button
                 key={opt.value}
                 onClick={() => setActiveFilter(opt.value)}
-                className={`flex items-center gap-3 px-6 py-3 rounded-full text-sm font-[900] uppercase tracking-widest transition-all duration-300 border ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-[11px] font-[900] uppercase tracking-widest transition-all duration-300 border ${
                   isActive 
                     ? 'bg-brand-accent text-black border-brand-accent shadow-[0_0_30px_rgba(246,255,0,0.3)] scale-105' 
                     : 'bg-neutral-900/40 text-neutral-400 border-white/10 hover:border-brand-accent/40 hover:text-white'
                 }`}
               >
-                <Icon className={isActive ? 'text-black text-lg' : 'text-brand-accent text-lg'} />
+                <Icon className={isActive ? 'text-black text-sm' : 'text-brand-accent text-sm'} />
                 {opt.label}
               </button>
             );
@@ -309,13 +309,12 @@ export const Plans = () => {
               <button
                 key={comp.value}
                 onClick={() => setActiveCompanyFilter(comp.value)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-[20px] text-xs font-[900] uppercase tracking-wider transition-all duration-300 border ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-[14px] text-[10px] font-[900] uppercase tracking-wider transition-all duration-300 border ${
                   isActive 
                     ? 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] scale-105' 
                     : 'bg-black/50 text-neutral-400 border-white/5 hover:border-white/20 hover:text-white hover:bg-neutral-800'
                 }`}
               >
-                <span className="text-sm">{comp.emblem}</span>
                 <span>{comp.label}</span>
               </button>
             );
