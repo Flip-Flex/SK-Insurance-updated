@@ -566,18 +566,18 @@ export const Plans = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-[10px] font-[900] text-brand-accent uppercase tracking-[0.2em] mb-2 pl-2">Full Legal Name</label>
-                  <input required type="text" placeholder="John Doe" className="w-full px-5 py-4 text-sm bg-neutral-900 border border-white/10 rounded-[20px] text-white focus:border-brand-accent focus:bg-black outline-none transition-all" />
+                  <input required type="text" className="w-full px-5 py-4 text-sm bg-neutral-900 border border-white/10 rounded-[20px] text-white focus:border-brand-accent focus:bg-black outline-none transition-all" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-[900] text-brand-accent uppercase tracking-[0.2em] mb-2 pl-2">Email Address</label>
-                  <input required type="email" placeholder="john@example.com" className="w-full px-5 py-4 text-sm bg-neutral-900 border border-white/10 rounded-[20px] text-white focus:border-brand-accent focus:bg-black outline-none transition-all" />
+                  <input required type="email" className="w-full px-5 py-4 text-sm bg-neutral-900 border border-white/10 rounded-[20px] text-white focus:border-brand-accent focus:bg-black outline-none transition-all" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-[10px] font-[900] text-brand-accent uppercase tracking-[0.2em] mb-2 pl-2">Mobile Phone</label>
-                  <input required type="tel" placeholder="+91 9876543210" className="w-full px-5 py-4 text-sm bg-neutral-900 border border-white/10 rounded-[20px] text-white focus:border-brand-accent focus:bg-black outline-none transition-all" />
+                  <input required type="tel" className="w-full px-5 py-4 text-sm bg-neutral-900 border border-white/10 rounded-[20px] text-white focus:border-brand-accent focus:bg-black outline-none transition-all" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-[900] text-brand-accent uppercase tracking-[0.2em] mb-2 pl-2">Date of Birth</label>
