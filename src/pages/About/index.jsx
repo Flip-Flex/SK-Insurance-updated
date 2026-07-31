@@ -210,14 +210,30 @@ export const About = () => {
       quote: "Certified Financial Consultant & Senior Business Associate Leader with over 22 years of experience, guiding countless clients in making informed financial decisions.",
       src: "/prakash_gajendiran.jpg",
       content: (
-        <div className="grid grid-cols-2 gap-6 mt-8">
-          <div className="bg-neutral-900/50 p-6 rounded-[24px] border border-white/5">
-            <h4 className="text-4xl font-[900] text-white mb-2"><Counter from={0} to={22} suffix="+" /></h4>
-            <p className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Years Experience</p>
+        <div className="grid grid-cols-2 gap-4 mt-8">
+          <div className="relative group overflow-hidden rounded-[24px] p-6 bg-gradient-to-br from-neutral-900/80 to-black border border-white/10 hover:border-brand-accent/50 transition-colors duration-500 shadow-2xl">
+            <div className="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative z-10 flex flex-col items-start">
+              <div className="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center mb-4 border border-brand-accent/20">
+                <FaChartLine className="text-brand-accent text-lg" />
+              </div>
+              <h4 className="text-4xl font-[900] text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-400 mb-1">
+                <Counter from={0} to={22} suffix="+" />
+              </h4>
+              <p className="text-xs text-brand-accent uppercase tracking-[0.2em] font-bold mt-1">Years Experience</p>
+            </div>
           </div>
-          <div className="bg-neutral-900/50 p-6 rounded-[24px] border border-white/5">
-            <h4 className="text-4xl font-[900] text-white mb-2"><Counter from={0} to={3} suffix="x" /></h4>
-            <p className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Aura Achiever</p>
+          <div className="relative group overflow-hidden rounded-[24px] p-6 bg-gradient-to-br from-neutral-900/80 to-black border border-white/10 hover:border-brand-accent/50 transition-colors duration-500 shadow-2xl">
+            <div className="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative z-10 flex flex-col items-start">
+              <div className="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center mb-4 border border-brand-accent/20">
+                <FaAward className="text-brand-accent text-lg" />
+              </div>
+              <h4 className="text-4xl font-[900] text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-400 mb-1">
+                <Counter from={0} to={3} suffix="x" />
+              </h4>
+              <p className="text-xs text-brand-accent uppercase tracking-[0.2em] font-bold mt-1">Aura Achiever</p>
+            </div>
           </div>
         </div>
       )
