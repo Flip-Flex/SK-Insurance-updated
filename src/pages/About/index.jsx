@@ -237,13 +237,10 @@ export const About = () => {
           ))}
         </div>
           <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto px-4 w-full">
-            <div className="mb-12">
-              <span className="text-[10px] sm:text-xs font-medium tracking-[0.3em] text-neutral-400 uppercase">Since 2004</span>
-            </div>
             
             <div className="flex flex-col items-center space-y-4">
-              <SplitText text="Securing Wealth." className="text-5xl sm:text-7xl lg:text-[7rem] font-light tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
-              <SplitText text="Empowering Futures." className="text-5xl sm:text-7xl lg:text-[7rem] font-medium tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
+              <SplitText text="Securing Wealth." className="text-4xl sm:text-6xl lg:text-[6rem] font-light tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
+              <SplitText text="Empowering Futures." className="text-4xl sm:text-6xl lg:text-[6rem] font-medium tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24 mt-24">
