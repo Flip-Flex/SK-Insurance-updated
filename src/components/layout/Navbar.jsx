@@ -201,7 +201,7 @@ export const Navbar = () => {
               isFixed={true}
               onMenuOpen={() => setIsOpen(true)}
               onMenuClose={() => setIsOpen(false)}
-              bottomContent={
+              bottomContent={(closeMenu) => (
                 <div className="flex flex-col space-y-6">
                   {/* Mobile Language */}
                   <div className="relative flex justify-center mb-6">
@@ -247,13 +247,13 @@ export const Navbar = () => {
                   {isAuthenticated ? (
                     <>
                       <button
-                        onClick={() => { setIsOpen(false); navigate('/dashboard'); }}
+                        onClick={() => { closeMenu(); setIsOpen(false); navigate('/dashboard'); }}
                         className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
                       >
                         Dashboard
                       </button>
                       <button
-                        onClick={() => { setIsOpen(false); logout(); }}
+                        onClick={() => { closeMenu(); setIsOpen(false); logout(); }}
                         className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
                       >
                         Logout
@@ -262,13 +262,13 @@ export const Navbar = () => {
                   ) : (
                     <>
                       <button
-                        onClick={() => { setIsOpen(false); handleDashboardRedirect(); }}
+                        onClick={() => { closeMenu(); setIsOpen(false); handleDashboardRedirect(); }}
                         className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
                       >
                         Login
                       </button>
                       <button
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => { closeMenu(); setIsOpen(false); }}
                         className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
                       >
                         Get Quote

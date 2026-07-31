@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { Link } from 'react-router-dom';
 
 export const StaggeredMenu = ({
   position = 'right',
@@ -438,16 +439,17 @@ export const StaggeredMenu = ({
                   const isActive = typeof window !== 'undefined' && window.location.pathname === it.link;
                   return (
                     <li className="sm-panel-itemWrap relative overflow-hidden leading-none" key={it.label + idx}>
-                      <a
+                      <Link
                         className={`sm-panel-item relative font-[900] text-2xl sm:text-3xl cursor-pointer leading-none tracking-tight uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em] mb-4 ${isActive ? 'text-brand-accent' : 'text-black'}`}
-                        href={it.link}
+                        to={it.link}
+                        onClick={() => closeMenu()}
                         aria-label={it.ariaLabel}
                         data-index={idx + 1}
                       >
                       <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
                         {it.label}
                       </span>
-                    </a>
+                      </Link>
                   </li>
                   );
                 })
@@ -464,7 +466,7 @@ export const StaggeredMenu = ({
 
             {bottomContent && (
               <div className="mt-8 border-t border-black/10 pt-8">
-                {bottomContent}
+                {typeof bottomContent === 'function' ? bottomContent(closeMenu) : bottomContent}
               </div>
             )}
 
