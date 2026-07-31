@@ -365,7 +365,7 @@ export const About = () => {
           {/* Vision Panel */}
           <motion.div 
             initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}
-            className="relative w-full rounded-[48px] bg-neutral-900/40 backdrop-blur-xl border border-white/10 p-8 sm:p-12 lg:p-20 overflow-hidden group shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]"
+            className="relative w-full rounded-3xl lg:rounded-[48px] bg-neutral-900/40 backdrop-blur-xl border border-white/10 p-6 sm:p-12 lg:p-20 overflow-hidden group shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]"
           >
             {/* Hover Glow */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent/15 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
@@ -384,7 +384,7 @@ export const About = () => {
               
               <div className="w-full lg:w-2/3 lg:border-l border-white/10 lg:pl-16 relative">
                 <div className="absolute -left-6 lg:-left-[66px] top-0 text-[120px] text-brand-accent/10 font-serif leading-none hidden lg:block">"</div>
-                <p className="text-2xl sm:text-3xl text-neutral-200 leading-relaxed font-light italic relative z-10 text-center lg:text-left">
+                <p className="text-xl sm:text-2xl lg:text-3xl text-neutral-200 leading-relaxed font-light italic relative z-10 text-center lg:text-left">
                   To become one of India's most trusted insurance and financial advisory firms by delivering innovative protection solutions, exceptional customer service, and lifelong financial security for every client.
                 </p>
               </div>
@@ -394,7 +394,7 @@ export const About = () => {
           {/* Mission Panel */}
           <motion.div 
             initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.2 }}
-            className="relative w-full rounded-[48px] bg-neutral-950/80 backdrop-blur-xl border border-white/5 p-8 sm:p-12 lg:p-20 group shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]"
+            className="relative w-full rounded-3xl lg:rounded-[48px] bg-neutral-950/80 backdrop-blur-xl border border-white/5 p-6 sm:p-12 lg:p-20 group shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]"
           >
             {/* Hover Glow */}
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10"></div>
