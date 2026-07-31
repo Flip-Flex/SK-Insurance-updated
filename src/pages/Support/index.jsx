@@ -161,7 +161,6 @@ export const Support = () => {
                       type="text"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="John Doe"
                       className="w-full px-6 py-4 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all shadow-inner"
                     />
                   </div>
@@ -172,7 +171,6 @@ export const Support = () => {
                       type="email"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      placeholder="john@example.com"
                       className="w-full px-6 py-4 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all shadow-inner"
                     />
                   </div>
@@ -185,7 +183,6 @@ export const Support = () => {
                     type="text"
                     value={form.subject}
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    placeholder="E.g., New Life Insurance Policy"
                     className="w-full px-6 py-4 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all shadow-inner"
                   />
                 </div>
@@ -197,7 +194,6 @@ export const Support = () => {
                     rows={5}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Tell us how we can help you..."
                     className="w-full px-6 py-5 bg-black border border-white/10 rounded-2xl text-white placeholder-white/20 focus:outline-none focus:border-brand-accent focus:bg-white/5 transition-all resize-none shadow-inner"
                   ></textarea>
                 </div>
