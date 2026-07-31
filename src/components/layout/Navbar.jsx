@@ -196,7 +196,7 @@ export const Navbar = () => {
               menuButtonColor={isTransparent ? "#000000" : "#ffffff"}
               openMenuButtonColor="#000000"
               changeMenuColorOnOpen={true}
-              colors={['#111111', '#1a1a1a']}
+              colors={['#111111', '#F6FF00']}
               accentColor="#F6FF00"
               isFixed={true}
               onMenuOpen={() => setIsOpen(true)}
