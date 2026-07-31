@@ -239,8 +239,8 @@ export const About = () => {
           <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto px-4 w-full">
             
             <div className="flex flex-col items-center space-y-4">
-              <SplitText text="Securing Wealth." className="text-4xl sm:text-6xl lg:text-[6rem] font-light tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
-              <SplitText text="Empowering Futures." className="text-4xl sm:text-6xl lg:text-[6rem] font-medium tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
+              <SplitText text="Securing Wealth." className="text-3xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
+              <SplitText text="Empowering Futures." className="text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24 mt-24">
