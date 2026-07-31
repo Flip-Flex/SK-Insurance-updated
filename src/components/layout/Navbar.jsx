@@ -58,8 +58,8 @@ export const Navbar = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isTransparent
-            ? 'bg-neutral-900/90 backdrop-blur-md md:bg-transparent md:backdrop-blur-none border-b border-white/5 md:border-transparent py-1.5 md:py-3'
+          isTransparent || isOpen
+            ? 'bg-transparent backdrop-blur-none border-transparent py-1.5 md:py-3'
             : 'bg-neutral-950/85 backdrop-blur-[20px] shadow-premium-dark border-b border-white/10 py-1.5'
         }`}
         style={{ fontFamily: "'Poppins', sans-serif" }}
@@ -194,7 +194,7 @@ export const Navbar = () => {
               displaySocials
               displayItemNumbering={false}
               menuButtonColor={isTransparent ? "#000000" : "#ffffff"}
-              openMenuButtonColor="#ffffff"
+              openMenuButtonColor="#000000"
               changeMenuColorOnOpen={true}
               colors={['#111111', '#1a1a1a']}
               accentColor="#F6FF00"
@@ -207,7 +207,7 @@ export const Navbar = () => {
                   <div className="relative flex justify-center mb-6">
                     <button
                       onClick={() => setShowLangDropdown(!showLangDropdown)}
-                      className="flex items-center space-x-2 text-[16px] font-bold transition-colors cursor-pointer text-white hover:text-brand-accent"
+                      className="flex items-center space-x-2 text-[16px] font-bold transition-colors cursor-pointer text-black hover:text-brand-accent"
                     >
                       <FaGlobe className="text-[18px]" />
                       <span>{languages.find(l => l.code === currentLang)?.label || 'EN'}</span>
@@ -221,7 +221,7 @@ export const Navbar = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full mt-4 w-40 bg-neutral-900 border border-white/10 rounded-[12px] shadow-premium-dark z-50 overflow-hidden text-center"
+                          className="absolute top-full mt-4 w-40 bg-white border border-black/10 rounded-[12px] shadow-xl z-50 overflow-hidden text-center"
                         >
                           {languages.map((lang) => (
                             <button
@@ -233,7 +233,7 @@ export const Navbar = () => {
                               className={`w-full px-4 py-3 text-[15px] transition-colors text-center font-medium cursor-pointer ${
                                 currentLang === lang.code 
                                   ? 'text-brand-accent font-bold bg-brand-accent/10' 
-                                  : 'text-neutral-300 hover:bg-white/5 hover:text-brand-accent'
+                                  : 'text-black hover:bg-neutral-100 hover:text-brand-accent'
                               }`}
                             >
                               {lang.name}
@@ -248,7 +248,7 @@ export const Navbar = () => {
                     <>
                       <button
                         onClick={() => { setIsOpen(false); navigate('/dashboard'); }}
-                        className="w-full py-4 text-white font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
+                        className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
                       >
                         Dashboard
                       </button>
@@ -263,7 +263,7 @@ export const Navbar = () => {
                     <>
                       <button
                         onClick={() => { setIsOpen(false); handleDashboardRedirect(); }}
-                        className="w-full py-4 text-white font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
+                        className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
                       >
                         Login
                       </button>
