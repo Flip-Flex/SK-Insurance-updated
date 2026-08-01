@@ -138,7 +138,7 @@ export const Appointment = () => {
 Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
 
     const encoded = encodeURIComponent(text);
-    return `https://wa.me/919840723956?text=${encoded}`;
+    return `https://wa.me/919994451300?text=${encoded}`;
   };
 
   const handleSubmit = async (e) => {
@@ -435,7 +435,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                     <input
                       type="tel"
                       name="phone"
-                      placeholder="e.g. +91 98407 23956"
+                      placeholder="e.g. +91 99944 51300"
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-xl text-xs text-navy-950 dark:text-white focus:outline-none focus:border-gold-500"
@@ -537,13 +537,13 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
 
           <div className="flex items-center space-x-3 shrink-0">
             <a
-              href="tel:+919840723956"
+              href="tel:+919994451300"
               className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-xs font-bold text-white transition-all"
             >
               📞 Call Hotline
             </a>
             <a
-              href="https://wa.me/919840723956"
+              href="https://wa.me/919994451300"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all shadow-lg"

@@ -27,7 +27,7 @@ export const Footer = () => {
               {[
                 { icon: FaInstagram, url: "https://www.instagram.com/sk_smartinvestments/", color: "hover:text-pink-500 hover:border-pink-500/50 hover:bg-pink-500/10" },
                 { icon: FaLinkedin, url: "https://www.linkedin.com/company/sksmartinvestments/", color: "hover:text-blue-500 hover:border-blue-500/50 hover:bg-blue-500/10" },
-                { icon: FaWhatsapp, url: "https://wa.me/919840723956?text=Hi", color: "hover:text-emerald-500 hover:border-emerald-500/50 hover:bg-emerald-500/10" }
+                { icon: FaWhatsapp, url: "https://wa.me/919994451300?text=Hi", color: "hover:text-emerald-500 hover:border-emerald-500/50 hover:bg-emerald-500/10" }
               ].map((social, idx) => (
                 <a 
                   key={idx}
@@ -131,8 +131,8 @@ export const Footer = () => {
                 </div>
                 <div>
                   <p className="font-[900] text-white text-[10px] uppercase tracking-widest mb-1">Phone Hotline</p>
-                  <a href="tel:+919840723956" className="text-sm text-neutral-400 font-medium group-hover:text-white transition-colors block font-sans">
-                    +91 98407 23956
+                  <a href="tel:+919994451300" className="text-sm text-neutral-400 font-medium group-hover:text-white transition-colors block font-sans">
+                    +91 99944 51300
                   </a>
                 </div>
               </li>

@@ -107,7 +107,7 @@ export const PrivacyPolicy = () => {
                 ✉ Email Support
               </a>
               <a 
-                href="https://wa.me/919840723956?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20my%20data%20privacy." 
+                href="https://wa.me/919994451300?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20my%20data%20privacy." 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-xl inline-flex items-center justify-center transition-colors cursor-pointer shadow-sm"

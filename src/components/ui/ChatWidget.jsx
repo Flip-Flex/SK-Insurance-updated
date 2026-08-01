@@ -124,7 +124,7 @@ export const ChatWidget = () => {
             </div>
             {/* WhatsApp Direct Banner */}
             <a 
-              href="https://wa.me/919840723956?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services."
+              href="https://wa.me/919994451300?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services."
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-emerald-500/10 hover:bg-emerald-500/20 border-b border-emerald-500/25 px-4 py-2.5 flex items-center justify-between text-[10px] text-emerald-600 dark:text-emerald-400 font-bold transition-all group shrink-0"

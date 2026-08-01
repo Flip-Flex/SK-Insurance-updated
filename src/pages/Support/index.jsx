@@ -78,7 +78,7 @@ export const Support = () => {
               </div>
               <div>
                 <h3 className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-2">Call Us</h3>
-                <p className="text-base font-bold text-white tracking-wide">+91 98407 23956</p>
+                <p className="text-base font-bold text-white tracking-wide">+91 99944 51300</p>
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@ export const Support = () => {
           </div>
 
           {/* WhatsApp */}
-          <a href="https://wa.me/919840723956?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services." target="_blank" rel="noopener noreferrer" className="bg-[#25D366]/10 backdrop-blur-xl border border-[#25D366]/20 rounded-3xl p-6 relative overflow-hidden group hover:border-[#25D366]/50 hover:bg-[#25D366]/20 transition-all duration-500 block">
+          <a href="https://wa.me/919994451300?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services." target="_blank" rel="noopener noreferrer" className="bg-[#25D366]/10 backdrop-blur-xl border border-[#25D366]/20 rounded-3xl p-6 relative overflow-hidden group hover:border-[#25D366]/50 hover:bg-[#25D366]/20 transition-all duration-500 block">
              <div className="relative z-10 h-full flex flex-col justify-start">
                 <div className="w-12 h-12 rounded-full bg-[#25D366]/20 flex items-center justify-center text-[#25D366] mb-4 group-hover:bg-[#25D366] group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(37,211,102,0.2)]">
                   <FaWhatsapp className="text-2xl" />
