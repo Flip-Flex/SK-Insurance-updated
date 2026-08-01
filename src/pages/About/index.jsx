@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring, useInView } from 'framer-motion';
-import { FaAward, FaCalendarAlt, FaShieldAlt, FaUsers, FaChartLine, FaTimes, FaSearchPlus, FaLinkedin, FaInstagram, FaQuoteLeft, FaArrowRight, FaMapMarkerAlt, FaHome } from 'react-icons/fa';
+import { FaAward, FaCalendarAlt, FaShieldAlt, FaUsers, FaChartLine, FaTimes, FaSearchPlus, FaLinkedin, FaInstagram, FaQuoteLeft, FaArrowRight, FaArrowLeft, FaMapMarkerAlt, FaHome } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
 import SplitText from '../../components/common/SplitText';
 import { useTranslation } from '../../context/LanguageContext';
@@ -60,60 +60,54 @@ const TiltCard = ({ aw, onClick, index = 0 }) => {
       style={{ rotateX: springX, rotateY: springY, transformStyle: "preserve-3d" }}
       onMouseMove={handleMouse}
       onMouseLeave={() => { x.set(0); y.set(0); }}
-      onClick={onClick}
+      onClick={() => onClick(index)}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay: index * 0.15 }}
-      className="group cursor-zoom-in relative bg-neutral-900/40 rounded-[32px] border border-white/5 p-4 hover:border-brand-accent/40 hover:bg-neutral-900/80 transition-all duration-500 flex flex-col h-[480px] shadow-2xl"
+      transition={{ duration: 0.8, delay: (index % 4) * 0.15 }}
+      className="group cursor-pointer relative bg-neutral-900/60 rounded-[24px] border border-white/10 hover:border-brand-accent/50 transition-all duration-500 flex flex-col h-[520px] shadow-2xl backdrop-blur-sm overflow-hidden"
     >
-      <div 
-        className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[32px] pointer-events-none"
-        style={{ transform: "translateZ(10px)" }}
-      />
+      <div className="absolute inset-0 bg-brand-accent/0 group-hover:bg-brand-accent/5 transition-colors duration-500 rounded-[24px]" />
       
-      {/* Image Container */}
       <div 
-        className="relative w-full h-[240px] shrink-0 rounded-[24px] overflow-hidden bg-black border border-white/10 group-hover:border-white/20 transition-colors duration-500"
+        className="relative w-full h-[260px] shrink-0 rounded-t-[24px] overflow-hidden bg-black border-b border-white/10"
         style={{ transform: "translateZ(30px)" }}
       >
         <img
           src={aw.img}
           alt={aw.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
-        
-        {/* Light Sweep Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out pointer-events-none skew-x-12" />
-        
-        {/* Zoom Icon Badge */}
+        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent pointer-events-none" />
         <div className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 border border-white/10">
           <FaSearchPlus className="text-white text-lg" />
         </div>
       </div>
 
-      {/* Content Container */}
       <div 
-        className="flex-1 flex flex-col pt-6 relative"
+        className="flex-1 flex flex-col p-6 relative"
         style={{ transform: "translateZ(40px)" }}
       >
         <div className="flex items-center gap-2 mb-3">
           <FaAward className="text-brand-accent text-sm" />
-          <span className="text-[10px] text-brand-accent uppercase tracking-[0.2em] font-extrabold">{aw.tag}</span>
+          <span className="text-[10px] text-brand-accent uppercase tracking-[0.2em] font-extrabold">{aw.tag || 'INDUSTRY RECOGNITION'}</span>
         </div>
         
-        <h3 className="text-xl font-[900] text-white leading-tight mb-3 group-hover:text-brand-accent transition-colors duration-300 line-clamp-2">
+        <h3 className="text-xl font-[900] text-white leading-tight mb-3 group-hover:text-brand-accent transition-colors duration-300">
           {aw.title}
         </h3>
         
-        <p className="text-sm text-neutral-400 font-medium line-clamp-3">
+        <p className="text-sm text-neutral-400 font-medium line-clamp-3 mb-4">
           {aw.desc}
         </p>
+        
+        <div className="mt-auto pt-4 border-t border-white/10">
+          <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white group-hover:text-brand-accent transition-colors">
+            View Certificate <FaArrowRight />
+          </button>
+        </div>
       </div>
-
-      {/* Decorative gradient line at the bottom */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-transparent via-brand-accent to-transparent group-hover:w-1/2 transition-all duration-700 ease-out opacity-0 group-hover:opacity-100" />
     </motion.div>
   );
 };
@@ -179,7 +173,7 @@ const HorizontalPrinciples = () => {
 };
 
 export const About = () => {
-  const [selectedAward, setSelectedAward] = useState(null);
+  const [selectedAwardIndex, setSelectedAwardIndex] = useState(null);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const { t } = useTranslation();
 
@@ -241,15 +235,45 @@ export const About = () => {
   ];
 
   const [awards, setAwards] = useState([
-    { title: 'Excellence in Financial Planning', tag: 'CERTIFIED EXCELLENCE', desc: 'Recognized for outstanding client portfolio management.', img: '/IMG-20260714-WA0061.jpg' },
-    { title: 'Best Insurance Distributor', tag: 'TOP DISTRIBUTOR', desc: 'Commended for seamless claim settlement support.', img: '/IMG-20260714-WA0062.jpg' },
-    { title: 'Trusted Mutual Fund Advisory', tag: 'GOAL-BASED GROWTH', desc: 'Honored for delivering goal-based growth.', img: '/IMG-20260714-WA0063.jpg' },
-    { title: 'Financial Literacy Contributor', tag: 'COMMUNITY ADVOCATE', desc: 'Public education campaigns on investment strategies.', img: '/IMG-20260714-WA0064.jpg' }
+    { title: 'Dream Agency Elite Aspirant Award', tag: 'INDUSTRY RECOGNITION', desc: 'Recognized for remarkable progress, commitment to excellence, and continuous professional growth.', img: '/Awards_JPG/IMG_3623.jpg' },
+    { title: 'MDRT Aspirant Achievement', tag: 'INDUSTRY RECOGNITION', desc: 'Honored for successfully qualifying for the MDRT Aspirant milestone, reflecting dedication to world-class financial advisory standards.', img: '/Awards_JPG/IMG_3631.jpg' },
+    { title: 'InfinPro Consultant Excellence', tag: 'INDUSTRY RECOGNITION', desc: 'Presented in appreciation of outstanding consultant performance and commitment to delivering quality financial guidance.', img: '/Awards_JPG/IMG_3624.jpg' },
+    { title: 'Tambaram Branch Performance Excellence', tag: 'INDUSTRY RECOGNITION', desc: 'Recognized as a top-performing branch for outstanding business growth, customer satisfaction, and leadership.', img: '/Awards_JPG/IMG_3634.jpg' },
+    { title: 'Dronacharya Branch Excellence Award', tag: 'INDUSTRY RECOGNITION', desc: 'Awarded by Tata AIA Life Insurance for outstanding branch leadership, business excellence, and consistent advisory performance.', img: '/Awards_JPG/IMG_3619.jpg' },
+    { title: 'Outstanding Performer Award', tag: 'INDUSTRY RECOGNITION', desc: 'Recognized as a consistent top performer for exceptional business achievements and client service excellence.', img: '/Awards_JPG/IMG_3628.jpg' },
+    { title: 'Million Dollar Club Qualifier', tag: 'INDUSTRY RECOGNITION', desc: 'Qualified for the prestigious Million Dollar Club in recognition of outstanding sales performance and client trust.', img: '/Awards_JPG/IMG_3638.jpg' },
+    { title: 'Pragati Business Growth Excellence', tag: 'INDUSTRY RECOGNITION', desc: 'Recognized for achieving exceptional business growth, innovation, and consistent client-focused financial advisory services.', img: '/Awards_JPG/IMG_3620.jpg' },
+    { title: 'Family Inspiration Recognition', tag: 'INDUSTRY RECOGNITION', desc: 'A special recognition celebrating dedication, family support, and commitment behind entrepreneurial success.', img: '/Awards_JPG/IMG_3626.jpg' },
+    { title: 'Malaysia Training Conclave Qualifier', tag: 'INDUSTRY RECOGNITION', desc: 'Qualified to participate in the exclusive Malaysia Training Conclave, recognizing outstanding business achievement and leadership excellence.', img: '/Awards_JPG/IMG_3643.jpg' },
+    { title: 'Dream Agency Aspirant Recognition', tag: 'INDUSTRY RECOGNITION', desc: 'Honored as a high-potential advisor demonstrating exceptional dedication, leadership, and business performance within the Dream Agency program.', img: '/Awards_JPG/IMG_3622.jpg' },
+    { title: 'Leadership Appreciation Certificate', tag: 'INDUSTRY RECOGNITION', desc: 'Presented in recognition of leadership, professional integrity, and continuous contribution to organizational success.', img: '/Awards_JPG/IMG_3629.jpg' },
+    { title: 'Donautsav Business Excellence Award', tag: 'INDUSTRY RECOGNITION', desc: 'Honored for exceptional business performance, customer commitment, and continued professional growth within the Dream Team Agency.', img: '/Awards_JPG/IMG_3639.jpg' },
+    { title: 'Business Growth Achievement Certificate', tag: 'INDUSTRY RECOGNITION', desc: 'Awarded for successfully completing the Aim For Your Business Growth leadership workshop and enhancing professional capabilities.', img: '/Awards_JPG/IMG_3625.jpg' },
+    { title: 'MDRT Aspirant Excellence Award', tag: 'INDUSTRY RECOGNITION', desc: 'Awarded for outstanding commitment toward achieving Million Dollar Round Table performance benchmarks.', img: '/Awards_JPG/IMG_3633.jpg' },
+    { title: 'AI & Technology Learning Certificate', tag: 'INDUSTRY RECOGNITION', desc: 'Successfully completed advanced AI learning programs focused on improving productivity and modern advisory practices.', img: '/Awards_JPG/IMG_3627.jpg' },
+    { title: 'Dream Agency Branch Champion', tag: 'INDUSTRY RECOGNITION', desc: 'Awarded for exceptional branch management, operational excellence, and sustained business performance.', img: '/Awards_JPG/IMG_3636.jpg' }
   ]);
 
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setSelectedAwardIndex(null);
+      if (e.key === 'ArrowRight') {
+        setSelectedAwardIndex((prev) => (prev !== null && prev < awards.length - 1 ? prev + 1 : prev));
+      }
+      if (e.key === 'ArrowLeft') {
+        setSelectedAwardIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [awards.length]);
+
+  useEffect(() => {
     const unsubscribe = subscribeToCollection('gallery', (data) => {
-      if (data && data.length > 0) setAwards(data);
+      if (data && data.length > 0) {
+        // Commenting this out to enforce our static 17 awards for now.
+        // setAwards(data); 
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -560,14 +584,39 @@ export const About = () => {
       </section>
 
       {/* Chapter 7: Awards Gallery */}
-      <section className="py-24 px-4 sm:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px]">Industry Recognition</h2>
+      <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto relative group/gallery">
+        <div className="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-1000 blur-[150px] pointer-events-none rounded-full" />
+        
+        <div className="text-center mb-20 relative z-10">
+          <div className="flex items-center justify-center gap-4 mb-8 flex-wrap">
+            {[
+              { num: 17, suffix: '+', text: 'Industry Awards' },
+              { num: 22, suffix: '+', text: 'Years of Excellence' },
+              { num: 5000, suffix: '+', text: 'Happy Families' },
+            ].map((stat, i) => (
+              <div key={i} className="flex items-center gap-3 bg-neutral-900/60 backdrop-blur-sm border border-white/10 rounded-full px-6 py-3 shadow-xl">
+                <span className="text-brand-accent font-[900] text-xl"><Counter from={0} to={stat.num} suffix={stat.suffix} duration={3} /></span>
+                <span className="text-white text-xs uppercase tracking-widest font-bold">{stat.text}</span>
+              </div>
+            ))}
+          </div>
+          
+          <h2 className="text-sm text-brand-accent uppercase tracking-[0.3em] font-extrabold mb-4 flex items-center justify-center gap-4">
+            <span className="w-8 h-px bg-brand-accent"></span>
+            INDUSTRY RECOGNITION
+            <span className="w-8 h-px bg-brand-accent"></span>
+          </h2>
+          <h3 className="text-4xl sm:text-5xl lg:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-6">
+            Awards That Reflect <br className="hidden sm:block"/> Trust, Excellence & Commitment
+          </h3>
+          <p className="text-lg text-neutral-400 font-medium max-w-3xl mx-auto leading-relaxed">
+            Every recognition represents our unwavering commitment to delivering trusted financial guidance, exceptional client service, and consistent excellence. These awards mark important milestones in our journey and reflect the confidence our clients and industry partners place in SK Smart Investments.
+          </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
           {awards.map((aw, idx) => (
-            <TiltCard key={idx} aw={aw} onClick={() => setSelectedAward(aw)} index={idx} />
+            <TiltCard key={idx} aw={aw} onClick={setSelectedAwardIndex} index={idx} />
           ))}
         </div>
       </section>
@@ -696,33 +745,81 @@ export const About = () => {
 
       {/* Lightbox Certificate Zoom Overlay */}
       <AnimatePresence>
-        {selectedAward && (
+        {selectedAwardIndex !== null && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 cursor-zoom-out" 
-            onClick={() => setSelectedAward(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-2xl p-4 sm:p-8 md:p-12 cursor-zoom-out" 
+            onClick={() => setSelectedAwardIndex(null)}
           >
+            {/* Screen-level Navigation Arrows */}
+            <button 
+              onClick={(e) => { e.stopPropagation(); setSelectedAwardIndex(prev => Math.max(prev - 1, 0)); }}
+              disabled={selectedAwardIndex === 0}
+              className="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black hover:scale-110 disabled:opacity-0 transition-all shadow-2xl z-[110]"
+            >
+              <FaArrowLeft className="text-xl" />
+            </button>
+            <button 
+              onClick={(e) => { e.stopPropagation(); setSelectedAwardIndex(prev => Math.min(prev + 1, awards.length - 1)); }}
+              disabled={selectedAwardIndex === awards.length - 1}
+              className="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black hover:scale-110 disabled:opacity-0 transition-all shadow-2xl z-[110]"
+            >
+              <FaArrowRight className="text-xl" />
+            </button>
+
+            {/* Modal Container */}
             <motion.div 
-              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
-              className="max-w-4xl w-full bg-neutral-900 rounded-[32px] overflow-hidden shadow-[0_30px_100px_-20px_rgba(0,0,0,1)] p-4 border border-brand-accent/30 relative cursor-default"
+              key={selectedAwardIndex}
+              initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="max-w-5xl w-full bg-neutral-900/80 rounded-[32px] overflow-hidden shadow-[0_30px_100px_-20px_rgba(0,0,0,1)] border border-white/10 flex flex-col md:flex-row relative cursor-default backdrop-blur-xl"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Close Button */}
               <button 
                 type="button"
-                onClick={() => setSelectedAward(null)}
-                className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-black border border-white/10 text-white hover:bg-brand-accent hover:text-black hover:border-brand-accent transition-all cursor-pointer z-10"
+                onClick={() => setSelectedAwardIndex(null)}
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-white hover:bg-brand-accent hover:text-black hover:border-brand-accent transition-all z-50 shadow-xl"
               >
                 <FaTimes />
               </button>
-              <img 
-                src={selectedAward.img} 
-                className="w-full h-auto max-h-[75vh] object-contain rounded-[24px]" 
-                alt={selectedAward.title} 
-              />
-              <div className="px-4 pb-2 pt-4 text-center">
-                <h3 className="text-xl font-[900] text-white uppercase tracking-wider">{selectedAward.title}</h3>
-                <p className="text-xs text-brand-accent mt-2 tracking-[0.2em] uppercase font-bold">{selectedAward.desc}</p>
+              
+              {/* Image Side */}
+              <div className="w-full md:w-1/2 bg-black/50 relative flex items-center justify-center p-6 sm:p-12 min-h-[40vh] md:min-h-[60vh] border-b md:border-b-0 md:border-r border-white/10">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 to-transparent opacity-50" />
+                <img 
+                  src={awards[selectedAwardIndex].img} 
+                  className="relative z-10 w-full h-full object-contain max-h-[50vh] md:max-h-[70vh] drop-shadow-2xl rounded-lg" 
+                  alt={awards[selectedAwardIndex].title} 
+                />
               </div>
+
+              {/* Content Side */}
+              <div className="w-full md:w-1/2 flex flex-col justify-center p-8 sm:p-12 md:p-16 relative bg-gradient-to-br from-neutral-900/50 to-black/50">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/10 blur-[120px] pointer-events-none rounded-full" />
+                
+                <div className="flex items-center gap-2 mb-6">
+                  <FaAward className="text-brand-accent text-xl" />
+                  <span className="text-xs text-brand-accent uppercase tracking-[0.3em] font-extrabold">{awards[selectedAwardIndex].tag}</span>
+                </div>
+                
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-[900] text-white leading-[1.1] mb-6 tracking-tight">
+                  {awards[selectedAwardIndex].title}
+                </h3>
+                
+                <div className="w-16 h-1 bg-gradient-to-r from-brand-accent to-transparent mb-6 rounded-full" />
+                
+                <p className="text-lg text-neutral-400 font-medium leading-relaxed mb-12">
+                  {awards[selectedAwardIndex].desc}
+                </p>
+                
+                <div className="mt-auto flex items-center gap-4 text-neutral-500 text-sm font-bold tracking-widest uppercase">
+                  <span className="text-white">{String(selectedAwardIndex + 1).padStart(2, '0')}</span> 
+                  <span className="w-12 h-px bg-white/20" /> 
+                  <span>{String(awards.length).padStart(2, '0')}</span>
+                </div>
+              </div>
+
             </motion.div>
           </motion.div>
         )}

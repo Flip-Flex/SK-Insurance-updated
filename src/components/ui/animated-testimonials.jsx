@@ -72,7 +72,7 @@ export const AnimatedTestimonials = ({
                     src={testimonial.src}
                     alt={testimonial.name}
                     draggable={false}
-                    className="h-full w-full rounded-3xl object-cover object-[center_12%] shadow-2xl border border-white/10 grayscale hover:grayscale-0 transition-all duration-700"
+                    className="h-full w-full rounded-3xl object-cover object-[center_12%] shadow-2xl border border-white/10 transition-all duration-700"
                   />
                 </motion.div>
               ))}
