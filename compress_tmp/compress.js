@@ -9,11 +9,14 @@ function compressVideo(inputPath, outputPath) {
     ffmpeg(inputPath)
       .outputOptions([
         '-c:v libx264',
-        '-crf 28',         // Higher CRF = lower quality/smaller size (28 is good for mobile bg)
-        '-preset veryfast',// Faster compression
-        '-vf scale=-2:720',// Scale height to 720p, preserve aspect ratio
-        '-an',             // Remove audio completely (saves space, ensures autoplay)
-        '-movflags +faststart' // Move moov atom to front for faster streaming
+        '-crf 28',         
+        '-preset veryfast',
+        '-vf scale=-2:720',
+        '-pix_fmt yuv420p',
+        '-profile:v baseline',
+        '-level 3.0',
+        '-an',             
+        '-movflags +faststart'
       ])
       .save(outputPath)
       .on('end', () => {
