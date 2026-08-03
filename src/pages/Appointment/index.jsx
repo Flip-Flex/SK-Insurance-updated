@@ -49,11 +49,11 @@ export const Appointment = () => {
 
   // Available Services
   const services = [
-    { id: 'health', name: 'Health & Medical Insurance', icon: FaHeartbeat, color: 'text-gold-500', bg: 'bg-gold-500/10' },
-    { id: 'life', name: 'Term Life & Family Protection', icon: FaShieldAlt, color: 'text-gold-500', bg: 'bg-gold-500/10' },
-    { id: 'sip', name: 'Mutual Funds & SIP Investment', icon: FaChartLine, color: 'text-gold-500', bg: 'bg-gold-500/10' },
-    { id: 'retirement', name: 'Retirement & Pension Solutions', icon: FaPiggyBank, color: 'text-gold-500', bg: 'bg-gold-500/10' },
-    { id: 'general', name: 'General Financial Audit', icon: FaRegListAlt, color: 'text-gold-500', bg: 'bg-gold-500/10' }
+    { id: 'health', name: 'Health & Medical Insurance', icon: FaHeartbeat, color: 'text-amber-500', bg: 'bg-amber-500/10' },
+    { id: 'life', name: 'Term Life & Family Protection', icon: FaShieldAlt, color: 'text-amber-500', bg: 'bg-amber-500/10' },
+    { id: 'sip', name: 'Mutual Funds & SIP Investment', icon: FaChartLine, color: 'text-amber-500', bg: 'bg-amber-500/10' },
+    { id: 'retirement', name: 'Retirement & Pension Solutions', icon: FaPiggyBank, color: 'text-amber-500', bg: 'bg-amber-500/10' },
+    { id: 'general', name: 'General Financial Audit', icon: FaRegListAlt, color: 'text-amber-500', bg: 'bg-amber-500/10' }
   ];
 
   // Available Time Slots
@@ -186,24 +186,24 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
   const minDateStr = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-navy-950 py-12 px-4 sm:px-6 lg:px-8 text-left transition-colors duration-500 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-neutral-950 py-12 px-4 sm:px-6 lg:px-8 text-left transition-colors duration-500 relative overflow-hidden">
       
       {/* Background Animated Blobs for Glassmorphism Effect */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <motion.div 
           animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-40 -left-40 w-96 h-96 bg-gold-500/30 rounded-full blur-[100px]"
+          className="absolute -top-40 -left-40 w-96 h-96 bg-amber-500/30 rounded-full blur-[100px]"
         />
         <motion.div 
           animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-1/3 -right-20 w-80 h-80 bg-navy-400/30 dark:bg-gold-400/20 rounded-full blur-[100px]"
+          className="absolute top-1/3 -right-20 w-80 h-80 bg-neutral-400/30 dark:bg-amber-400/20 rounded-full blur-[100px]"
         />
         <motion.div 
           animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute -bottom-40 left-1/3 w-96 h-96 bg-gold-600/20 rounded-full blur-[100px]"
+          className="absolute -bottom-40 left-1/3 w-96 h-96 bg-amber-600/20 rounded-full blur-[100px]"
         />
       </div>
 
@@ -216,13 +216,13 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-center space-y-6 max-w-3xl mx-auto"
         >
-          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-white/60 dark:bg-navy-900/60 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-sm text-gold-600 dark:text-gold-400 text-xs font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-white/60 dark:bg-neutral-900/60 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-sm text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-widest">
             <FaUserTie className="text-sm" />
             <span>Expert Financial Advisory</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-navy-950 dark:text-white tracking-tight leading-tight">
-            Schedule an <span className="bg-gradient-to-r from-gold-500 to-amber-400 bg-clip-text text-transparent">Appointment</span>
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-neutral-950 dark:text-white tracking-tight leading-tight">
+            Schedule an <span className="bg-gradient-to-r from-amber-500 to-amber-400 bg-clip-text text-transparent">Appointment</span>
           </h1>
 
           <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
@@ -239,15 +239,15 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
         >
           {[
             { title: '100% Free Consultation', desc: 'Zero fee for initial strategy session', icon: FaCheckCircle, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-            { title: 'Instant WhatsApp Sync', desc: 'Direct message confirmation & reminders', icon: FaWhatsapp, color: 'text-gold-500', bg: 'bg-gold-500/10' },
+            { title: 'Instant WhatsApp Sync', desc: 'Direct message confirmation & reminders', icon: FaWhatsapp, color: 'text-amber-500', bg: 'bg-amber-500/10' },
             { title: 'Certified Planning', desc: 'Licensed Tata AIA, LIC & HDFC distributor', icon: FaShieldAlt, color: 'text-blue-500', bg: 'bg-blue-500/10' }
           ].map((feature, idx) => (
-            <div key={idx} className="p-5 rounded-3xl bg-white/60 dark:bg-navy-900/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] flex items-center space-x-4 transition-transform hover:-translate-y-1">
+            <div key={idx} className="p-5 rounded-3xl bg-white/60 dark:bg-neutral-900/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] flex items-center space-x-4 transition-transform hover:-translate-y-1">
               <div className={`w-12 h-12 rounded-2xl ${feature.bg} ${feature.color} flex items-center justify-center text-xl shrink-0 shadow-inner`}>
                 <feature.icon />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-navy-950 dark:text-white">{feature.title}</h4>
+                <h4 className="text-sm font-bold text-neutral-950 dark:text-white">{feature.title}</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{feature.desc}</p>
               </div>
             </div>
@@ -259,16 +259,16 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="bg-white/70 dark:bg-navy-900/50 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-[2.5rem] shadow-2xl dark:shadow-gold-500/5 overflow-hidden"
+          className="bg-white/70 dark:bg-neutral-900/50 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-[2.5rem] shadow-2xl dark:shadow-amber-500/5 overflow-hidden"
         >
           {/* Form Header */}
-          <div className="bg-gradient-to-r from-white/40 to-transparent dark:from-navy-800/40 dark:to-transparent p-6 sm:p-8 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-white/40 to-transparent dark:from-neutral-800/40 dark:to-transparent p-6 sm:p-8 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-gold-500/30">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-500/30">
                 <FaCalendarAlt className="text-xl" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-navy-950 dark:text-white">Booking Details</h3>
+                <h3 className="text-xl font-bold text-neutral-950 dark:text-white">Booking Details</h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Customize your consultation experience</p>
               </div>
             </div>
@@ -279,8 +279,8 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
             {/* Section 1: Service Selection */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">1</div>
-                <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">1</div>
+                <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
                   Select Advisory Service <span className="text-rose-500">*</span>
                 </label>
               </div>
@@ -297,23 +297,23 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       onClick={() => handleServiceSelect(item.name)}
                       className={`p-4 rounded-2xl text-left flex items-center space-x-4 transition-all duration-300 relative overflow-hidden ${
                         isSelected
-                          ? 'border-transparent shadow-lg shadow-gold-500/20 bg-white dark:bg-navy-800 ring-2 ring-gold-500'
-                          : 'border-slate-200 dark:border-white/10 bg-white/50 dark:bg-navy-900/30 hover:bg-white dark:hover:bg-navy-800 border'
+                          ? 'border-transparent shadow-lg shadow-amber-500/20 bg-white dark:bg-neutral-800 ring-2 ring-amber-500'
+                          : 'border-slate-200 dark:border-white/10 bg-white/50 dark:bg-neutral-900/30 hover:bg-white dark:hover:bg-neutral-800 border'
                       }`}
                     >
                       {isSelected && (
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gold-500/20 to-transparent rounded-bl-full pointer-events-none" />
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-bl-full pointer-events-none" />
                       )}
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${isSelected ? 'bg-gold-500 text-white shadow-md' : item.bg + ' ' + item.color} transition-colors`}>
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${isSelected ? 'bg-amber-500 text-white shadow-md' : item.bg + ' ' + item.color} transition-colors`}>
                         <Icon />
                       </div>
                       <div className="flex-1">
-                        <p className={`text-sm font-bold leading-tight ${isSelected ? 'text-navy-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+                        <p className={`text-sm font-bold leading-tight ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
                           {item.name}
                         </p>
                       </div>
                       {isSelected && (
-                        <div className="absolute top-3 right-3 text-gold-500">
+                        <div className="absolute top-3 right-3 text-amber-500">
                           <FaCheckCircle className="text-sm" />
                         </div>
                       )}
@@ -326,12 +326,12 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               
               {/* Section 2: Date & Time Picker */}
-              <div className="space-y-8 bg-slate-50/50 dark:bg-navy-950/20 p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+              <div className="space-y-8 bg-slate-50/50 dark:bg-neutral-950/20 p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
                 {/* Date */}
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">2</div>
-                    <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                    <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">2</div>
+                    <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
                       Preferred Date <span className="text-rose-500">*</span>
                     </label>
                   </div>
@@ -342,7 +342,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       min={minDateStr}
                       value={formData.date}
                       onChange={handleChange}
-                      className="w-full px-5 py-4 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm font-medium text-navy-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm group-hover:shadow-md cursor-pointer"
+                      className="w-full px-5 py-4 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm font-medium text-neutral-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm group-hover:shadow-md cursor-pointer"
                     />
                   </div>
                   {errors.date && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.date}</p>}
@@ -351,8 +351,8 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                 {/* Time */}
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">3</div>
-                    <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                    <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">3</div>
+                    <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
                       Time Slot <span className="text-rose-500">*</span>
                     </label>
                   </div>
@@ -368,8 +368,8 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                           onClick={() => handleTimeSelect(slot)}
                           className={`py-3 px-2 rounded-xl text-xs sm:text-sm font-bold text-center transition-all duration-300 border ${
                             isSelected
-                              ? 'bg-gradient-to-r from-gold-500 to-amber-500 text-white border-transparent shadow-lg shadow-gold-500/30'
-                              : 'bg-white dark:bg-navy-900 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-gold-400 hover:text-gold-500 dark:hover:text-gold-400'
+                              ? 'bg-gradient-to-r from-amber-500 to-amber-500 text-white border-transparent shadow-lg shadow-amber-500/30'
+                              : 'bg-white dark:bg-neutral-900 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-amber-400 hover:text-amber-500 dark:hover:text-amber-400'
                           }`}
                         >
                           {slot}
@@ -384,8 +384,8 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
               {/* Section 3: Consultation Mode */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">4</div>
-                  <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                  <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">4</div>
+                  <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
                     Consultation Mode <span className="text-rose-500">*</span>
                   </label>
                 </div>
@@ -402,16 +402,16 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                         onClick={() => handleModeSelect(modeItem.name)}
                         className={`p-4 rounded-2xl flex items-center justify-between transition-all duration-300 border ${
                           isSelected
-                            ? 'bg-white dark:bg-navy-800 border-gold-500 ring-1 ring-gold-500 shadow-md'
-                            : 'bg-white/50 dark:bg-navy-900/30 border-slate-200 dark:border-white/10 hover:bg-white dark:hover:bg-navy-800'
+                            ? 'bg-white dark:bg-neutral-800 border-amber-500 ring-1 ring-amber-500 shadow-md'
+                            : 'bg-white/50 dark:bg-neutral-900/30 border-slate-200 dark:border-white/10 hover:bg-white dark:hover:bg-neutral-800'
                         }`}
                       >
                         <div className="flex items-center space-x-4">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${isSelected ? 'bg-gold-500 text-white shadow-inner' : 'bg-slate-100 dark:bg-navy-950 text-slate-500 dark:text-slate-400'}`}>
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${isSelected ? 'bg-amber-500 text-white shadow-inner' : 'bg-slate-100 dark:bg-neutral-950 text-slate-500 dark:text-slate-400'}`}>
                             <Icon />
                           </div>
                           <div className="text-left">
-                            <span className={`block text-sm font-bold ${isSelected ? 'text-navy-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+                            <span className={`block text-sm font-bold ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
                               {modeItem.name}
                             </span>
                             <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -420,7 +420,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                           </div>
                         </div>
                         {isSelected && (
-                          <div className="w-5 h-5 rounded-full bg-gold-500 flex items-center justify-center text-white text-[10px]">
+                          <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-white text-[10px]">
                             <FaCheckCircle />
                           </div>
                         )}
@@ -434,8 +434,8 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
             {/* Section 4: Contact Information */}
             <div className="space-y-6 pt-6 border-t border-slate-200/60 dark:border-white/10">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">5</div>
-                <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">5</div>
+                <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
                   Your Contact Information
                 </label>
               </div>
@@ -448,7 +448,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                     Full Name <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-gold-500 transition-colors">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
                       <FaUser className="text-sm" />
                     </div>
                     <input
@@ -457,7 +457,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       placeholder="e.g. Rahul Sharma"
                       value={formData.fullName}
                       onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm"
                     />
                   </div>
                   {errors.fullName && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.fullName}</p>}
@@ -478,7 +478,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       placeholder="+91 99944 51300"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all shadow-sm"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all shadow-sm"
                     />
                   </div>
                   {errors.phone && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.phone}</p>}
@@ -490,7 +490,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                     Email Address <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-gold-500 transition-colors">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
                       <FaEnvelope className="text-sm" />
                     </div>
                     <input
@@ -499,7 +499,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       placeholder="rahul@example.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm"
                     />
                   </div>
                 </div>
@@ -510,7 +510,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                     Additional Notes <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
                   <div className="relative group">
-                    <div className="absolute top-4 left-4 pointer-events-none text-slate-400 group-focus-within:text-gold-500 transition-colors">
+                    <div className="absolute top-4 left-4 pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
                       <FaCommentDots className="text-sm" />
                     </div>
                     <textarea
@@ -519,7 +519,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       placeholder="Describe any specific goals or questions..."
                       value={formData.notes}
                       onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm resize-none"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm resize-none"
                     />
                   </div>
                 </div>
@@ -528,8 +528,8 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
 
             {/* Submit Button */}
             <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200/60 dark:border-white/10">
-              <div className="flex items-center space-x-3 bg-gold-500/10 px-4 py-2.5 rounded-xl border border-gold-500/20">
-                <FaShieldAlt className="text-gold-500 text-lg shrink-0" />
+              <div className="flex items-center space-x-3 bg-amber-500/10 px-4 py-2.5 rounded-xl border border-amber-500/20">
+                <FaShieldAlt className="text-amber-500 text-lg shrink-0" />
                 <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
                   Your data is strictly confidential. Redirects to WhatsApp securely.
                 </p>
@@ -540,7 +540,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl font-extrabold text-sm sm:text-base text-navy-950 bg-gradient-to-r from-gold-400 via-amber-400 to-gold-500 hover:from-gold-300 hover:to-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.4)] flex items-center justify-center space-x-3 transition-all cursor-pointer relative overflow-hidden group"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl font-extrabold text-sm sm:text-base text-neutral-950 bg-gradient-to-r from-amber-400 via-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.4)] flex items-center justify-center space-x-3 transition-all cursor-pointer relative overflow-hidden group"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 {isSubmitting ? (
@@ -559,11 +559,11 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
         </motion.div>
 
         {/* Corporate Address & Contact Info Footer */}
-        <div className="p-6 sm:p-8 rounded-[2rem] bg-navy-950 dark:bg-navy-900 text-white flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10 shadow-2xl relative overflow-hidden z-10">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="p-6 sm:p-8 rounded-[2rem] bg-neutral-950 dark:bg-neutral-900 text-white flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10 shadow-2xl relative overflow-hidden z-10">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="flex items-start space-x-5 relative z-10">
-            <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-gold-400 text-2xl shrink-0 backdrop-blur-md">
+            <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-amber-400 text-2xl shrink-0 backdrop-blur-md">
               <FaMapMarkerAlt />
             </div>
             <div className="space-y-1.5">
@@ -572,7 +572,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                 # 104, MD Plaza, 1st Floor, West Raja Street, Kanchipuram - 631502.
               </p>
               <div className="inline-flex items-center space-x-2 mt-2 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
-                <FaClock className="text-gold-400 text-xs" />
+                <FaClock className="text-amber-400 text-xs" />
                 <p className="text-xs text-slate-300 font-semibold">Mon - Sat: 9:00 AM - 7:00 PM</p>
               </div>
             </div>
@@ -602,19 +602,19 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
       {/* Confirmation Modal - Ticket Style */}
       <AnimatePresence>
         {bookingConfirmed && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/80 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
-              className="relative w-full max-w-md bg-white dark:bg-navy-900 rounded-3xl shadow-2xl overflow-hidden text-left filter drop-shadow-2xl"
+              className="relative w-full max-w-md bg-white dark:bg-neutral-900 rounded-3xl shadow-2xl overflow-hidden text-left filter drop-shadow-2xl"
             >
               {/* Ticket Top Half */}
               <div className="bg-gradient-to-br from-emerald-500 to-emerald-700 p-8 text-white text-center relative border-b-2 border-dashed border-white/40">
                 
                 {/* Cutouts for Ticket Effect */}
-                <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-navy-950/80 rounded-full" />
-                <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-navy-950/80 rounded-full" />
+                <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-neutral-950/80 rounded-full" />
+                <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-neutral-950/80 rounded-full" />
                 
                 <button
                   onClick={() => setBookingConfirmed(null)}
@@ -632,17 +632,17 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
               </div>
 
               {/* Ticket Bottom Half */}
-              <div className="p-8 space-y-6 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-50 to-white dark:from-navy-900 dark:to-navy-950 relative">
+              <div className="p-8 space-y-6 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-50 to-white dark:from-neutral-900 dark:to-neutral-950 relative">
                 
                 {/* Reference ID Bar */}
-                <div className="p-4 bg-slate-100 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-between">
+                <div className="p-4 bg-slate-100 dark:bg-neutral-950 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-between">
                   <div>
                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Ticket / Ref ID</p>
-                    <p className="text-base font-extrabold text-navy-950 dark:text-white font-mono tracking-wider">{bookingConfirmed.id}</p>
+                    <p className="text-base font-extrabold text-neutral-950 dark:text-white font-mono tracking-wider">{bookingConfirmed.id}</p>
                   </div>
                   <button
                     onClick={handleCopyRef}
-                    className="p-3 bg-white dark:bg-navy-800 hover:bg-slate-50 dark:hover:bg-navy-700 rounded-xl text-navy-950 dark:text-white shadow-sm border border-slate-200 dark:border-white/5 transition-all"
+                    className="p-3 bg-white dark:bg-neutral-800 hover:bg-slate-50 dark:hover:bg-neutral-700 rounded-xl text-neutral-950 dark:text-white shadow-sm border border-slate-200 dark:border-white/5 transition-all"
                     title="Copy ID"
                   >
                     {copiedRef ? <FaCheckCircle className="text-emerald-500" /> : <FaCopy />}
@@ -650,14 +650,14 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                 </div>
 
                 {/* Booking Summary Box */}
-                <div className="space-y-4 text-sm text-navy-950 dark:text-slate-200 px-2">
+                <div className="space-y-4 text-sm text-neutral-950 dark:text-slate-200 px-2">
                   <div className="flex justify-between items-end border-b border-slate-100 dark:border-white/5 pb-3">
                     <span className="text-slate-500 text-xs uppercase font-bold tracking-wider">Client</span>
                     <span className="font-extrabold text-right">{bookingConfirmed.fullName}</span>
                   </div>
                   <div className="flex justify-between items-end border-b border-slate-100 dark:border-white/5 pb-3">
                     <span className="text-slate-500 text-xs uppercase font-bold tracking-wider">Service</span>
-                    <span className="font-extrabold text-gold-500 text-right max-w-[180px] leading-tight">{bookingConfirmed.service}</span>
+                    <span className="font-extrabold text-amber-500 text-right max-w-[180px] leading-tight">{bookingConfirmed.service}</span>
                   </div>
                   <div className="flex justify-between items-end border-b border-slate-100 dark:border-white/5 pb-3">
                     <span className="text-slate-500 text-xs uppercase font-bold tracking-wider">Date & Time</span>
