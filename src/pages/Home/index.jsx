@@ -186,8 +186,8 @@ export const Home = () => {
   const [videoSrc, setVideoSrc] = useState(() => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth >= 1024) return '/sk_video.mp4';
-      if (window.innerWidth >= 768) return '/Tablet.mp4';
-      return '/sk_mobile.mp4';
+      if (window.innerWidth >= 768) return '/Tablet_compressed.mp4';
+      return '/sk_mobile_compressed.mp4';
     }
     return '/sk_video.mp4';
   });
@@ -198,9 +198,9 @@ export const Home = () => {
       if (window.innerWidth >= 1024) {
         setVideoSrc('/sk_video.mp4');
       } else if (window.innerWidth >= 768) {
-        setVideoSrc('/Tablet.mp4');
+        setVideoSrc('/Tablet_compressed.mp4');
       } else {
-        setVideoSrc('/sk_mobile.mp4');
+        setVideoSrc('/sk_mobile_compressed.mp4');
       }
     };
     
