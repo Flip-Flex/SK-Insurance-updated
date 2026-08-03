@@ -49,11 +49,11 @@ export const Appointment = () => {
 
   // Available Services
   const services = [
-    { id: 'health', name: 'Health & Medical Insurance', icon: FaHeartbeat, color: 'text-rose-500', bg: 'bg-rose-500/10' },
-    { id: 'life', name: 'Term Life & Family Protection', icon: FaShieldAlt, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-    { id: 'sip', name: 'Mutual Funds & SIP Investment', icon: FaChartLine, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-    { id: 'retirement', name: 'Retirement & Pension Solutions', icon: FaPiggyBank, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-    { id: 'general', name: 'General Financial Audit', icon: FaRegListAlt, color: 'text-purple-500', bg: 'bg-purple-500/10' }
+    { id: 'health', name: 'Health & Medical Insurance', icon: FaHeartbeat, color: 'text-gold-500', bg: 'bg-gold-500/10' },
+    { id: 'life', name: 'Term Life & Family Protection', icon: FaShieldAlt, color: 'text-gold-500', bg: 'bg-gold-500/10' },
+    { id: 'sip', name: 'Mutual Funds & SIP Investment', icon: FaChartLine, color: 'text-gold-500', bg: 'bg-gold-500/10' },
+    { id: 'retirement', name: 'Retirement & Pension Solutions', icon: FaPiggyBank, color: 'text-gold-500', bg: 'bg-gold-500/10' },
+    { id: 'general', name: 'General Financial Audit', icon: FaRegListAlt, color: 'text-gold-500', bg: 'bg-gold-500/10' }
   ];
 
   // Available Time Slots
@@ -191,19 +191,19 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
       {/* Background Animated Blobs for Glassmorphism Effect */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <motion.div 
-          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+          animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-40 -left-40 w-96 h-96 bg-gold-500/20 rounded-full blur-[100px]"
+          className="absolute -top-40 -left-40 w-96 h-96 bg-gold-500/30 rounded-full blur-[100px]"
         />
         <motion.div 
-          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-1/3 -right-20 w-80 h-80 bg-blue-500/20 rounded-full blur-[100px]"
+          className="absolute top-1/3 -right-20 w-80 h-80 bg-navy-400/30 dark:bg-gold-400/20 rounded-full blur-[100px]"
         />
         <motion.div 
-          animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.3, 0.2] }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute -bottom-40 left-1/3 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px]"
+          className="absolute -bottom-40 left-1/3 w-96 h-96 bg-gold-600/20 rounded-full blur-[100px]"
         />
       </div>
 
