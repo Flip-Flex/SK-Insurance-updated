@@ -183,10 +183,17 @@ export const Home = () => {
   const [monthlyInvest, setMonthlyInvest] = useState(5000);
   
   const desktopVideoRef = useRef(null);
-  const [videoSrc, setVideoSrc] = useState(null);
+  const [videoSrc, setVideoSrc] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 1024) return '/sk_video.mp4';
+      if (window.innerWidth >= 768) return '/Tablet.mp4';
+      return '/sk_mobile.mp4';
+    }
+    return '/sk_video.mp4';
+  });
 
   useEffect(() => {
-    // Determine which video to load to prevent downloading 37MB on mobile
+    // Update video source on resize
     const updateVideoSrc = () => {
       if (window.innerWidth >= 1024) {
         setVideoSrc('/sk_video.mp4');
@@ -203,8 +210,12 @@ export const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (!videoSrc) return;
+
     const playVideos = () => {
-      if (desktopVideoRef.current) desktopVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
+      if (desktopVideoRef.current) {
+        desktopVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
+      }
     };
     
     // Attempt to play immediately on mount
@@ -231,7 +242,7 @@ export const Home = () => {
       document.removeEventListener("touchstart", handleInteraction);
       document.removeEventListener("click", handleInteraction);
     };
-  }, []);
+  }, [videoSrc]);
   const [expectedReturn, setExpectedReturn] = useState(12);
   const [years, setYears] = useState(10);
   const [partnerFilter, setPartnerFilter] = useState('ALL');
