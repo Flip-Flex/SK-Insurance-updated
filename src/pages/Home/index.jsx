@@ -183,14 +183,28 @@ export const Home = () => {
   const [monthlyInvest, setMonthlyInvest] = useState(5000);
   
   const desktopVideoRef = useRef(null);
-  const tabletVideoRef = useRef(null);
-  const mobileVideoRef = useRef(null);
+  const [videoSrc, setVideoSrc] = useState(null);
+
+  useEffect(() => {
+    // Determine which video to load to prevent downloading 37MB on mobile
+    const updateVideoSrc = () => {
+      if (window.innerWidth >= 1024) {
+        setVideoSrc('/sk_video.mp4');
+      } else if (window.innerWidth >= 768) {
+        setVideoSrc('/Tablet.mp4');
+      } else {
+        setVideoSrc('/sk_mobile.mp4');
+      }
+    };
+    
+    updateVideoSrc();
+    window.addEventListener('resize', updateVideoSrc);
+    return () => window.removeEventListener('resize', updateVideoSrc);
+  }, []);
 
   useEffect(() => {
     const playVideos = () => {
       if (desktopVideoRef.current) desktopVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
-      if (tabletVideoRef.current) tabletVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
-      if (mobileVideoRef.current) mobileVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
     };
     
     // Attempt to play immediately on mount
@@ -468,50 +482,23 @@ export const Home = () => {
     <div className="relative">
       {/* Full-width Fixed Background Video Banner at the Top */}
       <section className="relative w-full h-screen overflow-hidden">
-        {/* Desktop Video */}
-        <video 
-          ref={desktopVideoRef}
-          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden lg:block" 
-          autoPlay 
-          loop 
-          muted 
-          defaultMuted
-          playsInline
-          webkit-playsinline="true"
-          preload="auto"
-        >
-          <source src="/sk_video.mp4" type="video/mp4" />
-        </video>
-
-        {/* Tablet Video */}
-        <video 
-          ref={tabletVideoRef}
-          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden md:block lg:hidden" 
-          autoPlay 
-          loop 
-          muted 
-          defaultMuted
-          playsInline
-          webkit-playsinline="true"
-          preload="auto"
-        >
-          <source src="/Tablet.mp4" type="video/mp4" />
-        </video>
-
-        {/* Mobile Video */}
-        <video 
-          ref={mobileVideoRef}
-          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none block md:hidden" 
-          autoPlay 
-          loop 
-          muted 
-          defaultMuted
-          playsInline
-          webkit-playsinline="true"
-          preload="auto"
-        >
-          <source src="/sk_mobile.mp4" type="video/mp4" />
-        </video>
+        {/* Dynamic Responsive Video - Only loads one video to save bandwidth */}
+        {videoSrc && (
+          <video 
+            key={videoSrc}
+            ref={desktopVideoRef}
+            className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none" 
+            autoPlay 
+            loop 
+            muted 
+            defaultMuted
+            playsInline
+            webkit-playsinline="true"
+            preload="auto"
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        )}
         {/* Scroll Indicator */}
         <motion.div 
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 cursor-pointer"
