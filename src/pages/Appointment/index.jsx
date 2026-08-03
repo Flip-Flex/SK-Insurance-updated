@@ -46,6 +46,7 @@ export const Appointment = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(null);
   const [copiedRef, setCopiedRef] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
   // Available Services
   const services = [
@@ -95,9 +96,46 @@ export const Appointment = () => {
     }
 
     if (!formData.timeSlot) newErrors.timeSlot = 'Select a time slot.';
+    if (!formData.service) newErrors.service = 'Select a service.';
+    if (!formData.mode) newErrors.mode = 'Select a consultation mode.';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const validateStep = (step) => {
+    if (step === 1) {
+      return !!formData.service;
+    }
+    if (step === 2) {
+      const newErrors = {};
+      let isValid = true;
+      if (!formData.date) { newErrors.date = 'Select a date.'; isValid = false; }
+      else {
+        const selected = new Date(formData.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selected < today) { newErrors.date = 'Date cannot be in the past.'; isValid = false; }
+      }
+      if (!formData.timeSlot) { newErrors.timeSlot = 'Select a time slot.'; isValid = false; }
+      if (!formData.mode) { newErrors.mode = 'Select a consultation mode.'; isValid = false; }
+      setErrors(prev => ({...prev, date: newErrors.date, timeSlot: newErrors.timeSlot, mode: newErrors.mode}));
+      return isValid;
+    }
+    if (step === 3) {
+      return validateForm();
+    }
+    return true;
+  };
+
+  const handleNextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const handlePrevStep = () => {
+    setCurrentStep(prev => prev - 1);
   };
 
   const handleChange = (e) => {
@@ -110,6 +148,10 @@ export const Appointment = () => {
 
   const handleServiceSelect = (serviceName) => {
     setFormData(prev => ({ ...prev, service: serviceName }));
+    setErrors(prev => ({ ...prev, service: null }));
+    setTimeout(() => {
+      setCurrentStep(2);
+    }, 300); // Auto advance after a slight delay
   };
 
   const handleTimeSelect = (slot) => {
@@ -269,285 +311,327 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-10">
-
-            {/* Section 1: Service Selection */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">1</div>
-                <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
-                  Select Advisory Service <span className="text-rose-500">*</span>
-                </label>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {services.map((item) => {
-                  const Icon = item.icon;
-                  const isSelected = formData.service === item.name;
-                  return (
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      type="button"
-                      key={item.id}
-                      onClick={() => handleServiceSelect(item.name)}
-                      className={`p-4 rounded-2xl text-left flex items-center space-x-4 transition-all duration-300 relative overflow-hidden ${
-                        isSelected
-                          ? 'border-transparent shadow-lg shadow-amber-500/20 bg-white dark:bg-neutral-800 ring-2 ring-amber-500'
-                          : 'border-slate-200 dark:border-white/10 bg-white/50 dark:bg-neutral-900/30 hover:bg-white dark:hover:bg-neutral-800 border'
-                      }`}
-                    >
-                      {isSelected && (
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-bl-full pointer-events-none" />
-                      )}
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${isSelected ? 'bg-amber-500 text-white shadow-md' : item.bg + ' ' + item.color} transition-colors`}>
-                        <Icon />
-                      </div>
-                      <div className="flex-1">
-                        <p className={`text-sm font-bold leading-tight ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-                          {item.name}
-                        </p>
-                      </div>
-                      {isSelected && (
-                        <div className="absolute top-3 right-3 text-amber-500">
-                          <FaCheckCircle className="text-sm" />
-                        </div>
-                      )}
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              
-              {/* Section 2: Date & Time Picker */}
-              <div className="space-y-8 bg-slate-50/50 dark:bg-neutral-950/20 p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
-                {/* Date */}
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">2</div>
-                    <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
-                      Preferred Date <span className="text-rose-500">*</span>
-                    </label>
+          <form onSubmit={handleSubmit} className="p-6 sm:p-8">
+            
+            {/* Progress Tracker */}
+            <div className="flex items-center justify-between mb-10 relative px-2 sm:px-10">
+              <div className="absolute top-5 left-8 right-8 h-1 bg-slate-200 dark:bg-neutral-800 -translate-y-1/2 rounded-full z-0 hidden sm:block"></div>
+              <div className="absolute top-5 left-8 h-1 bg-amber-500 -translate-y-1/2 rounded-full z-0 transition-all duration-500 hidden sm:block" style={{ width: `${((currentStep - 1) / 2) * 100}%`, maxWidth: 'calc(100% - 4rem)' }}></div>
+              {[1, 2, 3].map((step) => (
+                <div key={step} className={`relative z-10 flex flex-col items-center justify-center space-y-2`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-500 ${currentStep >= step ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30 ring-4 ring-amber-500/20' : 'bg-slate-200 dark:bg-neutral-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-white/10'}`}>
+                    {step < currentStep ? <FaCheckCircle className="text-lg" /> : step}
                   </div>
-                  <div className="relative group">
-                    <input
-                      type="date"
-                      name="date"
-                      min={minDateStr}
-                      value={formData.date}
-                      onChange={handleChange}
-                      className="w-full px-5 py-4 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm font-medium text-neutral-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm group-hover:shadow-md cursor-pointer"
-                    />
-                  </div>
-                  {errors.date && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.date}</p>}
-                </div>
-
-                {/* Time */}
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">3</div>
-                    <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
-                      Time Slot <span className="text-rose-500">*</span>
-                    </label>
-                  </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    {timeSlots.map((slot) => {
-                      const isSelected = formData.timeSlot === slot;
-                      return (
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          type="button"
-                          key={slot}
-                          onClick={() => handleTimeSelect(slot)}
-                          className={`py-3 px-2 rounded-xl text-xs sm:text-sm font-bold text-center transition-all duration-300 border ${
-                            isSelected
-                              ? 'bg-gradient-to-r from-amber-500 to-amber-500 text-white border-transparent shadow-lg shadow-amber-500/30'
-                              : 'bg-white dark:bg-neutral-900 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-amber-400 hover:text-amber-500 dark:hover:text-amber-400'
-                          }`}
-                        >
-                          {slot}
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-                  {errors.timeSlot && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.timeSlot}</p>}
-                </div>
-              </div>
-
-              {/* Section 3: Consultation Mode */}
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">4</div>
-                  <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
-                    Consultation Mode <span className="text-rose-500">*</span>
-                  </label>
-                </div>
-                <div className="flex flex-col gap-3">
-                  {consultationModes.map((modeItem) => {
-                    const Icon = modeItem.icon;
-                    const isSelected = formData.mode === modeItem.name;
-                    return (
-                      <motion.button
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.98 }}
-                        type="button"
-                        key={modeItem.id}
-                        onClick={() => handleModeSelect(modeItem.name)}
-                        className={`p-4 rounded-2xl flex items-center justify-between transition-all duration-300 border ${
-                          isSelected
-                            ? 'bg-white dark:bg-neutral-800 border-amber-500 ring-1 ring-amber-500 shadow-md'
-                            : 'bg-white/50 dark:bg-neutral-900/30 border-slate-200 dark:border-white/10 hover:bg-white dark:hover:bg-neutral-800'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-4">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${isSelected ? 'bg-amber-500 text-white shadow-inner' : 'bg-slate-100 dark:bg-neutral-950 text-slate-500 dark:text-slate-400'}`}>
-                            <Icon />
-                          </div>
-                          <div className="text-left">
-                            <span className={`block text-sm font-bold ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-                              {modeItem.name}
-                            </span>
-                            <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                              {modeItem.desc}
-                            </span>
-                          </div>
-                        </div>
-                        {isSelected && (
-                          <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-white text-[10px]">
-                            <FaCheckCircle />
-                          </div>
-                        )}
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Section 4: Contact Information */}
-            <div className="space-y-6 pt-6 border-t border-slate-200/60 dark:border-white/10">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">5</div>
-                <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
-                  Your Contact Information
-                </label>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                
-                {/* Full Name */}
-                <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
-                    Full Name <span className="text-rose-500">*</span>
-                  </label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
-                      <FaUser className="text-sm" />
-                    </div>
-                    <input
-                      type="text"
-                      name="fullName"
-                      placeholder="e.g. Rahul Sharma"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm"
-                    />
-                  </div>
-                  {errors.fullName && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.fullName}</p>}
-                </div>
-
-                {/* WhatsApp / Phone Number */}
-                <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
-                    WhatsApp / Mobile No. <span className="text-rose-500">*</span>
-                  </label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-                      <FaWhatsapp className="text-sm" />
-                    </div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="+91 99944 51300"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all shadow-sm"
-                    />
-                  </div>
-                  {errors.phone && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.phone}</p>}
-                </div>
-
-                {/* Email Address */}
-                <div className="space-y-1.5 md:col-span-2">
-                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
-                    Email Address <span className="text-slate-400 font-normal">(Optional)</span>
-                  </label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
-                      <FaEnvelope className="text-sm" />
-                    </div>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="rahul@example.com"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm"
-                    />
-                  </div>
-                </div>
-
-                {/* Notes / Queries */}
-                <div className="space-y-1.5 md:col-span-2">
-                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
-                    Additional Notes <span className="text-slate-400 font-normal">(Optional)</span>
-                  </label>
-                  <div className="relative group">
-                    <div className="absolute top-4 left-4 pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
-                      <FaCommentDots className="text-sm" />
-                    </div>
-                    <textarea
-                      name="notes"
-                      rows={3}
-                      placeholder="Describe any specific goals or questions..."
-                      value={formData.notes}
-                      onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm resize-none"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200/60 dark:border-white/10">
-              <div className="flex items-center space-x-3 bg-amber-500/10 px-4 py-2.5 rounded-xl border border-amber-500/20">
-                <FaShieldAlt className="text-amber-500 text-lg shrink-0" />
-                <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                  Your data is strictly confidential. Redirects to WhatsApp securely.
-                </p>
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl font-extrabold text-sm sm:text-base text-neutral-950 bg-gradient-to-r from-amber-400 via-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.4)] flex items-center justify-center space-x-3 transition-all cursor-pointer relative overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                {isSubmitting ? (
-                  <span className="relative z-10">Processing securely...</span>
-                ) : (
-                  <span className="relative z-10 flex items-center space-x-3">
-                    <FaWhatsapp className="text-xl animate-pulse" />
-                    <span>Confirm Booking</span>
-                    <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform" />
+                  <span className={`text-xs font-bold uppercase tracking-wider ${currentStep >= step ? 'text-neutral-950 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}>
+                    {step === 1 ? 'Service' : step === 2 ? 'Schedule' : 'Details'}
                   </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="min-h-[350px]">
+              <AnimatePresence mode="wait">
+                
+                {/* STEP 1: Service Selection */}
+                {currentStep === 1 && (
+                  <motion.div
+                    key="step1"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center mb-6">
+                      <h4 className="text-lg font-bold text-neutral-950 dark:text-white">What type of advice do you need?</h4>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Select one of our premium services below</p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {services.map((item) => {
+                        const Icon = item.icon;
+                        const isSelected = formData.service === item.name;
+                        return (
+                          <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            type="button"
+                            key={item.id}
+                            onClick={() => handleServiceSelect(item.name)}
+                            className={`p-4 rounded-2xl text-left flex flex-col items-center justify-center text-center space-y-3 transition-all duration-300 relative overflow-hidden ${
+                              isSelected
+                                ? 'border-transparent shadow-lg shadow-amber-500/20 bg-white dark:bg-neutral-800 ring-2 ring-amber-500'
+                                : 'border-slate-200 dark:border-white/10 bg-white/50 dark:bg-neutral-900/30 hover:bg-white dark:hover:bg-neutral-800 border'
+                            }`}
+                          >
+                            {isSelected && (
+                              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-bl-full pointer-events-none" />
+                            )}
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0 ${isSelected ? 'bg-amber-500 text-white shadow-md' : item.bg + ' ' + item.color} transition-colors`}>
+                              <Icon />
+                            </div>
+                            <div>
+                              <p className={`text-sm font-bold leading-tight ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+                                {item.name}
+                              </p>
+                            </div>
+                            {isSelected && (
+                              <div className="absolute top-3 right-3 text-amber-500">
+                                <FaCheckCircle className="text-sm" />
+                              </div>
+                            )}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                    {errors.service && <p className="text-sm text-center text-rose-500 font-semibold">{errors.service}</p>}
+                  </motion.div>
                 )}
-              </motion.button>
+
+                {/* STEP 2: Schedule & Mode */}
+                {currentStep === 2 && (
+                  <motion.div
+                    key="step2"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-8"
+                  >
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                      {/* Date & Time */}
+                      <div className="space-y-6 bg-slate-50/50 dark:bg-neutral-950/20 p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                        <div className="space-y-4">
+                          <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
+                            Preferred Date <span className="text-rose-500">*</span>
+                          </label>
+                          <input
+                            type="date"
+                            name="date"
+                            min={minDateStr}
+                            value={formData.date}
+                            onChange={handleChange}
+                            className="w-full px-5 py-4 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm font-medium text-neutral-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm cursor-pointer"
+                          />
+                          {errors.date && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.date}</p>}
+                        </div>
+
+                        <div className="space-y-4">
+                          <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
+                            Time Slot <span className="text-rose-500">*</span>
+                          </label>
+                          <div className="grid grid-cols-3 gap-3">
+                            {timeSlots.map((slot) => {
+                              const isSelected = formData.timeSlot === slot;
+                              return (
+                                <motion.button
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  type="button"
+                                  key={slot}
+                                  onClick={() => handleTimeSelect(slot)}
+                                  className={`py-3 px-2 rounded-xl text-xs sm:text-sm font-bold text-center transition-all duration-300 border ${
+                                    isSelected
+                                      ? 'bg-gradient-to-r from-amber-500 to-amber-500 text-white border-transparent shadow-lg shadow-amber-500/30'
+                                      : 'bg-white dark:bg-neutral-900 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-amber-400 hover:text-amber-500 dark:hover:text-amber-400'
+                                  }`}
+                                >
+                                  {slot}
+                                </motion.button>
+                              );
+                            })}
+                          </div>
+                          {errors.timeSlot && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.timeSlot}</p>}
+                        </div>
+                      </div>
+
+                      {/* Consultation Mode */}
+                      <div className="space-y-4">
+                        <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
+                          Consultation Mode <span className="text-rose-500">*</span>
+                        </label>
+                        <div className="flex flex-col gap-3">
+                          {consultationModes.map((modeItem) => {
+                            const Icon = modeItem.icon;
+                            const isSelected = formData.mode === modeItem.name;
+                            return (
+                              <motion.button
+                                whileHover={{ x: 4 }}
+                                whileTap={{ scale: 0.98 }}
+                                type="button"
+                                key={modeItem.id}
+                                onClick={() => handleModeSelect(modeItem.name)}
+                                className={`p-4 rounded-2xl flex items-center justify-between transition-all duration-300 border ${
+                                  isSelected
+                                    ? 'bg-white dark:bg-neutral-800 border-amber-500 ring-1 ring-amber-500 shadow-md'
+                                    : 'bg-white/50 dark:bg-neutral-900/30 border-slate-200 dark:border-white/10 hover:bg-white dark:hover:bg-neutral-800'
+                                }`}
+                              >
+                                <div className="flex items-center space-x-4">
+                                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${isSelected ? 'bg-amber-500 text-white shadow-inner' : 'bg-slate-100 dark:bg-neutral-950 text-slate-500 dark:text-slate-400'}`}>
+                                    <Icon />
+                                  </div>
+                                  <div className="text-left">
+                                    <span className={`block text-sm font-bold ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+                                      {modeItem.name}
+                                    </span>
+                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                      {modeItem.desc}
+                                    </span>
+                                  </div>
+                                </div>
+                                {isSelected && (
+                                  <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-white text-[10px]">
+                                    <FaCheckCircle />
+                                  </div>
+                                )}
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                        {errors.mode && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.mode}</p>}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* STEP 3: Contact Info */}
+                {currentStep === 3 && (
+                  <motion.div
+                    key="step3"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
+                          Full Name <span className="text-rose-500">*</span>
+                        </label>
+                        <div className="relative group">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
+                            <FaUser className="text-sm" />
+                          </div>
+                          <input
+                            type="text"
+                            name="fullName"
+                            placeholder="e.g. Rahul Sharma"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm"
+                          />
+                        </div>
+                        {errors.fullName && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.fullName}</p>}
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
+                          WhatsApp / Mobile No. <span className="text-rose-500">*</span>
+                        </label>
+                        <div className="relative group">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                            <FaWhatsapp className="text-sm" />
+                          </div>
+                          <input
+                            type="tel"
+                            name="phone"
+                            placeholder="+91 99944 51300"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all shadow-sm"
+                          />
+                        </div>
+                        {errors.phone && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.phone}</p>}
+                      </div>
+
+                      <div className="space-y-1.5 md:col-span-2">
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
+                          Email Address <span className="text-slate-400 font-normal">(Optional)</span>
+                        </label>
+                        <div className="relative group">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
+                            <FaEnvelope className="text-sm" />
+                          </div>
+                          <input
+                            type="email"
+                            name="email"
+                            placeholder="rahul@example.com"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5 md:col-span-2">
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
+                          Additional Notes <span className="text-slate-400 font-normal">(Optional)</span>
+                        </label>
+                        <div className="relative group">
+                          <div className="absolute top-4 left-4 pointer-events-none text-slate-400 group-focus-within:text-amber-500 transition-colors">
+                            <FaCommentDots className="text-sm" />
+                          </div>
+                          <textarea
+                            name="notes"
+                            rows={3}
+                            placeholder="Describe any specific goals or questions..."
+                            value={formData.notes}
+                            onChange={handleChange}
+                            className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-neutral-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm resize-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Navigation & Submit Footer */}
+            <div className="mt-10 pt-6 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between">
+              <div>
+                {currentStep > 1 && (
+                  <button
+                    type="button"
+                    onClick={handlePrevStep}
+                    className="px-6 py-3 rounded-xl font-bold text-sm text-slate-600 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition-all"
+                  >
+                    Back
+                  </button>
+                )}
+              </div>
+
+              <div>
+                {currentStep < 3 ? (
+                  <button
+                    type="button"
+                    onClick={handleNextStep}
+                    className="px-8 py-3 rounded-xl font-extrabold text-sm text-neutral-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-md flex items-center space-x-2"
+                  >
+                    <span>Next Step</span>
+                    <FaArrowRight className="text-xs" />
+                  </button>
+                ) : (
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-8 py-3 rounded-xl font-extrabold text-sm text-neutral-950 bg-gradient-to-r from-amber-400 via-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.4)] flex items-center justify-center space-x-3 transition-all cursor-pointer relative overflow-hidden group"
+                  >
+                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                    {isSubmitting ? (
+                      <span className="relative z-10">Processing securely...</span>
+                    ) : (
+                      <span className="relative z-10 flex items-center space-x-3">
+                        <FaWhatsapp className="text-xl animate-pulse" />
+                        <span>Confirm Booking</span>
+                      </span>
+                    )}
+                  </motion.button>
+                )}
+              </div>
             </div>
 
           </form>
