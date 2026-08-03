@@ -433,7 +433,7 @@ export const Home = () => {
       <section className="relative w-full h-screen overflow-hidden">
         {/* Desktop Video */}
         <video 
-          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden sm:block" 
+          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden lg:block" 
           autoPlay 
           loop 
           muted 
@@ -442,9 +442,20 @@ export const Home = () => {
           <source src="/sk_video.mp4" type="video/mp4" />
         </video>
 
+        {/* Tablet Video */}
+        <video 
+          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden md:block lg:hidden" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+        >
+          <source src="/Tablet.mp4" type="video/mp4" />
+        </video>
+
         {/* Mobile Video */}
         <video 
-          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none block sm:hidden" 
+          className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none block md:hidden" 
           autoPlay 
           loop 
           muted 

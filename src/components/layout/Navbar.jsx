@@ -72,7 +72,7 @@ export const Navbar = () => {
           </Link>
 
           {/* Center: Nav Links */}
-          <nav className="hidden md:flex items-center space-x-10">
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-10">
             {navLinks.map((link) => {
               const active = isActive(link.path);
               return (
@@ -97,7 +97,7 @@ export const Navbar = () => {
           </nav>
 
           {/* Right: Actions */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
             {/* Language Selector */}
             <div className="relative">
                 <button
@@ -178,7 +178,7 @@ export const Navbar = () => {
           </div>
 
           {/* Mobile GSAP StaggeredMenu (Handles its own toggle) */}
-          <div className="md:hidden block">
+          <div className="lg:hidden block">
             <StaggeredMenu
               position="right"
               items={navLinks.map(link => ({
