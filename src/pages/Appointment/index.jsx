@@ -49,11 +49,11 @@ export const Appointment = () => {
 
   // Available Services
   const services = [
-    { id: 'health', name: 'Health & Medical Insurance', icon: FaHeartbeat, color: 'text-rose-500 bg-rose-500/10' },
-    { id: 'life', name: 'Term Life & Family Protection', icon: FaShieldAlt, color: 'text-amber-500 bg-amber-500/10' },
-    { id: 'sip', name: 'Mutual Funds & SIP Investment', icon: FaChartLine, color: 'text-emerald-500 bg-emerald-500/10' },
-    { id: 'retirement', name: 'Retirement & Pension Solutions', icon: FaPiggyBank, color: 'text-blue-500 bg-blue-500/10' },
-    { id: 'general', name: 'General Financial Audit', icon: FaRegListAlt, color: 'text-purple-500 bg-purple-500/10' }
+    { id: 'health', name: 'Health & Medical Insurance', icon: FaHeartbeat, color: 'text-rose-500', bg: 'bg-rose-500/10' },
+    { id: 'life', name: 'Term Life & Family Protection', icon: FaShieldAlt, color: 'text-amber-500', bg: 'bg-amber-500/10' },
+    { id: 'sip', name: 'Mutual Funds & SIP Investment', icon: FaChartLine, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+    { id: 'retirement', name: 'Retirement & Pension Solutions', icon: FaPiggyBank, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+    { id: 'general', name: 'General Financial Audit', icon: FaRegListAlt, color: 'text-purple-500', bg: 'bg-purple-500/10' }
   ];
 
   // Available Time Slots
@@ -68,9 +68,9 @@ export const Appointment = () => {
 
   // Consultation Modes
   const consultationModes = [
-    { id: 'in_person', name: 'In-Person (Kanchipuram HQ)', icon: FaMapMarkerAlt, desc: 'Visit HQ at MD Plaza, West Raja Street' },
-    { id: 'whatsapp_video', name: 'WhatsApp Video Call', icon: FaVideo, desc: 'Face-to-face video consultation on mobile' },
-    { id: 'phone', name: 'Phone Call', icon: FaPhone, desc: 'Direct voice call advisory' }
+    { id: 'in_person', name: 'In-Person (HQ)', icon: FaMapMarkerAlt, desc: 'Visit our Kanchipuram Office' },
+    { id: 'whatsapp_video', name: 'WhatsApp Video', icon: FaVideo, desc: 'Face-to-face mobile call' },
+    { id: 'phone', name: 'Phone Call', icon: FaPhone, desc: 'Direct voice advisory' }
   ];
 
   // Validation
@@ -78,14 +78,13 @@ export const Appointment = () => {
     const newErrors = {};
     if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required.';
     
-    // Clean phone number check
     const cleanPhone = formData.phone.replace(/\D/g, '');
     if (!cleanPhone || cleanPhone.length < 10) {
-      newErrors.phone = 'Valid 10-digit WhatsApp/Phone number is required.';
+      newErrors.phone = 'Valid 10-digit number is required.';
     }
 
     if (!formData.date) {
-      newErrors.date = 'Please select a preferred date.';
+      newErrors.date = 'Select a date.';
     } else {
       const selected = new Date(formData.date);
       const today = new Date();
@@ -95,7 +94,7 @@ export const Appointment = () => {
       }
     }
 
-    if (!formData.timeSlot) newErrors.timeSlot = 'Please select a time slot.';
+    if (!formData.timeSlot) newErrors.timeSlot = 'Select a time slot.';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -158,7 +157,6 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
       whatsappUrl
     };
 
-    // Store in Firestore
     try {
       await saveAppointment(newBooking);
     } catch (err) {
@@ -168,7 +166,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
     setTimeout(() => {
       setIsSubmitting(false);
       setBookingConfirmed(newBooking);
-    }, 600);
+    }, 800);
   };
 
   const handleOpenWhatsApp = () => {
@@ -185,229 +183,273 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
     }
   };
 
-  // Min date string (today)
   const minDateStr = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-navy-950 py-12 px-4 sm:px-6 lg:px-8 text-left transition-colors duration-300">
-      <div className="max-w-5xl mx-auto space-y-10">
+    <div className="min-h-screen bg-slate-50 dark:bg-navy-950 py-12 px-4 sm:px-6 lg:px-8 text-left transition-colors duration-500 relative overflow-hidden">
+      
+      {/* Background Animated Blobs for Glassmorphism Effect */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <motion.div 
+          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-40 -left-40 w-96 h-96 bg-gold-500/20 rounded-full blur-[100px]"
+        />
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-1/3 -right-20 w-80 h-80 bg-blue-500/20 rounded-full blur-[100px]"
+        />
+        <motion.div 
+          animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.3, 0.2] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute -bottom-40 left-1/3 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px]"
+        />
+      </div>
+
+      <div className="max-w-5xl mx-auto space-y-12 relative z-10">
         
         {/* Header Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center space-y-4 max-w-3xl mx-auto"
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center space-y-6 max-w-3xl mx-auto"
         >
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-600 dark:text-gold-400 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-white/60 dark:bg-navy-900/60 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-sm text-gold-600 dark:text-gold-400 text-xs font-bold uppercase tracking-widest">
             <FaUserTie className="text-sm" />
             <span>Expert Financial Advisory</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-navy-950 dark:text-white tracking-tight leading-tight">
-            Schedule an <span className="bg-gradient-to-r from-gold-500 to-amber-500 bg-clip-text text-transparent">Appointment</span>
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-navy-950 dark:text-white tracking-tight leading-tight">
+            Schedule an <span className="bg-gradient-to-r from-gold-500 to-amber-400 bg-clip-text text-transparent">Appointment</span>
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Book a 1-on-1 personalized advisory consultation with Certified Financial Planner Prakash Gajendiran & team. Receive instant confirmation directly on WhatsApp.
+          <p className="text-sm sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Secure your future today. Book a 1-on-1 personalized advisory consultation with Certified Financial Planner Prakash Gajendiran & team.
           </p>
         </motion.div>
 
         {/* Feature Pill Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200/60 dark:border-white/5 shadow-sm flex items-center space-x-3.5">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-lg shrink-0">
-              <FaCheckCircle />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-navy-950 dark:text-white">100% Free Consultation</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Zero fee for initial strategy session</p>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200/60 dark:border-white/5 shadow-sm flex items-center space-x-3.5">
-            <div className="w-10 h-10 rounded-xl bg-gold-500/10 text-gold-500 flex items-center justify-center text-lg shrink-0">
-              <FaWhatsapp />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-navy-950 dark:text-white">Instant WhatsApp Confirmation</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Direct message confirmation & reminders</p>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200/60 dark:border-white/5 shadow-sm flex items-center space-x-3.5">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg shrink-0">
-              <FaShieldAlt />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-navy-950 dark:text-white">Certified Planning</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Licensed Tata AIA, LIC & HDFC distributor</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Appointment Form Container */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-white dark:bg-navy-900 border border-slate-200/70 dark:border-white/10 rounded-3xl shadow-xl overflow-hidden"
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-5"
         >
-          <div className="bg-gradient-to-r from-navy-900 via-navy-950 to-navy-900 p-6 text-white border-b border-white/10 flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400">
-                <FaCalendarAlt className="text-lg" />
+          {[
+            { title: '100% Free Consultation', desc: 'Zero fee for initial strategy session', icon: FaCheckCircle, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+            { title: 'Instant WhatsApp Sync', desc: 'Direct message confirmation & reminders', icon: FaWhatsapp, color: 'text-gold-500', bg: 'bg-gold-500/10' },
+            { title: 'Certified Planning', desc: 'Licensed Tata AIA, LIC & HDFC distributor', icon: FaShieldAlt, color: 'text-blue-500', bg: 'bg-blue-500/10' }
+          ].map((feature, idx) => (
+            <div key={idx} className="p-5 rounded-3xl bg-white/60 dark:bg-navy-900/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] flex items-center space-x-4 transition-transform hover:-translate-y-1">
+              <div className={`w-12 h-12 rounded-2xl ${feature.bg} ${feature.color} flex items-center justify-center text-xl shrink-0 shadow-inner`}>
+                <feature.icon />
               </div>
               <div>
-                <h3 className="text-base font-bold">Appointment Details</h3>
-                <p className="text-xs text-slate-400">Fill in your preferred date, time, and service below</p>
+                <h4 className="text-sm font-bold text-navy-950 dark:text-white">{feature.title}</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{feature.desc}</p>
               </div>
             </div>
-            <span className="text-xs font-semibold px-3 py-1 bg-white/10 rounded-full border border-white/10 hidden sm:inline-block">
-              Fast & Direct
-            </span>
+          ))}
+        </motion.div>
+
+        {/* Main Appointment Form Container (Glassmorphism) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="bg-white/70 dark:bg-navy-900/50 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-[2.5rem] shadow-2xl dark:shadow-gold-500/5 overflow-hidden"
+        >
+          {/* Form Header */}
+          <div className="bg-gradient-to-r from-white/40 to-transparent dark:from-navy-800/40 dark:to-transparent p-6 sm:p-8 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-gold-500/30">
+                <FaCalendarAlt className="text-xl" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-navy-950 dark:text-white">Booking Details</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Customize your consultation experience</p>
+              </div>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-8">
+          <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-10">
 
             {/* Section 1: Service Selection */}
-            <div className="space-y-3">
-              <label className="block text-xs font-bold text-navy-950 dark:text-white uppercase tracking-wider">
-                1. Select Advisory Service <span className="text-rose-500">*</span>
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">1</div>
+                <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                  Select Advisory Service <span className="text-rose-500">*</span>
+                </label>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {services.map((item) => {
                   const Icon = item.icon;
                   const isSelected = formData.service === item.name;
                   return (
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       type="button"
                       key={item.id}
                       onClick={() => handleServiceSelect(item.name)}
-                      className={`p-3.5 rounded-2xl border text-left flex items-center space-x-3 transition-all cursor-pointer ${
+                      className={`p-4 rounded-2xl text-left flex items-center space-x-4 transition-all duration-300 relative overflow-hidden ${
                         isSelected
-                          ? 'border-gold-500 bg-gold-500/10 shadow-md ring-1 ring-gold-500'
-                          : 'border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 bg-slate-50/50 dark:bg-navy-950/40'
+                          ? 'border-transparent shadow-lg shadow-gold-500/20 bg-white dark:bg-navy-800 ring-2 ring-gold-500'
+                          : 'border-slate-200 dark:border-white/10 bg-white/50 dark:bg-navy-900/30 hover:bg-white dark:hover:bg-navy-800 border'
                       }`}
                     >
-                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0 ${item.color}`}>
+                      {isSelected && (
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gold-500/20 to-transparent rounded-bl-full pointer-events-none" />
+                      )}
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${isSelected ? 'bg-gold-500 text-white shadow-md' : item.bg + ' ' + item.color} transition-colors`}>
                         <Icon />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className={`text-xs font-bold truncate ${isSelected ? 'text-gold-500 dark:text-gold-400' : 'text-navy-950 dark:text-white'}`}>
+                      <div className="flex-1">
+                        <p className={`text-sm font-bold leading-tight ${isSelected ? 'text-navy-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
                           {item.name}
                         </p>
                       </div>
-                    </button>
+                      {isSelected && (
+                        <div className="absolute top-3 right-3 text-gold-500">
+                          <FaCheckCircle className="text-sm" />
+                        </div>
+                      )}
+                    </motion.button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Section 2: Date & Time Picker */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               
-              {/* Date Input */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-navy-950 dark:text-white uppercase tracking-wider">
-                  2. Preferred Date <span className="text-rose-500">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="date"
-                    name="date"
-                    min={minDateStr}
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-2xl text-xs text-navy-950 dark:text-white focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all font-sans"
-                  />
+              {/* Section 2: Date & Time Picker */}
+              <div className="space-y-8 bg-slate-50/50 dark:bg-navy-950/20 p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                {/* Date */}
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">2</div>
+                    <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                      Preferred Date <span className="text-rose-500">*</span>
+                    </label>
+                  </div>
+                  <div className="relative group">
+                    <input
+                      type="date"
+                      name="date"
+                      min={minDateStr}
+                      value={formData.date}
+                      onChange={handleChange}
+                      className="w-full px-5 py-4 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm font-medium text-navy-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm group-hover:shadow-md cursor-pointer"
+                    />
+                  </div>
+                  {errors.date && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.date}</p>}
                 </div>
-                {errors.date && (
-                  <p className="text-[11px] text-rose-500 font-semibold">{errors.date}</p>
-                )}
+
+                {/* Time */}
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">3</div>
+                    <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                      Time Slot <span className="text-rose-500">*</span>
+                    </label>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {timeSlots.map((slot) => {
+                      const isSelected = formData.timeSlot === slot;
+                      return (
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          type="button"
+                          key={slot}
+                          onClick={() => handleTimeSelect(slot)}
+                          className={`py-3 px-2 rounded-xl text-xs sm:text-sm font-bold text-center transition-all duration-300 border ${
+                            isSelected
+                              ? 'bg-gradient-to-r from-gold-500 to-amber-500 text-white border-transparent shadow-lg shadow-gold-500/30'
+                              : 'bg-white dark:bg-navy-900 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-gold-400 hover:text-gold-500 dark:hover:text-gold-400'
+                          }`}
+                        >
+                          {slot}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                  {errors.timeSlot && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.timeSlot}</p>}
+                </div>
               </div>
 
-              {/* Time Slots */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-navy-950 dark:text-white uppercase tracking-wider">
-                  3. Preferred Time Slot <span className="text-rose-500">*</span>
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {timeSlots.map((slot) => {
-                    const isSelected = formData.timeSlot === slot;
+              {/* Section 3: Consultation Mode */}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">4</div>
+                  <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                    Consultation Mode <span className="text-rose-500">*</span>
+                  </label>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {consultationModes.map((modeItem) => {
+                    const Icon = modeItem.icon;
+                    const isSelected = formData.mode === modeItem.name;
                     return (
-                      <button
+                      <motion.button
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
                         type="button"
-                        key={slot}
-                        onClick={() => handleTimeSelect(slot)}
-                        className={`py-2.5 px-2 rounded-xl border text-xs font-bold text-center transition-all cursor-pointer ${
+                        key={modeItem.id}
+                        onClick={() => handleModeSelect(modeItem.name)}
+                        className={`p-4 rounded-2xl flex items-center justify-between transition-all duration-300 border ${
                           isSelected
-                            ? 'bg-gold-500 text-white border-gold-500 shadow-md'
-                            : 'bg-slate-50 dark:bg-navy-950 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-gold-400'
+                            ? 'bg-white dark:bg-navy-800 border-gold-500 ring-1 ring-gold-500 shadow-md'
+                            : 'bg-white/50 dark:bg-navy-900/30 border-slate-200 dark:border-white/10 hover:bg-white dark:hover:bg-navy-800'
                         }`}
                       >
-                        {slot}
-                      </button>
+                        <div className="flex items-center space-x-4">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${isSelected ? 'bg-gold-500 text-white shadow-inner' : 'bg-slate-100 dark:bg-navy-950 text-slate-500 dark:text-slate-400'}`}>
+                            <Icon />
+                          </div>
+                          <div className="text-left">
+                            <span className={`block text-sm font-bold ${isSelected ? 'text-navy-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+                              {modeItem.name}
+                            </span>
+                            <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                              {modeItem.desc}
+                            </span>
+                          </div>
+                        </div>
+                        {isSelected && (
+                          <div className="w-5 h-5 rounded-full bg-gold-500 flex items-center justify-center text-white text-[10px]">
+                            <FaCheckCircle />
+                          </div>
+                        )}
+                      </motion.button>
                     );
                   })}
                 </div>
-                {errors.timeSlot && (
-                  <p className="text-[11px] text-rose-500 font-semibold">{errors.timeSlot}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Section 3: Consultation Mode */}
-            <div className="space-y-3">
-              <label className="block text-xs font-bold text-navy-950 dark:text-white uppercase tracking-wider">
-                4. Consultation Mode <span className="text-rose-500">*</span>
-              </label>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {consultationModes.map((modeItem) => {
-                  const Icon = modeItem.icon;
-                  const isSelected = formData.mode === modeItem.name;
-                  return (
-                    <button
-                      type="button"
-                      key={modeItem.id}
-                      onClick={() => handleModeSelect(modeItem.name)}
-                      className={`p-3.5 rounded-2xl border text-left space-y-1.5 transition-all cursor-pointer ${
-                        isSelected
-                          ? 'border-gold-500 bg-gold-500/10 shadow-md ring-1 ring-gold-500'
-                          : 'border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 bg-slate-50/50 dark:bg-navy-950/40'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <Icon className={`text-sm ${isSelected ? 'text-gold-500' : 'text-slate-400'}`} />
-                        <span className={`text-xs font-bold ${isSelected ? 'text-gold-500 dark:text-gold-400' : 'text-navy-950 dark:text-white'}`}>
-                          {modeItem.name}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
-                        {modeItem.desc}
-                      </p>
-                    </button>
-                  );
-                })}
               </div>
             </div>
 
             {/* Section 4: Contact Information */}
-            <div className="space-y-4 pt-2 border-t border-slate-100 dark:border-white/5">
-              <h4 className="text-xs font-bold text-navy-950 dark:text-white uppercase tracking-wider">
-                5. Your Contact Information
-              </h4>
+            <div className="space-y-6 pt-6 border-t border-slate-200/60 dark:border-white/10">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-xs font-bold">5</div>
+                <label className="text-sm font-bold text-navy-950 dark:text-white tracking-wide">
+                  Your Contact Information
+                </label>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 
                 {/* Full Name */}
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
                     Full Name <span className="text-rose-500">*</span>
                   </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                      <FaUser className="text-xs" />
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-gold-500 transition-colors">
+                      <FaUser className="text-sm" />
                     </div>
                     <input
                       type="text"
@@ -415,45 +457,41 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       placeholder="e.g. Rahul Sharma"
                       value={formData.fullName}
                       onChange={handleChange}
-                      className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-xl text-xs text-navy-950 dark:text-white focus:outline-none focus:border-gold-500"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm"
                     />
                   </div>
-                  {errors.fullName && (
-                    <p className="text-[10px] text-rose-500 font-semibold">{errors.fullName}</p>
-                  )}
+                  {errors.fullName && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.fullName}</p>}
                 </div>
 
                 {/* WhatsApp / Phone Number */}
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
                     WhatsApp / Mobile No. <span className="text-rose-500">*</span>
                   </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                      <FaWhatsapp className="text-xs text-emerald-500" />
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                      <FaWhatsapp className="text-sm" />
                     </div>
                     <input
                       type="tel"
                       name="phone"
-                      placeholder="e.g. +91 99944 51300"
+                      placeholder="+91 99944 51300"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-xl text-xs text-navy-950 dark:text-white focus:outline-none focus:border-gold-500"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all shadow-sm"
                     />
                   </div>
-                  {errors.phone && (
-                    <p className="text-[10px] text-rose-500 font-semibold">{errors.phone}</p>
-                  )}
+                  {errors.phone && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.phone}</p>}
                 </div>
 
                 {/* Email Address */}
-                <div className="space-y-1.5">
-                  <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                <div className="space-y-1.5 md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
                     Email Address <span className="text-slate-400 font-normal">(Optional)</span>
                   </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                      <FaEnvelope className="text-xs" />
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-gold-500 transition-colors">
+                      <FaEnvelope className="text-sm" />
                     </div>
                     <input
                       type="email"
@@ -461,187 +499,193 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                       placeholder="rahul@example.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-xl text-xs text-navy-950 dark:text-white focus:outline-none focus:border-gold-500"
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm"
                     />
                   </div>
                 </div>
 
-              </div>
-
-              {/* Notes / Queries */}
-              <div className="space-y-1.5">
-                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300">
-                  Additional Notes or Specific Queries <span className="text-slate-400 font-normal">(Optional)</span>
-                </label>
-                <div className="relative">
-                  <div className="absolute top-3 left-3 pointer-events-none text-slate-400">
-                    <FaCommentDots className="text-xs" />
+                {/* Notes / Queries */}
+                <div className="space-y-1.5 md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 ml-1">
+                    Additional Notes <span className="text-slate-400 font-normal">(Optional)</span>
+                  </label>
+                  <div className="relative group">
+                    <div className="absolute top-4 left-4 pointer-events-none text-slate-400 group-focus-within:text-gold-500 transition-colors">
+                      <FaCommentDots className="text-sm" />
+                    </div>
+                    <textarea
+                      name="notes"
+                      rows={3}
+                      placeholder="Describe any specific goals or questions..."
+                      value={formData.notes}
+                      onChange={handleChange}
+                      className="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm text-navy-950 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500 transition-all shadow-sm resize-none"
+                    />
                   </div>
-                  <textarea
-                    name="notes"
-                    rows={3}
-                    placeholder="Describe any existing policy details, coverage goal, or specific question..."
-                    value={formData.notes}
-                    onChange={handleChange}
-                    className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-xl text-xs text-navy-950 dark:text-white focus:outline-none focus:border-gold-500"
-                  />
                 </div>
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100 dark:border-white/5">
-              <div className="flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400">
-                <FaInfoCircle className="text-gold-500 shrink-0" />
-                <span>Redirects to WhatsApp with formatted booking message</span>
+            <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200/60 dark:border-white/10">
+              <div className="flex items-center space-x-3 bg-gold-500/10 px-4 py-2.5 rounded-xl border border-gold-500/20">
+                <FaShieldAlt className="text-gold-500 text-lg shrink-0" />
+                <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                  Your data is strictly confidential. Redirects to WhatsApp securely.
+                </p>
               </div>
 
-              <Button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 type="submit"
-                variant="gold"
-                size="lg"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto px-8 py-3 flex items-center justify-center space-x-3 shadow-xl hover:shadow-gold-500/20"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl font-extrabold text-sm sm:text-base text-navy-950 bg-gradient-to-r from-gold-400 via-amber-400 to-gold-500 hover:from-gold-300 hover:to-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.4)] flex items-center justify-center space-x-3 transition-all cursor-pointer relative overflow-hidden group"
               >
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 {isSubmitting ? (
-                  <span>Processing...</span>
+                  <span className="relative z-10">Processing securely...</span>
                 ) : (
-                  <>
-                    <FaWhatsapp className="text-lg text-emerald-950 animate-pulse" />
-                    <span className="font-bold">Confirm & Redirect to WhatsApp</span>
-                    <FaArrowRight className="text-xs" />
-                  </>
+                  <span className="relative z-10 flex items-center space-x-3">
+                    <FaWhatsapp className="text-xl animate-pulse" />
+                    <span>Confirm Booking</span>
+                    <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform" />
+                  </span>
                 )}
-              </Button>
+              </motion.button>
             </div>
 
           </form>
         </motion.div>
 
         {/* Corporate Address & Contact Info Footer */}
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-navy-900 to-navy-950 text-white flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10">
-          <div className="flex items-start space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-xl shrink-0">
+        <div className="p-6 sm:p-8 rounded-[2rem] bg-navy-950 dark:bg-navy-900 text-white flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10 shadow-2xl relative overflow-hidden z-10">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="flex items-start space-x-5 relative z-10">
+            <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-gold-400 text-2xl shrink-0 backdrop-blur-md">
               <FaMapMarkerAlt />
             </div>
-            <div className="space-y-1">
-              <h4 className="text-sm font-bold text-white">SK Smart Corporate Office (HQ)</h4>
-              <p className="text-xs text-slate-300">
+            <div className="space-y-1.5">
+              <h4 className="text-base font-bold text-white tracking-wide">SK Smart Corporate HQ</h4>
+              <p className="text-sm text-slate-300 leading-relaxed max-w-sm">
                 # 104, MD Plaza, 1st Floor, West Raja Street, Kanchipuram - 631502.
               </p>
-              <p className="text-[11px] text-gold-400 font-semibold">
-                Operating Hours: Mon - Sat: 9:00 AM - 7:00 PM
-              </p>
+              <div className="inline-flex items-center space-x-2 mt-2 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
+                <FaClock className="text-gold-400 text-xs" />
+                <p className="text-xs text-slate-300 font-semibold">Mon - Sat: 9:00 AM - 7:00 PM</p>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 shrink-0">
+          <div className="flex items-center space-x-4 shrink-0 relative z-10 w-full md:w-auto">
             <a
               href="tel:+919994451300"
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-xs font-bold text-white transition-all"
+              className="flex-1 md:flex-none text-center px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-sm font-bold text-white transition-all backdrop-blur-sm"
             >
-              📞 Call Hotline
+              Call Us
             </a>
             <a
               href="https://wa.me/919994451300"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all shadow-lg"
+              className="flex-1 md:flex-none flex items-center justify-center space-x-2 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-bold transition-all shadow-[0_0_15px_rgba(5,150,105,0.4)]"
             >
-              <FaWhatsapp />
-              <span>Direct WhatsApp</span>
+              <FaWhatsapp className="text-lg" />
+              <span>Message</span>
             </a>
           </div>
         </div>
 
       </div>
 
-      {/* Confirmation Modal */}
+      {/* Confirmation Modal - Ticket Style */}
       <AnimatePresence>
         {bookingConfirmed && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/80 backdrop-blur-sm">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white dark:bg-navy-900 border border-slate-200 dark:border-white/10 rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden text-left"
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              className="relative w-full max-w-md bg-white dark:bg-navy-900 rounded-3xl shadow-2xl overflow-hidden text-left filter drop-shadow-2xl"
             >
-              {/* Modal Header */}
-              <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 p-6 text-white text-center relative">
+              {/* Ticket Top Half */}
+              <div className="bg-gradient-to-br from-emerald-500 to-emerald-700 p-8 text-white text-center relative border-b-2 border-dashed border-white/40">
+                
+                {/* Cutouts for Ticket Effect */}
+                <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-navy-950/80 rounded-full" />
+                <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-navy-950/80 rounded-full" />
+                
                 <button
                   onClick={() => setBookingConfirmed(null)}
-                  className="absolute top-4 right-4 p-2 text-white/80 hover:text-white rounded-full hover:bg-white/10 transition-all cursor-pointer"
+                  className="absolute top-4 right-4 p-2 text-white/70 hover:text-white rounded-full hover:bg-white/20 transition-all cursor-pointer"
                 >
                   <FaTimes />
                 </button>
-                <div className="w-14 h-14 rounded-full bg-white/20 border-2 border-white/40 mx-auto flex items-center justify-center text-white text-2xl mb-3 shadow-inner">
+                <div className="w-16 h-16 rounded-full bg-white/20 border-2 border-white mx-auto flex items-center justify-center text-white text-3xl mb-4 shadow-lg">
                   <FaCheckCircle />
                 </div>
-                <h3 className="text-xl font-extrabold">Appointment Details Ready!</h3>
-                <p className="text-xs text-emerald-100 mt-1">
-                  Click below to open WhatsApp and send your pre-formatted confirmation message.
+                <h3 className="text-2xl font-extrabold tracking-tight">Booking Ready</h3>
+                <p className="text-sm text-emerald-100 mt-2 opacity-90">
+                  Your appointment slot is reserved. Confirm via WhatsApp to lock it in.
                 </p>
               </div>
 
-              {/* Modal Content */}
-              <div className="p-6 space-y-4">
+              {/* Ticket Bottom Half */}
+              <div className="p-8 space-y-6 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-50 to-white dark:from-navy-900 dark:to-navy-950 relative">
                 
                 {/* Reference ID Bar */}
-                <div className="p-3 bg-slate-50 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-between">
+                <div className="p-4 bg-slate-100 dark:bg-navy-950 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-between">
                   <div>
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Booking Reference ID</p>
-                    <p className="text-sm font-extrabold text-gold-500 font-mono">{bookingConfirmed.id}</p>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Ticket / Ref ID</p>
+                    <p className="text-base font-extrabold text-navy-950 dark:text-white font-mono tracking-wider">{bookingConfirmed.id}</p>
                   </div>
                   <button
                     onClick={handleCopyRef}
-                    className="px-3 py-1.5 bg-slate-200 dark:bg-navy-800 hover:bg-slate-300 dark:hover:bg-navy-700 rounded-lg text-xs font-semibold text-navy-950 dark:text-white flex items-center space-x-1.5 cursor-pointer transition-all"
+                    className="p-3 bg-white dark:bg-navy-800 hover:bg-slate-50 dark:hover:bg-navy-700 rounded-xl text-navy-950 dark:text-white shadow-sm border border-slate-200 dark:border-white/5 transition-all"
+                    title="Copy ID"
                   >
-                    <FaCopy className="text-xs" />
-                    <span>{copiedRef ? 'Copied!' : 'Copy ID'}</span>
+                    {copiedRef ? <FaCheckCircle className="text-emerald-500" /> : <FaCopy />}
                   </button>
                 </div>
 
                 {/* Booking Summary Box */}
-                <div className="space-y-2.5 text-xs text-navy-950 dark:text-slate-200 p-4 bg-slate-50/70 dark:bg-navy-950/40 rounded-2xl border border-slate-200/50 dark:border-white/5">
-                  <div className="flex justify-between border-b border-slate-200/40 dark:border-white/5 pb-2">
-                    <span className="text-slate-500">Client Name:</span>
-                    <span className="font-bold">{bookingConfirmed.fullName}</span>
+                <div className="space-y-4 text-sm text-navy-950 dark:text-slate-200 px-2">
+                  <div className="flex justify-between items-end border-b border-slate-100 dark:border-white/5 pb-3">
+                    <span className="text-slate-500 text-xs uppercase font-bold tracking-wider">Client</span>
+                    <span className="font-extrabold text-right">{bookingConfirmed.fullName}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-200/40 dark:border-white/5 pb-2">
-                    <span className="text-slate-500">WhatsApp / Phone:</span>
-                    <span className="font-bold font-mono">{bookingConfirmed.phone}</span>
+                  <div className="flex justify-between items-end border-b border-slate-100 dark:border-white/5 pb-3">
+                    <span className="text-slate-500 text-xs uppercase font-bold tracking-wider">Service</span>
+                    <span className="font-extrabold text-gold-500 text-right max-w-[180px] leading-tight">{bookingConfirmed.service}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-200/40 dark:border-white/5 pb-2">
-                    <span className="text-slate-500">Service:</span>
-                    <span className="font-bold text-gold-500">{bookingConfirmed.service}</span>
+                  <div className="flex justify-between items-end border-b border-slate-100 dark:border-white/5 pb-3">
+                    <span className="text-slate-500 text-xs uppercase font-bold tracking-wider">Date & Time</span>
+                    <span className="font-extrabold text-right">{bookingConfirmed.date}<br/><span className="text-slate-400 font-medium text-xs">{bookingConfirmed.timeSlot}</span></span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-200/40 dark:border-white/5 pb-2">
-                    <span className="text-slate-500">Date & Slot:</span>
-                    <span className="font-bold">{bookingConfirmed.date} ({bookingConfirmed.timeSlot})</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Consultation Mode:</span>
-                    <span className="font-bold">{bookingConfirmed.mode}</span>
+                  <div className="flex justify-between items-end">
+                    <span className="text-slate-500 text-xs uppercase font-bold tracking-wider">Mode</span>
+                    <span className="font-extrabold text-right">{bookingConfirmed.mode}</span>
                   </div>
                 </div>
 
                 {/* WhatsApp Action Buttons */}
-                <div className="pt-2 space-y-2">
-                  <Button
-                    variant="gold"
+                <div className="pt-4 space-y-3">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleOpenWhatsApp}
-                    className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center space-x-2 text-sm shadow-xl cursor-pointer"
+                    className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold rounded-2xl flex items-center justify-center space-x-3 text-base shadow-[0_0_20px_rgba(16,185,129,0.3)] cursor-pointer transition-colors"
                   >
-                    <FaWhatsapp className="text-xl text-white animate-bounce" />
-                    <span>Open WhatsApp to Confirm</span>
-                    <FaExternalLinkAlt className="text-xs" />
-                  </Button>
+                    <FaWhatsapp className="text-2xl" />
+                    <span>Send Confirmation</span>
+                  </motion.button>
 
                   <button
                     onClick={() => setBookingConfirmed(null)}
-                    className="w-full py-2 text-xs font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 text-center cursor-pointer"
+                    className="w-full py-2.5 text-xs font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-center cursor-pointer transition-colors"
                   >
-                    Close & Edit Booking Details
+                    Wait, I need to edit details
                   </button>
                 </div>
 
@@ -655,3 +699,4 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
 };
 
 export default Appointment;
+
