@@ -213,8 +213,9 @@ export const Home = () => {
     if (!videoSrc) return;
 
     const playVideos = () => {
-      if (desktopVideoRef.current) {
-        desktopVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
+      const vid = document.getElementById('hero-video');
+      if (vid) {
+        vid.play().catch(e => console.log('Autoplay prevented:', e));
       }
     };
     
@@ -493,22 +494,25 @@ export const Home = () => {
     <div className="relative">
       {/* Full-width Fixed Background Video Banner at the Top */}
       <section className="relative w-full h-screen overflow-hidden">
-        {/* Dynamic Responsive Video - Only loads one video to save bandwidth */}
+        {/* Dynamic Responsive Video using dangerouslySetInnerHTML to bypass React iOS bugs */}
         {videoSrc && (
-          <video 
+          <div 
             key={videoSrc}
-            ref={desktopVideoRef}
-            className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none" 
-            autoPlay 
-            loop 
-            muted 
-            defaultMuted
-            playsInline
-            webkit-playsinline="true"
-            preload="auto"
-          >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
+            dangerouslySetInnerHTML={{
+              __html: `
+                <video 
+                  id="hero-video"
+                  class="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none" 
+                  autoplay 
+                  loop 
+                  muted 
+                  playsinline 
+                  preload="auto"
+                  src="${videoSrc}"
+                ></video>
+              `
+            }}
+          />
         )}
         {/* Scroll Indicator */}
         <motion.div 
