@@ -181,6 +181,43 @@ export const Home = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [monthlyInvest, setMonthlyInvest] = useState(5000);
+  
+  const desktopVideoRef = useRef(null);
+  const tabletVideoRef = useRef(null);
+  const mobileVideoRef = useRef(null);
+
+  useEffect(() => {
+    const playVideos = () => {
+      if (desktopVideoRef.current) desktopVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
+      if (tabletVideoRef.current) tabletVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
+      if (mobileVideoRef.current) mobileVideoRef.current.play().catch(e => console.log('Autoplay prevented:', e));
+    };
+    
+    // Attempt to play immediately on mount
+    playVideos();
+    
+    // Attempt to play on visibility change (sometimes helps with mobile restrictions)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) playVideos();
+    };
+    
+    // Attempt to play on first user interaction as a fallback
+    const handleInteraction = () => {
+      playVideos();
+      document.removeEventListener('touchstart', handleInteraction);
+      document.removeEventListener('click', handleInteraction);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("touchstart", handleInteraction, { once: true });
+    document.addEventListener("click", handleInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("touchstart", handleInteraction);
+      document.removeEventListener("click", handleInteraction);
+    };
+  }, []);
   const [expectedReturn, setExpectedReturn] = useState(12);
   const [years, setYears] = useState(10);
   const [partnerFilter, setPartnerFilter] = useState('ALL');
@@ -433,6 +470,7 @@ export const Home = () => {
       <section className="relative w-full h-screen overflow-hidden">
         {/* Desktop Video */}
         <video 
+          ref={desktopVideoRef}
           className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden lg:block" 
           autoPlay 
           loop 
@@ -444,6 +482,7 @@ export const Home = () => {
 
         {/* Tablet Video */}
         <video 
+          ref={tabletVideoRef}
           className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none hidden md:block lg:hidden" 
           autoPlay 
           loop 
@@ -455,6 +494,7 @@ export const Home = () => {
 
         {/* Mobile Video */}
         <video 
+          ref={mobileVideoRef}
           className="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none block md:hidden" 
           autoPlay 
           loop 
