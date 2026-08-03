@@ -216,11 +216,6 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-center space-y-6 max-w-3xl mx-auto"
         >
-          <div className="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-white/60 dark:bg-neutral-900/60 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-sm text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-widest">
-            <FaUserTie className="text-sm" />
-            <span>Expert Financial Advisory</span>
-          </div>
-
           <h1 className="text-4xl sm:text-6xl font-extrabold text-neutral-950 dark:text-white tracking-tight leading-tight">
             Schedule an <span className="bg-gradient-to-r from-amber-500 to-amber-400 bg-clip-text text-transparent">Appointment</span>
           </h1>
