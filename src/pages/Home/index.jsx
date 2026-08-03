@@ -475,7 +475,10 @@ export const Home = () => {
           autoPlay 
           loop 
           muted 
+          defaultMuted
           playsInline
+          webkit-playsinline="true"
+          preload="auto"
         >
           <source src="/sk_video.mp4" type="video/mp4" />
         </video>
@@ -487,7 +490,10 @@ export const Home = () => {
           autoPlay 
           loop 
           muted 
+          defaultMuted
           playsInline
+          webkit-playsinline="true"
+          preload="auto"
         >
           <source src="/Tablet.mp4" type="video/mp4" />
         </video>
@@ -499,7 +505,10 @@ export const Home = () => {
           autoPlay 
           loop 
           muted 
+          defaultMuted
           playsInline
+          webkit-playsinline="true"
+          preload="auto"
         >
           <source src="/sk_mobile.mp4" type="video/mp4" />
         </video>
