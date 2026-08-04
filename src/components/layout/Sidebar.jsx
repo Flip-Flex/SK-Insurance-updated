@@ -43,11 +43,7 @@ export const Sidebar = ({ collapsed, setCollapsed }) => {
       { name: 'Settings', icon: FaIcons.FaCog, path: '/dashboard/settings' }
     ],
     manager: [
-      { name: 'Home', icon: FaIcons.FaHome, path: '/dashboard' },
-      { name: 'Assets', icon: FaIcons.FaChartBar, path: '/dashboard/staff' },
-      { name: 'Investments', icon: FaIcons.FaCheckDouble, path: '/dashboard/approvals' },
-      { name: 'Reviews', icon: FaIcons.FaFileInvoiceDollar, path: '/dashboard/reports' },
-      { name: 'Settings', icon: FaIcons.FaCog, path: '/dashboard/settings' }
+      { name: 'Plans Manager', icon: FaIcons.FaFolderOpen, path: '/dashboard' }
     ],
     admin: [
       { name: 'Home', icon: FaIcons.FaHome, path: '/dashboard' },
@@ -69,7 +65,7 @@ export const Sidebar = ({ collapsed, setCollapsed }) => {
 
   return (
     <aside
-      className={`h-screen sticky top-0 shrink-0 bg-navy-950 text-slate-300 transition-all duration-300 shadow-xl border-r border-white/5 flex flex-col justify-between z-30 ${
+      className={`h-screen sticky top-0 shrink-0 bg-neutral-950 text-slate-300 transition-all duration-300 shadow-xl border-r border-white/5 flex flex-col justify-between z-30 ${
         collapsed ? 'w-16' : 'w-64'
       }`}
     >
@@ -87,26 +83,13 @@ export const Sidebar = ({ collapsed, setCollapsed }) => {
           </div>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1 text-xs hover:text-white hover:bg-navy-900 rounded-md transition-colors cursor-pointer"
+            className="p-1 text-xs hover:text-white hover:bg-neutral-900 rounded-md transition-colors cursor-pointer"
           >
             {collapsed ? <FaIcons.FaChevronRight /> : <FaIcons.FaChevronLeft />}
           </button>
         </div>
 
-        {/* User Quick Info */}
-        <div className="p-4 border-b border-white/5 bg-navy-900/35 overflow-hidden">
-          <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-gold-500 to-gold-400 text-navy-950 flex items-center justify-center font-bold text-base shrink-0 shadow-md">
-              {user.name.split(' ').map(n => n[0]).join('')}
-            </div>
-            {!collapsed && (
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-white truncate">{user.name}</p>
-                <p className="text-[10px] text-gold-400 font-bold uppercase tracking-wider">{user.role}</p>
-              </div>
-            )}
-          </div>
-        </div>
+
 
         {/* Menu Items */}
         <nav className="p-2 space-y-1 overflow-y-auto max-h-[calc(100vh-220px)]">
@@ -114,18 +97,19 @@ export const Sidebar = ({ collapsed, setCollapsed }) => {
             const Icon = item.icon;
             const active = location.pathname === item.path;
             return (
-              <button
-                key={item.name}
-                onClick={() => handleNavClick(item.path)}
-                className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
-                  active
-                    ? 'bg-gradient-to-r from-gold-500/20 to-gold-500/5 text-white border-l-2 border-gold-400'
-                    : 'hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                <Icon className={`text-base shrink-0 ${active ? 'text-gold-400' : 'text-slate-400'}`} />
-                {!collapsed && <span className="truncate">{item.name}</span>}
-              </button>
+              <li key={item.name} className="list-none">
+                <button
+                  onClick={() => handleNavClick(item.path)}
+                  className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
+                    active
+                      ? 'bg-neutral-900 text-gold-400 font-bold shadow-sm border border-white/5'
+                      : 'hover:bg-neutral-900 hover:text-white'
+                  }`}
+                >
+                  <Icon className={`text-base shrink-0 ${active ? 'text-gold-400' : 'text-slate-400'}`} />
+                  {!collapsed && <span className="truncate">{item.name}</span>}
+                </button>
+              </li>
             );
           })}
         </nav>
@@ -142,7 +126,7 @@ export const Sidebar = ({ collapsed, setCollapsed }) => {
         </button>
         <button
           onClick={logout}
-          className="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 cursor-pointer transition-colors"
+          className={`flex items-center text-sm font-bold text-red-400 hover:text-red-300 hover:bg-neutral-900 p-3 rounded-xl transition-colors cursor-pointer ${collapsed ? 'justify-center w-12 mx-auto' : 'w-full px-4'}`}
         >
           <FaIcons.FaSignOutAlt className="text-base shrink-0" />
           {!collapsed && <span>Log Out</span>}

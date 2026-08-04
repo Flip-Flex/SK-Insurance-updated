@@ -70,6 +70,21 @@ export const AnimatedTestimonials = ({
               </motion.div>
             ))}
           </div>
+          {/* Mobile Navigation Buttons */}
+          <div className="flex md:hidden gap-4 mt-8 justify-center">
+            <button
+              onClick={handlePrev}
+              className="h-10 w-10 rounded-full bg-neutral-900 flex items-center justify-center group/button border border-white/10 hover:border-brand-accent transition-colors"
+            >
+              <FiArrowLeft className="h-5 w-5 text-white group-hover/button:-rotate-12 transition-transform duration-300" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="h-10 w-10 rounded-full bg-neutral-900 flex items-center justify-center group/button border border-white/10 hover:border-brand-accent transition-colors"
+            >
+              <FiArrowRight className="h-5 w-5 text-white group-hover/button:rotate-12 transition-transform duration-300" />
+            </button>
+          </div>
         </div>
         <div className="flex justify-between flex-col py-4">
           <AnimatePresence mode="wait">
@@ -136,7 +151,9 @@ export const AnimatedTestimonials = ({
               )}
             </motion.div>
           </AnimatePresence>
-          <div className="flex gap-4 pt-12 md:pt-0">
+          
+          {/* Desktop Navigation Buttons */}
+          <div className="hidden md:flex gap-4 pt-12 md:pt-0">
             <button
               onClick={handlePrev}
               className="h-10 w-10 rounded-full bg-neutral-900 flex items-center justify-center group/button border border-white/10 hover:border-brand-accent transition-colors"

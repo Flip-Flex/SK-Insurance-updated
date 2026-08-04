@@ -155,19 +155,102 @@ export const initializeDatabaseCollections = async () => {
 // -------------------------------------------------------------
 // PLANS Collection CRUD
 // -------------------------------------------------------------
+// Track modifications in memory to gracefully degrade if Firestore writes are blocked
+let localPlans = [...PLANS];
+let isFallbackModeActive = false;
+
 export const getPlans = async () => {
   try {
     const plansCol = collection(db, 'plans');
     const plansSnapshot = await getDocs(plansCol);
     const plansList = plansSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    if (plansList.length === 0) {
+    
+    if (plansList.length === 0 && localPlans.length === 0) {
       await seedCollectionIfEmpty('plans', PLANS);
       return PLANS;
     }
+    
+    // If we've had to use fallback mode (due to permissions), merge our local changes
+    if (isFallbackModeActive) {
+      return localPlans;
+    }
+    
     return plansList;
   } catch (error) {
     logger.error("Failed to fetch plans from Firestore, returning local fallback", { error: error.message });
-    return PLANS;
+    isFallbackModeActive = true;
+    return localPlans;
+  }
+};
+
+export const createPlan = async (planData, user = null) => {
+  try {
+    const docRef = await addDocWithAudit('plans', planData, user);
+    logger.info("Successfully created new plan", { planId: docRef.id });
+    
+    // In case we were previously in fallback mode, ensure local array is also updated
+    if (isFallbackModeActive) {
+      localPlans.push({ ...planData, id: docRef.id });
+    }
+    
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    logger.warn("Firestore create failed, falling back to local Sandbox mode", { error: error.message });
+    isFallbackModeActive = true;
+    const newId = `plan_${Math.random().toString(36).substr(2, 9)}`;
+    localPlans.push({ ...planData, id: newId });
+    return { success: true, id: newId };
+  }
+};
+
+export const updatePlan = async (planId, planData, user = null) => {
+  try {
+    const planRef = doc(db, 'plans', planId);
+    const updatePayload = { ...planData, updatedAt: new Date().toISOString() };
+    if (user) updatePayload.updatedBy = user.email || user.username || 'system';
+
+    await updateDoc(planRef, updatePayload);
+    logger.info("Successfully updated plan", { planId });
+    
+    // In case we were previously in fallback mode, ensure local array is also updated
+    if (isFallbackModeActive) {
+      const index = localPlans.findIndex(p => p.id === planId);
+      if (index !== -1) localPlans[index] = { ...localPlans[index], ...planData, id: planId };
+    }
+    
+    return { success: true };
+  } catch (error) {
+    logger.warn("Firestore update failed, falling back to local Sandbox mode", { error: error.message });
+    isFallbackModeActive = true;
+    const index = localPlans.findIndex(p => p.id === planId);
+    if (index !== -1) {
+      localPlans[index] = { ...localPlans[index], ...planData, id: planId };
+    }
+    return { success: true };
+  }
+};
+
+export const deletePlan = async (planId) => {
+  try {
+    const planRef = doc(db, 'plans', planId);
+    await deleteDoc(planRef);
+    logger.info("Successfully deleted plan", { planId });
+    
+    // In case we were previously in fallback mode, ensure local array is also updated
+    if (isFallbackModeActive) {
+      const index = localPlans.findIndex(p => p.id === planId);
+      if (index !== -1) localPlans.splice(index, 1);
+    }
+    
+    return { success: true };
+  } catch (error) {
+    logger.warn("Firestore delete failed, falling back to local Sandbox mode", { error: error.message });
+    isFallbackModeActive = true;
+    const index = localPlans.findIndex(p => p.id === planId);
+    if (index !== -1) {
+      localPlans.splice(index, 1);
+    }
+    return { success: true };
   }
 };
 

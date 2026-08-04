@@ -1,359 +1,643 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { CLAIMS } from '../services/mockData';
-import { Button } from '../components/ui/Button';
-import { EmptyState } from '../components/ui/EmptyState';
-import { FaShieldAlt, FaArrowUp, FaUsers, FaCoins, FaCheckCircle, FaFileDownload } from 'react-icons/fa';
-import { subscribeToCollection, updateDocWithAudit } from '../services/firebaseService';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  FaPlus, FaEdit, FaTrash, FaCopy, FaSearch, 
+  FaFilter, FaCheckCircle, FaTimesCircle, FaArrowLeft, FaSave, 
+  FaChartPie, FaBox, FaBuilding, FaTags, FaExclamationCircle, FaTimes, FaImage, FaPowerOff, FaEye
+} from 'react-icons/fa';
+import { 
+  getPlans, createPlan, updatePlan, deletePlan
+} from '../services/api';
 
-export const ManagerDashboard = ({ tab }) => {
-  const { user } = useAuth();
+const COMPANIES = [
+  'SBI Life Insurance', 'LIC', 'Tata AIA', 'HDFC Life', 
+  'ICICI Prudential', 'Star Health', 'Care Health', 'Niva Bupa', 'Bajaj Allianz'
+];
+
+const CATEGORIES = [
+  'Health Insurance', 'Family Health', 'Life Insurance', 'Term Insurance', 
+  'Motor Insurance', 'Home Insurance', 'Travel Insurance', 'Business Insurance', 'Investment Plans'
+];
+
+const BILLING_TYPES = ['Monthly', 'Quarterly', 'Half Yearly', 'Yearly'];
+const STATUSES = ['Active', 'Inactive', 'Featured Plan', 'Recommended Plan', 'Popular Plan'];
+
+export const ManagerDashboard = () => {
+  const [view, setView] = useState('list'); // 'list' | 'form'
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   
-  // High value claims escalated to manager (amount > $2000)
-  const [approvalsQueue, setApprovalsQueue] = useState([]);
-  
-  const [successMsg, setSuccessMsg] = useState(null);
+  // Filtering & Sorting
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterCompany, setFilterCompany] = useState('');
+  const [filterCategory, setFilterCategory] = useState('');
+  const [sortBy, setSortBy] = useState('Newest');
 
-  const [customerDues, setCustomerDues] = useState([
-    { id: 'CUST-101', name: 'John Doe', email: 'customer@mail.com', policy: 'AP-HLTH-88390', plan: 'SK Platinum Care', premium: '₹120/mo', dueDate: '2026-08-15', status: 'Active' },
-    { id: 'CUST-102', name: 'Karthik Raja', email: 'karthik@mail.com', policy: 'AP-MTR-10293', plan: 'SK Auto Max Cover', premium: '₹420/yr', dueDate: '2026-07-20', status: 'Renewal Due' },
-    { id: 'CUST-103', name: 'Vijay Kumar', email: 'vijay@mail.com', policy: 'AP-LIFE-47291', plan: 'SK Term Elite', premium: '₹45/mo', dueDate: '2026-06-10', status: 'Overdue' },
-    { id: 'CUST-104', name: 'Arun Mozhi', email: 'arun@mail.com', policy: 'AP-HLTH-55928', plan: 'SK Health Shield', premium: '₹65/mo', dueDate: '2026-05-01', status: 'Overdue' }
-  ]);
+  // Form State
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({
+    title: '', company: '', category: '', description: '',
+    premiumAmount: '', billingCycle: 'Monthly', coverageAmount: '',
+    features: [''], status: 'Active', priority: '1',
+    thumbnailUrl: '', bannerUrl: '',
+    metaTitle: '', metaDescription: '', slug: ''
+  });
+  const [formSaving, setFormSaving] = useState(false);
+  const [formError, setFormError] = useState('');
 
-  const [reminderSent, setReminderSent] = useState(null);
+  // Modals / Toasts
+  const [toast, setToast] = useState(null); // { message, type }
+  const [deleteModal, setDeleteModal] = useState(null); // plan ID
 
   useEffect(() => {
-    const unsubscribe = subscribeToCollection('claims', (data) => {
-      // Escalated/Pending claims for manager review
-      const queue = data.filter(c => c.status === 'Pending' || c.status === 'In Progress' || c.status === 'Escalated');
-      setApprovalsQueue(queue);
-    });
-    return () => unsubscribe();
+    fetchPlans();
   }, []);
 
-  const handleSendReminder = (name, email) => {
-    setReminderSent(`Premium warning reminder successfully dispatched to ${name} (${email}).`);
-    setTimeout(() => setReminderSent(null), 3000);
+  const fetchPlans = async () => {
+    setLoading(true);
+    try {
+      const data = await getPlans();
+      // Ensure date formats and sort by priority or date
+      setPlans(data.sort((a, b) => parseInt(a.priority || 99) - parseInt(b.priority || 99)));
+    } catch (err) {
+      showToast('Failed to load plans.', 'error');
+    }
+    setLoading(false);
   };
 
-  const handleApprove = async (claimId) => {
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  // --- KPI Calculation ---
+  const totalPlans = plans.length;
+  const activePlans = plans.filter(p => p.status && p.status !== 'Inactive').length;
+  const inactivePlans = plans.filter(p => p.status === 'Inactive').length;
+  const uniqueCategories = new Set(plans.map(p => p.category)).size;
+  const uniqueCompanies = new Set(plans.map(p => p.company)).size;
+
+  // --- Filtering ---
+  let filteredPlans = plans.filter(p => {
+    const matchSearch = p.title?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        p.company?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchCompany = filterCompany ? p.company === filterCompany : true;
+    const matchCategory = filterCategory ? p.category === filterCategory : true;
+    return matchSearch && matchCompany && matchCategory;
+  });
+
+  if (sortBy === 'Newest') {
+    // Basic fallback sort if no real dates exist
+    filteredPlans = filteredPlans.reverse(); 
+  } else if (sortBy === 'Premium') {
+    filteredPlans = filteredPlans.sort((a, b) => parseFloat(a.premiumAmount || 0) - parseFloat(b.premiumAmount || 0));
+  }
+
+  // --- Form Handlers ---
+  const openCreateForm = () => {
+    setEditingId(null);
+    setFormData({
+      title: '', company: '', category: '', description: '',
+      premiumAmount: '', billingCycle: 'Monthly', coverageAmount: '',
+      features: [''], status: 'Active', priority: '1',
+      thumbnailUrl: '', bannerUrl: '', metaTitle: '', metaDescription: '', slug: ''
+    });
+    setView('form');
+  };
+
+  const openEditForm = (plan) => {
+    setEditingId(plan.id);
+    setFormData({
+      title: plan.title || plan.name || '',
+      company: plan.company || '',
+      category: plan.category || '',
+      description: plan.description || '',
+      premiumAmount: plan.premiumAmount || plan.premiumMonthly || '',
+      billingCycle: plan.billingCycle || 'Monthly',
+      coverageAmount: plan.coverageAmount || '',
+      features: plan.features?.length ? [...plan.features] : [''],
+      status: plan.status || 'Active',
+      priority: plan.priority?.toString() || '1',
+      thumbnailUrl: plan.thumbnailUrl || '',
+      bannerUrl: plan.bannerUrl || '',
+      metaTitle: plan.metaTitle || '',
+      metaDescription: plan.metaDescription || '',
+      slug: plan.slug || ''
+    });
+    setView('form');
+  };
+
+  const handleDuplicate = async (plan) => {
+    const { id, ...planWithoutId } = plan;
+    planWithoutId.title = `${plan.title} (Copy)`;
     try {
-      await updateDocWithAudit('claims', claimId, { status: 'Approved' }, user);
-      setSuccessMsg(`Claim ${claimId} successfully authorized and dispatched to bank treasury.`);
-      setTimeout(() => setSuccessMsg(null), 3000);
-    } catch (err) {
-      console.error(err);
+      await createPlan(planWithoutId);
+      showToast('Plan duplicated successfully');
+      fetchPlans();
+    } catch (e) {
+      showToast('Failed to duplicate plan', 'error');
     }
   };
 
-  // 1. OVERVIEW VIEW (KPI OPERATIONS)
-  if (!tab || tab === 'overview') {
-    return (
-      <div className="space-y-6 text-left">
-        {/* KPI Strip */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="glass-panel dark:glass-panel-gold rounded-2xl p-5 flex items-center space-x-4">
-            <div className="p-3 bg-blue-500/10 text-blue-500 rounded-xl">
-              <FaCoins className="text-2xl" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Gross Department Sales</p>
-              <h3 className="text-2xl font-bold text-navy-950 dark:text-white mt-0.5">₹1,89,42,000</h3>
-              <p className="text-[9px] text-emerald-500 font-bold flex items-center mt-0.5"><FaArrowUp className="mr-0.5" /> +8.2% monthly target</p>
-            </div>
-          </div>
+  const handleDelete = async (id) => {
+    try {
+      await deletePlan(id);
+      showToast('Plan deleted successfully');
+      setDeleteModal(null);
+      fetchPlans();
+    } catch (e) {
+      showToast('Failed to delete plan', 'error');
+    }
+  };
 
-          <div className="glass-panel dark:glass-panel-gold rounded-2xl p-5 flex items-center space-x-4">
-            <div className="p-3 bg-gold-500/10 text-gold-500 rounded-xl">
-              <FaShieldAlt className="text-2xl" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Claims Settled (Department)</p>
-              <h3 className="text-2xl font-bold text-navy-950 dark:text-white mt-0.5">340 Claims</h3>
-            </div>
-          </div>
+  const handleToggleStatus = async (plan) => {
+    try {
+      const newStatus = plan.status === 'Inactive' ? 'Active' : 'Inactive';
+      await updatePlan(plan.id, { ...plan, status: newStatus });
+      showToast(`Plan ${newStatus.toLowerCase()} successfully`);
+      fetchPlans();
+    } catch (e) {
+      console.error("Toggle status error:", e);
+      showToast(`Failed to update plan status: ${e.message}`, 'error');
+    }
+  };
 
-          <div className="glass-panel dark:glass-panel-gold rounded-2xl p-5 flex items-center space-x-4">
-            <div className="p-3 bg-purple-500/10 text-purple-500 rounded-xl">
-              <FaUsers className="text-2xl" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Active Agency Force</p>
-              <h3 className="text-2xl font-bold text-navy-950 dark:text-white mt-0.5">58 Field Agents</h3>
-            </div>
-          </div>
-        </div>
+  const handleFeatureChange = (index, value) => {
+    const newFeatures = [...formData.features];
+    newFeatures[index] = value;
+    setFormData({ ...formData, features: newFeatures });
+  };
+  const addFeature = () => setFormData({ ...formData, features: [...formData.features, ''] });
+  const removeFeature = (index) => {
+    if (formData.features.length > 1) {
+      setFormData({ ...formData, features: formData.features.filter((_, i) => i !== index) });
+    }
+  };
 
-        {/* SVG Line Chart: Targets vs Achievements */}
-        <div className="glass-panel rounded-2xl p-5 border border-slate-200/40 dark:border-white/5 space-y-4">
-          <div>
-            <h3 className="text-sm font-bold text-navy-950 dark:text-white">Monthly Premium Inflow Targets</h3>
-            <p className="text-[10px] text-slate-400 mt-0.5">Actuarial target achievements compared against actual gross inflow (Lakhs).</p>
-          </div>
+  const saveForm = async (e) => {
+    e.preventDefault();
+    setFormError('');
+    
+    // Validation
+    if (!formData.title || !formData.company || !formData.category || !formData.premiumAmount || !formData.coverageAmount) {
+      setFormError('Please fill in all required fields (Name, Company, Category, Premium, Coverage).');
+      return;
+    }
+    if (formData.features.filter(f => f.trim()).length === 0) {
+      setFormError('Please provide at least one valid feature.');
+      return;
+    }
 
-          <div className="h-44 w-full relative">
-            <svg className="w-full h-full text-slate-300 dark:text-navy-800" viewBox="0 0 500 150">
-              <defs>
-                <linearGradient id="goldArea" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#d97706" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              {/* Grid lines */}
-              <line x1="40" y1="20" x2="480" y2="20" stroke="currentColor" strokeWidth="1" strokeDasharray="3" className="opacity-20" />
-              <line x1="40" y1="60" x2="480" y2="60" stroke="currentColor" strokeWidth="1" strokeDasharray="3" className="opacity-20" />
-              <line x1="40" y1="100" x2="480" y2="100" stroke="currentColor" strokeWidth="1" strokeDasharray="3" className="opacity-20" />
-              
-              {/* Target Line (Dotted Gray) */}
-              <path d="M 40 100 L 150 90 L 260 70 L 370 50 L 480 30" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4" className="opacity-60" />
-              
-              {/* Actual Line Area Underneath */}
-              <path d="M 40 110 L 150 95 L 260 60 L 370 40 L 480 20 L 480 120 L 40 120 Z" fill="url(#goldArea)" />
-              
-              {/* Actual Line (Solid Gold) */}
-              <path d="M 40 110 L 150 95 L 260 60 L 370 40 L 480 20" fill="none" stroke="#eab308" strokeWidth="3" />
-              
-              {/* Dots and Labels */}
-              <circle cx="40" cy="110" r="4" className="fill-gold-500" />
-              <circle cx="150" cy="95" r="4" className="fill-gold-500" />
-              <circle cx="260" cy="60" r="4" className="fill-gold-500" />
-              <circle cx="370" cy="40" r="4" className="fill-gold-500" />
-              <circle cx="480" cy="20" r="4" className="fill-gold-500" />
+    setFormSaving(true);
+    try {
+      const cleanData = { 
+        ...formData, 
+        name: formData.title,
+        premiumMonthly: formData.premiumAmount,
+        features: formData.features.filter(f => f && f.trim()) 
+      };
+      
+      // Remove any potentially undefined fields just to be safe for Firestore
+      Object.keys(cleanData).forEach(key => {
+        if (cleanData[key] === undefined) delete cleanData[key];
+      });
+      delete cleanData.id;
 
-              {/* Tooltip Hover labels */}
-              <text x="40" y="135" fontSize="8" className="fill-slate-400 font-bold text-center" textAnchor="middle">Mar</text>
-              <text x="150" y="135" fontSize="8" className="fill-slate-400 font-bold text-center" textAnchor="middle">Apr</text>
-              <text x="260" y="135" fontSize="8" className="fill-slate-400 font-bold text-center" textAnchor="middle">May</text>
-              <text x="370" y="135" fontSize="8" className="fill-slate-400 font-bold text-center" textAnchor="middle">Jun</text>
-              <text x="480" y="135" fontSize="8" className="fill-slate-400 font-bold text-center" textAnchor="middle">Jul</text>
+      if (editingId) {
+        await updatePlan(editingId, cleanData);
+        showToast('Plan updated successfully');
+      } else {
+        await createPlan(cleanData);
+        showToast('Plan created successfully');
+      }
+      setView('list');
+      fetchPlans();
+    } catch (err) {
+      console.error("Save plan error:", err);
+      setFormError(`An error occurred while saving the plan: ${err.message}`);
+    }
+    setFormSaving(false);
+  };
 
-              {/* Y labels */}
-              <text x="15" y="23" fontSize="8" className="fill-slate-400 font-bold">₹40L</text>
-              <text x="15" y="63" fontSize="8" className="fill-slate-400 font-bold">₹25L</text>
-              <text x="15" y="103" fontSize="8" className="fill-slate-400 font-bold">₹10L</text>
-            </svg>
-          </div>
-
-          <div className="flex items-center justify-center space-x-6 text-[10px] font-bold">
-            <div className="flex items-center space-x-1.5">
-              <span className="w-3 h-0.5 bg-slate-400 border-t-2 border-dashed border-slate-400 inline-block" />
-              <span className="text-slate-400">Target Premium Goal</span>
-            </div>
-            <div className="flex items-center space-x-1.5">
-              <span className="w-3 h-0.5 bg-gold-500 inline-block" />
-              <span className="text-gold-500">Actual Gross Inflow (₹)</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Manager Tasks / Approvals summary */}
-        <div className="glass-panel rounded-2xl p-5 border border-slate-200/40 dark:border-white/5 space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-base font-bold text-navy-950 dark:text-white">Escalated High-Value Claims Approvals</h3>
-            <span className="text-xs text-slate-400">Total escalated: {approvalsQueue.length}</span>
-          </div>
-
-          {successMsg && (
-            <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200/50 dark:border-emerald-500/30 rounded-xl text-emerald-600 dark:text-emerald-400 text-xs flex items-center space-x-2">
-              <FaCheckCircle />
-              <span>{successMsg}</span>
-            </div>
-          )}
-
-          {approvalsQueue.length === 0 ? (
-            <EmptyState title="Approvals Queue Clean" description="No claims escalated at this time." icon={FaCheckCircle} />
-          ) : (
-            <div className="divide-y divide-slate-100 dark:divide-white/5 text-xs">
-              {approvalsQueue.map(c => (
-                <div key={c.id} className="py-3 flex items-center justify-between gap-4">
-                  <div>
-                    <p className="font-bold text-navy-950 dark:text-white">{c.id} - {c.planName}</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5">Claim sum: <strong className="text-gold-500">{c.amount}</strong> | Policy Number: {c.policyNumber}</p>
-                  </div>
-                  <Button variant="gold" size="sm" onClick={() => handleApprove(c.id)}>Authorize Payout</Button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // 2. HIGH-VALUE APPROVALS TAB
-  if (tab === 'approvals') {
-    return (
-      <div className="space-y-6 text-left">
-        <h2 className="text-xl font-bold text-navy-950 dark:text-white font-sans">High-Value Audit Desk</h2>
-        <div className="glass-panel rounded-3xl p-6 border border-slate-200/40 dark:border-white/5 space-y-4">
-          {successMsg && (
-            <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200/50 dark:border-emerald-500/30 rounded-xl text-emerald-600 dark:text-emerald-400 text-xs">
-              {successMsg}
-            </div>
-          )}
-          <div className="divide-y divide-slate-100 dark:divide-white/5">
-            {approvalsQueue.map(c => (
-              <div key={c.id} className="py-4 flex justify-between items-center gap-4 text-xs">
-                <div>
-                  <h4 className="font-bold text-navy-950 dark:text-white">Escalated: {c.id} | Sum: <strong className="text-gold-500">{c.amount}</strong></h4>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Underwriting policy details: {c.policyNumber} | Plan: {c.planName}</p>
-                </div>
-                <Button variant="gold" size="sm" onClick={() => handleApprove(c.id)}>Approve Payment</Button>
-              </div>
-            ))}
-            {approvalsQueue.length === 0 && (
-              <p className="text-xs text-slate-400 text-center py-4">No escalated approval requests pending.</p>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 3. STAFF PERFORMANCE TAB
-  if (tab === 'staff') {
-    return (
-      <div className="space-y-6 text-left">
-        <h2 className="text-xl font-bold text-navy-950 dark:text-white">Agency Force Metrics</h2>
-        <div className="glass-panel rounded-3xl p-6 border border-slate-200/40 dark:border-white/5 space-y-4">
-          <div className="overflow-x-auto text-xs">
-            <table className="w-full">
-              <thead>
-                <tr className="text-slate-400 border-b border-slate-200/50 dark:border-white/5 pb-2 text-left font-bold">
-                  <th className="py-2.5">Agent Identifier</th>
-                  <th>Department / Focus</th>
-                  <th>Client Portfolios</th>
-                  <th>Conversion rate</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-white/5">
-                <tr className="hover:bg-slate-50/50 dark:hover:bg-navy-900/10">
-                  <td className="py-3 font-semibold">Sarah Jenkins</td>
-                  <td>Life & Health Coverage</td>
-                  <td>42 Active</td>
-                  <td className="font-bold text-emerald-500">14.8%</td>
-                  <td><span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500 text-[10px] font-bold">Top Performer</span></td>
-                </tr>
-                <tr className="hover:bg-slate-50/50 dark:hover:bg-navy-900/10">
-                  <td className="py-3 font-semibold">Mark Antony</td>
-                  <td>Motor Vehicle Cover</td>
-                  <td>28 Active</td>
-                  <td className="font-bold text-slate-500">10.2%</td>
-                  <td><span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-navy-900 text-slate-400 text-[10px] font-bold">Active</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 4. BUSINESS REPORTS TAB
-  if (tab === 'reports') {
-    return (
-      <div className="space-y-6 text-left">
-        <h2 className="text-xl font-bold text-navy-950 dark:text-white">Underwriting Performance Audits</h2>
-        <div className="glass-panel rounded-3xl p-6 border border-slate-200/40 dark:border-white/5 space-y-4">
-          <p className="text-xs text-slate-500 leading-normal">
-            Download quarterly business performance sheets. These include loss ratios, renewal rates, and Telecaller metrics.
-          </p>
-          <div className="space-y-3 text-xs">
-            <div className="p-3 bg-slate-50 dark:bg-navy-900/40 border border-slate-200/50 dark:border-white/5 rounded-xl flex items-center justify-between gap-4">
-              <div>
-                <p className="font-bold text-navy-950 dark:text-white">Q2_2026_LossRatioReport.xlsx</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">Generated July 1, 2026 | Size: 4.2 MB</p>
-              </div>
-              <Button variant="secondary" size="sm" icon={FaFileDownload}>Download</Button>
-            </div>
-            <div className="p-3 bg-slate-50 dark:bg-navy-900/40 border border-slate-200/50 dark:border-white/5 rounded-xl flex items-center justify-between gap-4">
-              <div>
-                <p className="font-bold text-navy-950 dark:text-white">Agency_Commissions_PayoutList.pdf</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">Generated July 12, 2026 | Size: 1.1 MB</p>
-              </div>
-              <Button variant="secondary" size="sm" icon={FaFileDownload}>Download</Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 5. CUSTOMERS & PREMIUM DUES TAB (SETTINGS)
-  if (tab === 'settings') {
-    return (
-      <div className="space-y-6 text-left">
-        <div>
-          <h2 className="text-xl font-bold text-navy-950 dark:text-white font-sans">Customers & Dues Ledger</h2>
-          <p className="text-xs text-slate-400 mt-1">Audit customer premium due statuses, verify policy balances, and dispatch warnings.</p>
-        </div>
-
-        {reminderSent && (
-          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200/50 dark:border-emerald-500/30 rounded-xl text-emerald-600 dark:text-emerald-400 text-xs">
-            {reminderSent}
-          </div>
+  return (
+    <div className="w-full relative min-h-screen">
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: -20, x: '-50%' }}
+            className={`fixed top-6 left-1/2 z-[100] px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 backdrop-blur-xl border ${
+              toast.type === 'error' ? 'bg-red-500/90 border-red-400 text-white' : 'bg-green-500/90 border-green-400 text-white'
+            }`}
+          >
+            {toast.type === 'error' ? <FaExclamationCircle /> : <FaCheckCircle />}
+            <span className="font-bold text-sm tracking-wide">{toast.message}</span>
+          </motion.div>
         )}
+      </AnimatePresence>
 
-        <div className="glass-panel rounded-3xl p-6 border border-slate-200/40 dark:border-white/5 space-y-4">
-          <div className="overflow-x-auto text-xs">
-            <table className="w-full">
-              <thead>
-                <tr className="text-slate-400 border-b border-slate-200/50 dark:border-white/5 pb-2 text-left font-bold">
-                  <th className="py-2.5">Customer Name</th>
-                  <th>Policy Number</th>
-                  <th>Plan Details</th>
-                  <th>Premium Due</th>
-                  <th>Due Date</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-white/5">
-                {customerDues.map((cust) => (
-                  <tr key={cust.id} className="hover:bg-slate-50/50 dark:hover:bg-navy-900/10">
-                    <td className="py-3 font-semibold text-navy-950 dark:text-white">
-                      <div>{cust.name}</div>
-                      <div className="text-[10px] text-slate-400 font-normal">{cust.email}</div>
-                    </td>
-                    <td>{cust.policy}</td>
-                    <td>{cust.plan}</td>
-                    <td className="font-semibold">{cust.premium}</td>
-                    <td className="text-slate-400">{cust.dueDate}</td>
-                    <td>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        cust.status === 'Active'
-                          ? 'bg-emerald-500/10 text-emerald-500'
-                          : cust.status === 'Renewal Due'
-                          ? 'bg-amber-500/10 text-amber-500'
-                          : 'bg-red-500/10 text-red-500'
-                      }`}>
-                        {cust.status}
-                      </span>
-                    </td>
-                    <td>
-                      {cust.status !== 'Active' ? (
-                        <button
-                          onClick={() => handleSendReminder(cust.name, cust.email)}
-                          className="px-2.5 py-1 bg-gold-500/10 text-gold-500 hover:bg-gold-500 hover:text-white rounded-lg transition-all font-bold cursor-pointer text-[10px]"
-                        >
-                          Send Warning
-                        </button>
-                      ) : (
-                        <span className="text-slate-400 italic text-[10px]">Paid</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteModal && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }}
+              className="bg-white dark:bg-neutral-950 p-6 rounded-3xl shadow-2xl max-w-sm w-full border border-slate-200 dark:border-white/10"
+            >
+              <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">Delete Plan?</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
+                Are you sure you want to delete this insurance plan? This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => setDeleteModal(null)}
+                  className="flex-1 py-3 bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-200 transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={() => handleDelete(deleteModal)}
+                  className="flex-1 py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-colors shadow-lg shadow-red-500/30 cursor-pointer"
+                >
+                  Delete
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content */}
+      <div className="w-full h-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        {view === 'list' ? (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-6">
+            
+            {/* KPIs */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="glass-panel p-5 rounded-3xl border border-slate-200/50 dark:border-white/5 flex flex-col justify-center">
+                <div className="text-brand-accent mb-2"><FaBox className="text-xl" /></div>
+                <h4 className="text-2xl font-black text-neutral-950 dark:text-white">{totalPlans}</h4>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Total Plans</p>
+              </div>
+              <div className="glass-panel p-5 rounded-3xl border border-slate-200/50 dark:border-white/5 flex flex-col justify-center">
+                <div className="text-green-500 mb-2"><FaCheckCircle className="text-xl" /></div>
+                <h4 className="text-2xl font-black text-neutral-950 dark:text-white">{activePlans}</h4>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Active</p>
+              </div>
+              <div className="glass-panel p-5 rounded-3xl border border-slate-200/50 dark:border-white/5 flex flex-col justify-center">
+                <div className="text-red-400 mb-2"><FaTimesCircle className="text-xl" /></div>
+                <h4 className="text-2xl font-black text-neutral-950 dark:text-white">{inactivePlans}</h4>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Inactive</p>
+              </div>
+              <div className="glass-panel p-5 rounded-3xl border border-slate-200/50 dark:border-white/5 flex flex-col justify-center">
+                <div className="text-purple-400 mb-2"><FaTags className="text-xl" /></div>
+                <h4 className="text-2xl font-black text-neutral-950 dark:text-white">{uniqueCategories}</h4>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Categories</p>
+              </div>
+              <div className="glass-panel p-5 rounded-3xl border border-slate-200/50 dark:border-white/5 flex flex-col justify-center">
+                <div className="text-blue-400 mb-2"><FaBuilding className="text-xl" /></div>
+                <h4 className="text-2xl font-black text-neutral-950 dark:text-white">{uniqueCompanies}</h4>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Companies</p>
+              </div>
+            </div>
+
+            {/* Toolbar */}
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/50 dark:bg-neutral-900/30 p-2 rounded-2xl border border-slate-200/50 dark:border-white/5 backdrop-blur-md">
+              <div className="flex flex-wrap items-center gap-2 w-full md:w-auto p-2">
+                <div className="relative">
+                  <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input 
+                    type="text" 
+                    placeholder="Search plans..." 
+                    value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9 pr-4 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent transition-colors w-full md:w-48 text-neutral-950 dark:text-white"
+                  />
+                </div>
+                <select value={filterCompany} onChange={(e) => setFilterCompany(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                  <option value="">All Companies</option>
+                  {COMPANIES.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                  <option value="">All Categories</option>
+                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                  <option value="Newest">Newest</option>
+                  <option value="Premium">Premium</option>
+                </select>
+              </div>
+              <button 
+                onClick={openCreateForm}
+                className="w-full md:w-auto px-6 py-2.5 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(246,255,0,0.2)] whitespace-nowrap m-2 cursor-pointer"
+              >
+                + Create New Plan
+              </button>
+            </div>
+
+            {/* Data Grid */}
+            <div className="glass-panel rounded-3xl border border-slate-200/50 dark:border-white/5 overflow-hidden">
+              {loading ? (
+                <div className="p-12 text-center text-slate-500 animate-pulse font-bold">Loading Plans...</div>
+              ) : filteredPlans.length === 0 ? (
+                <div className="p-12 text-center text-slate-500 font-bold flex flex-col items-center">
+                  <FaBox className="text-4xl mb-4 opacity-20" />
+                  <p>No plans found matching your criteria.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse min-w-[800px]">
+                    <thead>
+                      <tr className="bg-slate-50 dark:bg-black/40 text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 w-16">Image</th>
+                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Plan Name</th>
+                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 hidden md:table-cell">Company</th>
+                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 hidden lg:table-cell">Category</th>
+                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Premium</th>
+                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Status</th>
+                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-white/5">
+                      {filteredPlans.map(plan => (
+                        <tr key={plan.id} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors group">
+                          <td className="px-6 py-4">
+                            {plan.thumbnailUrl ? (
+                              <img src={plan.thumbnailUrl} alt={plan.title} className="w-10 h-10 rounded-lg bg-slate-200 object-cover border border-slate-200 dark:border-white/10" />
+                            ) : (
+                              <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-white/5 flex items-center justify-center border border-slate-200 dark:border-white/10 text-slate-400">
+                                <FaImage />
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="font-bold text-neutral-950 dark:text-white text-sm">{plan.title || plan.name}</div>
+                            <div className="text-xs text-slate-500 md:hidden mt-1">{plan.company} • {plan.category}</div>
+                          </td>
+                          <td className="px-6 py-4 hidden md:table-cell">
+                            <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 dark:bg-white/5 rounded-lg text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                              {plan.company}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 hidden lg:table-cell text-xs font-medium text-slate-600 dark:text-slate-400">
+                            {plan.category}
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="text-sm font-black text-brand-accent dark:text-brand-accent">₹{plan.premiumAmount || plan.premiumMonthly}</div>
+                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{plan.billingCycle || 'Monthly'}</div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md flex items-center w-max gap-1.5 ${
+                              plan.status === 'Inactive' ? 'bg-red-100 text-red-600 dark:bg-red-500/10 dark:text-red-400' 
+                              : 'bg-green-100 text-green-600 dark:bg-green-500/10 dark:text-green-400'
+                            }`}>
+                              {plan.status === 'Inactive' ? <FaTimesCircle /> : <FaCheckCircle />}
+                              {plan.status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:bg-slate-700 hover:text-white transition-colors cursor-pointer" title="View">
+                                <FaEye className="text-xs" />
+                              </button>
+                              <button onClick={() => handleToggleStatus(plan)} className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer ${plan.status !== 'Inactive' ? 'bg-amber-100 text-amber-600 hover:bg-amber-500 hover:text-white dark:bg-amber-500/10' : 'bg-green-100 text-green-600 hover:bg-green-500 hover:text-white dark:bg-green-500/10'}`} title={plan.status !== 'Inactive' ? 'Deactivate' : 'Activate'}>
+                                <FaPowerOff className="text-xs" />
+                              </button>
+                              <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white transition-colors cursor-pointer" title="Edit">
+                                <FaEdit className="text-xs" />
+                              </button>
+                              <button onClick={() => setDeleteModal(plan.id)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-colors cursor-pointer" title="Delete">
+                                <FaTrash className="text-xs" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="pb-10">
+            {/* Form Header */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={() => setView('list')}
+                  className="w-10 h-10 rounded-full bg-white dark:bg-neutral-900 shadow-sm border border-slate-200 dark:border-white/5 flex items-center justify-center text-slate-500 hover:text-brand-accent transition-colors cursor-pointer"
+                >
+                  <FaArrowLeft />
+                </button>
+                <div>
+                  <h2 className="text-2xl font-black text-neutral-950 dark:text-white uppercase tracking-tight">
+                    {editingId ? 'Edit Insurance Plan' : 'Create New Plan'}
+                  </h2>
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Configure plan parameters</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button onClick={() => setView('list')} className="px-5 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors uppercase tracking-wider cursor-pointer">
+                  Cancel
+                </button>
+                <button 
+                  onClick={saveForm}
+                  disabled={formSaving}
+                  className="px-6 py-2 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(246,255,0,0.2)] flex items-center gap-2 disabled:opacity-50 disabled:scale-100 cursor-pointer"
+                >
+                  <FaSave />
+                  {formSaving ? 'Saving...' : (editingId ? 'Update Plan' : 'Publish Plan')}
+                </button>
+              </div>
+            </div>
+
+            {formError && (
+              <div className="mb-6 p-4 bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 rounded-2xl flex items-center gap-3 text-sm font-bold">
+                <FaExclamationCircle className="text-lg" />
+                {formError}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Left Column: Core Data */}
+              <div className="lg:col-span-2 space-y-6">
+                
+                {/* Basic Info Section */}
+                <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Basic Information</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Insurance Company <span className="text-red-500">*</span></label>
+                      <select required value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                        <option value="" disabled>Select Company</option>
+                        {COMPANIES.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Category <span className="text-red-500">*</span></label>
+                      <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                        <option value="" disabled>Select Category</option>
+                        {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Plan Name <span className="text-red-500">*</span></label>
+                    <input required type="text" placeholder="e.g. Smart Health Premium" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Short Description</label>
+                    <textarea rows="3" placeholder="Brief description of the plan..." value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white resize-none" />
+                  </div>
+                </div>
+
+                {/* Pricing & Coverage Section */}
+                <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Pricing & Coverage</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Premium Amount (₹) <span className="text-red-500">*</span></label>
+                      <input required type="number" placeholder="e.g. 1250" value={formData.premiumAmount} onChange={e => setFormData({...formData, premiumAmount: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Billing Cycle</label>
+                      <select value={formData.billingCycle} onChange={e => setFormData({...formData, billingCycle: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                        {BILLING_TYPES.map(b => <option key={b} value={b}>{b}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Coverage Amount <span className="text-red-500">*</span></label>
+                      <input required type="text" placeholder="e.g. ₹50 Lakhs" value={formData.coverageAmount} onChange={e => setFormData({...formData, coverageAmount: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Features Section */}
+                <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                  <div className="flex items-center justify-between mb-6 border-b border-slate-100 dark:border-white/5 pb-3">
+                    <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white">Plan Features</h3>
+                    <button onClick={addFeature} type="button" className="text-[10px] font-bold uppercase tracking-wider text-brand-accent flex items-center gap-1 hover:underline cursor-pointer">
+                      <FaPlus /> Add Feature
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {formData.features.map((feature, index) => (
+                      <div key={index} className="flex items-center gap-3">
+                        <div className="flex-1 relative">
+                          <input 
+                            type="text" 
+                            placeholder="e.g. Cashless Treatment" 
+                            value={feature} 
+                            onChange={e => handleFeatureChange(index, e.target.value)} 
+                            className="w-full pl-4 pr-10 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" 
+                          />
+                          {formData.features.length > 1 && (
+                            <button onClick={() => removeFeature(index)} type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500 transition-colors cursor-pointer">
+                              <FaTimes />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Right Column: Settings & SEO */}
+              <div className="space-y-6">
+                
+                {/* Status & Priority */}
+                <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Display Settings</h3>
+                  
+                  <div className="mb-6">
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Status</label>
+                    <select value={formData.status} onChange={e => setFormData({...formData, status: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                      {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Priority Number (Display Order)</label>
+                    <input type="number" placeholder="1" value={formData.priority} onChange={e => setFormData({...formData, priority: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                    <p className="text-[9px] text-slate-400 mt-1 font-semibold">Lower numbers appear first.</p>
+                  </div>
+                </div>
+
+                {/* Media Setup */}
+                <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Media</h3>
+                  
+                  <div className="flex gap-4 mb-5">
+                    <div className="flex-1">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Plan Card Image (Thumbnail)</label>
+                      <div className="relative">
+                        <FaImage className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input type="text" placeholder="https://..." value={formData.thumbnailUrl} onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} className="w-full pl-9 pr-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                      </div>
+                    </div>
+                    {formData.thumbnailUrl && (
+                      <div className="w-16 h-16 shrink-0 mt-6 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
+                        <img src={formData.thumbnailUrl} alt="Preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Banner Image (Optional)</label>
+                      <div className="relative">
+                        <FaImage className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <input type="text" placeholder="https://..." value={formData.bannerUrl} onChange={e => setFormData({...formData, bannerUrl: e.target.value})} className="w-full pl-9 pr-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                      </div>
+                    </div>
+                    {formData.bannerUrl && (
+                      <div className="w-16 h-16 shrink-0 mt-6 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
+                        <img src={formData.bannerUrl} alt="Preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* SEO */}
+                <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">SEO Details</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Meta Title</label>
+                      <input type="text" placeholder="SEO Title" value={formData.metaTitle} onChange={e => setFormData({...formData, metaTitle: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Slug (URL)</label>
+                      <input type="text" placeholder="smart-health-premium" value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Meta Description</label>
+                      <textarea rows="2" placeholder="SEO Description..." value={formData.metaDescription} onChange={e => setFormData({...formData, metaDescription: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white resize-none" />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </motion.div>
+        )}
       </div>
-    );
-  }
-
-  return <EmptyState title="No Dashboard Section" description="The requested section could not be found." />;
+    </div>
+  );
 };
+
 export default ManagerDashboard;

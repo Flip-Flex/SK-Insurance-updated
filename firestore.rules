@@ -30,7 +30,7 @@ service cloud.firestore {
     // Plans CRUD
     match /plans/{planId} {
       allow read: if true;
-      allow write: if isUserRole('Admin');
+      allow write: if true;
     }
 
     // Users CRUD

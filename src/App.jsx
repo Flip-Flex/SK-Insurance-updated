@@ -16,15 +16,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-import { seedCollectionIfEmpty } from './services/firebaseService';
-import { defaultPlans } from './utils/seedPlans';
-
 function App() {
-  useEffect(() => {
-    // Seed the database with default plans if it's currently empty
-    seedCollectionIfEmpty('plans', defaultPlans);
-  }, []);
-
   return (
     <LanguageProvider>
       <ThemeProvider>

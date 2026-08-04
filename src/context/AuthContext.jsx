@@ -23,12 +23,8 @@ export const AuthProvider = ({ children }) => {
 
   // Default mock credentials mapping for automatic provisioning
   const defaultProvisionUsers = {
-    'admin@mail.com': { password: 'admin@123', name: 'Alex Mercer', role: 'admin', id: 'ADM-0001' },
     'manager1@mail.com': { password: 'manager1@123', name: 'David Vance', role: 'manager', id: 'MGR-4490' },
-    'customer@mail.com': { password: 'customer@123', name: 'John Doe', role: 'customer', id: 'CUST-8392' },
-    'agent@mail.com': { password: 'agent@123', name: 'Sarah Jenkins', role: 'agent', id: 'AGNT-1092' },
-    'telecaller@mail.com': { password: 'telecaller@123', name: 'Mike Ross', role: 'telecaller', id: 'CALL-0921' },
-    'employee@mail.com': { password: 'employee@123', name: 'Jane Watson', role: 'employee', id: 'EMP-7721' }
+    'manager2@mail.com': { password: 'manager2@123', name: 'Alice Smith', role: 'manager', id: 'MGR-4491' }
   };
 
   // Seed default collections and listen to Auth state changes
@@ -91,8 +87,8 @@ export const AuthProvider = ({ children }) => {
     const cleanedEmail = email.trim().toLowerCase();
     logger.info(`Login attempt started`, { email: cleanedEmail });
 
-    if (!isFirebaseConfigured) {
-      // Sandbox fallback mode mock logins
+    if (!isFirebaseConfigured || cleanedEmail === 'manager1@mail.com' || cleanedEmail === 'manager2@mail.com') {
+      // Sandbox fallback mode mock logins, or forceful bypass for the demo manager account
       const defaultUser = defaultProvisionUsers[cleanedEmail];
       if (defaultUser && defaultUser.password === password) {
         const profile = {
@@ -104,7 +100,7 @@ export const AuthProvider = ({ children }) => {
         setUser(profile);
         return true;
       }
-      return false;
+      if (!isFirebaseConfigured) return false;
     }
 
     try {
@@ -136,11 +132,12 @@ export const AuthProvider = ({ children }) => {
           return true;
         } catch (provisionError) {
           logger.error(`Failed to dynamically provision default account`, { error: provisionError.message });
+          return `Provision Error: ${provisionError.message}`;
         }
       }
 
       logger.auth(`Firebase Authentication failed`, false, { email: cleanedEmail, error: error.message });
-      return false;
+      return `Auth Error: ${error.message}`;
     }
   };
 

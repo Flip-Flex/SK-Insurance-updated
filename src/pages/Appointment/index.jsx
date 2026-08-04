@@ -296,33 +296,33 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="bg-white/70 dark:bg-neutral-900/50 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-[2.5rem] shadow-2xl dark:shadow-amber-500/5 overflow-hidden"
+          className="bg-white/70 dark:bg-neutral-900/50 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-3xl sm:rounded-[2.5rem] shadow-2xl dark:shadow-amber-500/5 overflow-hidden"
         >
           {/* Form Header */}
-          <div className="bg-gradient-to-r from-white/40 to-transparent dark:from-neutral-800/40 dark:to-transparent p-6 sm:p-8 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-500/30">
-                <FaCalendarAlt className="text-xl" />
+          <div className="bg-gradient-to-r from-white/40 to-transparent dark:from-neutral-800/40 dark:to-transparent p-4 sm:p-8 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-500/30">
+                <FaCalendarAlt className="text-lg sm:text-xl" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-neutral-950 dark:text-white">Booking Details</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Customize your consultation experience</p>
+                <h3 className="text-lg sm:text-xl font-bold text-neutral-950 dark:text-white">Booking Details</h3>
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Customize your consultation</p>
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 sm:p-8">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-8">
             
             {/* Progress Tracker */}
-            <div className="flex items-center justify-between mb-10 relative px-2 sm:px-10">
-              <div className="absolute top-5 left-8 right-8 h-1 bg-slate-200 dark:bg-neutral-800 -translate-y-1/2 rounded-full z-0 hidden sm:block"></div>
-              <div className="absolute top-5 left-8 h-1 bg-amber-500 -translate-y-1/2 rounded-full z-0 transition-all duration-500 hidden sm:block" style={{ width: `${((currentStep - 1) / 2) * 100}%`, maxWidth: 'calc(100% - 4rem)' }}></div>
+            <div className="flex items-center justify-between mb-8 sm:mb-10 relative px-2 sm:px-10">
+              <div className="absolute top-4 sm:top-5 left-6 right-6 sm:left-8 sm:right-8 h-1 bg-slate-200 dark:bg-neutral-800 -translate-y-1/2 rounded-full z-0"></div>
+              <div className="absolute top-4 sm:top-5 left-6 sm:left-8 h-1 bg-amber-500 -translate-y-1/2 rounded-full z-0 transition-all duration-500" style={{ width: `${((currentStep - 1) / 2) * 100}%`, maxWidth: 'calc(100% - 3rem)' }}></div>
               {[1, 2, 3].map((step) => (
-                <div key={step} className={`relative z-10 flex flex-col items-center justify-center space-y-2`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-500 ${currentStep >= step ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30 ring-4 ring-amber-500/20' : 'bg-slate-200 dark:bg-neutral-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-white/10'}`}>
-                    {step < currentStep ? <FaCheckCircle className="text-lg" /> : step}
+                <div key={step} className={`relative z-10 flex flex-col items-center justify-center space-y-1.5 sm:space-y-2`}>
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm transition-all duration-500 ${currentStep >= step ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30 ring-4 ring-amber-500/20' : 'bg-slate-200 dark:bg-neutral-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-white/10'}`}>
+                    {step < currentStep ? <FaCheckCircle className="text-sm sm:text-lg" /> : step}
                   </div>
-                  <span className={`text-xs font-bold uppercase tracking-wider ${currentStep >= step ? 'text-neutral-950 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}>
+                  <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${currentStep >= step ? 'text-neutral-950 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}>
                     {step === 1 ? 'Service' : step === 2 ? 'Schedule' : 'Details'}
                   </span>
                 </div>
@@ -357,7 +357,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                             type="button"
                             key={item.id}
                             onClick={() => handleServiceSelect(item.name)}
-                            className={`p-4 rounded-2xl text-left flex flex-col items-center justify-center text-center space-y-3 transition-all duration-300 relative overflow-hidden ${
+                            className={`p-3 sm:p-4 rounded-2xl text-left flex flex-row sm:flex-col items-center sm:justify-center sm:text-center space-x-4 sm:space-x-0 sm:space-y-3 transition-all duration-300 relative overflow-hidden ${
                               isSelected
                                 ? 'border-transparent shadow-lg shadow-amber-500/20 bg-white dark:bg-neutral-800 ring-2 ring-amber-500'
                                 : 'border-slate-200 dark:border-white/10 bg-white/50 dark:bg-neutral-900/30 hover:bg-white dark:hover:bg-neutral-800 border'
@@ -366,16 +366,16 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                             {isSelected && (
                               <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-bl-full pointer-events-none" />
                             )}
-                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0 ${isSelected ? 'bg-amber-500 text-white shadow-md' : item.bg + ' ' + item.color} transition-colors`}>
+                            <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl shrink-0 ${isSelected ? 'bg-amber-500 text-white shadow-md' : item.bg + ' ' + item.color} transition-colors`}>
                               <Icon />
                             </div>
-                            <div>
+                            <div className="flex-1 sm:flex-none">
                               <p className={`text-sm font-bold leading-tight ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
                                 {item.name}
                               </p>
                             </div>
                             {isSelected && (
-                              <div className="absolute top-3 right-3 text-amber-500">
+                              <div className="absolute top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-3 right-4 sm:right-3 text-amber-500">
                                 <FaCheckCircle className="text-sm" />
                               </div>
                             )}
@@ -397,10 +397,10 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                     transition={{ duration: 0.3 }}
                     className="space-y-8"
                   >
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
                       {/* Date & Time */}
-                      <div className="space-y-6 bg-slate-50/50 dark:bg-neutral-950/20 p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
-                        <div className="space-y-4">
+                      <div className="space-y-6 bg-slate-50/50 dark:bg-neutral-950/20 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200/50 dark:border-white/5">
+                        <div className="space-y-3 sm:space-y-4">
                           <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
                             Preferred Date <span className="text-rose-500">*</span>
                           </label>
@@ -410,28 +410,28 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                             min={minDateStr}
                             value={formData.date}
                             onChange={handleChange}
-                            className="w-full px-5 py-4 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-2xl text-sm font-medium text-neutral-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm cursor-pointer"
+                            className="w-full px-4 py-3 sm:px-5 sm:py-4 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-xl sm:rounded-2xl text-sm font-medium text-neutral-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all shadow-sm cursor-pointer"
                           />
                           {errors.date && <p className="text-xs text-rose-500 font-semibold pl-2">{errors.date}</p>}
                         </div>
 
-                        <div className="space-y-4">
+                        <div className="space-y-3 sm:space-y-4">
                           <label className="text-sm font-bold text-neutral-950 dark:text-white tracking-wide">
                             Time Slot <span className="text-rose-500">*</span>
                           </label>
-                          <div className="grid grid-cols-3 gap-3">
+                          <div className="grid grid-cols-3 gap-2 sm:gap-3">
                             {timeSlots.map((slot) => {
                               const isSelected = formData.timeSlot === slot;
                               return (
                                 <motion.button
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
+                                  whileHover={{ scale: 1.02 }}
+                                  whileTap={{ scale: 0.98 }}
                                   type="button"
                                   key={slot}
                                   onClick={() => handleTimeSelect(slot)}
-                                  className={`py-3 px-2 rounded-xl text-xs sm:text-sm font-bold text-center transition-all duration-300 border ${
+                                  className={`py-2.5 px-1 sm:py-3 sm:px-2 rounded-lg sm:rounded-xl text-[11px] sm:text-sm font-bold text-center transition-all duration-300 border ${
                                     isSelected
-                                      ? 'bg-gradient-to-r from-amber-500 to-amber-500 text-white border-transparent shadow-lg shadow-amber-500/30'
+                                      ? 'bg-gradient-to-r from-amber-500 to-amber-500 text-white border-transparent shadow-md shadow-amber-500/30'
                                       : 'bg-white dark:bg-neutral-900 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-amber-400 hover:text-amber-500 dark:hover:text-amber-400'
                                   }`}
                                 >
@@ -460,27 +460,27 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                                 type="button"
                                 key={modeItem.id}
                                 onClick={() => handleModeSelect(modeItem.name)}
-                                className={`p-4 rounded-2xl flex items-center justify-between transition-all duration-300 border ${
+                                className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl flex items-center justify-between transition-all duration-300 border ${
                                   isSelected
                                     ? 'bg-white dark:bg-neutral-800 border-amber-500 ring-1 ring-amber-500 shadow-md'
                                     : 'bg-white/50 dark:bg-neutral-900/30 border-slate-200 dark:border-white/10 hover:bg-white dark:hover:bg-neutral-800'
                                 }`}
                               >
-                                <div className="flex items-center space-x-4">
-                                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${isSelected ? 'bg-amber-500 text-white shadow-inner' : 'bg-slate-100 dark:bg-neutral-950 text-slate-500 dark:text-slate-400'}`}>
+                                <div className="flex items-center space-x-3 sm:space-x-4">
+                                  <div className={`w-10 h-10 rounded-lg sm:rounded-xl flex items-center justify-center text-lg ${isSelected ? 'bg-amber-500 text-white shadow-inner' : 'bg-slate-100 dark:bg-neutral-950 text-slate-500 dark:text-slate-400'}`}>
                                     <Icon />
                                   </div>
                                   <div className="text-left">
-                                    <span className={`block text-sm font-bold ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+                                    <span className={`block text-xs sm:text-sm font-bold ${isSelected ? 'text-neutral-950 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
                                       {modeItem.name}
                                     </span>
-                                    <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                    <span className="block text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                                       {modeItem.desc}
                                     </span>
                                   </div>
                                 </div>
                                 {isSelected && (
-                                  <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-white text-[10px]">
+                                  <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-amber-500 flex items-center justify-center text-white text-[8px] sm:text-[10px]">
                                     <FaCheckCircle />
                                   </div>
                                 )}
@@ -589,13 +589,13 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
             </div>
 
             {/* Navigation & Submit Footer */}
-            <div className="mt-10 pt-6 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between">
+            <div className="mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between">
               <div>
                 {currentStep > 1 && (
                   <button
                     type="button"
                     onClick={handlePrevStep}
-                    className="px-6 py-3 rounded-xl font-bold text-sm text-slate-600 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition-all"
+                    className="px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition-all"
                   >
                     Back
                   </button>
@@ -607,7 +607,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                   <button
                     type="button"
                     onClick={handleNextStep}
-                    className="px-8 py-3 rounded-xl font-extrabold text-sm text-neutral-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-md flex items-center space-x-2"
+                    className="px-6 py-2.5 sm:px-8 sm:py-3 rounded-lg sm:rounded-xl font-extrabold text-xs sm:text-sm text-neutral-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-md flex items-center space-x-2"
                   >
                     <span>Next Step</span>
                     <FaArrowRight className="text-xs" />
@@ -618,14 +618,14 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
                     whileTap={{ scale: 0.98 }}
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-8 py-3 rounded-xl font-extrabold text-sm text-neutral-950 bg-gradient-to-r from-amber-400 via-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.4)] flex items-center justify-center space-x-3 transition-all cursor-pointer relative overflow-hidden group"
+                    className="px-6 py-3 sm:px-8 sm:py-3 rounded-lg sm:rounded-xl font-extrabold text-xs sm:text-sm text-neutral-950 bg-gradient-to-r from-amber-400 via-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.4)] flex items-center justify-center space-x-2 sm:space-x-3 transition-all cursor-pointer relative overflow-hidden group"
                   >
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                     {isSubmitting ? (
-                      <span className="relative z-10">Processing securely...</span>
+                      <span className="relative z-10 whitespace-nowrap">Processing...</span>
                     ) : (
-                      <span className="relative z-10 flex items-center space-x-3">
-                        <FaWhatsapp className="text-xl animate-pulse" />
+                      <span className="relative z-10 flex items-center space-x-2 sm:space-x-3 whitespace-nowrap">
+                        <FaWhatsapp className="text-lg sm:text-xl animate-pulse" />
                         <span>Confirm Booking</span>
                       </span>
                     )}

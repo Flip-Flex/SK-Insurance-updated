@@ -5,6 +5,7 @@ import { subscribeToCollection } from '../../services/firebaseService';
 import SplitText from '../../components/common/SplitText';
 import { useTranslation } from '../../context/LanguageContext';
 import { AnimatedTestimonials } from '../../components/ui/animated-testimonials';
+import { Hover3DCard } from '../../components/ui/Hover3DCard';
 
 // Utility for animating numbers
 const Counter = ({ from, to, suffix = "", duration = 2 }) => {
@@ -643,44 +644,48 @@ export const About = () => {
             <p className="text-neutral-400 text-lg max-w-xl mx-auto font-medium">Stay updated with our latest insights, company news, and financial strategies on your favorite platforms.</p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-stretch justify-center gap-6 md:gap-8 w-full max-w-4xl relative z-10">
+          <div className="flex flex-col gap-4 w-full max-w-3xl relative z-10 mx-auto">
             {/* Instagram */}
-            <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="group flex-1 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] blur-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-[32px]" />
-              <div className="relative h-full flex flex-col items-center justify-center text-center bg-black border border-white/10 p-10 rounded-[32px] hover:border-pink-500/50 transition-all duration-500 overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="w-20 h-20 rounded-[24px] bg-neutral-900 flex items-center justify-center text-4xl text-neutral-500 group-hover:text-white group-hover:bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] transition-all duration-500 shadow-xl mb-6 transform group-hover:scale-110 group-hover:rotate-12">
-                  <FaInstagram />
+            <Hover3DCard href="https://www.instagram.com/sk_smartinvestments/" className="w-full rounded-[24px] p-[1px]">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:via-pink-500/50 group-hover:translate-x-full -translate-x-full transition-transform duration-1000 ease-in-out rounded-[24px]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-500/0 to-pink-500/0 group-hover:from-pink-500/5 group-hover:via-pink-500/10 group-hover:to-pink-500/5 transition-colors duration-500 rounded-[24px]" />
+              <div className="relative flex items-center justify-between p-6 sm:p-8 bg-neutral-950/90 backdrop-blur-xl rounded-[23px] border border-white/5 overflow-hidden h-full">
+                <div className="absolute -right-10 -top-10 w-40 h-40 bg-gradient-to-bl from-[#833ab4]/20 via-[#fd1d1d]/20 to-[#fcb045]/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="flex items-center gap-5 sm:gap-6 relative z-10">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[18px] bg-neutral-900 border border-white/10 flex items-center justify-center text-2xl sm:text-3xl text-neutral-500 group-hover:text-white group-hover:bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] transition-all duration-500 shadow-inner group-hover:scale-110 group-hover:rotate-6">
+                    <FaInstagram />
+                  </div>
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-[900] uppercase tracking-widest text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#fd1d1d] group-hover:to-[#fcb045] transition-all duration-300">Instagram</h3>
+                    <p className="text-[10px] sm:text-xs font-bold text-neutral-500 group-hover:text-pink-400/80 transition-colors uppercase tracking-widest mt-1">@sk_smartinvestments</p>
+                  </div>
                 </div>
-                
-                <h3 className="text-2xl font-[900] uppercase tracking-wider text-white mb-2">Instagram</h3>
-                <p className="text-xs font-bold text-neutral-500 tracking-widest group-hover:text-pink-400 transition-colors uppercase">@sk_smartinvestments</p>
-                
-                <div className="mt-8 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:text-white group-hover:bg-pink-500 group-hover:border-pink-500 group-hover:-rotate-45 transition-all duration-300">
+                <div className="relative z-10 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:bg-gradient-to-r group-hover:from-[#fd1d1d] group-hover:to-[#fcb045] group-hover:text-white group-hover:border-transparent group-hover:-rotate-45 transition-all duration-500 shadow-lg">
                   <FaArrowRight />
                 </div>
               </div>
-            </a>
+            </Hover3DCard>
 
             {/* LinkedIn */}
-            <a href="https://www.linkedin.com/company/sksmartinvestments/" target="_blank" rel="noopener noreferrer" className="group flex-1 relative">
-              <div className="absolute inset-0 bg-[#0077b5] blur-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-700 rounded-[32px]" />
-              <div className="relative h-full flex flex-col items-center justify-center text-center bg-black border border-white/10 p-10 rounded-[32px] hover:border-[#0077b5]/50 transition-all duration-500 overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-[#0077b5] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="w-20 h-20 rounded-[24px] bg-neutral-900 flex items-center justify-center text-4xl text-neutral-500 group-hover:text-white group-hover:bg-[#0077b5] transition-all duration-500 shadow-xl mb-6 transform group-hover:scale-110 group-hover:-rotate-12">
-                  <FaLinkedin />
+            <Hover3DCard href="https://www.linkedin.com/company/sksmartinvestments/" className="w-full rounded-[24px] p-[1px]">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:via-[#0077b5]/50 group-hover:translate-x-full -translate-x-full transition-transform duration-1000 ease-in-out rounded-[24px]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0077b5]/0 via-[#0077b5]/0 to-[#0077b5]/0 group-hover:from-[#0077b5]/5 group-hover:via-[#0077b5]/10 group-hover:to-[#0077b5]/5 transition-colors duration-500 rounded-[24px]" />
+              <div className="relative flex items-center justify-between p-6 sm:p-8 bg-neutral-950/90 backdrop-blur-xl rounded-[23px] border border-white/5 overflow-hidden h-full">
+                <div className="absolute -right-10 -top-10 w-40 h-40 bg-[#0077b5]/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="flex items-center gap-5 sm:gap-6 relative z-10">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[18px] bg-neutral-900 border border-white/10 flex items-center justify-center text-2xl sm:text-3xl text-neutral-500 group-hover:text-white group-hover:bg-[#0077b5] transition-all duration-500 shadow-inner group-hover:scale-110 group-hover:-rotate-6">
+                    <FaLinkedin />
+                  </div>
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-[900] uppercase tracking-widest text-white group-hover:text-[#0077b5] transition-colors duration-300">LinkedIn</h3>
+                    <p className="text-[10px] sm:text-xs font-bold text-neutral-500 group-hover:text-[#0077b5]/80 transition-colors uppercase tracking-widest mt-1">SK Smart Investments</p>
+                  </div>
                 </div>
-                
-                <h3 className="text-2xl font-[900] uppercase tracking-wider text-white mb-2">LinkedIn</h3>
-                <p className="text-xs font-bold text-neutral-500 tracking-widest group-hover:text-blue-400 transition-colors uppercase">SK Smart Investments</p>
-                
-                <div className="mt-8 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:text-white group-hover:bg-[#0077b5] group-hover:border-[#0077b5] group-hover:-rotate-45 transition-all duration-300">
+                <div className="relative z-10 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/30 group-hover:bg-[#0077b5] group-hover:text-white group-hover:border-transparent group-hover:-rotate-45 transition-all duration-500 shadow-lg">
                   <FaArrowRight />
                 </div>
               </div>
-            </a>
+            </Hover3DCard>
           </div>
         </motion.div>
 

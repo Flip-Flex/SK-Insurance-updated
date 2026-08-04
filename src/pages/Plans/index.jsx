@@ -9,7 +9,6 @@ import { subscribeToCollection } from '../../services/firebaseService';
 import { FaCheck, FaStar, FaCheckCircle, FaShieldAlt, FaBriefcase, FaFileSignature, FaHeartbeat, FaUserShield, FaCar, FaSearch, FaArrowRight, FaTimes, FaMapMarkerAlt, FaHospital, FaMoneyBillWave, FaPlane } from 'react-icons/fa';
 import confetti from 'canvas-confetti';
 import { cn } from '../../utils/cn';
-import { defaultPlans } from '../../utils/seedPlans';
 
 // Upgraded Company Logo Component with Glassmorphism
 const CompanyLogo = ({ company }) => {
@@ -117,7 +116,7 @@ export const Plans = () => {
         });
         setPlans(sorted);
       } else {
-        setPlans(defaultPlans); // Fallback to local mock data if DB is empty or errors
+        setPlans([]); 
       }
       setLoading(false);
     });
@@ -156,7 +155,7 @@ export const Plans = () => {
   ];
 
   const finalFilteredPlans = plans.filter(plan => {
-    if (plan.isVisible === false) return false;
+    if (plan.isVisible === false || plan.status === 'Inactive') return false;
 
     let categoryMatch = true;
     if (activeFilter !== 'ALL') {
@@ -193,7 +192,7 @@ export const Plans = () => {
     let searchMatch = true;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      const name = (plan.name || '').toLowerCase();
+      const name = (plan.name || plan.title || '').toLowerCase();
       const comp = (plan.company || '').toLowerCase();
       const desc = (plan.description || '').toLowerCase();
       const cat = (plan.category || '').toLowerCase();
@@ -359,7 +358,7 @@ export const Plans = () => {
             {!isDesktop ? (
               <ScrollStack useWindowScroll={true} itemStackDistance={50} stackPosition="15%">
                 {finalFilteredPlans.map((plan, idx) => {
-                  const monthlyPrice = parseInt(plan.premiumMonthly) || 0;
+                  const monthlyPrice = parseInt(plan.premiumMonthly || plan.premiumAmount) || 0;
                   const yearlyPrice = Math.floor(monthlyPrice * 12 * 0.8);
                   const displayPrice = isMonthly ? monthlyPrice : yearlyPrice;
                   const displayPeriod = isMonthly ? "mo" : "yr";
@@ -377,7 +376,7 @@ export const Plans = () => {
                           </span>
                         </div>
                         <p className="text-base font-[900] text-neutral-300 uppercase tracking-wider text-left border-b border-white/10 pb-3">
-                          {plan.name}
+                          {plan.name || plan.title}
                         </p>
                         <div className="mt-4 flex items-end justify-start gap-x-1 border-brand-accent/30 pl-2 text-left">
                           <span className="text-4xl font-[900] tracking-tighter text-white">
@@ -437,7 +436,7 @@ export const Plans = () => {
                 {finalFilteredPlans.map((plan, idx) => {
                   const isPopular = Boolean(plan.badge);
                   const columnPos = idx % 3;
-                  const monthlyPrice = parseInt(plan.premiumMonthly) || 0;
+                  const monthlyPrice = parseInt(plan.premiumMonthly || plan.premiumAmount) || 0;
                   const yearlyPrice = Math.floor(monthlyPrice * 12 * 0.8);
                   const displayPrice = isMonthly ? monthlyPrice : yearlyPrice;
                   const displayPeriod = isMonthly ? "mo" : "yr";
@@ -455,7 +454,7 @@ export const Plans = () => {
                           </span>
                         </div>
                         <p className="text-base font-[900] text-neutral-300 uppercase tracking-wider text-left border-b border-white/10 pb-3">
-                          {plan.name}
+                          {plan.name || plan.title}
                         </p>
                         <div className="mt-4 flex items-end justify-start gap-x-1 border-brand-accent/30 pl-2 text-left">
                           <span className="text-4xl font-[900] tracking-tighter text-white">

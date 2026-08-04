@@ -57,7 +57,7 @@ export const Navbar = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
           isTransparent || isOpen
             ? 'bg-transparent backdrop-blur-none border-transparent py-1.5 md:py-3'
             : 'bg-neutral-950/85 backdrop-blur-[20px] shadow-premium-dark border-b border-white/10 py-1.5'
@@ -186,12 +186,8 @@ export const Navbar = () => {
                 ariaLabel: `Go to ${link.name}`,
                 link: link.path
               }))}
-              socialItems={[
-                { label: 'Twitter', link: 'https://twitter.com' },
-                { label: 'GitHub', link: 'https://github.com' },
-                { label: 'LinkedIn', link: 'https://linkedin.com' }
-              ]}
-              displaySocials
+              socialItems={[]}
+              displaySocials={false}
               displayItemNumbering={false}
               menuButtonColor={isTransparent ? "#000000" : "#ffffff"}
               openMenuButtonColor="#000000"
