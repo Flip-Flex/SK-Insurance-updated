@@ -1,23 +1,30 @@
-import React from 'react';
-import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { Routes, Route, useLocation, Outlet } from 'react-router-dom';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
-
-// Public pages
-import { Home } from '../pages/Home';
-import { About } from '../pages/About';
-import { Plans } from '../pages/Plans';
-import { Calculator } from '../pages/Calculator';
-import { Careers } from '../pages/Careers';
-import { Support } from '../pages/Support';
-import { Blog } from '../pages/Blog';
-import { Auth } from '../pages/Auth';
-import { Dashboard } from '../pages/Dashboard';
-import { Claims } from '../pages/Claims';
-import { NotFound } from '../pages/Errors/NotFound';
+import { Loader } from '../components/ui/Loader';
 import { ProtectedRoute } from '../components/common/ProtectedRoute';
-import { PrivacyPolicy } from '../pages/PrivacyPolicy';
-import { Appointment } from '../pages/Appointment';
+
+// Lazy load pages for code splitting
+const Home = lazy(() => import('../pages/Home').then(module => ({ default: module.Home })));
+const About = lazy(() => import('../pages/About').then(module => ({ default: module.About })));
+const Plans = lazy(() => import('../pages/Plans').then(module => ({ default: module.Plans })));
+const Calculator = lazy(() => import('../pages/Calculator').then(module => ({ default: module.Calculator })));
+const Careers = lazy(() => import('../pages/Careers').then(module => ({ default: module.Careers })));
+const Support = lazy(() => import('../pages/Support').then(module => ({ default: module.Support })));
+const Blog = lazy(() => import('../pages/Blog').then(module => ({ default: module.Blog })));
+const Auth = lazy(() => import('../pages/Auth').then(module => ({ default: module.Auth })));
+const Dashboard = lazy(() => import('../pages/Dashboard').then(module => ({ default: module.Dashboard })));
+const Claims = lazy(() => import('../pages/Claims').then(module => ({ default: module.Claims })));
+const NotFound = lazy(() => import('../pages/Errors/NotFound').then(module => ({ default: module.NotFound })));
+const PrivacyPolicy = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPolicy })));
+const Appointment = lazy(() => import('../pages/Appointment').then(module => ({ default: module.Appointment })));
+
+const FallbackLoader = () => (
+  <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+    <Loader />
+  </div>
+);
 
 const PublicLayout = () => {
   const location = useLocation();
@@ -26,7 +33,9 @@ const PublicLayout = () => {
   if (isAuthPage) {
     return (
       <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-navy-950">
-        <Outlet />
+        <Suspense fallback={<FallbackLoader />}>
+          <Outlet />
+        </Suspense>
       </div>
     );
   }
@@ -35,7 +44,9 @@ const PublicLayout = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <div className="flex-1">
-        <Outlet />
+        <Suspense fallback={<FallbackLoader />}>
+          <Outlet />
+        </Suspense>
       </div>
       <Footer />
     </div>
@@ -45,7 +56,6 @@ const PublicLayout = () => {
 export const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public Routes with standard Header/Footer */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -61,10 +71,17 @@ export const AppRoutes = () => {
         <Route path="*" element={<NotFound />} />
       </Route>
 
-      {/* Dashboard Routes (Custom shell containing Sidebar & Header) */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/:tab" element={<Dashboard />} />
+        <Route path="/dashboard" element={
+          <Suspense fallback={<FallbackLoader />}>
+            <Dashboard />
+          </Suspense>
+        } />
+        <Route path="/dashboard/:tab" element={
+          <Suspense fallback={<FallbackLoader />}>
+            <Dashboard />
+          </Suspense>
+        } />
       </Route>
     </Routes>
   );

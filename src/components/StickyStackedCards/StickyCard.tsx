@@ -44,10 +44,11 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
   }
 
   const yOutput = input.map(v => {
-    if (v <= idx - 0.4) return `120%`;
+    if (v <= idx - 0.4) return `100vh`;
     if (v >= idx && v <= idx + 0.6) return `0px`;
     const pushedCount = Math.floor(v) - idx;
-    return `${-pushedCount * 28}px`;
+    // Reduce stack offset to prevent overlapping header on small screens
+    return `${-pushedCount * 12}px`;
   });
 
   const scaleOutput = input.map(v => {
@@ -102,7 +103,7 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
             boxShadow,
             borderColor
           }}
-          className="w-full aspect-square rounded-[32px] p-8 sm:p-10 border border-white/[0.08] shadow-premium-dark flex flex-col justify-center bg-[#18181b]/80 backdrop-blur-[20px] cursor-pointer hover:bg-[#18181b]/95 transition-colors group"
+          className="w-full aspect-square rounded-[24px] lg:rounded-[32px] p-6 sm:p-8 lg:p-10 border border-white/[0.08] shadow-premium-dark flex flex-col justify-center bg-[#18181b]/80 backdrop-blur-[20px] cursor-pointer hover:bg-[#18181b]/95 transition-colors group"
         >
           <div className="flex flex-col items-start w-full">
             <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-900 text-white rounded-[16px] inline-block mb-8 shadow-sm">

@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { AppRoutes } from './routes';
 import { ChatWidget } from './components/ui/ChatWidget';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -18,17 +19,24 @@ const ScrollToTop = () => {
 
 function App() {
   return (
-    <LanguageProvider>
-      <ThemeProvider>
-        <AuthProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <AppRoutes />
-            <ChatWidget />
-          </BrowserRouter>
-        </AuthProvider>
-      </ThemeProvider>
-    </LanguageProvider>
+    <HelmetProvider>
+      <LanguageProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <Helmet>
+                <title>SK Smart Investments</title>
+                <meta name="description" content="Premium insurance portfolios and policies. Start your digital application instantly." />
+                <meta name="theme-color" content="#f6ff00" />
+              </Helmet>
+              <ScrollToTop />
+              <AppRoutes />
+              <ChatWidget />
+            </BrowserRouter>
+          </AuthProvider>
+        </ThemeProvider>
+      </LanguageProvider>
+    </HelmetProvider>
   );
 }
 

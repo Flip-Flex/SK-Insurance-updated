@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../context/LanguageContext';
 import { Modal } from '../../components/ui/Modal';
 import { Loader } from '../../components/ui/Loader';
-import ScrollStack, { ScrollStackItem } from '../../components/ScrollStack/ScrollStack';
 import { subscribeToCollection } from '../../services/firebaseService';
 import { FaCheck, FaStar, FaCheckCircle, FaShieldAlt, FaBriefcase, FaFileSignature, FaHeartbeat, FaUserShield, FaCar, FaSearch, FaArrowRight, FaTimes, FaMapMarkerAlt, FaHospital, FaMoneyBillWave, FaPlane } from 'react-icons/fa';
 import confetti from 'canvas-confetti';
@@ -356,7 +355,7 @@ export const Plans = () => {
         ) : (
           <>
             {!isDesktop ? (
-              <ScrollStack useWindowScroll={true} itemStackDistance={50} stackPosition="15%">
+              <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
                 {finalFilteredPlans.map((plan, idx) => {
                   const monthlyPrice = parseInt(plan.premiumMonthly || plan.premiumAmount) || 0;
                   const yearlyPrice = Math.floor(monthlyPrice * 12 * 0.8);
@@ -419,18 +418,22 @@ export const Plans = () => {
                   );
 
                   return (
-                    <ScrollStackItem key={plan.id} itemClassName="!h-auto !p-0 !my-2 !bg-transparent !shadow-none border-0 !rounded-[1.5rem]">
-                      <div className={cn(
-                        `rounded-[1.5rem] border p-5 md:p-6 bg-neutral-900/95 backdrop-blur-2xl text-center flex flex-col relative overflow-hidden transition-colors hover:bg-neutral-900 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]`,
-                        "border-brand-accent border-2 bg-neutral-900/95 shadow-[0_0_50px_rgba(246,255,0,0.1)]",
+                    <motion.div 
+                      key={plan.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.1 }}
+                      className={cn(
+                        `rounded-[1.5rem] border p-5 md:p-6 bg-neutral-900/95 backdrop-blur-2xl text-center flex flex-col relative overflow-hidden transition-colors hover:bg-neutral-900 shadow-[0_10px_30px_rgba(0,0,0,0.3)]`,
+                        "border-brand-accent border-2 bg-neutral-900/95 shadow-[0_0_40px_rgba(246,255,0,0.15)]",
                         "h-full"
                       )}>
                         {innerContent}
-                      </div>
-                    </ScrollStackItem>
+                    </motion.div>
                   );
                 })}
-              </ScrollStack>
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 xl:gap-16">
                 {finalFilteredPlans.map((plan, idx) => {

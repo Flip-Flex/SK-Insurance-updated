@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  FaPlus, FaEdit, FaTrash, FaCopy, FaSearch, 
-  FaFilter, FaCheckCircle, FaTimesCircle, FaArrowLeft, FaSave, 
-  FaChartPie, FaBox, FaBuilding, FaTags, FaExclamationCircle, FaTimes, FaImage, FaPowerOff, FaEye
+  FaPlus, FaEdit, FaTrash, FaSearch, 
+  FaCheckCircle, FaTimesCircle, FaArrowLeft, FaSave, 
+  FaBox, FaBuilding, FaTags, FaExclamationCircle, FaTimes, FaImage, FaPowerOff, FaEye, FaUpload, FaSpinner
 } from 'react-icons/fa';
 import { 
-  getPlans, createPlan, updatePlan, deletePlan
+  getPlans, createPlan, updatePlan, deletePlan, getSettings
 } from '../services/api';
+import { uploadMediaFile } from '../services/firebaseService';
+import { z } from 'zod';
+import imageCompression from 'browser-image-compression';
 
-const COMPANIES = [
+const DEFAULT_COMPANIES = [
   'SBI Life Insurance', 'LIC', 'Tata AIA', 'HDFC Life', 
   'ICICI Prudential', 'Star Health', 'Care Health', 'Niva Bupa', 'Bajaj Allianz'
 ];
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   'Health Insurance', 'Family Health', 'Life Insurance', 'Term Insurance', 
   'Motor Insurance', 'Home Insurance', 'Travel Insurance', 'Business Insurance', 'Investment Plans'
 ];
@@ -22,12 +25,36 @@ const CATEGORIES = [
 const BILLING_TYPES = ['Monthly', 'Quarterly', 'Half Yearly', 'Yearly'];
 const STATUSES = ['Active', 'Inactive', 'Featured Plan', 'Recommended Plan', 'Popular Plan'];
 
+const planSchema = z.object({
+  title: z.string().min(3, 'Plan name must be at least 3 characters'),
+  company: z.string().min(1, 'Please select a company'),
+  category: z.string().min(1, 'Please select a category'),
+  description: z.string().optional(),
+  premiumAmount: z.string().min(1, 'Premium amount is required'),
+  billingCycle: z.string(),
+  coverageAmount: z.string().min(1, 'Coverage amount is required'),
+  features: z.array(z.string().min(1)).min(1, 'At least one valid feature is required'),
+  status: z.string(),
+  priority: z.string(),
+  thumbnailUrl: z.string().optional(),
+  bannerUrl: z.string().optional(),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
+  slug: z.string().optional(),
+});
+
 export const ManagerDashboard = () => {
-  const [view, setView] = useState('list'); // 'list' | 'form'
+  const [view, setView] = useState('list');
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
 
-  
+  // Dynamic Settings
+  const [companies, setCompanies] = useState(DEFAULT_COMPANIES);
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+
   // Filtering & Sorting
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCompany, setFilterCompany] = useState('');
@@ -45,25 +72,50 @@ export const ManagerDashboard = () => {
   });
   const [formSaving, setFormSaving] = useState(false);
   const [formError, setFormError] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Modals / Toasts
-  const [toast, setToast] = useState(null); // { message, type }
-  const [deleteModal, setDeleteModal] = useState(null); // plan ID
+  const [toast, setToast] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(null);
 
   useEffect(() => {
+    fetchSettings();
     fetchPlans();
   }, []);
+
+  const fetchSettings = async () => {
+    const settings = await getSettings('dropdowns');
+    if (settings) {
+      if (settings.companies) setCompanies(settings.companies);
+      if (settings.categories) setCategories(settings.categories);
+    }
+  };
 
   const fetchPlans = async () => {
     setLoading(true);
     try {
-      const data = await getPlans();
-      // Ensure date formats and sort by priority or date
-      setPlans(data.sort((a, b) => parseInt(a.priority || 99) - parseInt(b.priority || 99)));
+      const data = await getPlans(null, 15);
+      setPlans(data.plans);
+      setLastVisible(data.lastVisible);
+      setHasMore(data.plans.length === 15);
     } catch (err) {
       showToast('Failed to load plans.', 'error');
     }
     setLoading(false);
+  };
+
+  const loadMorePlans = async () => {
+    if (!hasMore || loadingMore) return;
+    setLoadingMore(true);
+    try {
+      const data = await getPlans(lastVisible, 15);
+      setPlans(prev => [...prev, ...data.plans]);
+      setLastVisible(data.lastVisible);
+      setHasMore(data.plans.length === 15);
+    } catch (err) {
+      showToast('Failed to load more plans.', 'error');
+    }
+    setLoadingMore(false);
   };
 
   const showToast = (message, type = 'success') => {
@@ -71,14 +123,13 @@ export const ManagerDashboard = () => {
     setTimeout(() => setToast(null), 3000);
   };
 
-  // --- KPI Calculation ---
+  // KPIs
   const totalPlans = plans.length;
   const activePlans = plans.filter(p => p.status && p.status !== 'Inactive').length;
   const inactivePlans = plans.filter(p => p.status === 'Inactive').length;
   const uniqueCategories = new Set(plans.map(p => p.category)).size;
   const uniqueCompanies = new Set(plans.map(p => p.company)).size;
 
-  // --- Filtering ---
   let filteredPlans = plans.filter(p => {
     const matchSearch = p.title?.toLowerCase().includes(searchQuery.toLowerCase()) || 
                         p.company?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -87,14 +138,10 @@ export const ManagerDashboard = () => {
     return matchSearch && matchCompany && matchCategory;
   });
 
-  if (sortBy === 'Newest') {
-    // Basic fallback sort if no real dates exist
-    filteredPlans = filteredPlans.reverse(); 
-  } else if (sortBy === 'Premium') {
+  if (sortBy === 'Premium') {
     filteredPlans = filteredPlans.sort((a, b) => parseFloat(a.premiumAmount || 0) - parseFloat(b.premiumAmount || 0));
   }
 
-  // --- Form Handlers ---
   const openCreateForm = () => {
     setEditingId(null);
     setFormData({
@@ -103,6 +150,7 @@ export const ManagerDashboard = () => {
       features: [''], status: 'Active', priority: '1',
       thumbnailUrl: '', bannerUrl: '', metaTitle: '', metaDescription: '', slug: ''
     });
+    setFormError('');
     setView('form');
   };
 
@@ -125,19 +173,8 @@ export const ManagerDashboard = () => {
       metaDescription: plan.metaDescription || '',
       slug: plan.slug || ''
     });
+    setFormError('');
     setView('form');
-  };
-
-  const handleDuplicate = async (plan) => {
-    const { id, ...planWithoutId } = plan;
-    planWithoutId.title = `${plan.title} (Copy)`;
-    try {
-      await createPlan(planWithoutId);
-      showToast('Plan duplicated successfully');
-      fetchPlans();
-    } catch (e) {
-      showToast('Failed to duplicate plan', 'error');
-    }
   };
 
   const handleDelete = async (id) => {
@@ -158,8 +195,7 @@ export const ManagerDashboard = () => {
       showToast(`Plan ${newStatus.toLowerCase()} successfully`);
       fetchPlans();
     } catch (e) {
-      console.error("Toggle status error:", e);
-      showToast(`Failed to update plan status: ${e.message}`, 'error');
+      showToast(`Failed to update plan status`, 'error');
     }
   };
 
@@ -168,6 +204,7 @@ export const ManagerDashboard = () => {
     newFeatures[index] = value;
     setFormData({ ...formData, features: newFeatures });
   };
+  
   const addFeature = () => setFormData({ ...formData, features: [...formData.features, ''] });
   const removeFeature = (index) => {
     if (formData.features.length > 1) {
@@ -175,34 +212,44 @@ export const ManagerDashboard = () => {
     }
   };
 
+  const handleImageUpload = async (e, field) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setFormError('');
+    try {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1024,
+        useWebWorker: true,
+      };
+      const compressedFile = await imageCompression(file, options);
+      const url = await uploadMediaFile(compressedFile, 'plans');
+      setFormData({ ...formData, [field]: url });
+      showToast('Image uploaded successfully');
+    } catch (error) {
+      setFormError('Failed to upload image. Please try again.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const saveForm = async (e) => {
     e.preventDefault();
     setFormError('');
     
-    // Validation
-    if (!formData.title || !formData.company || !formData.category || !formData.premiumAmount || !formData.coverageAmount) {
-      setFormError('Please fill in all required fields (Name, Company, Category, Premium, Coverage).');
-      return;
-    }
-    if (formData.features.filter(f => f.trim()).length === 0) {
-      setFormError('Please provide at least one valid feature.');
-      return;
-    }
-
-    setFormSaving(true);
     try {
-      const cleanData = { 
-        ...formData, 
-        name: formData.title,
-        premiumMonthly: formData.premiumAmount,
-        features: formData.features.filter(f => f && f.trim()) 
-      };
+      // Validate using Zod
+      const validatedData = planSchema.parse(formData);
       
-      // Remove any potentially undefined fields just to be safe for Firestore
-      Object.keys(cleanData).forEach(key => {
-        if (cleanData[key] === undefined) delete cleanData[key];
-      });
-      delete cleanData.id;
+      setFormSaving(true);
+      const cleanData = { 
+        ...validatedData, 
+        name: validatedData.title,
+        premiumMonthly: validatedData.premiumAmount,
+        features: validatedData.features.filter(f => f && f.trim()) 
+      };
 
       if (editingId) {
         await updatePlan(editingId, cleanData);
@@ -214,15 +261,17 @@ export const ManagerDashboard = () => {
       setView('list');
       fetchPlans();
     } catch (err) {
-      console.error("Save plan error:", err);
-      setFormError(`An error occurred while saving the plan: ${err.message}`);
+      if (err instanceof z.ZodError) {
+        setFormError(err.errors[0].message);
+      } else {
+        setFormError(`An error occurred: ${err.message}`);
+      }
     }
     setFormSaving(false);
   };
 
   return (
     <div className="w-full relative min-h-screen">
-      {/* Toast Notification */}
       <AnimatePresence>
         {toast && (
           <motion.div 
@@ -239,7 +288,6 @@ export const ManagerDashboard = () => {
         )}
       </AnimatePresence>
 
-      {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {deleteModal && (
           <motion.div 
@@ -273,17 +321,15 @@ export const ManagerDashboard = () => {
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
       <div className="w-full h-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         {view === 'list' ? (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-6">
             
-            {/* KPIs */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="glass-panel p-5 rounded-3xl border border-slate-200/50 dark:border-white/5 flex flex-col justify-center">
                 <div className="text-brand-accent mb-2"><FaBox className="text-xl" /></div>
                 <h4 className="text-2xl font-black text-neutral-950 dark:text-white">{totalPlans}</h4>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Total Plans</p>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Total Loaded</p>
               </div>
               <div className="glass-panel p-5 rounded-3xl border border-slate-200/50 dark:border-white/5 flex flex-col justify-center">
                 <div className="text-green-500 mb-2"><FaCheckCircle className="text-xl" /></div>
@@ -307,7 +353,6 @@ export const ManagerDashboard = () => {
               </div>
             </div>
 
-            {/* Toolbar */}
             <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/50 dark:bg-neutral-900/30 p-2 rounded-2xl border border-slate-200/50 dark:border-white/5 backdrop-blur-md">
               <div className="flex flex-wrap items-center gap-2 w-full md:w-auto p-2">
                 <div className="relative">
@@ -321,11 +366,11 @@ export const ManagerDashboard = () => {
                 </div>
                 <select value={filterCompany} onChange={(e) => setFilterCompany(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                   <option value="">All Companies</option>
-                  {COMPANIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {companies.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
                 <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                   <option value="">All Categories</option>
-                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {categories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
                 <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                   <option value="Newest">Newest</option>
@@ -340,9 +385,8 @@ export const ManagerDashboard = () => {
               </button>
             </div>
 
-            {/* Data Grid */}
             <div className="glass-panel rounded-3xl border border-slate-200/50 dark:border-white/5 overflow-hidden">
-              {loading ? (
+              {loading && plans.length === 0 ? (
                 <div className="p-12 text-center text-slate-500 animate-pulse font-bold">Loading Plans...</div>
               ) : filteredPlans.length === 0 ? (
                 <div className="p-12 text-center text-slate-500 font-bold flex flex-col items-center">
@@ -420,13 +464,25 @@ export const ManagerDashboard = () => {
                       ))}
                     </tbody>
                   </table>
+                  
+                  {hasMore && (
+                    <div className="p-4 border-t border-slate-200 dark:border-white/5 flex justify-center">
+                      <button 
+                        onClick={loadMorePlans} 
+                        disabled={loadingMore}
+                        className="px-6 py-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-700 dark:text-white font-bold rounded-xl text-sm transition-colors cursor-pointer flex items-center gap-2"
+                      >
+                        {loadingMore && <FaSpinner className="animate-spin" />}
+                        {loadingMore ? 'Loading...' : 'Load More Plans'}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </motion.div>
         ) : (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="pb-10">
-            {/* Form Header */}
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-4">
                 <button 
@@ -448,7 +504,7 @@ export const ManagerDashboard = () => {
                 </button>
                 <button 
                   onClick={saveForm}
-                  disabled={formSaving}
+                  disabled={formSaving || uploadingImage}
                   className="px-6 py-2 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(246,255,0,0.2)] flex items-center gap-2 disabled:opacity-50 disabled:scale-100 cursor-pointer"
                 >
                   <FaSave />
@@ -465,10 +521,8 @@ export const ManagerDashboard = () => {
             )}
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left Column: Core Data */}
               <div className="lg:col-span-2 space-y-6">
                 
-                {/* Basic Info Section */}
                 <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
                   <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Basic Information</h3>
                   
@@ -477,14 +531,14 @@ export const ManagerDashboard = () => {
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Insurance Company <span className="text-red-500">*</span></label>
                       <select required value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                         <option value="" disabled>Select Company</option>
-                        {COMPANIES.map(c => <option key={c} value={c}>{c}</option>)}
+                        {companies.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Category <span className="text-red-500">*</span></label>
                       <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                         <option value="" disabled>Select Category</option>
-                        {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                        {categories.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                     </div>
                   </div>
@@ -500,7 +554,6 @@ export const ManagerDashboard = () => {
                   </div>
                 </div>
 
-                {/* Pricing & Coverage Section */}
                 <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
                   <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Pricing & Coverage</h3>
                   
@@ -522,7 +575,6 @@ export const ManagerDashboard = () => {
                   </div>
                 </div>
 
-                {/* Features Section */}
                 <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
                   <div className="flex items-center justify-between mb-6 border-b border-slate-100 dark:border-white/5 pb-3">
                     <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white">Plan Features</h3>
@@ -555,10 +607,8 @@ export const ManagerDashboard = () => {
 
               </div>
 
-              {/* Right Column: Settings & SEO */}
               <div className="space-y-6">
                 
-                {/* Status & Priority */}
                 <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
                   <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Display Settings</h3>
                   
@@ -576,42 +626,44 @@ export const ManagerDashboard = () => {
                   </div>
                 </div>
 
-                {/* Media Setup */}
                 <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
                   <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Media</h3>
                   
-                  <div className="flex gap-4 mb-5">
+                  <div className="flex gap-4 mb-5 flex-col">
                     <div className="flex-1">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Plan Card Image (Thumbnail)</label>
                       <div className="relative">
-                        <FaImage className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                        <input type="text" placeholder="https://..." value={formData.thumbnailUrl} onChange={e => setFormData({...formData, thumbnailUrl: e.target.value})} className="w-full pl-9 pr-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                        <label className="w-full flex items-center justify-center py-3 bg-slate-50 dark:bg-black/50 border border-dashed border-slate-300 dark:border-white/20 rounded-xl text-xs font-bold cursor-pointer hover:border-brand-accent transition-colors text-slate-500 dark:text-slate-400">
+                          <FaUpload className="mr-2" /> Upload Image
+                          <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'thumbnailUrl')} className="hidden" />
+                        </label>
                       </div>
                     </div>
                     {formData.thumbnailUrl && (
-                      <div className="w-16 h-16 shrink-0 mt-6 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
+                      <div className="w-full h-32 shrink-0 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
                         <img src={formData.thumbnailUrl} alt="Preview" className="w-full h-full object-cover" />
                       </div>
                     )}
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 flex-col border-t border-slate-100 dark:border-white/5 pt-5">
                     <div className="flex-1">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Banner Image (Optional)</label>
                       <div className="relative">
-                        <FaImage className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                        <input type="text" placeholder="https://..." value={formData.bannerUrl} onChange={e => setFormData({...formData, bannerUrl: e.target.value})} className="w-full pl-9 pr-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
+                        <label className="w-full flex items-center justify-center py-3 bg-slate-50 dark:bg-black/50 border border-dashed border-slate-300 dark:border-white/20 rounded-xl text-xs font-bold cursor-pointer hover:border-brand-accent transition-colors text-slate-500 dark:text-slate-400">
+                          <FaUpload className="mr-2" /> Upload Banner
+                          <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'bannerUrl')} className="hidden" />
+                        </label>
                       </div>
                     </div>
                     {formData.bannerUrl && (
-                      <div className="w-16 h-16 shrink-0 mt-6 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
+                      <div className="w-full h-32 shrink-0 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
                         <img src={formData.bannerUrl} alt="Preview" className="w-full h-full object-cover" />
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* SEO */}
                 <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
                   <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">SEO Details</h3>
                   

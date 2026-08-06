@@ -186,8 +186,8 @@ export const Home = () => {
   const [videoSrc, setVideoSrc] = useState(() => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth >= 1024) return '/sk_video.mp4';
-      if (window.innerWidth >= 768) return '/Tablet_compressed.mp4';
-      return '/sk_mobile_compressed.mp4';
+      if (window.innerWidth >= 768) return '/Tablet.mp4';
+      return '/sk_mobile.mp4';
     }
     return '/sk_video.mp4';
   });
@@ -198,9 +198,9 @@ export const Home = () => {
       if (window.innerWidth >= 1024) {
         setVideoSrc('/sk_video.mp4');
       } else if (window.innerWidth >= 768) {
-        setVideoSrc('/Tablet_compressed.mp4');
+        setVideoSrc('/Tablet.mp4');
       } else {
-        setVideoSrc('/sk_mobile_compressed.mp4');
+        setVideoSrc('/sk_mobile.mp4');
       }
     };
     
@@ -503,6 +503,7 @@ export const Home = () => {
                 <video 
                   id="hero-video"
                   class="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none" 
+                  style="will-change: transform; transform: translateZ(0); backface-visibility: hidden; -webkit-transform: translateZ(0);"
                   autoplay 
                   loop 
                   muted 

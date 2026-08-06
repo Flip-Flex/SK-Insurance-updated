@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sksmartinvestments.com/sitemap.xml

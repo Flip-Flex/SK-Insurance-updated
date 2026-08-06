@@ -21,16 +21,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Default mock credentials mapping for automatic provisioning
-  const defaultProvisionUsers = {
-    'manager1@mail.com': { password: 'manager1@123', name: 'David Vance', role: 'manager', id: 'MGR-4490' },
-    'manager2@mail.com': { password: 'manager2@123', name: 'Alice Smith', role: 'manager', id: 'MGR-4491' }
-  };
-
   // Seed default collections and listen to Auth state changes
   useEffect(() => {
     if (!isFirebaseConfigured) {
-      // Fallback sandbox mode logic
       setLoading(false);
       return;
     }
@@ -47,18 +40,15 @@ export const AuthProvider = ({ children }) => {
           if (userDoc.exists()) {
             profile = userDoc.data();
           } else {
-            // Check if this matches a default provision user
-            const defaultUser = defaultProvisionUsers[firebaseUser.email.toLowerCase()];
             const emailPart = firebaseUser.email.split('@')[0];
-            const detectedRole = firebaseUser.email.includes('admin') ? 'admin' :
-                                 firebaseUser.email.includes('manager') ? 'manager' : 'customer';
+            const detectedRole = firebaseUser.email.includes('admin') ? 'admin' : 'customer';
             
             profile = {
               username: emailPart,
-              name: defaultUser ? defaultUser.name : emailPart.replace('_', ' ').toUpperCase(),
-              role: defaultUser ? defaultUser.role : detectedRole,
+              name: emailPart.replace('_', ' ').toUpperCase(),
+              role: detectedRole,
               email: firebaseUser.email,
-              id: defaultUser ? defaultUser.id : `USER-${Math.floor(1000 + Math.random() * 9000)}`
+              id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
             };
             await setDoc(userDocRef, profile);
           }
@@ -87,20 +77,8 @@ export const AuthProvider = ({ children }) => {
     const cleanedEmail = email.trim().toLowerCase();
     logger.info(`Login attempt started`, { email: cleanedEmail });
 
-    if (!isFirebaseConfigured || cleanedEmail === 'manager1@mail.com' || cleanedEmail === 'manager2@mail.com') {
-      // Sandbox fallback mode mock logins, or forceful bypass for the demo manager account
-      const defaultUser = defaultProvisionUsers[cleanedEmail];
-      if (defaultUser && defaultUser.password === password) {
-        const profile = {
-          email: cleanedEmail,
-          name: defaultUser.name,
-          role: defaultUser.role,
-          id: defaultUser.id
-        };
-        setUser(profile);
-        return true;
-      }
-      if (!isFirebaseConfigured) return false;
+    if (!isFirebaseConfigured) {
+      return 'Firebase is not configured.';
     }
 
     try {
@@ -111,31 +89,6 @@ export const AuthProvider = ({ children }) => {
       await signInWithEmailAndPassword(auth, cleanedEmail, password);
       return true;
     } catch (error) {
-      // If user doesn't exist yet in Auth, but matches a default provision user, register them automatically!
-      const defaultUser = defaultProvisionUsers[cleanedEmail];
-      if (defaultUser && defaultUser.password === password) {
-        try {
-          logger.info(`Provisioning default account dynamically`, { email: cleanedEmail });
-          const result = await createUserWithEmailAndPassword(auth, cleanedEmail, password);
-          
-          const profile = {
-            username: cleanedEmail.split('@')[0],
-            name: defaultUser.name,
-            role: defaultUser.role,
-            email: cleanedEmail,
-            id: defaultUser.id
-          };
-          await setDoc(doc(db, 'users', result.user.uid), profile);
-          
-          // Trigger sign-in
-          await signInWithEmailAndPassword(auth, cleanedEmail, password);
-          return true;
-        } catch (provisionError) {
-          logger.error(`Failed to dynamically provision default account`, { error: provisionError.message });
-          return `Provision Error: ${provisionError.message}`;
-        }
-      }
-
       logger.auth(`Firebase Authentication failed`, false, { email: cleanedEmail, error: error.message });
       return `Auth Error: ${error.message}`;
     }
@@ -143,14 +96,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, name) => {
     if (!isFirebaseConfigured) {
-      const profile = {
-        email,
-        name,
-        role: 'customer',
-        id: `CUST-${Math.floor(1000 + Math.random() * 9000)}`
-      };
-      setUser(profile);
-      return true;
+      throw new Error('Firebase is not configured.');
     }
 
     try {
@@ -175,8 +121,7 @@ export const AuthProvider = ({ children }) => {
 
   const sendPasswordReset = async (email) => {
     if (!isFirebaseConfigured) {
-      logger.info(`Mock password reset email sent to: ${email}`);
-      return true;
+      throw new Error('Firebase is not configured.');
     }
     try {
       await sendPasswordResetEmail(auth, email);
@@ -190,8 +135,7 @@ export const AuthProvider = ({ children }) => {
 
   const sendVerificationEmail = async () => {
     if (!isFirebaseConfigured) {
-      logger.info(`Mock verification email sent to current user`);
-      return true;
+      throw new Error('Firebase is not configured.');
     }
     if (auth.currentUser) {
       try {
@@ -209,7 +153,6 @@ export const AuthProvider = ({ children }) => {
   const switchRole = async (role) => {
     logger.info(`Switching user session role`, { targetRole: role });
     if (!isFirebaseConfigured) {
-      setUser(prev => prev ? { ...prev, role } : null);
       return;
     }
 

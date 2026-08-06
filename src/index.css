@@ -46,10 +46,14 @@
 
 body {
   margin: 0;
-  overflow-x: hidden;
   background-color: var(--color-neutral-0);
   color: var(--color-neutral-800);
   transition: background-color 300ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
 }
 
 .dark body {
@@ -166,5 +170,11 @@ video::-webkit-media-controls-play-button {
 }
 video::-webkit-media-controls-panel {
   display: none !important;
+}
+
+/* Fix GSAP SplitText character wrapping on tablet */
+.split-char {
+  display: inline-block;
+  white-space: pre;
 }
 
