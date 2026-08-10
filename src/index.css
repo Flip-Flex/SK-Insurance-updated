@@ -69,6 +69,9 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: var(--shadow-premium-soft);
   border-radius: var(--radius-card, 24px);
+  transform: translateZ(0); /* Hardware Acceleration */
+  backface-visibility: hidden;
+  will-change: transform, backdrop-filter;
 }
 
 .dark .glass-panel {
@@ -78,6 +81,22 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow-premium-dark);
   border-radius: var(--radius-card, 24px);
+  transform: translateZ(0); /* Hardware Acceleration */
+  backface-visibility: hidden;
+  will-change: transform, backdrop-filter;
+}
+
+/* Global Performance Optimizations for Low-End Devices */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
 }
 
 /* Scrollbars */

@@ -42,7 +42,7 @@ export const Navbar = () => {
   ];
 
   const handleDashboardRedirect = () => {
-    navigate('/auth');
+    navigate('/login');
   };
 
   const isActive = (path) => location.pathname === path;
@@ -159,16 +159,10 @@ export const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center space-x-6">
-                <button
-                  onClick={() => handleDashboardRedirect()}
-                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black' : 'text-white'} hover:text-brand-accent`}
-                >
-                  Login
-                </button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => {}}
+                  onClick={() => navigate('/appointment')}
                   className="px-6 py-2.5 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[15px] cursor-pointer transition-colors"
                 >
                   Get Quote
@@ -258,13 +252,7 @@ export const Navbar = () => {
                   ) : (
                     <>
                       <button
-                        onClick={() => { closeMenu(); setIsOpen(false); handleDashboardRedirect(); }}
-                        className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
-                      >
-                        Login
-                      </button>
-                      <button
-                        onClick={() => { closeMenu(); setIsOpen(false); }}
+                        onClick={() => { closeMenu(); setIsOpen(false); navigate('/appointment'); }}
                         className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
                       >
                         Get Quote

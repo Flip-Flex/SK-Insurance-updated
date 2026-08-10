@@ -109,6 +109,12 @@ export const Plans = () => {
     const unsubscribe = subscribeToCollection('plans', (data) => {
       if (data && data.length > 0) {
         const sorted = [...data].sort((a, b) => {
+          const isTataA = (a.company || '').toLowerCase().includes('tata');
+          const isTataB = (b.company || '').toLowerCase().includes('tata');
+          
+          if (isTataA && !isTataB) return -1;
+          if (!isTataA && isTataB) return 1;
+
           const orderA = a.displayOrder !== undefined ? parseInt(a.displayOrder) : 999;
           const orderB = b.displayOrder !== undefined ? parseInt(b.displayOrder) : 999;
           return orderA - orderB;
@@ -135,12 +141,12 @@ export const Plans = () => {
 
   const ALL_SIXTEEN_COMPANIES = [
     { label: 'All Insurers', value: 'ALL' },
+    { label: 'Tata AIA', value: 'Tata AIA' },
     { label: 'Postal Office', value: 'Postal Office' },
     { label: 'Future Generali', value: 'Future Generali' },
     { label: 'Bajaj', value: 'Bajaj' },
     { label: 'Aditya Birla', value: 'Aditya Birla' },
     { label: 'Oriental', value: 'Oriental Insurance' },
-    { label: 'Tata AIA', value: 'Tata AIA' },
     { label: 'ICICI', value: 'ICICI' },
     { label: 'HDFC', value: 'HDFC' },
     { label: 'SBI', value: 'SBI' },
@@ -225,7 +231,7 @@ export const Plans = () => {
   }
 
   return (
-    <div className="w-full bg-black min-h-screen text-white overflow-hidden pb-32">
+    <div className="dark w-full bg-black min-h-screen text-white overflow-hidden pb-32">
       
       {/* Background Animated Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">

@@ -16,7 +16,7 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
 
   if (!isAuthenticated) {
     // Redirect unauthenticated clients to the Auth page
-    return <Navigate to="/auth" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   if (allowedRoles && !allowedRoles.map(r => r.toLowerCase()).includes(user?.role?.toLowerCase())) {

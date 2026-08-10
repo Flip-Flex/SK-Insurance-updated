@@ -35,7 +35,7 @@ export const Dashboard = () => {
   // Redirect to Auth if not logged in
   useEffect(() => {
     if (!user) {
-      navigate('/auth');
+      navigate('/login');
     }
   }, [user, navigate]);
 

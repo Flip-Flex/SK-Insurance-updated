@@ -28,7 +28,7 @@ const FallbackLoader = () => (
 
 const PublicLayout = () => {
   const location = useLocation();
-  const isAuthPage = location.pathname === '/auth';
+  const isAuthPage = location.pathname === '/login';
 
   if (isAuthPage) {
     return (
@@ -65,7 +65,7 @@ export const AppRoutes = () => {
         <Route path="/support" element={<Support />} />
         <Route path="/claims" element={<Claims />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/auth" element={<Auth />} />
+        <Route path="/login" element={<Auth />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/appointment" element={<Appointment />} />
         <Route path="*" element={<NotFound />} />
