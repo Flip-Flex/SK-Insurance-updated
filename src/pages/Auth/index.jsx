@@ -23,8 +23,8 @@ export const Auth = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('manager@mail.com');
+  const [password, setPassword] = useState('manager@123');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 

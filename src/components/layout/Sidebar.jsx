@@ -12,52 +12,9 @@ export const Sidebar = ({ collapsed, setCollapsed }) => {
 
   if (!user) return null;
 
-  // Define sidebar menu options for each role (aligned with Image 1: Home, Assets, Investments, Reviews, Settings)
-  const menuItemsByRole = {
-    customer: [
-      { name: 'Home', icon: FaIcons.FaHome, path: '/dashboard' },
-      { name: 'Assets', icon: FaIcons.FaShieldAlt, path: '/dashboard/policies' },
-      { name: 'Investments', icon: FaIcons.FaFileMedical, path: '/dashboard/claims' },
-      { name: 'Reviews', icon: FaIcons.FaFolderOpen, path: '/dashboard/documents' },
-      { name: 'Settings', icon: FaIcons.FaCog, path: '/dashboard/settings' }
-    ],
-    agent: [
-      { name: 'Home', icon: FaIcons.FaHome, path: '/dashboard' },
-      { name: 'Assets', icon: FaIcons.FaUsers, path: '/dashboard/clients' },
-      { name: 'Investments', icon: FaIcons.FaCoins, path: '/dashboard/commissions' },
-      { name: 'Reviews', icon: FaIcons.FaHeadset, path: '/dashboard/support' },
-      { name: 'Settings', icon: FaIcons.FaCog, path: '/dashboard/settings' }
-    ],
-    telecaller: [
-      { name: 'Home', icon: FaIcons.FaHome, path: '/dashboard' },
-      { name: 'Assets', icon: FaIcons.FaThList, path: '/dashboard/queue' },
-      { name: 'Investments', icon: FaIcons.FaPhoneAlt, path: '/dashboard/support' },
-      { name: 'Reviews', icon: FaIcons.FaComments, path: '/dashboard/support' },
-      { name: 'Settings', icon: FaIcons.FaCog, path: '/dashboard/settings' }
-    ],
-    employee: [
-      { name: 'Home', icon: FaIcons.FaHome, path: '/dashboard' },
-      { name: 'Assets', icon: FaIcons.FaTasks, path: '/dashboard/claims' },
-      { name: 'Investments', icon: FaIcons.FaFileMedical, path: '/dashboard/support' },
-      { name: 'Reviews', icon: FaIcons.FaFolderOpen, path: '/dashboard/documents' },
-      { name: 'Settings', icon: FaIcons.FaCog, path: '/dashboard/settings' }
-    ],
-    manager: [
-      { name: 'Plans Manager', icon: FaIcons.FaFolderOpen, path: '/dashboard' }
-    ],
-    admin: [
-      { name: 'Home', icon: FaIcons.FaHome, path: '/dashboard' },
-      { name: 'Analytics', icon: FaIcons.FaTachometerAlt, path: '/dashboard/overview' },
-      { name: 'Plans Manager', icon: FaIcons.FaFolderOpen, path: '/dashboard/plans-manager' },
-      { name: 'Users & Roles', icon: FaIcons.FaUsers, path: '/dashboard/users' },
-      { name: 'Careers & Jobs', icon: FaIcons.FaBriefcase, path: '/dashboard/careers' },
-      { name: 'Audit Logs', icon: FaIcons.FaShieldAlt, path: '/dashboard/logs' },
-      { name: 'Claims Queue', icon: FaIcons.FaCheckDouble, path: '/dashboard/claims' },
-      { name: 'Gallery & Settings', icon: FaIcons.FaSlidersH, path: '/dashboard/settings' }
-    ]
-  };
-
-  const items = menuItemsByRole[user.role] || menuItemsByRole.customer;
+  const items = [
+    { name: 'Plans Manager', icon: FaIcons.FaFolderOpen, path: '/dashboard' }
+  ];
 
   const handleNavClick = (path) => {
     navigate(path);

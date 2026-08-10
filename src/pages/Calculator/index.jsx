@@ -24,6 +24,123 @@ import { saveCalculation } from '../../services/api';
 import { Modal } from '../../components/ui/Modal';
 import { FaCalculator, FaShieldAlt, FaCalendarAlt, FaUserCheck, FaCar, FaHome, FaHeartbeat, FaPlane, FaDollarSign } from 'react-icons/fa';
 
+/* ─── Mini SVG Donut ─── */
+const DonutChart = ({ segments }) => {
+  const total = segments.reduce((s, seg) => s + Math.abs(seg.value), 0);
+  if (total === 0) return null;
+  const radius = 50;
+  const circumference = 2 * Math.PI * radius;
+  let offset = 0;
+
+  return (
+    <svg viewBox="0 0 120 120" className="w-32 h-32 mx-auto drop-shadow-[0_0_24px_rgba(246,255,0,0.15)]">
+      {segments.map((seg, i) => {
+        const pct = Math.abs(seg.value) / total;
+        const dashLen = pct * circumference;
+        const dashOff = -offset;
+        offset += dashLen;
+        return (
+          <circle
+            key={i}
+            cx="60" cy="60" r={radius}
+            fill="none"
+            stroke={seg.color}
+            strokeWidth="14"
+            strokeDasharray={`${dashLen} ${circumference - dashLen}`}
+            strokeDashoffset={dashOff}
+            strokeLinecap="round"
+            className="transition-all duration-700 ease-out"
+          />
+        );
+      })}
+      <circle cx="60" cy="60" r="38" fill="rgba(0,0,0,0.6)" />
+    </svg>
+  );
+};
+
+/* ─── Styled Range Slider ─── */
+const PremiumSlider = ({ min, max, step, value, onChange, leftLabel, rightLabel, displayValue }) => (
+  <div className="space-y-3">
+    <div className="flex justify-between items-end">
+      <span className="text-[11px] font-semibold uppercase tracking-widest text-neutral-500">{leftLabel || ''}</span>
+      <span className="text-xl font-bold text-brand-accent drop-shadow-[0_0_12px_rgba(246,255,0,0.35)]">
+        {displayValue}
+      </span>
+    </div>
+    <div className="relative group">
+      <input
+        type="range" min={min} max={max} step={step} value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/[0.06] 
+        [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 
+        [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-accent 
+        [&::-webkit-slider-thumb]:shadow-[0_0_14px_rgba(246,255,0,0.5)] [&::-webkit-slider-thumb]:border-2 
+        [&::-webkit-slider-thumb]:border-black [&::-webkit-slider-thumb]:transition-transform 
+        [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:hover:scale-125
+        [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 
+        [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-brand-accent 
+        [&::-moz-range-thumb]:shadow-[0_0_14px_rgba(246,255,0,0.5)] [&::-moz-range-thumb]:border-2 
+        [&::-moz-range-thumb]:border-black"
+        style={{
+          background: `linear-gradient(to right, #F6FF00 0%, #F6FF00 ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.06) ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.06) 100%)`
+        }}
+      />
+    </div>
+    {(leftLabel !== undefined || rightLabel !== undefined) && (
+      <div className="flex justify-between text-[10px] text-neutral-600 font-medium tracking-wider">
+        <span>{min.toLocaleString('en-IN')}</span>
+        <span>{max.toLocaleString('en-IN')}</span>
+      </div>
+    )}
+  </div>
+);
+
+/* ─── Glass Input Field ─── */
+const GlassInput = ({ label, children }) => (
+  <div>
+    <label className="block text-[11px] font-semibold text-neutral-500 uppercase tracking-widest mb-2.5">{label}</label>
+    {children}
+  </div>
+);
+
+const inputClasses = "w-full px-4 py-3.5 bg-white/[0.04] border border-white/[0.08] rounded-xl focus:outline-none focus:border-brand-accent/60 focus:ring-1 focus:ring-brand-accent/30 text-sm font-semibold text-white transition-all duration-200 placeholder:text-neutral-600 hover:border-white/15";
+
+const selectClasses = inputClasses;
+
+/* ─── Glass Toggle ─── */
+const GlassToggle = ({ label, sublabel, checked, onChange }) => (
+  <label className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-300 group ${
+    checked 
+      ? 'bg-brand-accent/[0.08] border-brand-accent/30 shadow-[0_0_20px_rgba(246,255,0,0.06)]' 
+      : 'bg-white/[0.02] border-white/[0.06] hover:border-white/15 hover:bg-white/[0.04]'
+  }`}>
+    <div className={`w-10 h-6 rounded-full p-0.5 transition-colors duration-300 ${checked ? 'bg-brand-accent' : 'bg-white/10'}`}>
+      <div className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-300 ${checked ? 'translate-x-4' : 'translate-x-0'}`} />
+    </div>
+    <div>
+      <p className={`text-sm font-semibold transition-colors ${checked ? 'text-brand-accent' : 'text-white group-hover:text-white'}`}>{label}</p>
+      <p className="text-[10px] text-neutral-500 mt-0.5 tracking-wide">{sublabel}</p>
+    </div>
+  </label>
+);
+
+/* ─── Condition Chip ─── */
+const ConditionChip = ({ label, checked, onChange }) => (
+  <button
+    type="button"
+    onClick={() => onChange(!checked)}
+    className={`px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all duration-300 ${
+      checked
+        ? 'bg-brand-accent/15 border-brand-accent/40 text-brand-accent shadow-[0_0_12px_rgba(246,255,0,0.1)]'
+        : 'bg-white/[0.03] border-white/[0.06] text-neutral-400 hover:border-white/15 hover:text-neutral-300'
+    }`}
+  >
+    {checked && <span className="mr-1.5">✓</span>}
+    {label}
+  </button>
+);
+
+
 export const Calculator = () => {
   const { t } = useTranslation();
   const [category, setCategory] = useState('health');
@@ -301,111 +418,139 @@ export const Calculator = () => {
     { id: 'sip', label: 'SIP Calc', icon: FaCalculator }
   ];
 
+  /* ─── Helper to get dynamic output info per category ─── */
+  const getOutputMeta = () => {
+    switch (category) {
+      case 'health':
+        return { title: 'Annual Premium', value: healthBreakdown.annualPremium, sub: `₹${healthBreakdown.monthlyPremium.toLocaleString('en-IN')} / mo`, isSip: false };
+      case 'life':
+        return { title: 'Monthly Premium', value: premium, sub: `Coverage: ₹${coverage.toLocaleString('en-IN')}`, isSip: false };
+      case 'motor':
+        return { title: 'Monthly Premium', value: premium, sub: `IDV: ₹${vehicleValue.toLocaleString('en-IN')}`, isSip: false };
+      case 'home':
+        return { title: 'Monthly Premium', value: premium, sub: `Property: ₹${homeValue.toLocaleString('en-IN')}`, isSip: false };
+      case 'travel':
+        return { title: 'Trip Premium', value: premium, sub: `${duration} days · ${destination === 'worldwide' ? 'Worldwide' : 'Domestic'}`, isSip: false };
+      case 'sip':
+        return { title: 'Future Value', value: sipResults.total, sub: `After ${sipYears} Years`, isSip: true };
+      default:
+        return { title: 'Premium', value: premium, sub: '', isSip: false };
+    }
+  };
+
+  const riskColors = {
+    'Low': { bg: 'bg-emerald-500/15', text: 'text-emerald-400', border: 'border-emerald-500/25' },
+    'Moderate': { bg: 'bg-amber-500/15', text: 'text-amber-400', border: 'border-amber-500/25' },
+    'High': { bg: 'bg-orange-500/15', text: 'text-orange-400', border: 'border-orange-500/25' },
+    'Very High': { bg: 'bg-red-500/15', text: 'text-red-400', border: 'border-red-500/25' },
+  };
+
+  const risk = riskColors[healthBreakdown.riskLevel] || riskColors['Low'];
+
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden pt-24 pb-32 xl:pb-24">
-      {/* Background Effects */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-accent/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none" />
+    <div className="min-h-screen bg-[#060810] text-white relative overflow-hidden pt-24 pb-32 xl:pb-24">
+      {/* ── Ambient Background ── */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-brand-accent/[0.04] rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-indigo-600/[0.04] rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Title */}
-        <div className="text-center mb-16">
+        {/* ── Title ── */}
+        <div className="text-center mb-14">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-white">
-              Intelligent <span className="text-brand-accent">Calculator</span>
+            <p className="text-brand-accent text-xs font-semibold uppercase tracking-[0.3em] mb-4">Smart Insurance Tools</p>
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-5 text-white">
+              Intelligent <span className="bg-gradient-to-r from-brand-accent to-lime-300 bg-clip-text text-transparent">Calculator</span>
             </h1>
-            <p className="text-neutral-400 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
-              Dynamically calculate your premiums, map out your wealth generation, and build your bespoke portfolio with our cutting-edge calculation engines.
+            <p className="text-neutral-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
+              Calculate premiums, map wealth, and build your portfolio with our cutting-edge engines.
             </p>
           </motion.div>
         </div>
 
-        {/* Main Grid */}
+        {/* ── Tab Bar ── */}
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex gap-1.5 p-1.5 bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-x-auto max-w-full">
+            {categories.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = category === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setCategory(cat.id)}
+                  className={`relative flex items-center gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-200 rounded-xl whitespace-nowrap ${
+                    isActive ? 'text-black' : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-brand-accent rounded-xl shadow-[0_0_20px_rgba(246,255,0,0.25)]"
+                      transition={{ type: "spring", stiffness: 400, damping: 35 }}
+                    />
+                  )}
+                  <Icon className={`text-sm relative z-10 ${isActive ? 'text-black' : ''}`} />
+                  <span className="relative z-10">{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Main Grid ── */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
           
-          {/* Left Panel: Inputs */}
-          <div className="xl:col-span-2 space-y-8">
-            
-            {/* Category Tabs */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-[1px] p-[1px] bg-neutral-900/40 backdrop-blur-md border border-white/10 shadow-2xl">
-              {categories.map((cat) => {
-                const Icon = cat.icon;
-                const isActive = category === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setCategory(cat.id)}
-                    className={`flex flex-col items-center justify-center gap-2 py-3 px-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-brand-accent text-black shadow-[0_0_20px_rgba(246,255,0,0.3)]' 
-                        : 'bg-neutral-950/60 text-neutral-400 hover:bg-white/5 hover:text-white'
-                    }`}
-                  >
-                    <Icon className={`text-lg sm:text-xl ${isActive ? "text-black" : "text-neutral-500"}`} />
-                    <span>{cat.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Input Config Panel */}
-            <div className="bg-neutral-900/40 backdrop-blur-xl border border-white/10 p-8 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-full blur-[80px] pointer-events-none" />
+          {/* ── Left Panel: Inputs ── */}
+          <div className="xl:col-span-2">
+            <div className="bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-3xl p-6 sm:p-8 shadow-[0_16px_64px_rgba(0,0,0,0.3)] relative overflow-hidden">
+              <div className="absolute -top-20 -right-20 w-60 h-60 bg-brand-accent/[0.04] rounded-full blur-[80px] pointer-events-none" />
               
               <AnimatePresence mode="wait">
                 <motion.div
                   key={category}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                  className="space-y-8 relative z-10"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-7 relative z-10"
                 >
                   
-                  {/* HEALTH */}
+                  {/* ═══ HEALTH ═══ */}
                   {category === 'health' && (
                     <>
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Coverage Limit</label>
-                          <span className="text-2xl font-bold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.4)]">₹{coverage.toLocaleString('en-IN')}</span>
-                        </div>
-                        <input type="range" min="100000" max="5000000" step="100000" value={coverage} onChange={(e) => setCoverage(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                        <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>₹1 Lakh</span><span>₹50 Lakh</span></div>
-                      </div>
+                      <PremiumSlider
+                        min={100000} max={5000000} step={100000}
+                        value={coverage} onChange={setCoverage}
+                        leftLabel="Coverage Limit"
+                        displayValue={`₹${coverage.toLocaleString('en-IN')}`}
+                      />
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Age of Insured</label>
-                          <input type="number" min="18" max="100" value={age} onChange={(e) => setAge(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent text-sm font-bold text-white transition-all shadow-inner" />
-                        </div>
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Deductible</label>
-                          <select value={deductible} onChange={(e) => setDeductible(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent text-sm font-bold text-white transition-all shadow-inner">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <GlassInput label="Age of Insured">
+                          <input type="number" min="18" max="100" value={age} onChange={(e) => setAge(Number(e.target.value))} className={inputClasses} />
+                        </GlassInput>
+                        <GlassInput label="Deductible">
+                          <select value={deductible} onChange={(e) => setDeductible(Number(e.target.value))} className={selectClasses}>
                             <option value="500">₹500</option>
                             <option value="2500">₹2,500</option>
                             <option value="5000">₹5,000</option>
                             <option value="10000">₹10,000</option>
                             <option value="25000">₹25,000</option>
                           </select>
-                        </div>
+                        </GlassInput>
                       </div>
                       
-                      <div className="pt-2 border-t border-white/5">
-                        <label className="flex items-center gap-4 p-4 bg-neutral-950/30 border border-white/5 cursor-pointer hover:border-brand-accent/50 transition-colors group">
-                          <input type="checkbox" checked={smoker} onChange={(e) => setSmoker(e.target.checked)} className="w-5 h-5 rounded border-white/20 bg-neutral-900 accent-brand-accent text-brand-accent focus:ring-brand-accent focus:ring-offset-neutral-900" />
-                          <div>
-                            <p className="text-sm font-bold text-white group-hover:text-brand-accent transition-colors">Tobacco User</p>
-                            <p className="text-[10px] text-neutral-500 mt-1 uppercase tracking-wider">Increases premium by ~35%</p>
-                          </div>
-                        </label>
-                      </div>
+                      <GlassToggle
+                        label="Tobacco User"
+                        sublabel="Increases premium by ~35%"
+                        checked={smoker}
+                        onChange={(e) => setSmoker(e.target ? e.target.checked : e)}
+                      />
 
                       <div>
-                        <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Pre-Existing Conditions</label>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <label className="block text-[11px] font-semibold text-neutral-500 uppercase tracking-widest mb-3">Pre-Existing Conditions</label>
+                        <div className="flex flex-wrap gap-2.5">
                           {[
                             { key: 'diabetes', label: 'Diabetes' },
                             { key: 'highBp', label: 'High BP' },
@@ -413,218 +558,194 @@ export const Calculator = () => {
                             { key: 'heartDisease', label: 'Heart Disease' },
                             { key: 'kidneyDisease', label: 'Kidney Disease' },
                           ].map((cond) => (
-                            <label key={cond.key} className={`flex items-center gap-2 p-3 border cursor-pointer transition-all ${medicalConditions[cond.key] ? 'bg-brand-accent/10 border-brand-accent text-brand-accent' : 'bg-neutral-950/30 border-white/5 text-neutral-400 hover:border-white/20'}`}>
-                              <input 
-                                type="checkbox" 
-                                className="hidden" 
-                                checked={medicalConditions[cond.key]} 
-                                onChange={(e) => setMedicalConditions(prev => ({ ...prev, [cond.key]: e.target.checked }))} 
-                              />
-                              <span className="text-xs font-bold">{cond.label}</span>
-                            </label>
+                            <ConditionChip
+                              key={cond.key}
+                              label={cond.label}
+                              checked={medicalConditions[cond.key]}
+                              onChange={(val) => setMedicalConditions(prev => ({ ...prev, [cond.key]: val }))}
+                            />
                           ))}
                         </div>
                       </div>
                     </>
                   )}
 
-                  {/* LIFE */}
+                  {/* ═══ LIFE ═══ */}
                   {category === 'life' && (
                     <>
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Term Payout Target</label>
-                          <span className="text-2xl font-bold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.4)]">₹{coverage.toLocaleString()}</span>
-                        </div>
-                        <input type="range" min="1000000" max="50000000" step="500000" value={coverage} onChange={(e) => setCoverage(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                        <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>₹10L</span><span>₹5Cr</span></div>
-                      </div>
+                      <PremiumSlider
+                        min={1000000} max={50000000} step={500000}
+                        value={coverage} onChange={setCoverage}
+                        leftLabel="Term Payout Target"
+                        displayValue={`₹${coverage.toLocaleString('en-IN')}`}
+                      />
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Age</label>
-                          <input type="number" min="18" max="75" value={age} onChange={(e) => setAge(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner" />
-                        </div>
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Term (Years)</label>
-                          <select value={termYears} onChange={(e) => setTermYears(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <GlassInput label="Age">
+                          <input type="number" min="18" max="75" value={age} onChange={(e) => setAge(Number(e.target.value))} className={inputClasses} />
+                        </GlassInput>
+                        <GlassInput label="Term (Years)">
+                          <select value={termYears} onChange={(e) => setTermYears(Number(e.target.value))} className={selectClasses}>
                             <option value="10">10 Years</option>
                             <option value="20">20 Years</option>
                             <option value="30">30 Years</option>
                             <option value="40">40 Years</option>
                           </select>
-                        </div>
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Annual Income (₹)</label>
-                          <input type="number" step="100000" value={annualIncome} onChange={(e) => setAnnualIncome(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner" />
-                        </div>
+                        </GlassInput>
+                        <GlassInput label="Annual Income (₹)">
+                          <input type="number" step="100000" value={annualIncome} onChange={(e) => setAnnualIncome(Number(e.target.value))} className={inputClasses} />
+                        </GlassInput>
                       </div>
                       
-                      <label className="flex items-center gap-4 p-4 bg-neutral-950/30 border border-white/5 cursor-pointer hover:border-brand-accent/50 transition-colors group w-full md:w-1/2">
-                        <input type="checkbox" checked={smoker} onChange={(e) => setSmoker(e.target.checked)} className="w-5 h-5 rounded border-white/20 bg-neutral-900 accent-brand-accent text-brand-accent focus:ring-brand-accent" />
-                        <div>
-                          <p className="text-sm font-bold text-white group-hover:text-brand-accent transition-colors">Tobacco User</p>
-                          <p className="text-[10px] text-neutral-500 mt-1 uppercase tracking-wider">Impacts Life Cover Premiums</p>
-                        </div>
-                      </label>
+                      <div className="w-full md:w-1/2">
+                        <GlassToggle
+                          label="Tobacco User"
+                          sublabel="Impacts Life Cover Premiums"
+                          checked={smoker}
+                          onChange={(e) => setSmoker(e.target ? e.target.checked : e)}
+                        />
+                      </div>
                     </>
                   )}
 
-                  {/* MOTOR */}
+                  {/* ═══ MOTOR ═══ */}
                   {category === 'motor' && (
                     <>
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Vehicle IDV (Value)</label>
-                          <span className="text-2xl font-bold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.4)]">₹{vehicleValue.toLocaleString()}</span>
-                        </div>
-                        <input type="range" min="50000" max="5000000" step="50000" value={vehicleValue} onChange={(e) => setVehicleValue(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                        <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>₹50K</span><span>₹50L</span></div>
-                      </div>
+                      <PremiumSlider
+                        min={50000} max={5000000} step={50000}
+                        value={vehicleValue} onChange={setVehicleValue}
+                        leftLabel="Vehicle IDV (Value)"
+                        displayValue={`₹${vehicleValue.toLocaleString('en-IN')}`}
+                      />
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Vehicle Age</label>
-                          <select value={vehicleAge} onChange={(e) => setVehicleAge(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <GlassInput label="Vehicle Age">
+                          <select value={vehicleAge} onChange={(e) => setVehicleAge(Number(e.target.value))} className={selectClasses}>
                             <option value="0">Brand New (&lt; 1 Year)</option>
                             <option value="1">1 - 2 Years</option>
                             <option value="3">2 - 5 Years</option>
                             <option value="6">5+ Years</option>
                           </select>
-                        </div>
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Deductible</label>
-                          <select value={deductible} onChange={(e) => setDeductible(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner">
+                        </GlassInput>
+                        <GlassInput label="Deductible">
+                          <select value={deductible} onChange={(e) => setDeductible(Number(e.target.value))} className={selectClasses}>
                             <option value="1000">₹1,000</option>
                             <option value="2500">₹2,500</option>
                             <option value="5000">₹5,000</option>
                           </select>
-                        </div>
+                        </GlassInput>
                       </div>
 
-                      <label className="flex items-center gap-4 p-4 bg-neutral-950/30 border border-white/5 cursor-pointer hover:border-brand-accent/50 transition-colors group w-full md:w-1/2">
-                        <input type="checkbox" checked={roadsideAssistance} onChange={(e) => setRoadsideAssistance(e.target.checked)} className="w-5 h-5 rounded border-white/20 bg-neutral-900 accent-brand-accent text-brand-accent focus:ring-brand-accent" />
-                        <div>
-                          <p className="text-sm font-bold text-white group-hover:text-brand-accent transition-colors">Roadside Assistance</p>
-                          <p className="text-[10px] text-neutral-500 mt-1 uppercase tracking-wider">Towing, battery jump, etc.</p>
-                        </div>
-                      </label>
+                      <div className="w-full md:w-1/2">
+                        <GlassToggle
+                          label="Roadside Assistance"
+                          sublabel="Towing, battery jump, etc."
+                          checked={roadsideAssistance}
+                          onChange={(e) => setRoadsideAssistance(e.target ? e.target.checked : e)}
+                        />
+                      </div>
                     </>
                   )}
 
-                  {/* HOME */}
+                  {/* ═══ HOME ═══ */}
                   {category === 'home' && (
                     <>
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Structure Insured Value</label>
-                          <span className="text-2xl font-bold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.4)]">₹{homeValue.toLocaleString()}</span>
-                        </div>
-                        <input type="range" min="500000" max="50000000" step="500000" value={homeValue} onChange={(e) => setHomeValue(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                        <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>₹5L</span><span>₹5Cr</span></div>
-                      </div>
+                      <PremiumSlider
+                        min={500000} max={50000000} step={500000}
+                        value={homeValue} onChange={setHomeValue}
+                        leftLabel="Structure Insured Value"
+                        displayValue={`₹${homeValue.toLocaleString('en-IN')}`}
+                      />
 
-                      <div>
-                        <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Property Age (Years)</label>
-                        <input type="number" min="0" max="100" value={homeAge} onChange={(e) => setHomeAge(Number(e.target.value))} className="w-full md:w-1/2 px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner" />
+                      <div className="w-full md:w-1/2">
+                        <GlassInput label="Property Age (Years)">
+                          <input type="number" min="0" max="100" value={homeAge} onChange={(e) => setHomeAge(Number(e.target.value))} className={inputClasses} />
+                        </GlassInput>
                       </div>
                     </>
                   )}
 
-                  {/* TRAVEL */}
+                  {/* ═══ TRAVEL ═══ */}
                   {category === 'travel' && (
                     <>
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Trip Duration</label>
-                          <span className="text-2xl font-bold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.4)]">{duration} Days</span>
-                        </div>
-                        <input type="range" min="1" max="90" step="1" value={duration} onChange={(e) => setDuration(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                        <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>1 Day</span><span>90 Days</span></div>
-                      </div>
+                      <PremiumSlider
+                        min={1} max={90} step={1}
+                        value={duration} onChange={setDuration}
+                        leftLabel="Trip Duration"
+                        displayValue={`${duration} Days`}
+                      />
 
-                      <div>
-                        <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Destination Tier</label>
-                        <select value={destination} onChange={(e) => setDestination(e.target.value)} className="w-full md:w-1/2 px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner">
-                          <option value="domestic">Domestic / Regional</option>
-                          <option value="worldwide">Worldwide / Global</option>
-                        </select>
+                      <div className="w-full md:w-1/2">
+                        <GlassInput label="Destination Tier">
+                          <select value={destination} onChange={(e) => setDestination(e.target.value)} className={selectClasses}>
+                            <option value="domestic">Domestic / Regional</option>
+                            <option value="worldwide">Worldwide / Global</option>
+                          </select>
+                        </GlassInput>
                       </div>
                     </>
                   )}
 
-                  {/* SIP */}
+                  {/* ═══ SIP ═══ */}
                   {category === 'sip' && (
                     <>
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Monthly SIP</label>
-                          <span className="text-2xl font-bold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.4)]">₹{sipMonthly.toLocaleString()}</span>
-                        </div>
-                        <input type="range" min="500" max="100000" step="500" value={sipMonthly} onChange={(e) => setSipMonthly(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                        <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>₹500</span><span>₹1,00,000</span></div>
-                      </div>
+                      <PremiumSlider
+                        min={500} max={100000} step={500}
+                        value={sipMonthly} onChange={setSipMonthly}
+                        leftLabel="Monthly SIP"
+                        displayValue={`₹${sipMonthly.toLocaleString('en-IN')}`}
+                      />
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <div className="flex justify-between items-end mb-4">
-                            <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Expected ROI</label>
-                            <span className="text-lg font-bold text-brand-accent">{sipReturnRate}%</span>
-                          </div>
-                          <input type="range" min="5" max="30" step="0.5" value={sipReturnRate} onChange={(e) => setSipReturnRate(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                          <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>5%</span><span>30%</span></div>
-                        </div>
-
-                        <div>
-                          <div className="flex justify-between items-end mb-4">
-                            <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Tenure (Years)</label>
-                            <span className="text-lg font-bold text-brand-accent">{sipYears} Yrs</span>
-                          </div>
-                          <input type="range" min="1" max="30" step="1" value={sipYears} onChange={(e) => setSipYears(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                          <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>1 Yr</span><span>30 Yrs</span></div>
-                        </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <PremiumSlider
+                          min={5} max={30} step={0.5}
+                          value={sipReturnRate} onChange={setSipReturnRate}
+                          leftLabel="Expected ROI"
+                          displayValue={`${sipReturnRate}%`}
+                        />
+                        <PremiumSlider
+                          min={1} max={30} step={1}
+                          value={sipYears} onChange={setSipYears}
+                          leftLabel="Tenure"
+                          displayValue={`${sipYears} Yrs`}
+                        />
                       </div>
                     </>
                   )}
 
-                  {/* AI Profiler */}
+                  {/* ═══ AI PROFILER ═══ */}
                   {category === 'ai' && (
                     <>
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <label className="text-xs font-[900] uppercase tracking-widest text-neutral-400">Monthly Budget Target</label>
-                          <span className="text-2xl font-bold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.4)]">₹{aiMonthlyBudget.toLocaleString()}</span>
-                        </div>
-                        <input type="range" min="2000" max="100000" step="1000" value={aiMonthlyBudget} onChange={(e) => setAiMonthlyBudget(Number(e.target.value))} className="w-full h-1.5 bg-neutral-800 rounded-none appearance-none cursor-pointer accent-brand-accent" />
-                        <div className="flex justify-between text-[10px] text-neutral-500 mt-2 font-medium tracking-wider"><span>₹2,000</span><span>₹1,00,000</span></div>
-                      </div>
+                      <PremiumSlider
+                        min={2000} max={100000} step={1000}
+                        value={aiMonthlyBudget} onChange={setAiMonthlyBudget}
+                        leftLabel="Monthly Budget Target"
+                        displayValue={`₹${aiMonthlyBudget.toLocaleString('en-IN')}`}
+                      />
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Age Group</label>
-                          <select value={aiAge} onChange={(e) => setAiAge(e.target.value)} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <GlassInput label="Age Group">
+                          <select value={aiAge} onChange={(e) => setAiAge(e.target.value)} className={selectClasses}>
                             <option value="18-35">Young (18-35)</option>
                             <option value="36-50">Mid (36-50)</option>
                             <option value="50+">Senior (50+)</option>
                           </select>
-                        </div>
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Dependents</label>
-                          <select value={aiDependents} onChange={(e) => setAiDependents(Number(e.target.value))} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner">
+                        </GlassInput>
+                        <GlassInput label="Dependents">
+                          <select value={aiDependents} onChange={(e) => setAiDependents(Number(e.target.value))} className={selectClasses}>
                             <option value="0">None</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3+</option>
                           </select>
-                        </div>
-                        <div>
-                          <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-3">Risk Tolerance</label>
-                          <select value={aiRisk} onChange={(e) => setAiRisk(e.target.value)} className="w-full px-4 py-3 bg-neutral-950/50 border border-white/10 rounded-[2px] focus:outline-none focus:border-brand-accent text-sm font-bold text-white transition-all shadow-inner">
+                        </GlassInput>
+                        <GlassInput label="Risk Tolerance">
+                          <select value={aiRisk} onChange={(e) => setAiRisk(e.target.value)} className={selectClasses}>
                             <option value="conservative">Conservative</option>
                             <option value="balanced">Balanced</option>
                             <option value="aggressive">Aggressive</option>
                           </select>
-                        </div>
+                        </GlassInput>
                       </div>
                     </>
                   )}
@@ -634,213 +755,250 @@ export const Calculator = () => {
             </div>
           </div>
 
-          {/* Right Panel: Output */}
+          {/* ── Right Panel: Output ── */}
           <div className="relative">
-            <div className="sticky top-28 bg-neutral-900/60 backdrop-blur-2xl border border-white/10 p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-brand-accent/5 to-transparent pointer-events-none" />
+            <div className="sticky top-28 rounded-3xl overflow-hidden">
+              {/* Gradient border effect */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-brand-accent/20 via-transparent to-indigo-500/10 p-px pointer-events-none" />
               
-              {category === 'ai' ? (() => {
-                const rec = getAiRecommendation();
-                return (
+              <div className="bg-[#0c0f1a]/90 backdrop-blur-2xl border border-white/[0.06] rounded-3xl p-7 shadow-[0_20px_60px_rgba(0,0,0,0.5)] relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-accent/[0.04] via-transparent to-transparent rounded-3xl pointer-events-none" />
+                
+                {/* AI Profiler Output */}
+                {category === 'ai' ? (() => {
+                  const rec = getAiRecommendation();
+                  return (
+                    <div className="relative z-10 text-center">
+                      <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-[0.2em] mb-6">AI Portfolio Allocation</h3>
+                      
+                      <DonutChart segments={[
+                        { value: rec.health, color: '#F6FF00' },
+                        { value: rec.life, color: '#818CF8' },
+                        { value: rec.motor, color: '#34D399' },
+                        { value: rec.investment, color: '#F472B6' },
+                      ]} />
+
+                      <div className="space-y-3 text-left mt-6">
+                        {[
+                          { icon: FaHeartbeat, label: 'Health', pct: rec.health, val: rec.healthVal, color: 'text-brand-accent' },
+                          { icon: FaShieldAlt, label: 'Life', pct: rec.life, val: rec.lifeVal, color: 'text-indigo-400' },
+                          { icon: FaCar, label: 'Motor/Gen', pct: rec.motor, val: rec.motorVal, color: 'text-emerald-400' },
+                          { icon: FaCalculator, label: 'SIP/Inv', pct: rec.investment, val: rec.investmentVal, color: 'text-pink-400' },
+                        ].map((item, i) => (
+                          <div key={i} className="flex justify-between items-center py-2.5 px-3 rounded-xl bg-white/[0.03] border border-white/[0.04] hover:bg-white/[0.05] transition-colors">
+                            <span className="text-sm font-medium text-white flex items-center gap-2.5">
+                              <item.icon className={item.color} /> {item.label} <span className="text-neutral-500 text-xs">({item.pct}%)</span>
+                            </span>
+                            <span className="font-mono text-sm font-bold text-white">₹{item.val.toLocaleString()}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-6 pt-5 border-t border-white/[0.06]">
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs uppercase tracking-widest text-neutral-500 font-semibold">Total Allocation</span>
+                          <span className="text-lg font-bold text-white">₹{aiMonthlyBudget.toLocaleString()}/mo</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })() : category === 'sip' ? (
+                  /* SIP Output */
                   <div className="relative z-10 text-center">
-                    <h3 className="text-[10px] font-[900] text-neutral-400 uppercase tracking-[0.2em] mb-8">AI Portfolio Allocation</h3>
-                    <div className="space-y-4 text-left">
-                      <div className="flex justify-between items-center py-3 border-b border-white/5 group">
-                        <span className="text-sm font-bold text-white flex items-center gap-2"><FaHeartbeat className="text-brand-accent" /> Health ({rec.health}%)</span>
-                        <span className="font-mono text-brand-accent font-bold">₹{rec.healthVal.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 border-b border-white/5 group">
-                        <span className="text-sm font-bold text-white flex items-center gap-2"><FaShieldAlt className="text-brand-accent" /> Life ({rec.life}%)</span>
-                        <span className="font-mono text-brand-accent font-bold">₹{rec.lifeVal.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 border-b border-white/5 group">
-                        <span className="text-sm font-bold text-white flex items-center gap-2"><FaCar className="text-brand-accent" /> Motor/Gen ({rec.motor}%)</span>
-                        <span className="font-mono text-brand-accent font-bold">₹{rec.motorVal.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 border-b border-white/5 group">
-                        <span className="text-sm font-bold text-white flex items-center gap-2"><FaCalculator className="text-brand-accent" /> SIP/Inv ({rec.investment}%)</span>
-                        <span className="font-mono text-brand-accent font-bold">₹{rec.investmentVal.toLocaleString()}</span>
-                      </div>
-                    </div>
-                    <div className="mt-8 pt-6 border-t border-white/10">
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs uppercase tracking-widest text-neutral-400 font-bold">Total Allocation</span>
-                        <span className="text-xl font-bold text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">₹{aiMonthlyBudget.toLocaleString()}/mo</span>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })() : category === 'sip' ? (
-                <div className="relative z-10 text-center">
-                  <h3 className="text-[10px] font-[900] text-neutral-400 uppercase tracking-[0.2em] mb-8">Wealth Created</h3>
-                  
-                  <div className="relative inline-flex items-center justify-center mb-8">
-                    <div className="absolute inset-0 bg-brand-accent/20 blur-2xl rounded-full" />
-                    <div className="w-48 h-48 border border-white/10 bg-neutral-950/80 shadow-2xl flex flex-col items-center justify-center relative z-10">
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mb-1">Future Value</p>
-                      <div className="flex items-start text-white">
-                        <span className="text-xl font-bold text-brand-accent mt-1">₹</span>
-                        <span className="text-4xl font-[900] tracking-tighter drop-shadow-[0_0_10px_rgba(246,255,0,0.5)]">{sipResults.total > 10000000 ? (sipResults.total/10000000).toFixed(2) + 'Cr' : (sipResults.total/100000).toFixed(2) + 'L'}</span>
-                      </div>
-                      <p className="text-[9px] text-brand-accent uppercase tracking-widest font-bold mt-2 bg-brand-accent/10 px-3 py-1 border border-brand-accent/20">After {sipYears} Years</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4 text-left mb-8">
-                    <div className="flex justify-between items-center text-sm py-2 border-b border-white/5">
-                      <span className="text-neutral-400">Total Invested</span>
-                      <span className="font-bold text-white">₹{sipResults.invested.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm py-2 border-b border-white/5">
-                      <span className="text-neutral-400">Est. Wealth Gain</span>
-                      <span className="font-bold text-brand-accent">₹{sipResults.gain.toLocaleString()}</span>
-                    </div>
-                  </div>
-
-                  <button 
-                    onClick={() => setShowBuyModal(true)}
-                    className="w-full relative group overflow-hidden bg-white text-black font-[900] py-4 text-sm uppercase tracking-widest transition-transform hover:scale-[1.02]"
-                  >
-                    <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <FaCalculator /> Setup Auto-SIP
-                    </span>
-                  </button>
-                </div>
-              ) : category === 'health' ? (
-                <div className="relative z-10 text-center">
-                  <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-[10px] font-[900] text-neutral-400 uppercase tracking-[0.2em]">Estimated Premium</h3>
-                    <div className={`px-3 py-1 text-[9px] font-[900] uppercase tracking-widest border ${
-                      healthBreakdown.riskLevel === 'Low' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                      healthBreakdown.riskLevel === 'Moderate' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                      healthBreakdown.riskLevel === 'High' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' :
-                      'bg-red-500/10 text-red-400 border-red-500/20'
-                    }`}>
-                      {healthBreakdown.riskLevel} Risk
-                    </div>
-                  </div>
-                  
-                  <div className="relative inline-flex flex-col items-center justify-center mb-8 w-full">
-                    <div className="absolute inset-0 bg-brand-accent/10 blur-2xl rounded-full" />
-                    <div className="w-full border border-white/10 bg-neutral-950/80 shadow-2xl p-6 relative z-10">
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mb-2">Annual Premium</p>
-                      <div className="flex items-start justify-center text-white mb-4">
-                        <span className="text-xl font-bold text-brand-accent mt-2 mr-1">₹</span>
-                        <span className="text-5xl font-[900] tracking-tighter drop-shadow-[0_0_10px_rgba(246,255,0,0.5)]">
-                          <AnimatedCounter value={healthBreakdown.annualPremium} />
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-brand-accent uppercase tracking-widest font-bold mt-2 bg-brand-accent/5 px-3 py-1.5 border border-brand-accent/10 inline-block">
-                        <AnimatedCounter value={healthBreakdown.monthlyPremium} prefix="₹" suffix=" / mo" />
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Transparent Breakdown */}
-                  <div className="space-y-3 text-left mb-8 bg-black/40 p-5 border border-white/5">
-                    <p className="text-[9px] font-[900] text-neutral-500 uppercase tracking-widest mb-4">Premium Breakdown</p>
+                    <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-[0.2em] mb-6">Wealth Created</h3>
                     
-                    <div className="flex justify-between items-center text-xs pb-2 border-b border-white/5">
-                      <span className="text-neutral-400 font-medium">Base Premium (Cov: {coverage/100000}L)</span>
-                      <span className="font-bold text-white">₹{healthBreakdown.base.toLocaleString('en-IN')}</span>
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-brand-accent/10 blur-3xl rounded-full" />
+                      <div className="relative bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/[0.08] rounded-2xl p-6">
+                        <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold mb-2">Future Value</p>
+                        <div className="flex items-baseline justify-center text-white">
+                          <span className="text-lg font-bold text-brand-accent mr-1">₹</span>
+                          <span className="text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(246,255,0,0.4)]">
+                            {sipResults.total > 10000000 ? (sipResults.total/10000000).toFixed(2) + 'Cr' : (sipResults.total/100000).toFixed(2) + 'L'}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-brand-accent uppercase tracking-widest font-semibold mt-3 bg-brand-accent/10 px-3 py-1 rounded-full border border-brand-accent/15 inline-block">
+                          After {sipYears} Years
+                        </p>
+                      </div>
                     </div>
-                    {healthBreakdown.ageAdj !== 0 && (
-                      <div className="flex justify-between items-center text-xs pb-2 border-b border-white/5">
-                        <span className="text-neutral-400 font-medium">Age Adjustment</span>
-                        <span className={`font-bold ${healthBreakdown.ageAdj > 0 ? 'text-red-400' : 'text-green-400'}`}>
-                          {healthBreakdown.ageAdj > 0 ? '+' : ''}₹{healthBreakdown.ageAdj.toLocaleString('en-IN')}
+
+                    {/* SIP Donut */}
+                    <DonutChart segments={[
+                      { value: sipResults.invested, color: '#818CF8' },
+                      { value: sipResults.gain, color: '#F6FF00' },
+                    ]} />
+
+                    <div className="space-y-3 text-left mt-5 mb-6">
+                      <div className="flex justify-between items-center text-sm py-2.5 px-3 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+                        <span className="text-neutral-400 flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-indigo-400 inline-block" /> Invested</span>
+                        <span className="font-bold text-white">₹{sipResults.invested.toLocaleString('en-IN')}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm py-2.5 px-3 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+                        <span className="text-neutral-400 flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-brand-accent inline-block" /> Wealth Gain</span>
+                        <span className="font-bold text-brand-accent">₹{sipResults.gain.toLocaleString('en-IN')}</span>
+                      </div>
+                    </div>
+
+                    <button 
+                      onClick={() => setShowBuyModal(true)}
+                      className="w-full relative group overflow-hidden bg-white text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(246,255,0,0.2)] hover:scale-[1.02]"
+                    >
+                      <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        <FaCalculator /> Setup Auto-SIP
+                      </span>
+                    </button>
+                  </div>
+                ) : category === 'health' ? (
+                  /* Health Output */
+                  <div className="relative z-10 text-center">
+                    <div className="flex justify-between items-center mb-5">
+                      <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-[0.2em]">Estimated Premium</h3>
+                      <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border ${risk.bg} ${risk.text} ${risk.border}`}>
+                        {healthBreakdown.riskLevel} Risk
+                      </span>
+                    </div>
+                    
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-brand-accent/10 blur-3xl rounded-full" />
+                      <div className="relative bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/[0.08] rounded-2xl p-6">
+                        <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold mb-2">Annual Premium</p>
+                        <div className="flex items-baseline justify-center text-white">
+                          <span className="text-lg font-bold text-brand-accent mr-1">₹</span>
+                          <span className="text-5xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(246,255,0,0.4)]">
+                            <AnimatedCounter value={healthBreakdown.annualPremium} />
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-brand-accent uppercase tracking-widest font-semibold mt-3 bg-brand-accent/[0.06] px-4 py-1.5 rounded-full border border-brand-accent/15 inline-block">
+                          <AnimatedCounter value={healthBreakdown.monthlyPremium} prefix="₹" suffix=" / mo" />
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Health Donut */}
+                    <DonutChart segments={[
+                      { value: healthBreakdown.base, color: '#F6FF00' },
+                      ...(healthBreakdown.ageAdj !== 0 ? [{ value: Math.abs(healthBreakdown.ageAdj), color: '#F97316' }] : []),
+                      ...(healthBreakdown.tobaccoLoad !== 0 ? [{ value: healthBreakdown.tobaccoLoad, color: '#EF4444' }] : []),
+                      ...(healthBreakdown.medicalLoad !== 0 ? [{ value: healthBreakdown.medicalLoad, color: '#EC4899' }] : []),
+                      ...(healthBreakdown.deductibleDiscount !== 0 ? [{ value: Math.abs(healthBreakdown.deductibleDiscount), color: '#818CF8' }] : []),
+                    ]} />
+
+                    {/* Breakdown */}
+                    <div className="space-y-2 text-left mt-5 mb-6">
+                      <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-widest mb-3 px-1">Premium Breakdown</p>
+                      
+                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded-lg bg-white/[0.02]">
+                        <span className="text-neutral-400 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-brand-accent inline-block" /> Base (Cov: {coverage/100000}L)</span>
+                        <span className="font-bold text-white">₹{healthBreakdown.base.toLocaleString('en-IN')}</span>
+                      </div>
+                      {healthBreakdown.ageAdj !== 0 && (
+                        <div className="flex justify-between items-center text-xs py-2 px-3 rounded-lg bg-white/[0.02]">
+                          <span className="text-neutral-400 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-orange-500 inline-block" /> Age Adjustment</span>
+                          <span className={`font-bold ${healthBreakdown.ageAdj > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                            {healthBreakdown.ageAdj > 0 ? '+' : ''}₹{healthBreakdown.ageAdj.toLocaleString('en-IN')}
+                          </span>
+                        </div>
+                      )}
+                      {healthBreakdown.tobaccoLoad !== 0 && (
+                        <div className="flex justify-between items-center text-xs py-2 px-3 rounded-lg bg-white/[0.02]">
+                          <span className="text-neutral-400 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-500 inline-block" /> Tobacco Loading</span>
+                          <span className="font-bold text-red-400">+₹{healthBreakdown.tobaccoLoad.toLocaleString('en-IN')}</span>
+                        </div>
+                      )}
+                      {healthBreakdown.medicalLoad !== 0 && (
+                        <div className="flex justify-between items-center text-xs py-2 px-3 rounded-lg bg-white/[0.02]">
+                          <span className="text-neutral-400 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-pink-500 inline-block" /> Medical Conditions</span>
+                          <span className="font-bold text-red-400">+₹{healthBreakdown.medicalLoad.toLocaleString('en-IN')}</span>
+                        </div>
+                      )}
+                      {healthBreakdown.deductibleDiscount !== 0 && (
+                        <div className="flex justify-between items-center text-xs py-2 px-3 rounded-lg bg-white/[0.02]">
+                          <span className="text-neutral-400 flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-indigo-400 inline-block" /> Deductible Adj.</span>
+                          <span className={`font-bold ${healthBreakdown.deductibleDiscount > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                            {healthBreakdown.deductibleDiscount > 0 ? '+' : ''}₹{healthBreakdown.deductibleDiscount.toLocaleString('en-IN')}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <button 
+                      onClick={() => setShowBuyModal(true)}
+                      className="w-full relative group overflow-hidden bg-brand-accent text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(246,255,0,0.25)] hover:scale-[1.02] mb-5"
+                    >
+                      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-xl" />
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        <FaShieldAlt /> Secure Now
+                      </span>
+                    </button>
+
+                    <p className="text-[9px] leading-relaxed text-neutral-600 font-medium px-1 text-center">
+                      This calculator provides an estimated premium based on general underwriting assumptions. Actual premiums may vary depending on the insurance provider, medical history, policy terms, and underwriting guidelines. Please contact SK Smart Investments for an accurate quotation.
+                    </p>
+                  </div>
+                ) : (
+                  /* Generic Output (Life / Motor / Home / Travel) */
+                  <div className="relative z-10 text-center">
+                    <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-[0.2em] mb-6">{getOutputMeta().title}</h3>
+                    
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-brand-accent/15 blur-3xl rounded-full" />
+                      <div className="relative bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/[0.08] rounded-2xl p-8 flex flex-col items-center justify-center">
+                        <div className="flex items-baseline text-white">
+                          <span className="text-xl font-bold text-brand-accent mr-1">₹</span>
+                          <span className="text-6xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(246,255,0,0.4)]">
+                            <AnimatedCounter value={premium} />
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold mt-3">
+                          {category === 'travel' ? 'Total Trip Premium' : 'INR / Month'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3 text-left mb-6">
+                      <div className="flex justify-between items-center text-sm py-2.5 px-3 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+                        <span className="text-neutral-400">
+                          {category === 'motor' ? 'Vehicle IDV' : category === 'home' ? 'Property Value' : category === 'travel' ? 'Duration' : 'Coverage'}
+                        </span>
+                        <span className="font-bold text-white">
+                          {category === 'motor' ? `₹${vehicleValue.toLocaleString('en-IN')}` :
+                           category === 'home' ? `₹${homeValue.toLocaleString('en-IN')}` :
+                           category === 'travel' ? `${duration} Days` :
+                           `₹${coverage.toLocaleString('en-IN')}`}
                         </span>
                       </div>
-                    )}
-                    {healthBreakdown.tobaccoLoad !== 0 && (
-                      <div className="flex justify-between items-center text-xs pb-2 border-b border-white/5">
-                        <span className="text-neutral-400 font-medium">Tobacco Loading</span>
-                        <span className="font-bold text-red-400">+₹{healthBreakdown.tobaccoLoad.toLocaleString('en-IN')}</span>
+                      <div className="flex justify-between items-center text-sm py-2.5 px-3 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+                        <span className="text-neutral-400">Risk Profile</span>
+                        <span className="font-bold text-brand-accent">Standard</span>
                       </div>
-                    )}
-                    {healthBreakdown.medicalLoad !== 0 && (
-                      <div className="flex justify-between items-center text-xs pb-2 border-b border-white/5">
-                        <span className="text-neutral-400 font-medium">Medical Conditions</span>
-                        <span className="font-bold text-red-400">+₹{healthBreakdown.medicalLoad.toLocaleString('en-IN')}</span>
-                      </div>
-                    )}
-                    {healthBreakdown.deductibleDiscount !== 0 && (
-                      <div className="flex justify-between items-center text-xs pb-2 border-b border-white/5">
-                        <span className="text-neutral-400 font-medium">Deductible Adjustment</span>
-                        <span className={`font-bold ${healthBreakdown.deductibleDiscount > 0 ? 'text-red-400' : 'text-green-400'}`}>
-                          {healthBreakdown.deductibleDiscount > 0 ? '+' : ''}₹{healthBreakdown.deductibleDiscount.toLocaleString('en-IN')}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <button 
-                    onClick={() => setShowBuyModal(true)}
-                    className="w-full relative group overflow-hidden bg-brand-accent text-black font-[900] py-4 text-sm uppercase tracking-widest transition-transform hover:scale-[1.02] shadow-[0_0_20px_rgba(246,255,0,0.2)] mb-6"
-                  >
-                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <FaShieldAlt /> Secure Now
-                    </span>
-                  </button>
-
-                  <p className="text-[9px] leading-relaxed text-neutral-500 font-medium px-2 text-justify">
-                    This calculator provides an estimated premium based on general underwriting assumptions. Actual premiums may vary depending on the insurance provider, medical history, policy terms, and underwriting guidelines. Please contact SK Smart Investments for an accurate quotation.
-                  </p>
-                </div>
-              ) : (
-                <div className="relative z-10 text-center">
-                  <h3 className="text-[10px] font-[900] text-neutral-400 uppercase tracking-[0.2em] mb-8">Est. Monthly Premium</h3>
-                  
-                  <div className="relative inline-flex items-center justify-center mb-8">
-                    <div className="absolute inset-0 bg-brand-accent/20 blur-2xl rounded-full" />
-                    <div className="w-48 h-48 border border-white/10 bg-neutral-950/80 shadow-2xl flex flex-col items-center justify-center relative z-10">
-                      <div className="flex items-start text-white">
-                        <span className="text-xl font-bold text-brand-accent mt-2">₹</span>
-                        <span className="text-6xl font-[900] tracking-tighter drop-shadow-[0_0_10px_rgba(246,255,0,0.5)]">
-                          <AnimatedCounter value={premium} />
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mt-2">INR / Month</p>
                     </div>
-                  </div>
 
-                  <div className="space-y-4 text-left mb-8">
-                    <div className="flex justify-between items-center text-sm py-2 border-b border-white/5">
-                      <span className="text-neutral-400">Coverage</span>
-                      <span className="font-bold text-white">₹{coverage.toLocaleString('en-IN')}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm py-2 border-b border-white/5">
-                      <span className="text-neutral-400">Risk Profile</span>
-                      <span className="font-bold text-brand-accent">Standard</span>
-                    </div>
+                    <button 
+                      onClick={() => setShowBuyModal(true)}
+                      className="w-full relative group overflow-hidden bg-white text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(246,255,0,0.2)] hover:scale-[1.02]"
+                    >
+                      <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        <FaShieldAlt /> Secure Now
+                      </span>
+                    </button>
                   </div>
-
-                  <button 
-                    onClick={() => setShowBuyModal(true)}
-                    className="w-full relative group overflow-hidden bg-white text-black font-[900] py-4 text-sm uppercase tracking-widest transition-transform hover:scale-[1.02]"
-                  >
-                    <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <FaShieldAlt /> Secure Now
-                    </span>
-                  </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Sticky Output Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-neutral-950/95 backdrop-blur-xl border-t border-white/10 p-4 pr-24 xl:hidden z-40 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+      {/* ── Mobile Sticky Output Bar ── */}
+      <div className="fixed bottom-0 left-0 w-full bg-[#0c0f1a]/95 backdrop-blur-2xl border-t border-white/[0.06] p-4 pr-24 xl:hidden z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.6)]">
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div>
-            <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-widest mb-1">
-              {category === 'sip' ? 'Est. Total Value' : category === 'health' ? 'Annual Premium' : 'Est. Monthly Premium'}
+            <p className="text-[10px] text-neutral-500 font-semibold uppercase tracking-widest mb-1">
+              {category === 'sip' ? 'Est. Total Value' : category === 'health' ? 'Annual Premium' : category === 'travel' ? 'Trip Premium' : 'Est. Monthly Premium'}
             </p>
-            <p className="text-xl font-black text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.3)]">
+            <p className="text-xl font-extrabold text-brand-accent drop-shadow-[0_0_8px_rgba(246,255,0,0.3)]">
               ₹{category === 'sip' 
                   ? sipResults.total.toLocaleString('en-IN') 
                   : category === 'health' 
@@ -850,52 +1008,51 @@ export const Calculator = () => {
           </div>
           <button 
             onClick={() => setShowBuyModal(true)} 
-            className="bg-brand-accent text-black px-4 py-2 text-[10px] sm:text-xs font-[900] uppercase tracking-wider hover:scale-[1.02] transition-transform shadow-[0_0_15px_rgba(246,255,0,0.2)]"
+            className="bg-brand-accent text-black px-5 py-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-xl hover:scale-105 transition-transform shadow-[0_0_20px_rgba(246,255,0,0.15)]"
           >
             {category === 'sip' ? 'Setup SIP' : 'Secure Now'}
           </button>
         </div>
       </div>
 
-      {/* Buy Flow Modal */}
+      {/* ── Buy Flow Modal ── */}
       <AnimatePresence>
         {showBuyModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowBuyModal(false)} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => setShowBuyModal(false)} />
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }} 
+              initial={{ scale: 0.92, opacity: 0 }} 
               animate={{ scale: 1, opacity: 1 }} 
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="relative w-full max-w-md bg-neutral-950 border border-white/10 p-8 shadow-2xl overflow-hidden"
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="relative w-full max-w-md bg-[#0c0f1a] border border-white/[0.08] rounded-3xl p-8 shadow-[0_24px_80px_rgba(0,0,0,0.6)] overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-accent/10 rounded-full blur-[60px] pointer-events-none" />
               
-              <h2 className="text-xl font-bold text-white mb-6">
+              <h2 className="text-xl font-bold text-white mb-6 relative z-10">
                 {category === 'sip' ? "SIP Auto-Debit Setup" : "Premium Activation"}
               </h2>
 
               {successBuy ? (
-                <div className="text-center py-8">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-accent/20 text-brand-accent mb-4 animate-bounce">
+                <div className="text-center py-8 relative z-10">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-accent/20 text-brand-accent rounded-2xl mb-4 animate-bounce">
                     <FaUserCheck className="text-3xl" />
                   </div>
-                  <h3 className="text-2xl font-[900] text-white mb-2">Activated!</h3>
+                  <h3 className="text-2xl font-extrabold text-white mb-2">Activated!</h3>
                   <p className="text-sm text-neutral-400">
                     {category === 'sip' ? 'Your auto-debit SIP mandate is registered.' : 'Your policy has been successfully issued.'}
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handlePurchaseMock} className="space-y-5">
-                  <div>
-                    <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-2">Legal Name</label>
-                    <input required type="text" value={buyName} onChange={(e) => setBuyName(e.target.value)} className="w-full px-4 py-3 bg-neutral-900 border border-white/10 rounded-[2px] focus:border-brand-accent focus:ring-1 focus:ring-brand-accent text-sm text-white" placeholder="John Doe" />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-[900] text-neutral-400 uppercase tracking-widest mb-2">Email</label>
-                    <input required type="email" value={buyEmail} onChange={(e) => setBuyEmail(e.target.value)} className="w-full px-4 py-3 bg-neutral-900 border border-white/10 rounded-[2px] focus:border-brand-accent focus:ring-1 focus:ring-brand-accent text-sm text-white" placeholder="john@example.com" />
-                  </div>
+                <form onSubmit={handlePurchaseMock} className="space-y-5 relative z-10">
+                  <GlassInput label="Legal Name">
+                    <input required type="text" value={buyName} onChange={(e) => setBuyName(e.target.value)} className={inputClasses} placeholder="John Doe" />
+                  </GlassInput>
+                  <GlassInput label="Email">
+                    <input required type="email" value={buyEmail} onChange={(e) => setBuyEmail(e.target.value)} className={inputClasses} placeholder="john@example.com" />
+                  </GlassInput>
                   
-                  <div className="p-4 bg-brand-accent/5 border border-brand-accent/20">
+                  <div className="p-4 bg-brand-accent/[0.05] border border-brand-accent/15 rounded-xl">
                     <p className="text-xs font-bold text-brand-accent mb-3 uppercase tracking-widest">Summary</p>
                     <div className="flex justify-between text-sm text-white font-medium mb-1">
                       <span>{category === 'sip' ? 'Monthly SIP' : 'Monthly Premium'}</span>
@@ -904,8 +1061,8 @@ export const Calculator = () => {
                   </div>
 
                   <div className="flex gap-3 pt-4">
-                    <button type="button" onClick={() => setShowBuyModal(false)} className="flex-1 py-3 text-sm font-bold text-neutral-400 hover:text-white transition-colors">Cancel</button>
-                    <button type="submit" className="flex-1 py-3 bg-brand-accent text-black font-[900] uppercase tracking-widest hover:bg-white transition-colors shadow-[0_0_15px_rgba(246,255,0,0.2)]">
+                    <button type="button" onClick={() => setShowBuyModal(false)} className="flex-1 py-3 text-sm font-semibold text-neutral-400 hover:text-white transition-colors rounded-xl hover:bg-white/[0.04]">Cancel</button>
+                    <button type="submit" className="flex-1 py-3 bg-brand-accent text-black font-bold uppercase tracking-widest rounded-xl hover:shadow-[0_0_20px_rgba(246,255,0,0.2)] transition-all hover:scale-[1.02]">
                       Confirm
                     </button>
                   </div>

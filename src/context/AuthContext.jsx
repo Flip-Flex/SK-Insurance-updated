@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
             profile = userDoc.data();
           } else {
             const emailPart = firebaseUser.email.split('@')[0];
-            const detectedRole = firebaseUser.email.includes('admin') ? 'admin' : 'customer';
+            const detectedRole = 'manager';
             
             profile = {
               username: emailPart,
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
           logger.auth(`User signed in via Firebase`, true, { email: firebaseUser.email });
 
           // Seed database if this user is an admin
-          if (profile.role === 'admin') {
+          if (profile.role === 'manager') {
             await initializeDatabaseCollections();
           }
         } catch (error) {
@@ -76,6 +76,18 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password, rememberMe = true) => {
     const cleanedEmail = email.trim().toLowerCase();
     logger.info(`Login attempt started`, { email: cleanedEmail });
+
+    // LOCAL DEV BYPASS
+    if (cleanedEmail === 'manager@mail.com' && password === 'manager@123') {
+      setUser({
+        username: 'manager',
+        name: 'LOCAL MANAGER',
+        role: 'manager',
+        email: 'manager@mail.com',
+        id: 'DEV-MANAGER'
+      });
+      return true;
+    }
 
     if (!isFirebaseConfigured) {
       return 'Firebase is not configured.';

@@ -66,30 +66,7 @@ export const Dashboard = () => {
     }
   };
 
-  const renderRoleDashboard = () => {
-    if (user.role === 'manager') {
-      return <ManagerDashboard tab={tab} />;
-    }
-    
-    return (
-      <div className="flex flex-col items-center justify-center h-full text-center mt-32">
-        <h3 className="text-2xl font-bold text-navy-950 dark:text-white mb-2 uppercase tracking-wide">Welcome to SK Insurance</h3>
-        <p className="text-sm text-slate-500 font-medium">Your personalized workspace is currently being provisioned.</p>
-      </div>
-    );
-  };
 
-  const getDashboardTitle = () => {
-    const roleLabels = {
-      customer: 'Policyholder Workspace',
-      agent: 'Underwriting Representative Dashboard',
-      telecaller: 'Outbound Leads Dashboard',
-      employee: 'Claims Verification Queue',
-      manager: 'Manager Portal',
-      admin: ''
-    };
-    return roleLabels[user.role] || 'Insurance Dashboard';
-  };
 
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-neutral-950 text-slate-800 dark:text-slate-100 transition-colors duration-300">
@@ -101,9 +78,7 @@ export const Dashboard = () => {
         {/* Top Header */}
         <header className="h-16 border-b border-slate-200/40 dark:border-white/5 bg-white/70 dark:bg-neutral-950/70 backdrop-blur-md sticky top-0 z-20 flex items-center justify-between px-6">
           <div className="flex items-center space-x-4">
-            <h2 className="text-sm font-bold text-neutral-950 dark:text-white uppercase tracking-wider font-sans">
-              {getDashboardTitle()}
-            </h2>
+              Manager Portal
           </div>
 
           <div className="flex items-center space-x-4">
@@ -133,7 +108,7 @@ export const Dashboard = () => {
               </button>
             </div>
           )}
-          {renderRoleDashboard()}
+          <ManagerDashboard tab={tab} />
         </main>
       </div>
     </div>
