@@ -10,7 +10,7 @@ import { useRef } from 'react';
 import { StickyStackedCards } from '../../components/StickyStackedCards';
 import { PremiumEditorialStats } from '../../components/PremiumEditorialStats';
 import { EditorialTrustValues } from '../../components/EditorialTrustValues';
-import { EditorialTestimonials } from '../../components/EditorialTestimonials';
+import { StaggerTestimonials } from '../../components/ui/stagger-testimonials';
 const AnimatedCounter = ({ value, duration = 1.5 }) => {
   const [displayValue, setDisplayValue] = React.useState('');
   const elementRef = useRef(null);
@@ -30,8 +30,8 @@ const AnimatedCounter = ({ value, duration = 1.5 }) => {
       numericString = str;
     }
     
-    if (numericString.endsWith('M+')) {
-      suffix = 'M+';
+    if (numericString.endsWith('L+')) {
+      suffix = 'L+';
       numericString = numericString.substring(0, numericString.length - 2);
     } else if (numericString.endsWith('%')) {
       suffix = '%';
@@ -432,7 +432,11 @@ export const Home = () => {
   ];
 
   const [partnersList, setPartnersList] = useState(defaultPartners);
-  const [testimonials, setTestimonials] = useState(defaultTestimonials);
+  const [testimonials, setTestimonials] = useState(() => defaultTestimonials.map((t, index) => ({
+    testimonial: t.quote,
+    by: `${t.author}, ${t.role}`,
+    imgSrc: `https://ui-avatars.com/api/?name=${encodeURIComponent(t.author)}&background=random`
+  })));
 
   useEffect(() => {
     // Listen to partners in real-time
@@ -442,11 +446,14 @@ export const Home = () => {
     // Listen to testimonials in real-time
     const unsubscribeTestimonials = subscribeToCollection('testimonials', (data) => {
       if (data && data.length > 0) {
-        const mapped = data.map(t => ({
-          quote: t.text || t.quote || '',
-          author: t.name || t.author || '',
-          role: t.role || ''
-        }));
+        const mapped = data.map((t, index) => {
+          const authorName = t.name || t.author || '';
+          return {
+            testimonial: t.text || t.quote || '',
+            by: authorName + (t.role ? `, ${t.role}` : ''),
+            imgSrc: t.imgSrc || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=random`
+          };
+        });
         setTestimonials(mapped);
       }
     });
@@ -467,7 +474,7 @@ export const Home = () => {
 
   const stats = [
     { number: '98.7%', label: t('claims_rate'), icon: FaShieldAlt, size: 'text-[54px]' },
-    { number: '₹420M+', label: t('claims_disbursed'), icon: FaHandshake, size: 'text-[52px]' },
+    { number: '₹420L+', label: t('claims_disbursed'), icon: FaHandshake, size: 'text-[52px]' },
     { number: '150,000+', label: t('clients_protected'), icon: FaUserShield, size: 'text-[50px]' },
     { number: '4.9 / 5', label: t('avg_rating'), icon: FaAward, size: 'text-[48px]' }
   ];
@@ -546,7 +553,7 @@ export const Home = () => {
 
 
       {/* Testimonials Strip */}
-      <EditorialTestimonials testimonials={testimonials} />
+      <StaggerTestimonials testimonials={testimonials} />
       </div>
     </div>
   );

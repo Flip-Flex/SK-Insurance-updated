@@ -66,47 +66,28 @@ const TiltCard = ({ aw, onClick, index = 0 }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, delay: (index % 4) * 0.15 }}
-      className="group cursor-pointer relative bg-neutral-900/60 rounded-[24px] border border-white/10 hover:border-brand-accent/50 transition-all duration-500 flex flex-col h-[520px] shadow-2xl backdrop-blur-sm overflow-hidden"
+      className="group cursor-pointer relative bg-neutral-900/60 rounded-[24px] border border-white/10 hover:border-brand-accent/50 transition-all duration-500 flex flex-col shadow-2xl backdrop-blur-sm overflow-hidden break-inside-avoid mb-8"
     >
       <div className="absolute inset-0 bg-brand-accent/0 group-hover:bg-brand-accent/5 transition-colors duration-500 rounded-[24px]" />
       
       <div 
-        className="relative w-full h-[260px] shrink-0 rounded-t-[24px] overflow-hidden bg-black border-b border-white/10"
+        className="relative w-full h-full overflow-hidden bg-black"
         style={{ transform: "translateZ(30px)" }}
       >
         <img
           src={aw.img}
           alt={aw.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100"
+          className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/50 to-transparent pointer-events-none" />
+        
+        <div className="absolute bottom-4 left-0 w-full px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+           <h3 className="text-sm font-bold text-white text-center leading-tight drop-shadow-md">{aw.title}</h3>
+        </div>
+
         <div className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 border border-white/10">
           <FaSearchPlus className="text-white text-lg" />
-        </div>
-      </div>
-
-      <div 
-        className="flex-1 flex flex-col p-6 relative"
-        style={{ transform: "translateZ(40px)" }}
-      >
-        <div className="flex items-center gap-2 mb-3">
-          <FaAward className="text-brand-accent text-sm" />
-          <span className="text-[10px] text-brand-accent uppercase tracking-[0.2em] font-extrabold">{aw.tag || 'INDUSTRY RECOGNITION'}</span>
-        </div>
-        
-        <h3 className="text-xl font-[900] text-white leading-tight mb-3 group-hover:text-brand-accent transition-colors duration-300">
-          {aw.title}
-        </h3>
-        
-        <p className="text-sm text-neutral-400 font-medium line-clamp-3 mb-4">
-          {aw.desc}
-        </p>
-        
-        <div className="mt-auto pt-4 border-t border-white/10">
-          <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white group-hover:text-brand-accent transition-colors">
-            View Certificate <FaArrowRight />
-          </button>
         </div>
       </div>
     </motion.div>
@@ -295,52 +276,82 @@ export const About = () => {
   return (
     <div className="w-full bg-black min-h-screen text-white overflow-clip pb-24">
       
-      {/* Chapter 1: Cinematic Hero Section */}
-      <section className="relative w-full min-h-[90vh] pt-32 lg:pt-40 flex flex-col items-center justify-center text-center overflow-hidden">
-        {/* Moving Gradient Background */}
-        <motion.div 
-          className="absolute inset-0 opacity-40 mix-blend-screen"
-          style={{
-            background: 'radial-gradient(circle at center, rgba(246,255,0,0.15) 0%, rgba(0,0,0,0) 60%), radial-gradient(circle at 80% 20%, rgba(82,39,255,0.15) 0%, rgba(0,0,0,0) 50%)',
-            backgroundSize: '200% 200%'
-          }}
-          animate={{ backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'] }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-        />
+      {/* Chapter 1: Hero Story */}
+      <section className="relative min-h-[85vh] flex flex-col justify-between bg-black pt-40 pb-0 overflow-hidden border-b border-white/10">
+        
+        <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 flex-1 flex flex-col justify-center">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex items-center gap-4 mb-8"
+          >
+            <span className="w-8 h-[1px] bg-brand-accent"></span>
+            <span className="text-[11px] font-bold text-brand-accent tracking-[0.2em] uppercase">
+              // OUR PURPOSE
+            </span>
+          </motion.div>
 
-        {/* Floating Particles */}
-        <div className="absolute inset-0 pointer-events-none">
-          {particles.map((p) => (
-            <motion.div
-              key={p.id}
-              className="absolute w-1 h-1 bg-brand-accent/40 rounded-full blur-[1px]"
-              style={{ left: `${p.xStart}%`, top: `${p.yStart}%` }}
-              animate={{ y: [0, -300], x: [0, (p.id % 2 === 0 ? 50 : -50)], opacity: [0, 0.8, 0] }}
-              transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "linear" }}
-            />
-          ))}
-        </div>
-          <div className="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto px-4 w-full">
-            
-            <div className="flex flex-col items-center space-y-4">
-              <SplitText text="Securing Wealth." className="text-4xl sm:text-6xl lg:text-7xl font-[900] tracking-tight text-white leading-[1.1] pb-4 lg:pb-6" delay={0} duration={1} />
-              <SplitText text="Empowering Futures." className="text-4xl sm:text-6xl lg:text-7xl font-[900] tracking-tight text-brand-accent leading-[1.1] pb-4 lg:pb-6" delay={200} duration={1} />
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-24 mt-24">
-              <div className="flex flex-col items-center">
-                <SplitText text="22" className="text-6xl sm:text-7xl lg:text-8xl font-[900] text-white" delay={400} duration={0.8} />
-                <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase mt-4">Years of Trust</span>
-              </div>
-              <div className="hidden sm:block w-[1px] h-12 bg-white/20"></div>
-              <div className="flex flex-col items-center">
-                <SplitText text="5000+" className="text-6xl sm:text-7xl lg:text-8xl font-[900] text-white" delay={500} duration={0.8} />
-                <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase mt-4">Families Protected</span>
-              </div>
-            </div>
+          <div className="space-y-2">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+              className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[1.1]"
+            >
+              Securing Wealth.
+            </motion.h1>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-neutral-500 leading-[1.1]"
+            >
+              Empowering Futures.
+            </motion.h1>
           </div>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            className="mt-10 max-w-2xl text-lg sm:text-xl text-neutral-400 font-medium leading-relaxed"
+          >
+            With over two decades of dedicated expertise, we specialize in comprehensive insurance planning. We deliver institutional-grade protection for your life, health, vehicles, and long-term legacy.
+          </motion.p>
 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="flex flex-wrap items-center gap-4 sm:gap-6 mt-8"
+          >
+            {['LIFE INSURANCE', 'HEALTH INSURANCE', 'MOTOR INSURANCE', 'BUSINESS PROTECTION'].map((pillar, idx) => (
+              <div key={idx} className="flex items-center gap-4 sm:gap-6">
+                <span className="text-[10px] sm:text-xs font-bold text-white tracking-[0.15em]">{pillar}</span>
+                {idx !== 3 && <span className="w-1 h-1 rounded-full bg-brand-accent hidden sm:block"></span>}
+              </div>
+            ))}
+          </motion.div>
+        </div>
 
+        {/* Hero Bottom Stats */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+          className="w-full max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-2 border-t border-white/10 mt-20"
+        >
+          <div className="flex flex-col py-8 md:py-12 md:pr-12 md:border-r border-white/10 border-b md:border-b-0">
+            <span className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight">22</span>
+            <span className="text-[11px] font-bold text-neutral-500 tracking-[0.2em] uppercase">Years of Trust</span>
+          </div>
+          <div className="flex flex-col py-8 md:py-12 md:pl-12">
+            <span className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight">5,000+</span>
+            <span className="text-[11px] font-bold text-neutral-500 tracking-[0.2em] uppercase">Families Protected</span>
+          </div>
+        </motion.div>
       </section>
 
       {/* Chapter 2: Who We Are - Cinematic Storytelling Redesign */}
@@ -589,19 +600,6 @@ export const About = () => {
         <div className="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover/gallery:opacity-100 transition-opacity duration-1000 blur-[150px] pointer-events-none rounded-full" />
         
         <div className="text-center mb-20 relative z-10">
-          <div className="flex items-center justify-center gap-4 mb-8 flex-wrap">
-            {[
-              { num: 17, suffix: '+', text: 'Industry Awards' },
-              { num: 22, suffix: '+', text: 'Years of Excellence' },
-              { num: 5000, suffix: '+', text: 'Happy Families' },
-            ].map((stat, i) => (
-              <div key={i} className="flex items-center gap-3 bg-neutral-900/60 backdrop-blur-sm border border-white/10 rounded-full px-6 py-3 shadow-xl">
-                <span className="text-brand-accent font-[900] text-xl"><Counter from={0} to={stat.num} suffix={stat.suffix} duration={3} /></span>
-                <span className="text-white text-xs uppercase tracking-widest font-bold">{stat.text}</span>
-              </div>
-            ))}
-          </div>
-          
           <h2 className="text-sm text-brand-accent uppercase tracking-[0.3em] font-extrabold mb-4 flex items-center justify-center gap-4">
             <span className="w-8 h-px bg-brand-accent"></span>
             INDUSTRY RECOGNITION
@@ -615,7 +613,7 @@ export const About = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+        <div className="columns-1 sm:columns-2 lg:columns-4 gap-8 relative z-10">
           {awards.map((aw, idx) => (
             <TiltCard key={idx} aw={aw} onClick={setSelectedAwardIndex} index={idx} />
           ))}
@@ -624,9 +622,71 @@ export const About = () => {
 
       {/* Chapter 8: Leadership (The People) */}
       <section className="py-32 px-4 sm:px-8 max-w-7xl mx-auto border-t border-white/5">
-        <h2 className="text-4xl sm:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-12">The People Behind</h2>
+        <div className="text-center mb-20 relative z-10">
+          <h2 className="text-sm text-brand-accent uppercase tracking-[0.3em] font-extrabold mb-4 flex items-center justify-center gap-4">
+            <span className="w-8 h-px bg-brand-accent"></span>
+            OUR LEADERSHIP
+            <span className="w-8 h-px bg-brand-accent"></span>
+          </h2>
+          <h3 className="text-4xl sm:text-5xl lg:text-6xl font-[900] text-white uppercase tracking-[-1px] mb-6">
+            The People Behind
+          </h3>
+          <p className="text-lg text-neutral-400 font-medium max-w-3xl mx-auto leading-relaxed">
+            Meet the visionaries who guide SK Smart Investments with unwavering integrity and a commitment to securing your financial future.
+          </p>
+        </div>
 
-        <AnimatedTestimonials testimonials={peopleData} />
+        <div className="flex flex-col gap-24 lg:gap-32 relative z-10">
+          {peopleData.map((person, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 50 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true, margin: "-100px" }} 
+              transition={{ duration: 0.8 }}
+              className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center`}
+            >
+              {/* Image Side */}
+              <div className="w-full lg:w-5/12 relative group shrink-0">
+                <div className="absolute inset-0 bg-brand-accent/10 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 rounded-full pointer-events-none" />
+                
+                <div className="relative aspect-[3/4] sm:aspect-square lg:aspect-[4/5] rounded-[40px] overflow-hidden border border-white/10 shadow-[0_30px_100px_-20px_rgba(0,0,0,1)] bg-neutral-900">
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none" />
+                  
+                  <img 
+                    src={person.src} 
+                    alt={person.name} 
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000 ease-out grayscale-[20%] group-hover:grayscale-0"
+                  />
+                  
+                  {/* Image Overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 z-10 pointer-events-none" />
+                  
+                  <div className="absolute bottom-8 left-8 right-8 z-20 transform group-hover:-translate-y-2 transition-transform duration-500">
+                    <h4 className="text-2xl sm:text-3xl font-[900] text-white uppercase tracking-tight mb-1">{person.name}</h4>
+                    <p className="text-brand-accent font-bold tracking-widest text-sm uppercase">{person.designation}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Side */}
+              <div className="w-full lg:w-7/12 flex flex-col justify-center">
+                <div className="relative mb-10">
+                  <div className="absolute -top-12 -left-8 text-[120px] text-white/5 font-serif leading-none hidden md:block select-none pointer-events-none">"</div>
+                  <p className="text-xl sm:text-2xl lg:text-3xl text-neutral-200 leading-relaxed font-light relative z-10 italic">
+                    "{person.quote}"
+                  </p>
+                </div>
+                
+                <div className="w-16 h-1 bg-gradient-to-r from-brand-accent to-transparent mb-10 rounded-full" />
+                
+                <div className="bg-neutral-900/30 border border-white/5 rounded-[32px] p-8 sm:p-10 backdrop-blur-xl hover:bg-neutral-900/50 hover:border-white/10 transition-colors duration-500">
+                  {person.content}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
       {/* Chapter 9: Socials & Footer CTA */}
