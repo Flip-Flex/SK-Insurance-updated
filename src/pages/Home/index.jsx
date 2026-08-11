@@ -129,7 +129,7 @@ const TrustStatCard = ({ stat, idx }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
-      className="relative h-[220px] rounded-[20px] p-8 flex flex-col justify-start overflow-hidden group transition-all duration-300 ease-out hover:-translate-y-[6px] bg-neutral-1000 backdrop-blur-[20px] border border-white/10 hover:border-white/20 shadow-premium-dark hover:shadow-[0_16px_48px_rgba(0,0,0,0.8)]"
+      className="relative h-[220px] rounded-[20px] p-8 flex flex-col justify-start overflow-hidden group transition-all duration-300 ease-out hover:-translate-y-[6px] bg-neutral-100 dark:bg-neutral-1000 backdrop-blur-[20px] border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 shadow-premium-soft dark:shadow-premium-dark hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_16px_48px_rgba(0,0,0,0.8)]"
     >
       {/* 12-15s Glass Reflection Loop */}
       <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-[20px]">
@@ -160,16 +160,16 @@ const TrustStatCard = ({ stat, idx }) => {
       />
 
       <div className="relative z-10 flex justify-between items-start gap-8 w-full">
-        <h3 className={`${stat.size} font-[800] text-brand-accent tracking-[-2px] leading-none whitespace-nowrap overflow-visible flex-1`}>
+        <h3 className={`${stat.size} font-[800] text-black dark:text-brand-accent tracking-[-2px] leading-none whitespace-nowrap overflow-visible flex-1`}>
           <AnimatedCounter value={stat.number} />
         </h3>
         
-        <div className="w-[48px] h-[48px] min-w-[48px] rounded-full bg-brand-accent/[0.08] flex items-center justify-center shrink-0 transition-transform duration-300 ease-out group-hover:scale-[1.1] group-hover:rotate-[10deg] shadow-[inset_0_2px_4px_rgba(246,255,0,0.15)] border border-brand-accent/10">
-          <Icon className="text-[20px] text-brand-accent" />
+        <div className="w-[48px] h-[48px] min-w-[48px] rounded-full bg-black/5 dark:bg-brand-accent/[0.08] flex items-center justify-center shrink-0 transition-transform duration-300 ease-out group-hover:scale-[1.1] group-hover:rotate-[10deg] shadow-sm dark:shadow-[inset_0_2px_4px_rgba(246,255,0,0.15)] border border-black/10 dark:border-brand-accent/10">
+          <Icon className="text-[20px] text-black dark:text-brand-accent" />
         </div>
       </div>
 
-      <p className="relative z-10 mt-5 text-[18px] font-[600] text-neutral-400 uppercase tracking-[0.8px] leading-relaxed opacity-90 w-full break-words">
+      <p className="relative z-10 mt-5 text-[18px] font-[600] text-neutral-600 dark:text-neutral-400 uppercase tracking-[0.8px] leading-relaxed opacity-90 w-full break-words">
         {stat.label}
       </p>
     </motion.div>
@@ -499,7 +499,7 @@ export const Home = () => {
 
   return (
     <div className="relative">
-      {/* Full-width Fixed Background Video Banner at the Top */}
+      {/* Full-width Background Video Banner at the Top */}
       <section className="relative w-full h-screen overflow-hidden">
         {/* Dynamic Responsive Video using dangerouslySetInnerHTML to bypass React iOS bugs */}
         {videoSrc && (
@@ -509,7 +509,7 @@ export const Home = () => {
               __html: `
                 <video 
                   id="hero-video"
-                  class="fixed top-0 left-0 w-full h-screen object-cover -z-20 pointer-events-none" 
+                  class="absolute top-0 left-0 w-full h-full object-cover -z-20 pointer-events-none" 
                   style="will-change: transform; transform: translateZ(0); backface-visibility: hidden; -webkit-transform: translateZ(0);"
                   autoplay 
                   loop 
@@ -536,7 +536,7 @@ export const Home = () => {
       </section>
 
       {/* Parallax Content Overlay Wrap - Scrolls up over the fixed video */}
-      <div className="relative bg-neutral-1000 z-10 pt-16 pb-0 space-y-24 border-t border-white/5 shadow-premium-dark">
+      <div className="relative bg-white dark:bg-neutral-1000 z-10 pt-16 pb-0 border-t border-black/5 dark:border-white/5 shadow-premium-soft dark:shadow-premium-dark transition-colors duration-300">
 
       {/* Counters Stats Strip */}
       <section className="max-w-[1440px] mx-auto px-6 lg:px-8">

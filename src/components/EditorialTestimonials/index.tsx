@@ -33,8 +33,8 @@ export const TestimonialsColumn = (props: {
           ...new Array(4).fill(0).map((_, index) => (
             <React.Fragment key={index}>
               {props.testimonials.map(({ quote, image, author, role, location }, i) => (
-                <div className="p-8 sm:p-10 rounded-[32px] border border-white/5 shadow-lg shadow-black/10 w-full bg-neutral-900/40 backdrop-blur-xl" key={i}>
-                  <div className="text-[15px] leading-relaxed text-neutral-300">"{quote}"</div>
+                <div className="p-8 sm:p-10 rounded-[32px] border border-black/5 dark:border-white/5 shadow-lg shadow-black/10 w-full bg-neutral-50 dark:bg-neutral-900/40 backdrop-blur-xl" key={i}>
+                  <div className="text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300">"{quote}"</div>
                   <div className="flex items-center gap-3 mt-6">
                     <img
                       width={40}
@@ -44,8 +44,8 @@ export const TestimonialsColumn = (props: {
                       className="h-10 w-10 rounded-full object-cover"
                     />
                     <div className="flex flex-col">
-                      <div className="font-bold tracking-tight text-white">{author}</div>
-                      <div className="text-xs leading-5 opacity-60 tracking-widest uppercase text-brand-accent mt-0.5">
+                      <div className="font-bold tracking-tight text-black dark:text-white">{author}</div>
+                      <div className="text-xs leading-5 opacity-80 dark:opacity-60 tracking-widest uppercase text-brand-accent mt-0.5">
                         {role} {location ? `• ${location}` : ''}
                       </div>
                     </div>
@@ -132,7 +132,7 @@ export const EditorialTestimonials: React.FC<EditorialTestimonialsProps> = ({ te
   const fourthColumn = getCol(3);
 
   return (
-    <section className="bg-transparent relative py-12 sm:py-24 overflow-hidden border-t border-white/5 w-full">
+    <section className="bg-transparent relative py-12 sm:py-24 overflow-hidden border-t border-black/5 dark:border-white/5 w-full">
       {/* Background Ambient Glow */}
 
       <div className="w-full relative">
@@ -149,11 +149,11 @@ export const EditorialTestimonials: React.FC<EditorialTestimonialsProps> = ({ te
                 // VOICES OF TRUST
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[900] tracking-[-1px] text-white leading-tight uppercase mt-2">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[900] tracking-[-1px] text-black dark:text-white leading-tight uppercase mt-2">
               What our clients say
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-neutral-300 dark:text-neutral-400 max-w-sm leading-relaxed font-normal tracking-wide text-center md:text-right md:pb-2">
+          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-sm leading-relaxed font-normal tracking-wide text-center md:text-right md:pb-2">
             Discover the experiences of our valued policyholders and partners.
           </p>
         </motion.div>

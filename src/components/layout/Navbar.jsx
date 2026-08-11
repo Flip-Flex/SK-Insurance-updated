@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { Logo } from '../ui/Logo';
-import { FaGlobe, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa';
+import { FaGlobe, FaChevronDown, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { StaggeredMenu } from '../ui/StaggeredMenu';
 
@@ -13,6 +14,7 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const { theme, toggleTheme, isDark: isDarkMode } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -23,6 +25,8 @@ export const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Theme toggle is handled by ThemeContext
 
   const languages = [
     { code: 'en', name: 'English', label: 'EN' },
@@ -60,7 +64,7 @@ export const Navbar = () => {
         className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
           isTransparent || isOpen
             ? 'bg-transparent backdrop-blur-none border-transparent py-1.5 md:py-3'
-            : 'bg-neutral-950/85 backdrop-blur-[20px] shadow-premium-dark border-b border-white/10 py-1.5'
+            : 'bg-white/85 dark:bg-neutral-950/85 backdrop-blur-[20px] shadow-premium-soft dark:shadow-premium-dark border-b border-black/5 dark:border-white/10 py-1.5'
         }`}
         style={{ fontFamily: "'Poppins', sans-serif" }}
       >
@@ -82,7 +86,7 @@ export const Navbar = () => {
                   className={`relative group py-2 text-[15px] font-medium transition-colors duration-300 ${
                     active 
                       ? 'text-brand-accent' 
-                      : (isTransparent ? 'text-black' : 'text-white') + ' hover:text-brand-accent'
+                      : (isTransparent ? 'text-black dark:text-white' : 'text-black dark:text-white') + ' hover:text-brand-accent'
                   }`}
                 >
                   {link.name}
@@ -102,7 +106,7 @@ export const Navbar = () => {
             <div className="relative">
                 <button
                   onClick={() => setShowLangDropdown(!showLangDropdown)}
-                  className={`flex items-center space-x-1.5 text-[14px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black' : 'text-white'} hover:text-brand-accent`}
+                  className={`flex items-center space-x-1.5 text-[14px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black dark:text-white' : 'text-black dark:text-white'} hover:text-brand-accent`}
                 >
                 <FaGlobe className="text-[16px]" />
                 <span>{languages.find(l => l.code === currentLang)?.label || 'EN'}</span>
@@ -139,12 +143,21 @@ export const Navbar = () => {
               </AnimatePresence>
             </div>
 
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className={`flex items-center justify-center p-2 rounded-full transition-colors ${isTransparent ? 'text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10' : 'text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10'} hover:text-brand-accent`}
+              aria-label="Toggle Theme"
+            >
+              {isDarkMode ? <FaSun className="text-[16px]" /> : <FaMoon className="text-[16px]" />}
+            </button>
+
             {/* Auth Buttons */}
             {isAuthenticated ? (
               <div className="flex items-center space-x-6">
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black' : 'text-white'} hover:text-brand-accent`}
+                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black dark:text-white' : 'text-black dark:text-white'} hover:text-brand-accent`}
                 >
                   Dashboard
                 </button>
@@ -159,14 +172,12 @@ export const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center space-x-6">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <button
                   onClick={() => navigate('/appointment')}
-                  className="px-6 py-2.5 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[15px] cursor-pointer transition-colors"
+                  className="px-7 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 backdrop-blur-md border border-black/10 dark:border-white/10 text-black dark:text-white font-medium text-[15px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black hover:shadow-[0_0_15px_rgba(246,255,0,0.3)]"
                 >
                   Get Quote
-                </motion.button>
+                </button>
               </div>
             )}
           </div>
@@ -193,8 +204,17 @@ export const Navbar = () => {
               onMenuClose={() => setIsOpen(false)}
               bottomContent={(closeMenu) => (
                 <div className="flex flex-col space-y-6">
-                  {/* Mobile Language */}
-                  <div className="relative flex justify-center mb-6">
+                  {/* Mobile Theme & Language */}
+                  <div className="flex items-center justify-center space-x-8 mb-6">
+                    <button
+                      onClick={toggleTheme}
+                      className="flex items-center justify-center text-[18px] font-bold transition-colors cursor-pointer text-black hover:text-brand-accent"
+                      aria-label="Toggle Theme"
+                    >
+                      {isDarkMode ? <FaSun /> : <FaMoon />}
+                    </button>
+
+                    <div className="relative flex justify-center">
                     <button
                       onClick={() => setShowLangDropdown(!showLangDropdown)}
                       className="flex items-center space-x-2 text-[16px] font-bold transition-colors cursor-pointer text-black hover:text-brand-accent"
@@ -233,7 +253,7 @@ export const Navbar = () => {
                       )}
                     </AnimatePresence>
                   </div>
-
+                </div>
                   {isAuthenticated ? (
                     <>
                       <button
@@ -253,7 +273,7 @@ export const Navbar = () => {
                     <>
                       <button
                         onClick={() => { closeMenu(); setIsOpen(false); navigate('/appointment'); }}
-                        className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
+                        className="w-full py-4 rounded-xl border border-white/20 text-white font-medium text-[16px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black active:scale-95"
                       >
                         Get Quote
                       </button>

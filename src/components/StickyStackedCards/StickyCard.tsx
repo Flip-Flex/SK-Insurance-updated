@@ -172,7 +172,7 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
                       <p>Understanding {card.title.toLowerCase()} is crucial for protecting your financial future. This detailed guide explores how these instruments work to provide a safety net for you and your loved ones.</p>
                       
                       <div>
-                        <h4 className="font-bold text-xl md:text-2xl mb-4 text-brand-accent">Key Benefits & Coverage</h4>
+                        <h4 className="font-bold text-xl md:text-2xl mb-4 text-black dark:text-brand-accent">Key Benefits & Coverage</h4>
                         <ul className="list-disc pl-6 space-y-3 text-neutral-400">
                           <li>Comprehensive protection against unforeseen events and emergencies.</li>
                           <li>Potential tax benefits under various sections of the Income Tax Act.</li>

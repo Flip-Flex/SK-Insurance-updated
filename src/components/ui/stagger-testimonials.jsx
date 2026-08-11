@@ -139,10 +139,10 @@ const TestimonialCard = ({
     <div
       onClick={() => handleMove(position)}
       className={cn(
-        "absolute left-1/2 top-1/2 cursor-pointer border-2 p-8 transition-all duration-500 ease-in-out",
+        "absolute left-1/2 top-1/2 cursor-pointer border-2 p-8 transition-all duration-500 ease-in-out flex flex-col overflow-hidden",
         isCenter 
           ? "z-10 bg-brand-accent text-neutral-1000 border-brand-accent" 
-          : "z-0 bg-neutral-900 text-neutral-100 border-white/10 hover:border-brand-accent/50"
+          : "z-0 bg-white dark:bg-neutral-900 text-black dark:text-neutral-100 border-black/10 dark:border-white/10 hover:border-brand-accent/50"
       )}
       style={{
         width: cardSize,
@@ -177,14 +177,14 @@ const TestimonialCard = ({
         />
       )}
       <h3 className={cn(
-        "text-base sm:text-xl font-medium",
-        isCenter ? "text-neutral-1000" : "text-neutral-100"
+        "text-base sm:text-xl font-medium overflow-y-auto flex-1 min-h-0 pr-2 pb-2",
+        isCenter ? "text-neutral-1000" : "text-black dark:text-neutral-100"
       )}>
         "{testimonial.testimonial}"
       </h3>
       <p className={cn(
-        "absolute bottom-8 left-8 right-8 mt-2 text-sm italic",
-        isCenter ? "text-neutral-800" : "text-neutral-400"
+        "mt-auto pt-4 text-sm italic z-10 border-t",
+        isCenter ? "text-neutral-800 border-black/10" : "text-neutral-600 dark:text-neutral-400 border-black/10 dark:border-white/10"
       )}>
         - {testimonial.by}
       </p>
@@ -237,12 +237,12 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
   if (!testimonialsList || testimonialsList.length === 0) return null;
 
   return (
-    <div className="py-24 bg-neutral-1000">
+    <div className="py-24 bg-neutral-50 dark:bg-neutral-1000 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 mb-16 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
           What Our <span className="text-brand-accent">Clients Say</span>
         </h2>
-        <p className="text-neutral-400 max-w-2xl mx-auto">
+        <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
           Hear from the people who have experienced our services first-hand.
         </p>
       </div>
@@ -269,7 +269,7 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
             onClick={() => handleMove(-1)}
             className={cn(
               "flex h-14 w-14 items-center justify-center text-2xl transition-colors",
-              "bg-neutral-900 border-2 border-white/10 text-white hover:bg-brand-accent hover:text-neutral-1000 hover:border-brand-accent",
+              "bg-white dark:bg-neutral-900 border-2 border-black/10 dark:border-white/10 text-black dark:text-white hover:bg-brand-accent hover:text-neutral-1000 hover:border-brand-accent dark:hover:text-neutral-1000",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-1000"
             )}
             aria-label="Previous testimonial"
@@ -280,7 +280,7 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
             onClick={() => handleMove(1)}
             className={cn(
               "flex h-14 w-14 items-center justify-center text-2xl transition-colors",
-              "bg-neutral-900 border-2 border-white/10 text-white hover:bg-brand-accent hover:text-neutral-1000 hover:border-brand-accent",
+              "bg-white dark:bg-neutral-900 border-2 border-black/10 dark:border-white/10 text-black dark:text-white hover:bg-brand-accent hover:text-neutral-1000 hover:border-brand-accent dark:hover:text-neutral-1000",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-1000"
             )}
             aria-label="Next testimonial"
