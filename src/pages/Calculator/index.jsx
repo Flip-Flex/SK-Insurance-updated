@@ -27,8 +27,8 @@ import { FaCalculator, FaShieldAlt, FaCalendarAlt, FaUserCheck, FaCar, FaHome, F
 const PremiumSlider = ({ min, max, step, value, onChange, leftLabel, rightLabel, displayValue }) => (
   <div className="space-y-3">
     <div className="flex justify-between items-end">
-      <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">{leftLabel || ''}</span>
-      <span className="text-xl font-bold text-white">
+      <span className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">{leftLabel || ''}</span>
+      <span className="text-xl font-bold text-black dark:text-white">
         {displayValue}
       </span>
     </div>
@@ -36,20 +36,20 @@ const PremiumSlider = ({ min, max, step, value, onChange, leftLabel, rightLabel,
       <input
         type="range" min={min} max={max} step={step} value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-neutral-800 
+        className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-neutral-200 dark:bg-neutral-800
         [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 
-        [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#F6FF00] 
+        [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#F6FF00] dark:[&::-webkit-slider-thumb]:bg-[#F6FF00]
         [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-black
         [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 
-        [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#F6FF00] 
-        [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-black"
-        style={{
-          background: `linear-gradient(to right, #F6FF00 0%, #F6FF00 ${((value - min) / (max - min)) * 100}%, #262626 ${((value - min) / (max - min)) * 100}%, #262626 100%)`
-        }}
+        [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#F6FF00] dark:[&::-moz-range-thumb]:bg-[#F6FF00]
+        [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-black
+        [background:linear-gradient(to_right,#F6FF00_0%,#F6FF00_var(--fill),#E5E5E5_var(--fill),#E5E5E5_100%)]
+        dark:[background:linear-gradient(to_right,#F6FF00_0%,#F6FF00_var(--fill),#262626_var(--fill),#262626_100%)]"
+        style={{ "--fill": `${((value - min) / (max - min)) * 100}%` }}
       />
     </div>
     {(leftLabel !== undefined || rightLabel !== undefined) && (
-      <div className="flex justify-between text-[10px] text-neutral-500 font-medium tracking-wider">
+      <div className="flex justify-between text-[10px] text-neutral-400 dark:text-neutral-500 font-medium tracking-wider">
         <span>{min.toLocaleString('en-IN')}</span>
         <span>{max.toLocaleString('en-IN')}</span>
       </div>
@@ -60,26 +60,26 @@ const PremiumSlider = ({ min, max, step, value, onChange, leftLabel, rightLabel,
 /* ─── Glass Input Field ─── */
 const GlassInput = ({ label, children }) => (
   <div>
-    <label className="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">{label}</label>
+    <label className="block text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2">{label}</label>
     {children}
   </div>
 );
 
-const inputClasses = "w-full px-4 py-3 bg-[#0A0A0A] border border-white/10 rounded-xl focus:outline-none focus:border-[#F6FF00]/50 focus:ring-1 focus:ring-[#F6FF00]/20 text-sm font-semibold text-white transition-all duration-200 placeholder:text-neutral-600 hover:border-white/20";
+const inputClasses = "w-full px-4 py-3 bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-xl focus:outline-none focus:border-[#F6FF00] dark:focus:border-[#F6FF00]/50 focus:ring-1 focus:ring-[#F6FF00]/30 dark:focus:ring-[#F6FF00]/20 text-sm font-semibold text-black dark:text-white transition-all duration-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 hover:border-black/20 dark:hover:border-white/20";
 const selectClasses = inputClasses;
 
 /* ─── Glass Toggle ─── */
 const GlassToggle = ({ label, sublabel, checked, onChange }) => (
   <label className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200 ${
     checked 
-      ? 'bg-[#F6FF00]/5 border-[#F6FF00]/30' 
-      : 'bg-[#0A0A0A] border-white/10 hover:border-white/20 hover:bg-[#111111]'
+      ? 'bg-[#F6FF00]/10 dark:bg-[#F6FF00]/5 border-[#F6FF00]/40 dark:border-[#F6FF00]/30' 
+      : 'bg-white dark:bg-[#0A0A0A] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/[0.02] dark:hover:bg-[#111111]'
   }`}>
-    <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-200 ${checked ? 'bg-[#F6FF00]' : 'bg-neutral-600'}`}>
-      <span className={`inline-block h-3 w-3 transform rounded-full bg-black transition duration-200 ${checked ? 'translate-x-5' : 'translate-x-1'}`} />
+    <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-200 ${checked ? 'bg-[#F6FF00] dark:bg-[#F6FF00]' : 'bg-neutral-300 dark:bg-neutral-600'}`}>
+      <span className={`inline-block h-3 w-3 transform rounded-full bg-white dark:bg-black transition duration-200 ${checked ? 'translate-x-5' : 'translate-x-1'}`} />
     </div>
     <div>
-      <p className={`text-sm font-bold transition-colors ${checked ? 'text-white' : 'text-neutral-300'}`}>{label}</p>
+      <p className={`text-sm font-bold transition-colors ${checked ? 'text-black dark:text-white' : 'text-neutral-600 dark:text-neutral-300'}`}>{label}</p>
       {sublabel && <p className="text-xs text-neutral-500 mt-0.5 tracking-wide">{sublabel}</p>}
     </div>
   </label>
@@ -92,8 +92,8 @@ const ConditionChip = ({ label, checked, onChange }) => (
     onClick={() => onChange(!checked)}
     className={`px-4 py-2 rounded-lg text-xs font-bold border transition-all duration-200 ${
       checked
-        ? 'bg-[#F6FF00]/10 border-[#F6FF00]/40 text-[#F6FF00]'
-        : 'bg-[#0A0A0A] border-white/10 text-neutral-400 hover:border-white/20 hover:text-neutral-200'
+        ? 'bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border-[#F6FF00]/50 dark:border-[#F6FF00]/40 text-[#C4CC00] dark:text-[#F6FF00]'
+        : 'bg-white dark:bg-[#0A0A0A] border-black/10 dark:border-white/10 text-neutral-500 dark:text-neutral-400 hover:border-black/20 dark:hover:border-white/20 hover:text-neutral-800 dark:hover:text-neutral-200'
     }`}
   >
     {checked && <span className="mr-1.5">✓</span>}
@@ -342,26 +342,26 @@ export const Calculator = () => {
   };
 
   const riskColors = {
-    'Low': { bg: 'bg-emerald-500/15', text: 'text-emerald-400', border: 'border-emerald-500/25' },
-    'Moderate': { bg: 'bg-amber-500/15', text: 'text-amber-400', border: 'border-amber-500/25' },
-    'High': { bg: 'bg-orange-500/15', text: 'text-orange-400', border: 'border-orange-500/25' },
-    'Very High': { bg: 'bg-red-500/15', text: 'text-red-400', border: 'border-red-500/25' },
+    'Low': { bg: 'bg-emerald-500/10 dark:bg-emerald-500/15', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-500/25' },
+    'Moderate': { bg: 'bg-amber-500/10 dark:bg-amber-500/15', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-500/25' },
+    'High': { bg: 'bg-orange-500/10 dark:bg-orange-500/15', text: 'text-orange-600 dark:text-orange-400', border: 'border-orange-500/25' },
+    'Very High': { bg: 'bg-red-500/10 dark:bg-red-500/15', text: 'text-red-600 dark:text-red-400', border: 'border-red-500/25' },
   };
 
   const risk = riskColors[healthBreakdown.riskLevel] || riskColors['Low'];
 
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white pt-24 pb-32 xl:pb-24 font-sans">
+    <div className="min-h-screen bg-[#F7F7F5] dark:bg-[#000000] text-black dark:text-white pt-24 pb-32 xl:pb-24 font-sans transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* ── Title ── */}
         <div className="text-center mb-10">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-white">
-              Premium <span className="text-[#F6FF00]">Calculator</span>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-black dark:text-white">
+              Premium <span className="text-[#C4CC00] dark:text-[#F6FF00]">Calculator</span>
             </h1>
-            <p className="text-neutral-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
+            <p className="text-neutral-500 dark:text-neutral-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
               Estimate your insurance premiums and investment returns instantly.
             </p>
           </motion.div>
@@ -369,7 +369,7 @@ export const Calculator = () => {
 
         {/* ── Tab Bar ── */}
         <div className="flex justify-center mb-10 overflow-x-auto pb-4">
-          <div className="inline-flex gap-2 p-1.5 bg-[#0A0A0A] rounded-xl border border-white/10">
+          <div className="inline-flex gap-2 p-1.5 bg-white dark:bg-[#0A0A0A] rounded-xl border border-black/10 dark:border-white/10 shadow-sm dark:shadow-none">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const isActive = category === cat.id;
@@ -378,17 +378,17 @@ export const Calculator = () => {
                   key={cat.id}
                   onClick={() => setCategory(cat.id)}
                   className={`relative flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-lg whitespace-nowrap ${
-                    isActive ? 'text-black' : 'text-neutral-400 hover:text-white'
+                    isActive ? 'text-black dark:text-black' : 'text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white'
                   }`}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="activeTab"
-                      className="absolute inset-0 bg-[#F6FF00] rounded-lg"
+                      className="absolute inset-0 bg-[#F6FF00] dark:bg-[#F6FF00] rounded-lg"
                       transition={{ type: "spring", stiffness: 400, damping: 35 }}
                     />
                   )}
-                  <Icon className={`text-sm relative z-10 ${isActive ? 'text-black' : ''}`} />
+                  <Icon className={`text-sm relative z-10 ${isActive ? 'text-black dark:text-black' : ''}`} />
                   <span className="relative z-10">{cat.label}</span>
                 </button>
               );
@@ -401,7 +401,7 @@ export const Calculator = () => {
           
           {/* ── Left Panel: Inputs ── */}
           <div className="xl:col-span-2">
-            <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+            <div className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-sm dark:shadow-none">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={category}
@@ -446,7 +446,7 @@ export const Calculator = () => {
                       />
 
                       <div>
-                        <label className="block text-[11px] font-semibold text-neutral-500 uppercase tracking-widest mb-3">Pre-Existing Conditions</label>
+                        <label className="block text-[11px] font-semibold text-neutral-400 uppercase tracking-widest mb-3">Pre-Existing Conditions</label>
                         <div className="flex flex-wrap gap-2.5">
                           {[
                             { key: 'diabetes', label: 'Diabetes' },
@@ -620,40 +620,40 @@ export const Calculator = () => {
 
           {/* ── Right Panel: Output ── */}
           <div className="relative">
-            <div className="sticky top-28 bg-[#0A0A0A] border border-white/10 rounded-2xl p-7 shadow-lg">
+            <div className="sticky top-28 bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-7 shadow-md dark:shadow-lg">
               
               {category === 'sip' ? (
                 /* SIP Output */
                 <div className="text-center">
-                  <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-6">Wealth Created</h3>
+                  <h3 className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-6">Wealth Created</h3>
                   
-                  <div className="mb-8 p-6 bg-[#111111] border border-white/5 rounded-xl">
-                    <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mb-2">Future Value</p>
-                    <div className="flex items-baseline justify-center text-white mb-2">
-                      <span className="text-xl font-bold text-[#F6FF00] mr-1">₹</span>
+                  <div className="mb-8 p-6 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
+                    <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-widest font-bold mb-2">Future Value</p>
+                    <div className="flex items-baseline justify-center text-black dark:text-white mb-2">
+                      <span className="text-xl font-bold text-[#C4CC00] dark:text-[#F6FF00] mr-1">₹</span>
                       <span className="text-4xl md:text-5xl font-extrabold tracking-tight">
                         {sipResults.total > 10000000 ? (sipResults.total/10000000).toFixed(2) + 'Cr' : (sipResults.total/100000).toFixed(2) + 'L'}
                       </span>
                     </div>
-                    <p className="text-[10px] text-[#F6FF00] uppercase tracking-widest font-bold px-3 py-1 rounded bg-[#F6FF00]/10 border border-[#F6FF00]/20 inline-block">
+                    <p className="text-[10px] text-[#C4CC00] dark:text-[#F6FF00] uppercase tracking-widest font-bold px-3 py-1 rounded bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border border-[#F6FF00]/30 dark:border-[#F6FF00]/20 inline-block">
                       After {sipYears} Years
                     </p>
                   </div>
 
                   <div className="space-y-3 text-left mb-8">
-                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-[#111111] border border-white/5">
-                      <span className="text-neutral-400">Invested Amount</span>
-                      <span className="font-bold text-white">₹{sipResults.invested.toLocaleString('en-IN')}</span>
+                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5">
+                      <span className="text-neutral-500 dark:text-neutral-400">Invested Amount</span>
+                      <span className="font-bold text-black dark:text-white">₹{sipResults.invested.toLocaleString('en-IN')}</span>
                     </div>
-                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-[#111111] border border-white/5">
-                      <span className="text-neutral-400">Est. Returns</span>
-                      <span className="font-bold text-[#F6FF00]">₹{sipResults.gain.toLocaleString('en-IN')}</span>
+                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5">
+                      <span className="text-neutral-500 dark:text-neutral-400">Est. Returns</span>
+                      <span className="font-bold text-[#C4CC00] dark:text-[#F6FF00]">₹{sipResults.gain.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
 
                   <button 
                     onClick={() => setShowBuyModal(true)}
-                    className="w-full bg-white text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-[#F6FF00] transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-black dark:bg-white text-white dark:text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-[#F6FF00] dark:hover:bg-[#F6FF00] hover:text-black dark:hover:text-black transition-colors flex items-center justify-center gap-2"
                   >
                     <FaCalculator /> Setup Auto-SIP
                   </button>
@@ -662,56 +662,56 @@ export const Calculator = () => {
                 /* Health Output */
                 <div className="text-center">
                   <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-wider">Estimated Premium</h3>
-                    <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded bg-[#111111] border border-white/5 ${healthBreakdown.riskLevel === 'Low' ? 'text-emerald-400' : 'text-orange-400'}`}>
+                    <h3 className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Estimated Premium</h3>
+                    <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded ${risk.bg} ${risk.border} border ${risk.text}`}>
                       {healthBreakdown.riskLevel} Risk
                     </span>
                   </div>
                   
-                  <div className="mb-8 p-6 bg-[#111111] border border-white/5 rounded-xl">
-                    <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mb-2">Annual Premium</p>
-                    <div className="flex items-baseline justify-center text-white mb-3">
-                      <span className="text-xl font-bold text-[#F6FF00] mr-1">₹</span>
+                  <div className="mb-8 p-6 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
+                    <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-widest font-bold mb-2">Annual Premium</p>
+                    <div className="flex items-baseline justify-center text-black dark:text-white mb-3">
+                      <span className="text-xl font-bold text-[#C4CC00] dark:text-[#F6FF00] mr-1">₹</span>
                       <span className="text-5xl font-extrabold tracking-tight">
                         <AnimatedCounter value={healthBreakdown.annualPremium} />
                       </span>
                     </div>
-                    <p className="text-xs text-neutral-400 font-medium">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 font-medium">
                       <AnimatedCounter value={healthBreakdown.monthlyPremium} prefix="₹" suffix=" / mo" />
                     </p>
                   </div>
 
                   <div className="space-y-2 text-left mb-8">
-                    <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Premium Breakdown</p>
+                    <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3">Premium Breakdown</p>
                     
-                    <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-[#111111]">
-                      <span className="text-neutral-400">Base Cover</span>
-                      <span className="font-bold text-white">₹{healthBreakdown.base.toLocaleString('en-IN')}</span>
+                    <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-black/[0.02] dark:bg-[#111111]">
+                      <span className="text-neutral-500 dark:text-neutral-400">Base Cover</span>
+                      <span className="font-bold text-black dark:text-white">₹{healthBreakdown.base.toLocaleString('en-IN')}</span>
                     </div>
                     {healthBreakdown.ageAdj !== 0 && (
-                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-[#111111]">
-                        <span className="text-neutral-400">Age Adjustment</span>
-                        <span className={`font-bold ${healthBreakdown.ageAdj > 0 ? 'text-white' : 'text-emerald-400'}`}>
+                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-black/[0.02] dark:bg-[#111111]">
+                        <span className="text-neutral-500 dark:text-neutral-400">Age Adjustment</span>
+                        <span className={`font-bold ${healthBreakdown.ageAdj > 0 ? 'text-black dark:text-white' : 'text-emerald-600 dark:text-emerald-400'}`}>
                           {healthBreakdown.ageAdj > 0 ? '+' : ''}₹{healthBreakdown.ageAdj.toLocaleString('en-IN')}
                         </span>
                       </div>
                     )}
                     {healthBreakdown.tobaccoLoad !== 0 && (
-                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-[#111111]">
-                        <span className="text-neutral-400">Tobacco Loading</span>
-                        <span className="font-bold text-white">+₹{healthBreakdown.tobaccoLoad.toLocaleString('en-IN')}</span>
+                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-black/[0.02] dark:bg-[#111111]">
+                        <span className="text-neutral-500 dark:text-neutral-400">Tobacco Loading</span>
+                        <span className="font-bold text-black dark:text-white">+₹{healthBreakdown.tobaccoLoad.toLocaleString('en-IN')}</span>
                       </div>
                     )}
                     {healthBreakdown.medicalLoad !== 0 && (
-                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-[#111111]">
-                        <span className="text-neutral-400">Medical History</span>
-                        <span className="font-bold text-white">+₹{healthBreakdown.medicalLoad.toLocaleString('en-IN')}</span>
+                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-black/[0.02] dark:bg-[#111111]">
+                        <span className="text-neutral-500 dark:text-neutral-400">Medical History</span>
+                        <span className="font-bold text-black dark:text-white">+₹{healthBreakdown.medicalLoad.toLocaleString('en-IN')}</span>
                       </div>
                     )}
                     {healthBreakdown.deductibleDiscount !== 0 && (
-                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-[#111111]">
-                        <span className="text-neutral-400">Deductible Adj.</span>
-                        <span className={`font-bold ${healthBreakdown.deductibleDiscount > 0 ? 'text-white' : 'text-emerald-400'}`}>
+                      <div className="flex justify-between items-center text-xs py-2 px-3 rounded bg-black/[0.02] dark:bg-[#111111]">
+                        <span className="text-neutral-500 dark:text-neutral-400">Deductible Adj.</span>
+                        <span className={`font-bold ${healthBreakdown.deductibleDiscount > 0 ? 'text-black dark:text-white' : 'text-emerald-600 dark:text-emerald-400'}`}>
                           {healthBreakdown.deductibleDiscount > 0 ? '+' : ''}₹{healthBreakdown.deductibleDiscount.toLocaleString('en-IN')}
                         </span>
                       </div>
@@ -720,25 +720,25 @@ export const Calculator = () => {
 
                   <button 
                     onClick={() => setShowBuyModal(true)}
-                    className="w-full bg-[#F6FF00] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2 mb-4"
+                    className="w-full bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2 mb-4"
                   >
                     <FaShieldAlt /> Secure Now
                   </button>
-                  <p className="text-[10px] text-neutral-600 font-medium px-2">
+                  <p className="text-[10px] text-neutral-400 dark:text-neutral-600 font-medium px-2">
                     Estimated premium based on general underwriting.
                   </p>
                 </div>
               ) : (
                 /* Generic Output */
                 <div className="text-center">
-                  <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-6">{getOutputMeta().title}</h3>
+                  <h3 className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-6">{getOutputMeta().title}</h3>
                   
-                  <div className="mb-8 p-6 bg-[#111111] border border-white/5 rounded-xl">
-                    <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mb-2">
+                  <div className="mb-8 p-6 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
+                    <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-widest font-bold mb-2">
                       {category === 'travel' ? 'Total Trip Premium' : 'INR / Month'}
                     </p>
-                    <div className="flex items-baseline justify-center text-white">
-                      <span className="text-xl font-bold text-[#F6FF00] mr-1">₹</span>
+                    <div className="flex items-baseline justify-center text-black dark:text-white">
+                      <span className="text-xl font-bold text-[#C4CC00] dark:text-[#F6FF00] mr-1">₹</span>
                       <span className="text-5xl font-extrabold tracking-tight">
                         <AnimatedCounter value={premium} />
                       </span>
@@ -746,26 +746,26 @@ export const Calculator = () => {
                   </div>
 
                   <div className="space-y-3 text-left mb-8">
-                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-[#111111] border border-white/5">
-                      <span className="text-neutral-400">
+                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5">
+                      <span className="text-neutral-500 dark:text-neutral-400">
                         {category === 'motor' ? 'Vehicle IDV' : category === 'home' ? 'Property Value' : category === 'travel' ? 'Duration' : 'Coverage'}
                       </span>
-                      <span className="font-bold text-white">
+                      <span className="font-bold text-black dark:text-white">
                         {category === 'motor' ? `₹${vehicleValue.toLocaleString('en-IN')}` :
                          category === 'home' ? `₹${homeValue.toLocaleString('en-IN')}` :
                          category === 'travel' ? `${duration} Days` :
                          `₹${coverage.toLocaleString('en-IN')}`}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-[#111111] border border-white/5">
-                      <span className="text-neutral-400">Risk Profile</span>
-                      <span className="font-bold text-white">Standard</span>
+                    <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5">
+                      <span className="text-neutral-500 dark:text-neutral-400">Risk Profile</span>
+                      <span className="font-bold text-black dark:text-white">Standard</span>
                     </div>
                   </div>
 
                   <button 
                     onClick={() => setShowBuyModal(true)}
-                    className="w-full bg-[#F6FF00] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2"
                   >
                     <FaShieldAlt /> Secure Now
                   </button>
@@ -777,13 +777,13 @@ export const Calculator = () => {
       </div>
 
       {/* ── Mobile Sticky Output Bar ── */}
-      <div className="fixed bottom-0 left-0 w-full bg-[#0A0A0A] border-t border-white/10 p-4 xl:hidden z-40">
+      <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-[#0A0A0A] border-t border-black/10 dark:border-white/10 p-4 xl:hidden z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.08)] dark:shadow-none">
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div>
-            <p className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest mb-1">
+            <p className="text-[10px] text-neutral-400 dark:text-neutral-500 font-bold uppercase tracking-widest mb-1">
               {category === 'sip' ? 'Est. Total Value' : category === 'health' ? 'Annual Premium' : category === 'travel' ? 'Trip Premium' : 'Est. Monthly Premium'}
             </p>
-            <p className="text-xl font-extrabold text-white">
+            <p className="text-xl font-extrabold text-black dark:text-white">
               ₹{category === 'sip' 
                   ? sipResults.total.toLocaleString('en-IN') 
                   : category === 'health' 
@@ -793,7 +793,7 @@ export const Calculator = () => {
           </div>
           <button 
             onClick={() => setShowBuyModal(true)} 
-            className="bg-[#F6FF00] text-black px-6 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
+            className="bg-[#F6FF00] dark:bg-[#F6FF00] text-black px-6 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black"
           >
             {category === 'sip' ? 'Setup SIP' : 'Secure Now'}
           </button>
@@ -804,26 +804,26 @@ export const Calculator = () => {
       <AnimatePresence>
         {showBuyModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowBuyModal(false)} />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm" onClick={() => setShowBuyModal(false)} />
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }} 
               animate={{ scale: 1, opacity: 1 }} 
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="relative w-full max-w-md bg-[#0A0A0A] border border-white/10 rounded-2xl p-8 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-md bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-8 shadow-2xl overflow-hidden"
             >
               
-              <h2 className="text-xl font-bold text-white mb-6 relative z-10">
+              <h2 className="text-xl font-bold text-black dark:text-white mb-6 relative z-10">
                 {category === 'sip' ? "SIP Auto-Debit Setup" : "Premium Activation"}
               </h2>
 
               {successBuy ? (
                 <div className="text-center py-8 relative z-10">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F6FF00]/10 text-[#F6FF00] rounded-2xl mb-4">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 text-[#C4CC00] dark:text-[#F6FF00] rounded-2xl mb-4">
                     <FaUserCheck className="text-3xl" />
                   </div>
-                  <h3 className="text-2xl font-extrabold text-white mb-2">Activated!</h3>
-                  <p className="text-sm text-neutral-400">
+                  <h3 className="text-2xl font-extrabold text-black dark:text-white mb-2">Activated!</h3>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">
                     {category === 'sip' ? 'Your auto-debit SIP mandate is registered.' : 'Your policy has been successfully issued.'}
                   </p>
                 </div>
@@ -836,17 +836,17 @@ export const Calculator = () => {
                     <input required type="email" value={buyEmail} onChange={(e) => setBuyEmail(e.target.value)} className={inputClasses} placeholder="john@example.com" />
                   </GlassInput>
                   
-                  <div className="p-4 bg-[#111111] border border-white/5 rounded-xl">
-                    <p className="text-xs font-bold text-neutral-500 mb-3 uppercase tracking-widest">Summary</p>
-                    <div className="flex justify-between text-sm text-white font-bold mb-1">
+                  <div className="p-4 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
+                    <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 mb-3 uppercase tracking-widest">Summary</p>
+                    <div className="flex justify-between text-sm text-black dark:text-white font-bold mb-1">
                       <span>{category === 'sip' ? 'Monthly SIP' : 'Monthly Premium'}</span>
-                      <span className="text-[#F6FF00]">₹{category === 'sip' ? sipMonthly.toLocaleString() : premium.toLocaleString()}</span>
+                      <span className="text-[#C4CC00] dark:text-[#F6FF00]">₹{category === 'sip' ? sipMonthly.toLocaleString() : premium.toLocaleString()}</span>
                     </div>
                   </div>
 
                   <div className="flex gap-3 pt-4">
-                    <button type="button" onClick={() => setShowBuyModal(false)} className="flex-1 py-3 text-sm font-bold text-neutral-400 hover:text-white transition-colors rounded-xl hover:bg-[#111111]">Cancel</button>
-                    <button type="submit" className="flex-1 py-3 bg-[#F6FF00] text-black font-bold uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
+                    <button type="button" onClick={() => setShowBuyModal(false)} className="flex-1 py-3 text-sm font-bold text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors rounded-xl hover:bg-black/[0.02] dark:hover:bg-[#111111]">Cancel</button>
+                    <button type="submit" className="flex-1 py-3 bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors">
                       Confirm
                     </button>
                   </div>

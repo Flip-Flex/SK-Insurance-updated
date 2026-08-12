@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaComments, FaTimes, FaPaperPlane, FaRobot, FaUser, FaWhatsapp } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from './Button';
 
 export const ChatWidget = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isCalculatorPage = location.pathname === '/calculator';
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'bot', text: 'Hello! I am your SK Smart Assistant. How can I help you today?', time: 'Just now' }
@@ -91,7 +93,7 @@ export const ChatWidget = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 font-sans">
+    <div className={`fixed ${isCalculatorPage ? 'bottom-24 lg:bottom-28 right-4 lg:right-8' : 'bottom-6 right-6 lg:bottom-8 lg:right-8'} z-[9999] font-sans`}>
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -220,9 +222,9 @@ export const ChatWidget = () => {
       {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-gold-500 hover:bg-gold-600 text-white flex items-center justify-center shadow-xl hover:shadow-gold-500/20 hover:shadow-2xl transition-all cursor-pointer transform hover:scale-[1.05] active:scale-95 duration-200 border border-gold-400/20 relative"
+        className="w-14 h-14 rounded-full bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 text-white dark:text-black flex items-center justify-center shadow-xl hover:shadow-2xl transition-all cursor-pointer transform hover:scale-[1.05] active:scale-95 duration-200 relative"
       >
-        {isOpen ? <FaTimes className="text-lg" /> : <FaComments className="text-xl animate-pulse" />}
+        {isOpen ? <FaTimes className="text-lg" /> : <FaWhatsapp className="text-[28px] animate-pulse text-white dark:text-black" />}
       </button>
     </div>
   );

@@ -52,7 +52,7 @@ export const Accordion = ({ type = 'single', collapsible = true, className = '',
  */
 export const AccordionItem = ({ value, className = '', isOpen, onToggle, children }) => {
   return (
-    <div className={`border-b border-white/10 ${className}`}>
+    <div className={`border-b ${className}`}>
       {React.Children.map(children, (child) => {
         if (!React.isValidElement(child)) return child;
         return React.cloneElement(child, { isOpen, onToggle });
@@ -68,7 +68,7 @@ export const AccordionTrigger = ({ className = '', isOpen, onToggle, children })
   return (
     <button
       onClick={onToggle}
-      className={`flex w-full items-center justify-between py-5 text-left font-semibold text-white transition-colors hover:text-brand-accent cursor-pointer ${className}`}
+      className={`flex w-full items-center justify-between py-5 text-left font-semibold transition-colors cursor-pointer ${className}`}
     >
       {children}
       <motion.span
@@ -97,7 +97,7 @@ export const AccordionContent = ({ className = '', isOpen, children }) => {
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="overflow-hidden"
         >
-          <div className={`pb-5 pt-0 text-sm text-neutral-400 leading-relaxed ${className}`}>
+          <div className={`pb-5 pt-0 text-sm leading-relaxed ${className}`}>
             {children}
           </div>
         </motion.div>

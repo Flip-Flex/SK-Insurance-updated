@@ -85,13 +85,15 @@ export const Navbar = () => {
                   to={link.path}
                   className={`relative group py-2 text-[15px] font-medium transition-colors duration-300 ${
                     active 
-                      ? 'text-brand-accent' 
-                      : (isTransparent ? 'text-black dark:text-white' : 'text-black dark:text-white') + ' hover:text-brand-accent'
+                      ? (isTransparent ? 'text-black font-bold' : 'text-brand-accent') 
+                      : (isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent')
                   }`}
                 >
                   {link.name}
                   <span
-                    className={`absolute bottom-0 h-[2px] bg-brand-accent transition-all duration-300 left-1/2 -translate-x-1/2 ${
+                    className={`absolute bottom-0 h-[2px] transition-all duration-300 left-1/2 -translate-x-1/2 ${
+                      isTransparent ? 'bg-black' : 'bg-brand-accent'
+                    } ${
                       active ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   />
@@ -106,7 +108,7 @@ export const Navbar = () => {
             <div className="relative">
                 <button
                   onClick={() => setShowLangDropdown(!showLangDropdown)}
-                  className={`flex items-center space-x-1.5 text-[14px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black dark:text-white' : 'text-black dark:text-white'} hover:text-brand-accent`}
+                  className={`flex items-center space-x-1.5 text-[14px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent'}`}
                 >
                 <FaGlobe className="text-[16px]" />
                 <span>{languages.find(l => l.code === currentLang)?.label || 'EN'}</span>
@@ -146,7 +148,7 @@ export const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className={`flex items-center justify-center p-2 rounded-full transition-colors ${isTransparent ? 'text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10' : 'text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10'} hover:text-brand-accent`}
+              className={`flex items-center justify-center p-2 rounded-full transition-colors ${isTransparent ? 'text-black hover:bg-black/10' : 'text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 hover:text-brand-accent'}`}
               aria-label="Toggle Theme"
             >
               {isDarkMode ? <FaSun className="text-[16px]" /> : <FaMoon className="text-[16px]" />}
@@ -157,7 +159,7 @@ export const Navbar = () => {
               <div className="flex items-center space-x-6">
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black dark:text-white' : 'text-black dark:text-white'} hover:text-brand-accent`}
+                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent'}`}
                 >
                   Dashboard
                 </button>
@@ -174,7 +176,7 @@ export const Navbar = () => {
               <div className="flex items-center space-x-6">
                 <button
                   onClick={() => navigate('/appointment')}
-                  className="px-7 py-2.5 rounded-xl bg-black/5 dark:bg-black/40 backdrop-blur-md border border-black/10 dark:border-white/10 text-black dark:text-white font-medium text-[15px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black hover:shadow-[0_0_15px_rgba(246,255,0,0.3)]"
+                  className={`px-7 py-2.5 rounded-xl backdrop-blur-md font-medium text-[15px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black hover:shadow-[0_0_15px_rgba(246,255,0,0.3)] ${isTransparent ? 'bg-black/5 border-black/20 text-black' : 'bg-black/5 dark:bg-black/40 border-black/10 dark:border-white/10 text-black dark:text-white'}`}
                 >
                   Get Quote
                 </button>
