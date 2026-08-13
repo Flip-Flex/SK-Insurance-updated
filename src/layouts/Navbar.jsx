@@ -170,9 +170,9 @@ export const Navbar = () => {
               <div className="flex items-center space-x-6">
                 <button
                   onClick={() => navigate('/appointment')}
-                  className={`px-7 py-2.5 rounded-xl backdrop-blur-md font-medium text-[15px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black hover:shadow-[0_0_15px_rgba(246,255,0,0.3)] ${isTransparent ? 'bg-black/5 border-black/20 text-black' : 'bg-black/5 dark:bg-black/40 border-black/10 dark:border-white/10 text-black dark:text-white'}`}
+                  className={`px-7 py-2.5 rounded-xl backdrop-blur-md font-medium text-[15px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black hover:shadow-[0_0_15px_rgba(255, 179, 0,0.3)] ${isTransparent ? 'bg-black/5 border-black/20 text-black' : 'bg-black/5 dark:bg-black/40 border-black/10 dark:border-white/10 text-black dark:text-white'}`}
                 >
-                  Get Quote
+                  Get Started
                 </button>
               </div>
             )}
@@ -193,8 +193,8 @@ export const Navbar = () => {
               menuButtonColor={isTransparent ? "#000000" : (isDarkMode ? "#ffffff" : "#000000")}
               openMenuButtonColor={isDarkMode ? "#ffffff" : "#000000"}
               changeMenuColorOnOpen={true}
-              colors={isDarkMode ? ['#111111', '#F6FF00'] : ['#EAEAEA', '#F6FF00']}
-              accentColor="#F6FF00"
+              colors={isDarkMode ? ['#111111', '#FFB300'] : ['#EAEAEA', '#FFB300']}
+              accentColor="#FFB300"
               isFixed={true}
               onMenuOpen={() => setIsOpen(true)}
               onMenuClose={() => setIsOpen(false)}
@@ -263,9 +263,9 @@ export const Navbar = () => {
                     <>
                       <button
                         onClick={() => { closeMenu(); setIsOpen(false); navigate('/appointment'); }}
-                        className="w-full py-4 rounded-xl bg-brand-accent hover:bg-[#E5ED00] text-black font-bold text-[16px] cursor-pointer transition-all duration-300 shadow-sm active:scale-95"
+                        className="w-full py-4 rounded-xl bg-brand-accent hover:bg-[#E6A100] text-black font-bold text-[16px] cursor-pointer transition-all duration-300 shadow-sm active:scale-95"
                       >
-                        Get Quote
+                        Get Started
                       </button>
                     </>
                   )}

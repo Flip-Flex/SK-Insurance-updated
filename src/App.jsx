@@ -27,7 +27,7 @@ function App() {
               <Helmet>
                 <title>SK Smart Investments</title>
                 <meta name="description" content="Premium insurance portfolios and policies. Start your digital application instantly." />
-                <meta name="theme-color" content="#f6ff00" />
+                <meta name="theme-color" content="#FFB300" />
               </Helmet>
               <ScrollToTop />
               <AppRoutes />

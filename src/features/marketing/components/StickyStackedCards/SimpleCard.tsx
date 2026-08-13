@@ -7,6 +7,7 @@ interface CardData {
   icon: IconType;
   title: string;
   desc: string;
+  colorClass?: string;
 }
 
 interface SimpleCardProps {
@@ -40,8 +41,8 @@ export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
         className="w-full aspect-square md:aspect-auto md:h-full rounded-[24px] p-6 sm:p-8 border border-black/[0.05] dark:border-white/[0.08] flex flex-col bg-white/80 dark:bg-[#18181b]/80 backdrop-blur-[20px] cursor-pointer hover:bg-white/95 dark:hover:bg-[#18181b]/95 transition-all group hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
       >
         <div className="flex flex-col items-start w-full h-full">
-          <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white rounded-[16px] inline-block mb-6 shadow-sm">
-            <card.icon className="text-3xl lg:text-4xl text-black dark:text-white" />
+          <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white rounded-[16px] inline-block mb-6 shadow-sm transition-all duration-300">
+            <card.icon className={`text-3xl lg:text-4xl text-black dark:text-white transition-all duration-300 ${card.colorClass || ''}`} />
           </motion.div>
           <motion.h3 layoutId={`title-${layoutId}`} className="text-xl lg:text-2xl font-bold text-black dark:text-white tracking-tight mb-3">
             {card.title}
@@ -84,7 +85,7 @@ export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
                 
                 <div className="p-6 sm:p-12 w-full flex flex-col overflow-y-auto">
                   <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-200 dark:bg-neutral-800 text-black dark:text-white rounded-[16px] inline-block shadow-sm w-max mb-6">
-                    <card.icon className="text-3xl lg:text-4xl text-black dark:text-white" />
+                    <card.icon className={`text-3xl lg:text-4xl text-black dark:text-white ${card.colorClass ? card.colorClass.replace(/group-hover:/g, '') : ''}`} />
                   </motion.div>
 
                   <motion.h3 layoutId={`title-${layoutId}`} className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
@@ -114,7 +115,7 @@ export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
                         </ul>
                       </div>
                       
-                      <button className="mt-2 px-8 py-3 md:px-10 md:py-4 bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(246,255,0,0.4)] text-sm">
+                      <button className="mt-2 px-8 py-3 md:px-10 md:py-4 bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(255, 179, 0,0.4)] text-sm">
                         Explore Plans
                       </button>
                     </div>

@@ -38,13 +38,13 @@ const PremiumSlider = ({ min, max, step, value, onChange, leftLabel, rightLabel,
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-neutral-200 dark:bg-neutral-800
         [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 
-        [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#F6FF00] dark:[&::-webkit-slider-thumb]:bg-[#F6FF00]
+        [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#FFB300] dark:[&::-webkit-slider-thumb]:bg-[#FFB300]
         [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-black
         [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 
-        [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#F6FF00] dark:[&::-moz-range-thumb]:bg-[#F6FF00]
+        [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#FFB300] dark:[&::-moz-range-thumb]:bg-[#FFB300]
         [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-black
-        [background:linear-gradient(to_right,#F6FF00_0%,#F6FF00_var(--fill),#E5E5E5_var(--fill),#E5E5E5_100%)]
-        dark:[background:linear-gradient(to_right,#F6FF00_0%,#F6FF00_var(--fill),#262626_var(--fill),#262626_100%)]"
+        [background:linear-gradient(to_right,#FFB300_0%,#FFB300_var(--fill),#E5E5E5_var(--fill),#E5E5E5_100%)]
+        dark:[background:linear-gradient(to_right,#FFB300_0%,#FFB300_var(--fill),#262626_var(--fill),#262626_100%)]"
         style={{ "--fill": `${((value - min) / (max - min)) * 100}%` }}
       />
     </div>
@@ -65,17 +65,17 @@ const GlassInput = ({ label, children }) => (
   </div>
 );
 
-const inputClasses = "w-full px-4 py-3 bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-xl focus:outline-none focus:border-[#F6FF00] dark:focus:border-[#F6FF00]/50 focus:ring-1 focus:ring-[#F6FF00]/30 dark:focus:ring-[#F6FF00]/20 text-sm font-semibold text-black dark:text-white transition-all duration-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 hover:border-black/20 dark:hover:border-white/20";
+const inputClasses = "w-full px-4 py-3 bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-xl focus:outline-none focus:border-[#FFB300] dark:focus:border-[#FFB300]/50 focus:ring-1 focus:ring-[#FFB300]/30 dark:focus:ring-[#FFB300]/20 text-sm font-semibold text-black dark:text-white transition-all duration-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 hover:border-black/20 dark:hover:border-white/20";
 const selectClasses = inputClasses;
 
 /* ─── Glass Toggle ─── */
 const GlassToggle = ({ label, sublabel, checked, onChange }) => (
   <label className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200 ${
     checked 
-      ? 'bg-[#F6FF00]/10 dark:bg-[#F6FF00]/5 border-[#F6FF00]/40 dark:border-[#F6FF00]/30' 
+      ? 'bg-[#FFB300]/10 dark:bg-[#FFB300]/5 border-[#FFB300]/40 dark:border-[#FFB300]/30' 
       : 'bg-white dark:bg-[#0A0A0A] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/[0.02] dark:hover:bg-[#111111]'
   }`}>
-    <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-200 ${checked ? 'bg-[#F6FF00] dark:bg-[#F6FF00]' : 'bg-neutral-300 dark:bg-neutral-600'}`}>
+    <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-200 ${checked ? 'bg-[#FFB300] dark:bg-[#FFB300]' : 'bg-neutral-300 dark:bg-neutral-600'}`}>
       <span className={`inline-block h-3 w-3 transform rounded-full bg-white dark:bg-black transition duration-200 ${checked ? 'translate-x-5' : 'translate-x-1'}`} />
     </div>
     <div>
@@ -92,7 +92,7 @@ const ConditionChip = ({ label, checked, onChange }) => (
     onClick={() => onChange(!checked)}
     className={`px-4 py-2 rounded-lg text-xs font-bold border transition-all duration-200 ${
       checked
-        ? 'bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border-[#F6FF00]/50 dark:border-[#F6FF00]/40 text-[#F6FF00] dark:text-[#F6FF00]'
+        ? 'bg-[#FFB300]/15 dark:bg-[#FFB300]/10 border-[#FFB300]/50 dark:border-[#FFB300]/40 text-[#FFB300] dark:text-[#FFB300]'
         : 'bg-white dark:bg-[#0A0A0A] border-black/10 dark:border-white/10 text-neutral-500 dark:text-neutral-400 hover:border-black/20 dark:hover:border-white/20 hover:text-neutral-800 dark:hover:text-neutral-200'
     }`}
   >
@@ -358,8 +358,8 @@ export const Calculator = () => {
         {/* ── Title ── */}
         <div className="text-center mb-10">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-black dark:text-white">
-              Premium <span className="text-[#F6FF00]">Calculator</span>
+            <h1 className="text-3xl md:text-4xl uppercase font-bold tracking-tight mb-4 text-black dark:text-white">
+              PREMIUM <span className="text-[#FFB300]">CALCULATOR</span>
             </h1>
             <p className="text-neutral-500 dark:text-neutral-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
               Estimate your insurance premiums and investment returns instantly.
@@ -406,7 +406,7 @@ export const Calculator = () => {
                     {isActive && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute inset-0 bg-[#F6FF00] dark:bg-[#F6FF00] rounded-lg"
+                        className="absolute inset-0 bg-[#FFB300] dark:bg-[#FFB300] rounded-lg"
                         transition={{ type: "spring", stiffness: 400, damping: 35 }}
                       />
                     )}
@@ -653,12 +653,12 @@ export const Calculator = () => {
                   <div className="mb-8 p-6 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
                     <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-widest font-bold mb-2">Future Value</p>
                     <div className="flex items-baseline justify-center text-black dark:text-white mb-2">
-                      <span className="text-xl font-bold text-[#F6FF00] dark:text-[#F6FF00] mr-1">₹</span>
+                      <span className="text-xl font-bold text-[#FFB300] dark:text-[#FFB300] mr-1">₹</span>
                       <span className="text-4xl md:text-5xl font-extrabold tracking-tight">
                         {sipResults.total > 10000000 ? (sipResults.total/10000000).toFixed(2) + 'Cr' : (sipResults.total/100000).toFixed(2) + 'L'}
                       </span>
                     </div>
-                    <p className="text-[10px] text-[#F6FF00] dark:text-[#F6FF00] uppercase tracking-widest font-bold px-3 py-1 rounded bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border border-[#F6FF00]/30 dark:border-[#F6FF00]/20 inline-block">
+                    <p className="text-[10px] text-[#FFB300] dark:text-[#FFB300] uppercase tracking-widest font-bold px-3 py-1 rounded bg-[#FFB300]/15 dark:bg-[#FFB300]/10 border border-[#FFB300]/30 dark:border-[#FFB300]/20 inline-block">
                       After {sipYears} Years
                     </p>
                   </div>
@@ -670,13 +670,13 @@ export const Calculator = () => {
                     </div>
                     <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5">
                       <span className="text-neutral-500 dark:text-neutral-400">Est. Returns</span>
-                      <span className="font-bold text-[#F6FF00] dark:text-[#F6FF00]">₹{sipResults.gain.toLocaleString('en-IN')}</span>
+                      <span className="font-bold text-[#FFB300] dark:text-[#FFB300]">₹{sipResults.gain.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
 
                   <button 
                     onClick={() => setShowBuyModal(true)}
-                    className="w-full bg-black dark:bg-white text-white dark:text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-[#F6FF00] dark:hover:bg-[#F6FF00] hover:text-black dark:hover:text-black transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-black dark:bg-white text-white dark:text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-[#FFB300] dark:hover:bg-[#FFB300] hover:text-black dark:hover:text-black transition-colors flex items-center justify-center gap-2"
                   >
                     <FaCalculator /> Setup Auto-SIP
                   </button>
@@ -694,7 +694,7 @@ export const Calculator = () => {
                   <div className="mb-8 p-6 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
                     <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-widest font-bold mb-2">Annual Premium</p>
                     <div className="flex items-baseline justify-center text-black dark:text-white mb-3">
-                      <span className="text-xl font-bold text-[#F6FF00] dark:text-[#F6FF00] mr-1">₹</span>
+                      <span className="text-xl font-bold text-[#FFB300] dark:text-[#FFB300] mr-1">₹</span>
                       <span className="text-5xl font-extrabold tracking-tight">
                         <AnimatedCounter value={healthBreakdown.annualPremium} />
                       </span>
@@ -743,7 +743,7 @@ export const Calculator = () => {
 
                   <button 
                     onClick={() => setShowBuyModal(true)}
-                    className="w-full bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2 mb-4"
+                    className="w-full bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2 mb-4"
                   >
                     <FaShieldAlt /> Secure Now
                   </button>
@@ -761,7 +761,7 @@ export const Calculator = () => {
                       {category === 'travel' ? 'Total Trip Premium' : 'INR / Month'}
                     </p>
                     <div className="flex items-baseline justify-center text-black dark:text-white">
-                      <span className="text-xl font-bold text-[#F6FF00] dark:text-[#F6FF00] mr-1">₹</span>
+                      <span className="text-xl font-bold text-[#FFB300] dark:text-[#FFB300] mr-1">₹</span>
                       <span className="text-5xl font-extrabold tracking-tight">
                         <AnimatedCounter value={premium} />
                       </span>
@@ -788,7 +788,7 @@ export const Calculator = () => {
 
                   <button 
                     onClick={() => setShowBuyModal(true)}
-                    className="w-full bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2"
                   >
                     <FaShieldAlt /> Secure Now
                   </button>
@@ -816,7 +816,7 @@ export const Calculator = () => {
           </div>
           <button 
             onClick={() => setShowBuyModal(true)} 
-            className="flex-shrink-0 bg-[#F6FF00] dark:bg-[#F6FF00] text-black px-4 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-lg transition-colors hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black"
+            className="flex-shrink-0 bg-[#FFB300] dark:bg-[#FFB300] text-black px-4 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-lg transition-colors hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black"
           >
             {category === 'sip' ? 'Setup SIP' : 'Secure Now'}
           </button>
@@ -842,7 +842,7 @@ export const Calculator = () => {
 
               {successBuy ? (
                 <div className="text-center py-8 relative z-10">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 text-[#F6FF00] dark:text-[#F6FF00] rounded-2xl mb-4">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#FFB300]/15 dark:bg-[#FFB300]/10 text-[#FFB300] dark:text-[#FFB300] rounded-2xl mb-4">
                     <FaUserCheck className="text-3xl" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-black dark:text-white mb-2">Activated!</h3>
@@ -863,13 +863,13 @@ export const Calculator = () => {
                     <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 mb-3 uppercase tracking-widest">Summary</p>
                     <div className="flex justify-between text-sm text-black dark:text-white font-bold mb-1">
                       <span>{category === 'sip' ? 'Monthly SIP' : 'Monthly Premium'}</span>
-                      <span className="text-[#F6FF00] dark:text-[#F6FF00]">₹{category === 'sip' ? sipMonthly.toLocaleString() : premium.toLocaleString()}</span>
+                      <span className="text-[#FFB300] dark:text-[#FFB300]">₹{category === 'sip' ? sipMonthly.toLocaleString() : premium.toLocaleString()}</span>
                     </div>
                   </div>
 
                   <div className="flex gap-3 pt-4">
                     <button type="button" onClick={() => setShowBuyModal(false)} className="flex-1 py-3 text-sm font-bold text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors rounded-xl hover:bg-black/[0.02] dark:hover:bg-[#111111]">Cancel</button>
-                    <button type="submit" className="flex-1 py-3 bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors">
+                    <button type="submit" className="flex-1 py-3 bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors">
                       Confirm
                     </button>
                   </div>

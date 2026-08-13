@@ -154,10 +154,10 @@ export const About = () => {
   ];
 
   const milestones = [
-    { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.' },
-    { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India\u2019s leading life insurers (LIC, Tata AIA).' },
-    { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.' },
-    { year: '2025', title: 'MD Plaza HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.' }
+    { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' },
+    { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' },
+    { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' },
+    { year: '2025', title: 'MD Plaza HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' }
   ];
 
   const missions = [
@@ -181,7 +181,7 @@ export const About = () => {
           <div className="absolute bottom-0 left-0 w-[40%] h-[50%] bg-stone-200/50 dark:bg-stone-800/20 rounded-tr-[30%] blur-3xl" />
         </div>
 
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-8 flex flex-col items-center text-center">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
             <SectionTag>About SK Smart Investments</SectionTag>
           </motion.div>
@@ -190,32 +190,22 @@ export const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1 }}
-            className="text-[clamp(2.5rem,7vw,6rem)] font-extrabold leading-[1.05] tracking-tight text-stone-900 dark:text-white max-w-4xl"
+            className="text-[clamp(2rem,6vw,5rem)] uppercase font-extrabold leading-[1.05] tracking-tight text-stone-900 dark:text-white max-w-5xl mt-6"
           >
-            Securing Wealth,{' '}
-            <span className="text-stone-400 dark:text-stone-500">Empowering Futures.</span>
+            SECURING WEALTH,{' '}
+            <span className="text-brand-accent">EMPOWERING FUTURES.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-8 max-w-xl text-lg text-stone-600 dark:text-stone-400 leading-relaxed"
+            className="mt-8 max-w-3xl mx-auto text-lg text-stone-600 dark:text-stone-400 leading-relaxed"
           >
             With over two decades of dedicated expertise, we specialize in comprehensive insurance planning — delivering institutional-grade protection for your life, health, vehicles, and long-term legacy.
           </motion.p>
 
-          {/* Pillars row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="flex flex-wrap gap-x-8 gap-y-3 mt-10"
-          >
-            {['Life Insurance', 'Health Insurance', 'Motor Insurance', 'Business Protection'].map((p, i) => (
-              <span key={i} className="text-xs font-medium tracking-wide text-stone-500 dark:text-stone-500 border-b border-stone-300 dark:border-stone-700 pb-1">{p}</span>
-            ))}
-          </motion.div>
+
 
           {/* Stats strip */}
           <motion.div
@@ -231,7 +221,7 @@ export const About = () => {
             ].map((s, i) => (
               <div key={i}>
                 <div className="text-3xl sm:text-4xl font-bold text-stone-900 dark:text-white tabular-nums">
-                  <Counter from={0} to={s.n} suffix={s.s} />
+                  {s.n}{s.s}
                 </div>
                 <div className="text-xs text-stone-500 dark:text-stone-500 mt-1 font-medium tracking-wide">{s.l}</div>
               </div>
@@ -338,28 +328,26 @@ export const About = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
+            className="w-full flex flex-col items-center"
           >
-            <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
-              <div className="lg:w-1/3 shrink-0">
-                <SectionTag>Our Mission</SectionTag>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white leading-tight">
-                  What Drives Us
-                </h2>
-              </div>
-              <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {missions.map((m, i) => (
-                  <div
-                    key={i}
-                    className="group bg-stone-50 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-xl p-5 hover:border-brand-accent/50 transition-colors duration-300"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="text-xs font-bold text-brand-accent tabular-nums">0{i + 1}</span>
-                      <h4 className="text-sm font-bold text-stone-900 dark:text-white uppercase tracking-wide">{m.title}</h4>
-                    </div>
-                    <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">{m.text}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="text-center mb-10">
+              <SectionTag>Our Mission</SectionTag>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white leading-tight">
+                What Drives Us
+              </h2>
+            </div>
+            
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5">
+              {missions.map((m, i) => (
+                <div
+                  key={i}
+                  className="group bg-stone-50 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-xl p-6 hover:border-brand-accent/50 transition-colors duration-300 flex flex-col"
+                >
+                  <span className="text-3xl font-black text-brand-accent/20 dark:text-brand-accent/10 tabular-nums mb-3 group-hover:text-brand-accent/40 transition-colors">0{i + 1}</span>
+                  <h4 className="text-base font-bold text-stone-900 dark:text-white leading-tight mb-3">{m.title}</h4>
+                  <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed flex-1">{m.text}</p>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -369,11 +357,12 @@ export const About = () => {
           HOW WE WORK
       ═══════════════════════════════════════════════ */}
       <section className="py-24 sm:py-32 px-6 lg:px-8 max-w-6xl mx-auto">
-        <SectionTag>How We Work</SectionTag>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white mb-14 max-w-2xl leading-tight">
-          Our Guiding Principles
-        </h2>
-
+        <div className="text-center mb-16 flex flex-col items-center">
+          <SectionTag>How We Work</SectionTag>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white leading-tight">
+            Our Guiding Principles
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {principles.map((p, i) => {
             const Icon = p.icon;
@@ -401,41 +390,39 @@ export const About = () => {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════
-          OUR JOURNEY
-      ═══════════════════════════════════════════════ */}
-      <section className="py-24 sm:py-32 bg-stone-100 dark:bg-[#111] border-y border-stone-200 dark:border-stone-800/50">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <SectionTag>Our Journey</SectionTag>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white mb-16 leading-tight">
-            Milestones That Matter
-          </h2>
+      <section className="py-24 sm:py-32 bg-stone-100 dark:bg-[#111] border-y border-stone-200 dark:border-stone-800/50 overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="text-center mb-16 md:mb-20 flex flex-col items-center">
+            <SectionTag>Our Journey</SectionTag>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white leading-tight">
+              Milestones That Matter
+            </h2>
+          </div>
 
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-stone-300 dark:bg-stone-700" />
-
-            <div className="space-y-12">
-              {milestones.map((m, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.6, delay: i * 0.15 }}
-                  className="relative flex items-start gap-6 sm:gap-10 pl-4 sm:pl-6"
-                >
-                  {/* Dot */}
-                  <div className="relative z-10 w-3 h-3 rounded-full bg-brand-accent ring-4 ring-stone-100 dark:ring-[#111] shrink-0 mt-1.5" />
-
-                  <div className="flex-1 pb-4">
-                    <span className="text-sm font-bold text-brand-accent tabular-nums">{m.year}</span>
-                    <h3 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-white mt-1 mb-2">{m.title}</h3>
-                    <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed max-w-lg">{m.desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {milestones.map((m, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="group relative bg-white dark:bg-stone-900/60 p-8 lg:p-10 rounded-[2rem] border border-stone-200 dark:border-stone-800 hover:border-brand-accent/50 transition-all duration-300 shadow-sm overflow-hidden flex flex-col"
+              >
+                {/* Huge Faded Year Background */}
+                <div className="absolute -bottom-4 -right-4 text-[110px] font-black text-stone-100 dark:text-stone-800/30 group-hover:text-brand-accent/5 transition-colors duration-500 pointer-events-none select-none leading-none z-0">
+                  {m.year}
+                </div>
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className={`inline-flex items-center justify-center px-5 py-2 rounded-full bg-brand-accent/10 text-brand-accent font-black text-lg tracking-wider mb-6 self-start transition-all duration-300 ${m.colorClass || ''}`}>
+                    {m.year}
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                  <h3 className="text-xl font-bold text-stone-900 dark:text-white mb-4">{m.title}</h3>
+                  <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed flex-1">{m.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -469,7 +456,7 @@ export const About = () => {
           <div className="text-center mb-16">
             <SectionTag>Our Leadership</SectionTag>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white mb-5 leading-tight">
-              The People Behind
+              Visionary Leadership
             </h2>
             <p className="text-base text-stone-500 dark:text-stone-400 max-w-2xl mx-auto leading-relaxed">
               Meet the visionaries who guide SK Smart Investments with unwavering integrity and a commitment to securing your financial future.
@@ -484,10 +471,10 @@ export const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8 }}
-                className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-10 lg:gap-16 items-center`}
+                className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center"
               >
                 {/* Photo */}
-                <div className="w-[85%] max-w-[320px] sm:max-w-none sm:w-2/5 lg:w-1/3 shrink-0 mx-auto lg:mx-0">
+                <div className="order-1 w-[85%] max-w-[320px] sm:max-w-none sm:w-2/5 lg:w-1/3 shrink-0 mx-auto lg:mx-0">
                   <div className="relative aspect-square sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-stone-200 dark:bg-stone-900 group border border-stone-200/50 dark:border-white/10">
                     <img
                       src={person.src}
@@ -498,7 +485,7 @@ export const About = () => {
                 </div>
 
                 {/* Content */}
-                <div className="w-full lg:w-7/12 flex flex-col mt-4 lg:mt-0">
+                <div className="order-2 w-full lg:w-7/12 flex flex-col mt-4 lg:mt-0">
                   <div className="mb-6 lg:mb-8 text-left">
                     <h4 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mb-2">{person.name}</h4>
                     <p className="text-sm font-bold text-brand-accent uppercase tracking-widest">{person.designation}</p>

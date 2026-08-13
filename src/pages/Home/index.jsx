@@ -155,7 +155,7 @@ const TrustStatCard = ({ stat, idx }) => {
       <div 
         className="absolute inset-0 pointer-events-none transition-opacity duration-300 opacity-40 group-hover:opacity-80" 
         style={{ 
-          background: 'radial-gradient(circle at 0% 0%, rgba(246, 255, 0, 0.08) 0%, transparent 60%)' 
+          background: 'radial-gradient(circle at 0% 0%, rgba(255, 179, 0, 0.08) 0%, transparent 60%)' 
         }} 
       />
 
@@ -164,7 +164,7 @@ const TrustStatCard = ({ stat, idx }) => {
           <AnimatedCounter value={stat.number} />
         </h3>
         
-        <div className="w-[48px] h-[48px] min-w-[48px] rounded-full bg-black/5 dark:bg-brand-accent/[0.08] flex items-center justify-center shrink-0 transition-transform duration-300 ease-out group-hover:scale-[1.1] group-hover:rotate-[10deg] shadow-sm dark:shadow-[inset_0_2px_4px_rgba(246,255,0,0.15)] border border-black/10 dark:border-brand-accent/10">
+        <div className="w-[48px] h-[48px] min-w-[48px] rounded-full bg-black/5 dark:bg-brand-accent/[0.08] flex items-center justify-center shrink-0 transition-transform duration-300 ease-out group-hover:scale-[1.1] group-hover:rotate-[10deg] shadow-sm dark:shadow-[inset_0_2px_4px_rgba(255, 179, 0,0.15)] border border-black/10 dark:border-brand-accent/10">
           <Icon className="text-[20px] text-black dark:text-brand-accent" />
         </div>
       </div>

@@ -1,44 +1,26 @@
 import React, { useRef, useEffect } from 'react';
-import { motion, useInView, animate } from 'framer-motion';
-import { useTranslation } from '../../../../context/LanguageContext';
+import { motion, useInView } from 'framer-motion';
 
-const formatValue = (latest: number, original: string) => {
-  if (original === '98.7%') return latest.toFixed(1) + '%';
-  if (original === '₹420L+') return '₹' + Math.round(latest) + 'L+';
-  if (original === '150,000+') return Math.round(latest).toLocaleString('en-US') + '+';
-  if (original === '4.9 / 5') return latest.toFixed(1) + ' / 5';
-  return Math.round(latest).toString();
-};
+const Counter = ({ from, to, suffix = "", duration = 2 }: { from: number, to: number, suffix?: string, duration?: number }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
 
-const parseValue = (original: string) => {
-  if (original === '98.7%') return 98.7;
-  if (original === '₹420L+') return 420;
-  if (original === '150,000+') return 150000;
-  if (original === '4.9 / 5') return 4.9;
-  return 0;
-};
-
-const AnimatedNumber = ({ targetString, delay, start }: { targetString: string, delay: number, start: boolean }) => {
-  const targetNum = parseValue(targetString);
-  const nodeRef = useRef<HTMLSpanElement>(null);
-  
   useEffect(() => {
-    if (start && nodeRef.current) {
-      const controls = animate(0, targetNum, {
-        duration: 2,
-        delay: delay,
-        ease: "easeOut",
-        onUpdate: (latest) => {
-          if (nodeRef.current) {
-            nodeRef.current.textContent = formatValue(latest, targetString);
-          }
-        }
-      });
-      return () => controls.stop();
-    }
-  }, [start, targetNum, targetString, delay]);
+    if (!inView) return;
+    let start: number | undefined;
+    let raf: number;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / (duration * 1000), 1);
+      if (ref.current) ref.current.textContent = Math.floor(from + (to - from) * p) + suffix;
+      if (p < 1) raf = requestAnimationFrame(step);
+      else if (ref.current) ref.current.textContent = to + suffix;
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, from, to, suffix, duration]);
 
-  return <span ref={nodeRef}>{formatValue(0, targetString)}</span>;
+  return <span ref={ref}>{from}{suffix}</span>;
 };
 
 interface Stat {
@@ -49,135 +31,56 @@ interface Stat {
 }
 
 export const PremiumEditorialStats = ({ stats: propStats }: { stats?: Stat[] }) => {
-  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
-  const defaultStats = [
-    { number: '98.7%', label: t('claims_rate') || 'Claims Settlement Rate' },
-    { number: '₹420L+', label: t('claims_disbursed') || 'Claims Disbursed' },
-    { number: '150,000+', label: t('lives_secured') || 'Lives Secured' },
-    { number: '4.9 / 5', label: t('customer_rating') || 'Customer Rating' }
-  ];
-  
-  const stats = propStats || defaultStats;
-
   return (
-    <section ref={sectionRef} className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-8 lg:pt-20 lg:pb-8 bg-transparent overflow-hidden">
+    <section ref={sectionRef} className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-4 pb-8 lg:pt-8 lg:pb-8 bg-transparent overflow-hidden">
       
       {/* Header Section */}
-      <div className="w-full max-w-4xl mb-12 md:mb-16">
+      <div className="w-full max-w-4xl mx-auto mb-16 text-center">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex items-center gap-4 mb-6"
+          className="flex items-center justify-center gap-4 mb-6"
         >
           <span className="w-8 h-[1px] bg-brand-accent hidden sm:block"></span>
-          <span className="text-[11px] font-bold text-black dark:text-brand-accent tracking-[0.2em] uppercase">
-            // OUR TRACK RECORD
+          <span className="text-[12px] font-bold text-neutral-500 dark:text-brand-accent tracking-[0.25em] uppercase">
+            OUR TRACK RECORD
           </span>
+          <span className="w-8 h-[1px] bg-brand-accent hidden sm:block"></span>
         </motion.div>
         
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-black dark:text-white leading-[1.1]"
+          className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-black dark:text-white leading-[1.1]"
         >
-          A Legacy Measured in Trust
+          A Legacy Measured <br className="hidden sm:block" /> in Trust
         </motion.h2>
       </div>
 
-      {/* Grid Section */}
+      {/* Refined Stats Strip */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        className="w-full relative"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ delay: 0.2, duration: 0.8 }}
+        className="w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-12 sm:gap-0 py-10 border-y border-black/10 dark:border-white/10 mt-12"
       >
-        {/* Horizontal Dividers */}
-        <motion.div 
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 1.2, delay: 0.2, ease: "easeInOut" }}
-          className="absolute top-0 left-0 w-full h-[1px] bg-black/10 dark:bg-white/10 origin-left z-10" 
-        />
-        <motion.div 
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: "easeInOut" }}
-          className="absolute top-1/2 left-0 w-full h-[1px] hidden md:block bg-black/10 dark:bg-white/10 origin-right z-10 -translate-y-1/2" 
-        />
-        <motion.div 
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 1.2, delay: 0.4, ease: "easeInOut" }}
-          className="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 dark:bg-white/10 origin-left z-10" 
-        />
-        
-        {/* Vertical Divider */}
-        <motion.div 
-          initial={{ scaleY: 0 }}
-          animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
-          transition={{ duration: 1.2, delay: 0.4, ease: "easeInOut" }}
-          className="absolute top-0 left-1/2 w-[1px] h-full hidden md:block bg-black/10 dark:bg-white/10 origin-top z-10 -translate-x-1/2" 
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 relative z-0">
-          {stats.map((stat, idx) => {
-            const isTop = idx < 2;
-            const isLeft = idx % 2 === 0;
-
-            return (
-              <div 
-                key={idx}
-                className={`
-                  flex flex-col justify-start
-                  py-8 sm:py-10 md:py-12
-                  ${isLeft ? 'md:pr-12 md:pl-6' : 'md:pl-12 md:pr-6'}
-                  ${isTop ? 'border-b md:border-none border-black/10 dark:border-white/10' : ''}
-                  items-start
-                `}
-              >
-                <div className="flex flex-col">
-                  {/* Subtle index number */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 + (idx * 0.1) }}
-                    className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 mb-4 tracking-widest"
-                  >
-                    0{idx + 1}
-                  </motion.div>
-                  
-                  <div className="flex items-center gap-4 mb-3">
-                    {/* Minimal Yellow Accent */}
-                    <motion.div 
-                      initial={{ height: 0 }}
-                      animate={isInView ? { height: '24px' } : { height: 0 }}
-                      transition={{ duration: 0.6, delay: 0.6 + (idx * 0.1) }}
-                      className="w-[2px] bg-brand-accent hidden sm:block" 
-                    />
-                    
-                    <div className="text-3xl sm:text-4xl md:text-5xl font-black text-black dark:text-white tracking-tight leading-[1]">
-                      <AnimatedNumber targetString={stat.number} delay={0.3 + (idx * 0.1)} start={isInView} />
-                    </div>
-                  </div>
-                  
-                  <motion.div 
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                    transition={{ duration: 0.8, delay: 0.8 + (idx * 0.1) }}
-                    className="text-[13px] sm:text-[14px] font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-[0.1em] mt-2 sm:ml-5"
-                  >
-                    {stat.label.replace(/_/g, ' ')}
-                  </motion.div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {[
+          { n: 22, s: '+', l: 'Years of Trust' },
+          { n: 5000, s: '+', l: 'Families Protected' },
+          { n: 150, s: 'Cr+', l: 'AUM Managed' },
+        ].map((s, i) => (
+          <div key={i} className={`flex flex-col items-center text-center flex-1 w-full ${i !== 2 ? 'sm:border-r border-black/10 dark:border-white/10' : ''}`}>
+            <div className="text-4xl sm:text-5xl font-black text-black dark:text-white tabular-nums tracking-tight mb-2">
+              <Counter from={0} to={s.n} suffix={s.s} />
+            </div>
+            <div className="text-xs sm:text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">{s.l}</div>
+          </div>
+        ))}
       </motion.div>
     </section>
   );

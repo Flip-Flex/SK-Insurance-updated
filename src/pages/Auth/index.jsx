@@ -159,7 +159,7 @@ export const Auth = () => {
                     </div>
 
                     <div className="pt-4 flex flex-col space-y-4">
-                      <button type="submit" className="w-full py-4 bg-brand-accent text-black rounded-2xl font-bold text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(246,255,0,0.15)] cursor-pointer">
+                      <button type="submit" className="w-full py-4 bg-brand-accent text-black rounded-2xl font-bold text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255, 179, 0,0.15)] cursor-pointer">
                         Send Reset Link
                       </button>
                       <button
@@ -250,7 +250,7 @@ export const Auth = () => {
                     </div>
 
                     <div className="pt-6">
-                      <button type="submit" className="w-full py-4 bg-brand-accent text-black rounded-2xl font-bold text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(246,255,0,0.15)] cursor-pointer">
+                      <button type="submit" className="w-full py-4 bg-brand-accent text-black rounded-2xl font-bold text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255, 179, 0,0.15)] cursor-pointer">
                         {t('sign_in')}
                       </button>
                     </div>

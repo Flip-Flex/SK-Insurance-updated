@@ -11,8 +11,9 @@ import { cn } from '../../utils/cn';
 const CompanyLogo = ({ company }) => {
   const comp = (company || '').toLowerCase();
   let logoUrl = '/logos/lic.png';
+  let scaleClass = 'scale-100';
 
-  if (comp.includes('sbi')) logoUrl = '/logos/sbi_life.png';
+  if (comp.includes('sbi')) { logoUrl = '/logos/sbi_life.png'; scaleClass = 'scale-[1.4]'; }
   else if (comp.includes('postal')) logoUrl = '/logos/Postal Office.png';
   else if (comp.includes('hdfc')) logoUrl = '/logos/hdfc_life.png';
   else if (comp.includes('icici')) logoUrl = '/logos/icici_prudential.png';
@@ -27,14 +28,14 @@ const CompanyLogo = ({ company }) => {
   else if (comp.includes('kotak')) logoUrl = '/logos/Kotak Mahindra Life.jpg';
   else if (comp.includes('pnb')) logoUrl = '/logos/PNB MetLife.png';
   else if (comp.includes('manipal') || comp.includes('cigna')) logoUrl = '/logos/ManipalCigna Health.png';
-  else if (comp.includes('max') || comp.includes('axis')) logoUrl = '/logos/axis_max.png';
+  else if (comp.includes('max') || comp.includes('axis')) { logoUrl = '/logos/axis_max.png'; scaleClass = 'scale-[1.4]'; }
 
   return (
-    <div className="w-full h-full flex items-center justify-center p-2 rounded-lg bg-black/[0.03] dark:bg-white/5 overflow-hidden">
+    <div className="w-full h-full flex items-center justify-center p-1 rounded-lg bg-white dark:bg-stone-200 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-black/5 dark:border-none">
       <img
         src={logoUrl}
         alt={company}
-        className="max-w-full max-h-full object-contain"
+        className={`w-full h-full object-contain ${scaleClass} mix-blend-multiply`}
         onError={(e) => { e.target.style.display = 'none'; }}
       />
     </div>
@@ -238,8 +239,8 @@ export const Plans = () => {
       <section className="pt-32 pb-16 px-4 sm:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="space-y-4 w-full">
           <span className="text-xs text-brand-accent uppercase tracking-widest font-bold">Insurance Plans</span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-black dark:text-white tracking-tight">
-            Protection Designed Around You
+          <h1 className="text-3xl sm:text-4xl md:text-5xl uppercase font-black text-black dark:text-white tracking-tight">
+            PROTECTION DESIGNED AROUND YOU
           </h1>
           <p className="text-base sm:text-lg text-black/60 dark:text-white/60 font-medium max-w-2xl mx-auto mt-4">
             Explore insurance plans from trusted providers and find coverage designed around your needs.
@@ -486,7 +487,7 @@ export const Plans = () => {
                     </button>
                     <button 
                       onClick={() => handleApply(plan)}
-                      className="w-full py-3 rounded-lg bg-brand-accent text-black font-bold text-xs uppercase tracking-wider hover:bg-[#E5ED00] transition-colors"
+                      className="w-full py-3 rounded-lg bg-brand-accent text-black font-bold text-xs uppercase tracking-wider hover:bg-[#E6A100] transition-colors"
                     >
                       Apply Now
                     </button>
@@ -631,7 +632,7 @@ export const Plans = () => {
                     <p className="text-black/60 dark:text-white/60 text-xs leading-relaxed">{plan.description}</p>
                     <button 
                       onClick={() => { setShowCompareModal(false); handleApply(plan); }}
-                      className="mt-6 w-full py-2.5 rounded-lg bg-brand-accent text-black font-bold text-xs uppercase tracking-wider hover:bg-[#E5ED00] transition-colors"
+                      className="mt-6 w-full py-2.5 rounded-lg bg-brand-accent text-black font-bold text-xs uppercase tracking-wider hover:bg-[#E6A100] transition-colors"
                     >
                       Apply Now
                     </button>
@@ -747,7 +748,7 @@ export const Plans = () => {
                   setPlanDetailsModal(null);
                   handleApply(planDetailsModal);
                 }}
-                className="w-2/3 py-2.5 rounded-lg bg-brand-accent text-black font-black text-[11px] uppercase tracking-wider hover:bg-[#E5ED00] hover:shadow-[0_0_15px_rgba(229,237,0,0.4)] transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                className="w-2/3 py-2.5 rounded-lg bg-brand-accent text-black font-black text-[11px] uppercase tracking-wider hover:bg-[#E6A100] hover:shadow-[0_0_15px_rgba(229,237,0,0.4)] transition-all active:scale-[0.98] flex items-center justify-center gap-2"
               >
                 Apply Now <FaArrowRight className="h-2.5 w-2.5" />
               </button>
@@ -816,7 +817,7 @@ export const Plans = () => {
                 <button type="button" onClick={() => setShowApplyModal(false)} disabled={isSubmitting} className="px-6 py-3 rounded-lg border border-black/20 dark:border-white/20 text-black dark:text-white font-bold uppercase tracking-wider text-xs hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   Cancel
                 </button>
-                <button type="submit" disabled={isSubmitting} className="px-6 py-3 rounded-lg bg-brand-accent text-black font-bold uppercase tracking-wider text-xs hover:bg-[#E5ED00] transition-colors flex items-center justify-center gap-3">
+                <button type="submit" disabled={isSubmitting} className="px-6 py-3 rounded-lg bg-brand-accent text-black font-bold uppercase tracking-wider text-xs hover:bg-[#E6A100] transition-colors flex items-center justify-center gap-3">
                   {isSubmitting ? 'Processing...' : 'Submit Application'}
                   {!isSubmitting && <FaArrowRight />}
                 </button>

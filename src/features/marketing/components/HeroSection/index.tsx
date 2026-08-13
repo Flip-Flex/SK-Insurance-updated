@@ -31,7 +31,7 @@ export const HeroSection = () => {
       <motion.div
         className="pointer-events-none fixed inset-0 z-0 opacity-40 mix-blend-screen"
         animate={{
-          background: `radial-gradient(1200px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(246, 255, 0, 0.15), transparent 40%)`,
+          background: `radial-gradient(1200px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 179, 0, 0.15), transparent 40%)`,
         }}
         transition={{ type: 'tween', ease: 'backOut', duration: 0.5 }}
       />

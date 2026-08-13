@@ -14,7 +14,7 @@ export const StaggeredMenu = ({
   menuButtonColor = '#ffffff', // White button default
   openMenuButtonColor = '#000000', // Black when open inside the menu (assuming white background inside)
   changeMenuColorOnOpen = true,
-  accentColor = '#F6FF00', // Our brand yellow
+  accentColor = '#FFB300', // Our brand yellow
   isFixed = false,
   closeOnClickAway = true,
   onMenuOpen,

@@ -181,7 +181,7 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
                         </ul>
                       </div>
                       
-                      <button className="mt-4 px-8 py-4 md:px-10 md:py-5 md:text-lg bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(246,255,0,0.4)]">
+                      <button className="mt-4 px-8 py-4 md:px-10 md:py-5 md:text-lg bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(255, 179, 0,0.4)]">
                         Explore Plans
                       </button>
                     </div>

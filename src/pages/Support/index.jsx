@@ -25,9 +25,9 @@ export const Support = () => {
           className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-end"
         >
           <div className="lg:col-span-8">
-            <span className="text-xs text-[#F6FF00] dark:text-[#F6FF00] uppercase tracking-widest font-bold">We're Here to Help</span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-black dark:text-white tracking-tight mt-4 leading-[1.05]">
-              Talk to a Real<br />Insurance Advisor.
+            <span className="text-xs text-[#FFB300] dark:text-[#FFB300] uppercase tracking-widest font-bold">We're Here to Help</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl uppercase font-black text-black dark:text-white tracking-tight mt-4 leading-[1.05]">
+              TALK TO A REAL<br />INSURANCE ADVISOR.
             </h1>
             <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-medium max-w-xl mt-6">
               {t('support_subtitle') || 'Whether it\'s a quick question, a claims concern, or planning your next policy — our team responds fast and explains things clearly.'}
@@ -37,7 +37,7 @@ export const Support = () => {
             <a 
               href="https://wa.me/919994451300?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services."
               target="_blank" rel="noopener noreferrer"
-              className="w-full lg:w-auto px-8 py-5 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-[#F6FF00] dark:hover:bg-[#F6FF00] hover:text-black transition-colors flex items-center justify-center gap-3 shadow-lg dark:shadow-none"
+              className="w-full lg:w-auto px-8 py-5 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-[#FFB300] dark:hover:bg-[#FFB300] hover:text-black transition-colors flex items-center justify-center gap-3 shadow-lg dark:shadow-none"
             >
               <FaWhatsapp className="text-base" /> Chat With Us Now
             </a>
@@ -50,7 +50,7 @@ export const Support = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           
           <a href="tel:+919994451300" className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 hover:border-black/30 dark:hover:border-white/20 hover:shadow-lg dark:hover:shadow-none transition-all group shadow-sm dark:shadow-none">
-            <div className="w-11 h-11 rounded-xl bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 flex items-center justify-center text-[#F6FF00] dark:text-[#F6FF00] mb-5 group-hover:bg-[#F6FF00] dark:group-hover:bg-[#F6FF00] group-hover:text-black transition-colors">
+            <div className="w-11 h-11 rounded-xl bg-[#FFB300]/15 dark:bg-[#FFB300]/10 flex items-center justify-center text-[#FFB300] dark:text-[#FFB300] mb-5 group-hover:bg-[#FFB300] dark:group-hover:bg-[#FFB300] group-hover:text-black transition-colors">
               <FaPhoneAlt />
             </div>
             <h3 className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1.5">Call Us Directly</h3>
@@ -104,7 +104,7 @@ export const Support = () => {
               </p>
             </div>
             <div className="flex items-center gap-3 pt-6 border-t border-black/5 dark:border-white/5">
-              <div className="w-9 h-9 rounded-full bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 flex items-center justify-center text-[#F6FF00] dark:text-[#F6FF00] shrink-0">
+              <div className="w-9 h-9 rounded-full bg-[#FFB300]/15 dark:bg-[#FFB300]/10 flex items-center justify-center text-[#FFB300] dark:text-[#FFB300] shrink-0">
                 <FaClock className="text-sm" />
               </div>
               <div>
@@ -116,13 +116,13 @@ export const Support = () => {
 
           {/* Appointment banner — intentionally dark for contrast against the light page */}
           <div className="lg:col-span-7 bg-black dark:bg-[#111111] text-white border border-transparent dark:border-white/10 rounded-2xl p-8 sm:p-12 shadow-lg dark:shadow-none relative overflow-hidden flex flex-col justify-between transition-colors">
-            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-[#F6FF00]/20 dark:bg-[#F6FF00]/10 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-[#FFB300]/20 dark:bg-[#FFB300]/10 rounded-full blur-[100px] pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-full bg-[#F6FF00] dark:bg-[#F6FF00] flex items-center justify-center text-black shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#FFB300] dark:bg-[#FFB300] flex items-center justify-center text-black shrink-0">
                   <FaCalendarAlt className="text-sm" />
                 </div>
-                <span className="text-[#F6FF00] dark:text-[#F6FF00] text-xs font-bold uppercase tracking-widest">Book a Session</span>
+                <span className="text-[#FFB300] dark:text-[#FFB300] text-xs font-bold uppercase tracking-widest">Book a Session</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4 leading-snug text-white">
                 Prefer a Scheduled 1-on-1 Consultation?
@@ -133,7 +133,7 @@ export const Support = () => {
             </div>
             <Link
               to="/appointment"
-              className="relative z-10 w-full sm:w-fit px-8 py-4 bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-white transition-colors text-center whitespace-nowrap flex items-center justify-center gap-2"
+              className="relative z-10 w-full sm:w-fit px-8 py-4 bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-white transition-colors text-center whitespace-nowrap flex items-center justify-center gap-2"
             >
               Book Appointment <FaArrowRight className="text-[10px]" />
             </Link>
@@ -146,7 +146,7 @@ export const Support = () => {
       <section className="px-4 sm:px-8 max-w-7xl mx-auto py-16 border-b border-black/10 dark:border-white/10 transition-colors">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="flex items-start gap-4 p-2">
-            <div className="w-11 h-11 rounded-full bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 flex items-center justify-center text-[#F6FF00] dark:text-[#F6FF00] shrink-0">
+            <div className="w-11 h-11 rounded-full bg-[#FFB300]/15 dark:bg-[#FFB300]/10 flex items-center justify-center text-[#FFB300] dark:text-[#FFB300] shrink-0">
               <FaShieldAlt />
             </div>
             <div>
@@ -171,7 +171,7 @@ export const Support = () => {
         <section className="px-4 sm:px-8 max-w-7xl mx-auto pt-20 transition-colors">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
-              Got <span className="text-[#F6FF00] dark:text-[#F6FF00]">Questions?</span>
+              Got <span className="text-[#FFB300] dark:text-[#FFB300]">Questions?</span>
             </h2>
             <p className="text-neutral-500 dark:text-neutral-400 text-sm font-medium">
               Find quick answers to common queries regarding our services and procedures.
@@ -182,14 +182,14 @@ export const Support = () => {
             {faqs.map((faq, idx) => (
               <div 
                 key={faq.id || idx} 
-                className={`bg-white dark:bg-[#0A0A0A] rounded-xl border transition-all duration-200 overflow-hidden shadow-sm dark:shadow-none ${openFaq === idx ? 'border-[#F6FF00]/60 dark:border-[#F6FF00]/50 shadow-[0_0_20px_rgba(201,209,0,0.15)] dark:shadow-[0_0_20px_rgba(246,255,0,0.05)]' : 'border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20'}`}
+                className={`bg-white dark:bg-[#0A0A0A] rounded-xl border transition-all duration-200 overflow-hidden shadow-sm dark:shadow-none ${openFaq === idx ? 'border-[#FFB300]/60 dark:border-[#FFB300]/50 shadow-[0_0_20px_rgba(201,209,0,0.15)] dark:shadow-[0_0_20px_rgba(255, 179, 0,0.05)]' : 'border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20'}`}
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                   className="w-full px-6 py-5 flex items-center justify-between text-black dark:text-white font-bold text-sm cursor-pointer text-left focus:outline-none"
                 >
                   <span className="pr-8">{faq.question}</span>
-                  <div className={`p-2 rounded-full shrink-0 transition-all duration-300 ${openFaq === idx ? 'bg-[#F6FF00] dark:bg-[#F6FF00] text-black rotate-180' : 'bg-black/5 dark:bg-[#111111] text-black/50 dark:text-white/50'}`}>
+                  <div className={`p-2 rounded-full shrink-0 transition-all duration-300 ${openFaq === idx ? 'bg-[#FFB300] dark:bg-[#FFB300] text-black rotate-180' : 'bg-black/5 dark:bg-[#111111] text-black/50 dark:text-white/50'}`}>
                     <FaChevronDown className="text-xs" />
                   </div>
                 </button>
@@ -208,7 +208,7 @@ export const Support = () => {
       {/* ── FINAL CTA — intentionally dark for contrast against the light page ── */}
       <section className="px-4 sm:px-8 max-w-7xl mx-auto pt-24 transition-colors">
         <div className="bg-black dark:bg-[#0A0A0A] text-white rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden shadow-xl dark:shadow-none border border-transparent dark:border-white/10 transition-colors">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-[#F6FF00]/15 dark:bg-[#F6FF00]/5 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-[#FFB300]/15 dark:bg-[#FFB300]/5 rounded-full blur-[100px] pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4 text-white">
               Still Have Questions?
@@ -220,7 +220,7 @@ export const Support = () => {
               <a 
                 href="https://wa.me/919994451300?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services."
                 target="_blank" rel="noopener noreferrer"
-                className="px-8 py-4 bg-[#F6FF00] dark:bg-[#F6FF00] text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2"
+                className="px-8 py-4 bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2"
               >
                 <FaWhatsapp /> Message Us
               </a>

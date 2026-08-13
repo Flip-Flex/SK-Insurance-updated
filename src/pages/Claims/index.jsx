@@ -92,7 +92,7 @@ export const Claims = () => {
           <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-10 flex flex-col justify-between hover:border-brand-accent/60 dark:hover:border-brand-accent/50 hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group">
             <div>
               <div className="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-accent/20 transition-colors">
-                <FaHeartbeat className="text-xl text-black dark:text-white group-hover:text-[#F6FF00] dark:group-hover:text-brand-accent transition-colors" />
+                <FaHeartbeat className="text-xl text-black dark:text-white group-hover:text-[#FFB300] dark:group-hover:text-brand-accent transition-colors" />
               </div>
               <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Health Claim</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Hospitalisation, treatment, medical expenses</p>
@@ -101,7 +101,7 @@ export const Claims = () => {
           <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-10 flex flex-col justify-between hover:border-brand-accent/60 dark:hover:border-brand-accent/50 hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group">
             <div>
               <div className="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-accent/20 transition-colors">
-                <FaCar className="text-xl text-black dark:text-white group-hover:text-[#F6FF00] dark:group-hover:text-brand-accent transition-colors" />
+                <FaCar className="text-xl text-black dark:text-white group-hover:text-[#FFB300] dark:group-hover:text-brand-accent transition-colors" />
               </div>
               <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Motor Claim</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Accident, damage, theft</p>
@@ -110,7 +110,7 @@ export const Claims = () => {
           <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-10 flex flex-col justify-between hover:border-brand-accent/60 dark:hover:border-brand-accent/50 hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group">
             <div>
               <div className="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-accent/20 transition-colors">
-                <FaShieldAlt className="text-xl text-black dark:text-white group-hover:text-[#F6FF00] dark:group-hover:text-brand-accent transition-colors" />
+                <FaShieldAlt className="text-xl text-black dark:text-white group-hover:text-[#FFB300] dark:group-hover:text-brand-accent transition-colors" />
               </div>
               <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Life & Other Claims</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Life, home, travel and business</p>
@@ -129,7 +129,7 @@ export const Claims = () => {
             <div className="max-w-2xl">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-px bg-brand-accent"></div>
-                <span className="text-[#F6FF00] dark:text-brand-accent font-bold tracking-[0.2em] uppercase text-xs">Priority Access</span>
+                <span className="text-[#FFB300] dark:text-brand-accent font-bold tracking-[0.2em] uppercase text-xs">Priority Access</span>
               </div>
               <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-6">Immediate Claim Assistance</h2>
               <p className="text-xl text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
@@ -140,11 +140,11 @@ export const Claims = () => {
             <div className="flex flex-col gap-8 min-w-[300px]">
               <div className="border-l-2 border-brand-accent pl-6">
                 <p className="text-neutral-500 text-sm font-bold uppercase tracking-wider mb-2">24/7 Dedicated Hotline</p>
-                <p className="text-3xl font-light text-black dark:text-white tracking-wider">1800-XXX-XXXX</p>
+                <p className="text-3xl font-light text-black dark:text-white tracking-wider">+91 99944 51300</p>
               </div>
               <div className="border-l-2 border-black/20 dark:border-white/20 pl-6">
                 <p className="text-neutral-500 text-sm font-bold uppercase tracking-wider mb-2">Priority Email</p>
-                <p className="text-xl font-light text-black dark:text-white tracking-wider">claims@sksmart.com</p>
+                <p className="text-xl font-light text-black dark:text-white tracking-wider">skinvestments2025@gmail.com</p>
               </div>
             </div>
           </div>
@@ -163,7 +163,7 @@ export const Claims = () => {
             { step: '05', title: 'Claim Settlement', desc: 'We stay with you until the claim reaches its final stage.' }
           ].map((item, i) => (
             <div key={i} className="flex flex-col">
-              <div className="text-3xl font-black text-[#F6FF00] dark:text-brand-accent mb-6 font-serif italic border-b border-black/10 dark:border-white/10 pb-4">
+              <div className="text-3xl font-black text-[#FFB300] dark:text-brand-accent mb-6 font-serif italic border-b border-black/10 dark:border-white/10 pb-4">
                 {item.step}
               </div>
               <h4 className="text-xl font-bold text-black dark:text-white mb-3">{item.title}</h4>
@@ -201,7 +201,7 @@ export const Claims = () => {
                 <ul className="space-y-4 mb-12">
                   {docsData[activeDocTab].map((doc, i) => (
                     <li key={i} className="flex items-center gap-4 text-lg text-black dark:text-white font-medium bg-black/[0.02] dark:bg-black/40 p-4 border border-black/5 dark:border-white/5">
-                      <FaCheckSquare className="text-[#F6FF00] dark:text-brand-accent text-xl" /> {doc}
+                      <FaCheckSquare className="text-[#FFB300] dark:text-brand-accent text-xl" /> {doc}
                     </li>
                   ))}
                 </ul>
@@ -305,12 +305,12 @@ export const Claims = () => {
             Tell us what happened. Our team will guide you through the next step.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <button className="px-10 py-5 bg-white dark:bg-black text-black dark:text-white font-bold uppercase tracking-wider text-sm hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors shadow-xl">
-              Start a Claim
-            </button>
-            <button className="px-10 py-5 bg-transparent border border-white dark:border-black text-white dark:text-black font-bold uppercase tracking-wider text-sm hover:bg-white/10 dark:hover:bg-black/5 transition-colors">
+            <a 
+              href="tel:+919994451300" 
+              className="px-10 py-5 bg-white dark:bg-black text-black dark:text-white font-bold uppercase tracking-wider text-sm hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors shadow-xl"
+            >
               Talk to an Advisor
-            </button>
+            </a>
           </div>
         </div>
       </section>

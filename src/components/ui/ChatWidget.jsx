@@ -225,9 +225,9 @@ export const ChatWidget = () => {
         {/* Floating Toggle Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-14 h-14 rounded-full bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 text-white dark:text-black flex items-center justify-center shadow-xl hover:shadow-2xl transition-all cursor-pointer transform hover:scale-[1.05] active:scale-95 duration-200 relative"
+          className="w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center shadow-[0_4px_14px_0_rgba(37,211,102,0.39)] hover:shadow-[0_6px_20px_rgba(37,211,102,0.23)] transition-all cursor-pointer transform hover:scale-[1.05] active:scale-95 duration-200 relative z-50"
         >
-          {isOpen ? <FaTimes className="text-lg" /> : <FaWhatsapp className="text-[28px] animate-pulse text-white dark:text-black" />}
+          {isOpen ? <FaTimes className="text-lg" /> : <FaWhatsapp className="text-[32px]" />}
         </button>
       </div>
     </>

@@ -378,7 +378,7 @@ export const ManagerDashboard = () => {
               </div>
               <button 
                 onClick={openCreateForm}
-                className="w-full md:w-auto px-6 py-2.5 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(246,255,0,0.2)] whitespace-nowrap m-2 cursor-pointer"
+                className="w-full md:w-auto px-6 py-2.5 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255, 179, 0,0.2)] whitespace-nowrap m-2 cursor-pointer"
               >
                 + Create New Plan
               </button>
@@ -504,7 +504,7 @@ export const ManagerDashboard = () => {
                 <button 
                   onClick={saveForm}
                   disabled={formSaving || uploadingImage}
-                  className="px-6 py-2 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(246,255,0,0.2)] flex items-center gap-2 disabled:opacity-50 disabled:scale-100 cursor-pointer"
+                  className="px-6 py-2 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255, 179, 0,0.2)] flex items-center gap-2 disabled:opacity-50 disabled:scale-100 cursor-pointer"
                 >
                   <FaSave />
                   {formSaving ? 'Saving...' : (editingId ? 'Update Plan' : 'Publish Plan')}
