@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
-import { BLOG_POSTS } from '../../services/mockData';
+
 import { FaBookOpen, FaUser, FaCalendarAlt, FaChevronRight } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
 
 export const Blog = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [blogs, setBlogs] = useState(BLOG_POSTS);
+  const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
     const unsubscribe = subscribeToCollection('blogs', (data) => {

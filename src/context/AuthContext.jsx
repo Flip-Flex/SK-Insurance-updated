@@ -6,13 +6,11 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  sendEmailVerification,
   setPersistence,
   browserLocalPersistence,
   browserSessionPersistence
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { initializeDatabaseCollections } from '../services/api';
 import { logger } from '../services/logger';
 
 const AuthContext = createContext();
@@ -24,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   // Seed default collections and listen to Auth state changes
   useEffect(() => {
     if (!isFirebaseConfigured) {
+      // Fallback sandbox mode logic
       setLoading(false);
       return;
     }
@@ -34,35 +33,52 @@ export const AuthProvider = ({ children }) => {
         try {
           // Fetch user profile doc from Firestore
           const userDocRef = doc(db, 'users', firebaseUser.uid);
-          const userDoc = await getDoc(userDocRef);
-          
           let profile = null;
-          if (userDoc.exists()) {
-            profile = userDoc.data();
-          } else {
+          
+          try {
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+              profile = userDoc.data();
+            }
+          } catch (readErr) {
+            console.warn('Firestore read failed, will create profile:', readErr.message);
+          }
+          
+          if (!profile) {
             const emailPart = firebaseUser.email.split('@')[0];
-            const detectedRole = 'manager';
-            
             profile = {
               username: emailPart,
               name: emailPart.replace('_', ' ').toUpperCase(),
-              role: detectedRole,
+              role: 'manager',
               email: firebaseUser.email,
               id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
             };
-            await setDoc(userDocRef, profile);
+            try {
+              await setDoc(userDocRef, profile);
+              console.log('Created new manager profile in Firestore');
+            } catch (writeErr) {
+              console.warn('Firestore write failed, using local profile:', writeErr.message);
+            }
           }
           
           profile.emailVerified = firebaseUser.emailVerified;
+          profile.uid = firebaseUser.uid;
           setUser(profile);
           logger.auth(`User signed in via Firebase`, true, { email: firebaseUser.email });
-
-          // Seed database if this user is an admin
-          if (profile.role === 'manager') {
-            await initializeDatabaseCollections();
-          }
         } catch (error) {
-          logger.error("Failed to fetch user Firestore profile on auth change", { error: error.message });
+          // Even if Firestore completely fails, still set a basic user so they can access dashboard
+          console.error("Auth state change error:", error.message);
+          const fallbackProfile = {
+            username: firebaseUser.email.split('@')[0],
+            name: firebaseUser.email.split('@')[0].toUpperCase(),
+            role: 'manager',
+            email: firebaseUser.email,
+            uid: firebaseUser.uid,
+            emailVerified: firebaseUser.emailVerified,
+            id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
+          };
+          setUser(fallbackProfile);
+          logger.error("Used fallback profile due to Firestore error", { error: error.message });
         }
       } else {
         setUser(null);
@@ -74,20 +90,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password, rememberMe = true) => {
-    const cleanedEmail = email.trim().toLowerCase();
-    logger.info(`Login attempt started`, { email: cleanedEmail });
-
-    // LOCAL DEV BYPASS
-    if (cleanedEmail === 'manager@mail.com' && password === 'manager@123') {
-      setUser({
-        username: 'manager',
-        name: 'LOCAL MANAGER',
-        role: 'manager',
-        email: 'manager@mail.com',
-        id: 'DEV-MANAGER'
-      });
-      return true;
+    let cleanedEmail = email.trim().toLowerCase();
+    
+    if (!cleanedEmail.includes('@')) {
+      cleanedEmail = `${cleanedEmail}@sksmart.com`;
     }
+
+    logger.info(`Login attempt started`, { email: cleanedEmail });
 
     if (!isFirebaseConfigured) {
       return 'Firebase is not configured.';
@@ -98,9 +107,44 @@ export const AuthProvider = ({ children }) => {
         auth, 
         rememberMe ? browserLocalPersistence : browserSessionPersistence
       );
-      await signInWithEmailAndPassword(auth, cleanedEmail, password);
+      const userCredential = await signInWithEmailAndPassword(auth, cleanedEmail, password);
+      
+      // Auth succeeded - try Firestore but don't fail login if it errors
+      try {
+        const userDocRef = doc(db, 'users', userCredential.user.uid);
+        const userDoc = await getDoc(userDocRef);
+        let profile;
+        if (userDoc.exists()) {
+          profile = userDoc.data();
+        } else {
+          profile = {
+            username: cleanedEmail.split('@')[0],
+            name: cleanedEmail.split('@')[0].toUpperCase(),
+            role: 'manager',
+            email: cleanedEmail,
+            id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
+          };
+          await setDoc(userDocRef, profile);
+        }
+        profile.emailVerified = userCredential.user.emailVerified;
+        profile.uid = userCredential.user.uid;
+        setUser(profile);
+      } catch (firestoreErr) {
+        console.warn('Firestore profile error during login, using fallback:', firestoreErr.message);
+        // Still set user with fallback profile so dashboard works
+        setUser({
+          username: cleanedEmail.split('@')[0],
+          name: cleanedEmail.split('@')[0].toUpperCase(),
+          role: 'manager',
+          email: cleanedEmail,
+          uid: userCredential.user.uid,
+          emailVerified: userCredential.user.emailVerified,
+          id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
+        });
+      }
       return true;
     } catch (error) {
+      logger.auth(`Original Login Error`, false, { error: error.code, message: error.message });
       logger.auth(`Firebase Authentication failed`, false, { email: cleanedEmail, error: error.message });
       return `Auth Error: ${error.message}`;
     }
@@ -113,12 +157,11 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
-      await sendEmailVerification(result.user);
       
       const profile = {
         username: email.split('@')[0],
         name: name,
-        role: 'customer',
+        role: 'manager',
         email: email,
         id: `CUST-${Math.floor(1000 + Math.random() * 9000)}`
       };
@@ -145,44 +188,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const sendVerificationEmail = async () => {
-    if (!isFirebaseConfigured) {
-      throw new Error('Firebase is not configured.');
-    }
-    if (auth.currentUser) {
-      try {
-        await sendEmailVerification(auth.currentUser);
-        logger.info("Sent email verification link via Firebase", { email: auth.currentUser.email });
-        return true;
-      } catch (error) {
-        logger.error("Failed to send email verification", { error: error.message });
-        throw error;
-      }
-    }
-    return false;
-  };
 
-  const switchRole = async (role) => {
-    logger.info(`Switching user session role`, { targetRole: role });
-    if (!isFirebaseConfigured) {
-      return;
-    }
-
-    if (auth.currentUser) {
-      try {
-        const userDocRef = doc(db, 'users', auth.currentUser.uid);
-        const updatedProfile = {
-          ...user,
-          role: role
-        };
-        await setDoc(userDocRef, updatedProfile, { merge: true });
-        setUser(updatedProfile);
-        logger.info(`Live user role switched in Firestore`, { uid: auth.currentUser.uid, role });
-      } catch (error) {
-        logger.error(`Failed to switch live user role in Firestore`, { error: error.message });
-      }
-    }
-  };
 
   const logout = async () => {
     logger.info(`User logout requested`);
@@ -203,10 +209,10 @@ export const AuthProvider = ({ children }) => {
       login, 
       register, 
       sendPasswordReset, 
-      sendVerificationEmail, 
-      switchRole, 
+      
       logout, 
       isAuthenticated: !!user, 
+      isManager: user?.role === 'manager', 
       loading 
     }}>
       {!loading && children}

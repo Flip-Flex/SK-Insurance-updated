@@ -445,7 +445,7 @@ export const ManagerDashboard = () => {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <div className="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="flex items-center justify-end gap-2 opacity-100 transition-opacity">
                               <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:bg-slate-700 hover:text-white transition-colors cursor-pointer" title="View">
                                 <FaEye className="text-xs" />
                               </button>

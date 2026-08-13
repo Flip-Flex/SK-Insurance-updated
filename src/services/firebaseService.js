@@ -118,9 +118,10 @@ export const uploadMediaFile = (file, folderPath = 'uploads') => {
       return;
     }
 
-    const fileExtension = file.name.split('.').pop();
-    const fileName = `${Date.now()}-${Math.floor(Math.random() * 10000)}.${fileExtension}`;
-    const storageRef = ref(storage, `${folderPath}/${fileName}`);
+    const fileName = file.name ? file.name : 'upload.jpg';
+    const fileExtension = fileName.split('.').pop();
+    const finalName = `${Date.now()}-${Math.floor(Math.random() * 10000)}.${fileExtension}`;
+    const storageRef = ref(storage, `${folderPath}/${finalName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on('state_changed', 

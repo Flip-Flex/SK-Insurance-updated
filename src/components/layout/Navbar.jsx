@@ -157,12 +157,6 @@ export const Navbar = () => {
             {/* Auth Buttons */}
             {isAuthenticated ? (
               <div className="flex items-center space-x-6">
-                <button
-                  onClick={() => navigate('/dashboard')}
-                  className={`text-[15px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent'}`}
-                >
-                  Dashboard
-                </button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -258,12 +252,6 @@ export const Navbar = () => {
                 </div>
                   {isAuthenticated ? (
                     <>
-                      <button
-                        onClick={() => { closeMenu(); setIsOpen(false); navigate('/dashboard'); }}
-                        className="w-full py-4 text-black dark:text-white font-medium text-[16px] cursor-pointer hover:text-brand-accent dark:hover:text-brand-accent transition-colors"
-                      >
-                        Dashboard
-                      </button>
                       <button
                         onClick={() => { closeMenu(); setIsOpen(false); logout(); }}
                         className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"

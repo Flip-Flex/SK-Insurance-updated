@@ -92,7 +92,7 @@ const ConditionChip = ({ label, checked, onChange }) => (
     onClick={() => onChange(!checked)}
     className={`px-4 py-2 rounded-lg text-xs font-bold border transition-all duration-200 ${
       checked
-        ? 'bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border-[#F6FF00]/50 dark:border-[#F6FF00]/40 text-[#C4CC00] dark:text-[#F6FF00]'
+        ? 'bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border-[#F6FF00]/50 dark:border-[#F6FF00]/40 text-[#F6FF00] dark:text-[#F6FF00]'
         : 'bg-white dark:bg-[#0A0A0A] border-black/10 dark:border-white/10 text-neutral-500 dark:text-neutral-400 hover:border-black/20 dark:hover:border-white/20 hover:text-neutral-800 dark:hover:text-neutral-200'
     }`}
   >
@@ -359,7 +359,7 @@ export const Calculator = () => {
         <div className="text-center mb-10">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-black dark:text-white">
-              Premium <span className="text-[#C4CC00] dark:text-[#F6FF00]">Calculator</span>
+              Premium <span className="text-[#F6FF00]">Calculator</span>
             </h1>
             <p className="text-neutral-500 dark:text-neutral-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
               Estimate your insurance premiums and investment returns instantly.
@@ -653,12 +653,12 @@ export const Calculator = () => {
                   <div className="mb-8 p-6 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
                     <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-widest font-bold mb-2">Future Value</p>
                     <div className="flex items-baseline justify-center text-black dark:text-white mb-2">
-                      <span className="text-xl font-bold text-[#C4CC00] dark:text-[#F6FF00] mr-1">₹</span>
+                      <span className="text-xl font-bold text-[#F6FF00] dark:text-[#F6FF00] mr-1">₹</span>
                       <span className="text-4xl md:text-5xl font-extrabold tracking-tight">
                         {sipResults.total > 10000000 ? (sipResults.total/10000000).toFixed(2) + 'Cr' : (sipResults.total/100000).toFixed(2) + 'L'}
                       </span>
                     </div>
-                    <p className="text-[10px] text-[#C4CC00] dark:text-[#F6FF00] uppercase tracking-widest font-bold px-3 py-1 rounded bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border border-[#F6FF00]/30 dark:border-[#F6FF00]/20 inline-block">
+                    <p className="text-[10px] text-[#F6FF00] dark:text-[#F6FF00] uppercase tracking-widest font-bold px-3 py-1 rounded bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 border border-[#F6FF00]/30 dark:border-[#F6FF00]/20 inline-block">
                       After {sipYears} Years
                     </p>
                   </div>
@@ -670,7 +670,7 @@ export const Calculator = () => {
                     </div>
                     <div className="flex justify-between items-center text-sm py-3 px-4 rounded-lg bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5">
                       <span className="text-neutral-500 dark:text-neutral-400">Est. Returns</span>
-                      <span className="font-bold text-[#C4CC00] dark:text-[#F6FF00]">₹{sipResults.gain.toLocaleString('en-IN')}</span>
+                      <span className="font-bold text-[#F6FF00] dark:text-[#F6FF00]">₹{sipResults.gain.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
 
@@ -694,7 +694,7 @@ export const Calculator = () => {
                   <div className="mb-8 p-6 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
                     <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-widest font-bold mb-2">Annual Premium</p>
                     <div className="flex items-baseline justify-center text-black dark:text-white mb-3">
-                      <span className="text-xl font-bold text-[#C4CC00] dark:text-[#F6FF00] mr-1">₹</span>
+                      <span className="text-xl font-bold text-[#F6FF00] dark:text-[#F6FF00] mr-1">₹</span>
                       <span className="text-5xl font-extrabold tracking-tight">
                         <AnimatedCounter value={healthBreakdown.annualPremium} />
                       </span>
@@ -761,7 +761,7 @@ export const Calculator = () => {
                       {category === 'travel' ? 'Total Trip Premium' : 'INR / Month'}
                     </p>
                     <div className="flex items-baseline justify-center text-black dark:text-white">
-                      <span className="text-xl font-bold text-[#C4CC00] dark:text-[#F6FF00] mr-1">₹</span>
+                      <span className="text-xl font-bold text-[#F6FF00] dark:text-[#F6FF00] mr-1">₹</span>
                       <span className="text-5xl font-extrabold tracking-tight">
                         <AnimatedCounter value={premium} />
                       </span>
@@ -842,7 +842,7 @@ export const Calculator = () => {
 
               {successBuy ? (
                 <div className="text-center py-8 relative z-10">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 text-[#C4CC00] dark:text-[#F6FF00] rounded-2xl mb-4">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#F6FF00]/15 dark:bg-[#F6FF00]/10 text-[#F6FF00] dark:text-[#F6FF00] rounded-2xl mb-4">
                     <FaUserCheck className="text-3xl" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-black dark:text-white mb-2">Activated!</h3>
@@ -863,7 +863,7 @@ export const Calculator = () => {
                     <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 mb-3 uppercase tracking-widest">Summary</p>
                     <div className="flex justify-between text-sm text-black dark:text-white font-bold mb-1">
                       <span>{category === 'sip' ? 'Monthly SIP' : 'Monthly Premium'}</span>
-                      <span className="text-[#C4CC00] dark:text-[#F6FF00]">₹{category === 'sip' ? sipMonthly.toLocaleString() : premium.toLocaleString()}</span>
+                      <span className="text-[#F6FF00] dark:text-[#F6FF00]">₹{category === 'sip' ? sipMonthly.toLocaleString() : premium.toLocaleString()}</span>
                     </div>
                   </div>
 

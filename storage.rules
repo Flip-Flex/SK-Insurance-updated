@@ -1,29 +1,33 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // Helper functions
-    function isAuthenticated() {
-      return request.auth != null;
+    
+    // Core Authorization
+    function isManager() {
+      return request.auth != null && 
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'manager';
     }
 
+    // Publicly Readable Assets
     match /gallery/{allPaths=**} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isManager();
     }
-
+    match /plans/{allPaths=**} {
+      allow read: if true;
+      allow write: if isManager();
+    }
     match /avatars/{allPaths=**} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isManager();
     }
 
+    // Private Business Assets
     match /claims/{allPaths=**} {
-      allow read: if isAuthenticated();
-      allow write: if isAuthenticated();
+      allow read, write: if isManager();
     }
-
     match /documents/{allPaths=**} {
-      allow read: if isAuthenticated();
-      allow write: if isAuthenticated();
+      allow read, write: if isManager();
     }
   }
 }

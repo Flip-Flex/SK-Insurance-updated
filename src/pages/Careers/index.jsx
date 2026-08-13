@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
-import { CAREERS } from '../../services/mockData';
+
 import { FaBriefcase, FaMapMarkerAlt, FaClock, FaCheckCircle, FaInbox } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
 import { db } from '../../config/firebase';
@@ -19,7 +19,7 @@ export const Careers = () => {
     hrEmail: 'careers@skinsurance.com'
   });
 
-  const [jobs, setJobs] = useState(CAREERS);
+  const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     // 1. Subscribe to careers list

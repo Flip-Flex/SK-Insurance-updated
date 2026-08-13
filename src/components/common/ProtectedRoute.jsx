@@ -3,8 +3,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Loader } from '../ui/Loader';
 
-export const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { isAuthenticated, loading, user } = useAuth();
+export const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading, isManager } = useAuth();
 
   if (loading) {
     return (
@@ -15,12 +15,10 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
   }
 
   if (!isAuthenticated) {
-    // Redirect unauthenticated clients to the Auth page
     return <Navigate to="/login" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.map(r => r.toLowerCase()).includes(user?.role?.toLowerCase())) {
-    // Role not authorized, redirect to safety
+  if (!isManager) {
     return <Navigate to="/" replace />;
   }
 

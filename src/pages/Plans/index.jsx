@@ -411,8 +411,15 @@ export const Plans = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: (idx % 3) * 0.1 }}
-                  className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 dark:hover:bg-[#111] p-6 flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none"
+                  className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 dark:hover:bg-[#111] flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden"
                 >
+                  {plan.thumbnailUrl && (
+                    <div className="w-full h-32 border-b border-black/10 dark:border-white/10 relative shrink-0">
+                      <img src={plan.thumbnailUrl} alt={plan.name || plan.title} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                    </div>
+                  )}
+                  <div className="p-6 flex flex-col flex-1">
                   {/* Card Header: Logo, Category, Compare Checkbox */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex gap-4 items-center">
@@ -489,6 +496,7 @@ export const Plans = () => {
                   <p className="text-xs text-black/40 dark:text-white/40 line-clamp-2 leading-relaxed">
                     {plan.description}
                   </p>
+                  </div>
                 </motion.div>
               );
             })}
@@ -650,9 +658,17 @@ export const Plans = () => {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="bg-gradient-to-b from-white to-[#FAFAF9] dark:from-[#151515] dark:to-[#0A0A0A] text-black dark:text-white rounded-2xl p-5 -m-6 relative overflow-hidden border border-black/5 dark:border-white/5 shadow-2xl transition-colors"
           >
-            {/* Decorative top glow and background effects */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-accent to-transparent opacity-70 dark:opacity-50" />
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand-accent/20 rounded-full blur-[80px] pointer-events-none" />
+            {(planDetailsModal.bannerUrl || planDetailsModal.thumbnailUrl) ? (
+              <div className="w-auto h-32 -mt-5 -mx-5 mb-5 relative shrink-0">
+                <img src={planDetailsModal.bannerUrl || planDetailsModal.thumbnailUrl} alt="Banner" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              </div>
+            ) : (
+              <>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-accent to-transparent opacity-70 dark:opacity-50" />
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand-accent/20 rounded-full blur-[80px] pointer-events-none" />
+              </>
+            )}
 
             <div className="flex justify-between items-start mb-4 relative z-10">
               <div className="w-20 h-10 bg-black/[0.03] dark:bg-white/5 rounded-lg flex items-center justify-center p-1.5 shadow-sm dark:shadow-lg ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">
