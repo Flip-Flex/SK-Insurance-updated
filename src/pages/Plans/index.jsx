@@ -267,10 +267,10 @@ export const Plans = () => {
       </section>
 
       {/* Filters (Categories & Insurers & Billing) */}
-      <section className="px-4 sm:px-8 max-w-7xl mx-auto pb-12 space-y-8">
+      <section className="px-4 sm:px-8 max-w-7xl mx-auto pb-12 space-y-6">
         
-        {/* Categories */}
-        <div className="flex overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 gap-2 hide-scrollbar whitespace-nowrap border-b border-black/5 dark:border-white/5">
+        {/* Categories - Desktop Tabs */}
+        <div className="hidden sm:flex overflow-x-auto pb-2 sm:mx-0 sm:px-0 gap-2 hide-scrollbar whitespace-nowrap border-b border-black/5 dark:border-white/5">
           {filterOptions.map((opt) => {
             const isActive = activeFilter === opt.value;
             return (
@@ -291,53 +291,85 @@ export const Plans = () => {
           })}
         </div>
 
-        {/* Insurers & Billing */}
+        {/* Filter Controls Row */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-          {/* Insurer Filter */}
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-black/40 dark:text-white/40 uppercase tracking-wider">Insurer</span>
-            <div className="relative">
-              <select
-                value={activeCompanyFilter}
-                onChange={(e) => setActiveCompanyFilter(e.target.value)}
-                className="appearance-none bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 text-black dark:text-white text-sm font-medium rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors"
-              >
-                {ALL_SIXTEEN_COMPANIES.map((comp) => (
-                  <option key={comp.value} value={comp.value}>
-                    {comp.label}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg className="w-4 h-4 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+          
+          <div className="grid grid-cols-2 sm:flex sm:flex-row w-full sm:w-auto gap-4">
+            
+            {/* Categories - Mobile Dropdown */}
+            <div className="block sm:hidden col-span-1">
+              <div className="flex flex-col gap-1.5 h-full">
+                <span className="text-[10px] font-bold text-black/40 dark:text-white/40 uppercase tracking-wider pl-1">Category</span>
+                <div className="relative h-full">
+                  <select
+                    value={activeFilter}
+                    onChange={(e) => setActiveFilter(e.target.value)}
+                    className="appearance-none w-full h-full min-h-[44px] bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 text-black dark:text-white text-xs font-bold rounded-lg px-3 py-2.5 pr-8 focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors shadow-sm"
+                  >
+                    {filterOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <svg className="w-4 h-4 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Insurer Filter */}
+            <div className="col-span-1">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 h-full justify-end sm:justify-start">
+                <span className="text-[10px] sm:text-xs font-bold text-black/40 dark:text-white/40 uppercase tracking-wider pl-1 sm:pl-0">Insurer</span>
+                <div className="relative w-full sm:w-auto h-full sm:h-auto">
+                  <select
+                    value={activeCompanyFilter}
+                    onChange={(e) => setActiveCompanyFilter(e.target.value)}
+                    className="appearance-none w-full h-full min-h-[44px] sm:h-auto sm:min-h-0 sm:w-auto bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 text-black dark:text-white text-xs sm:text-sm font-medium rounded-lg px-3 sm:px-4 py-2.5 pr-8 sm:pr-10 focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors"
+                  >
+                    {ALL_SIXTEEN_COMPANIES.map((comp) => (
+                      <option key={comp.value} value={comp.value}>
+                        {comp.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-2 sm:px-3 pointer-events-none">
+                    <svg className="w-4 h-4 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
 
           {/* Billing Toggle */}
-          <div className="flex items-center bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 p-1 rounded-lg transition-colors">
-            <button
-              onClick={() => handleToggle(true)}
-              className={cn(
-                "px-6 py-2 rounded-md text-xs font-bold transition-colors uppercase tracking-wider",
-                isMonthly ? "bg-black dark:bg-white text-white dark:text-black" : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
-              )}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => handleToggle(false)}
-              className={cn(
-                "px-6 py-2 rounded-md text-xs font-bold transition-colors uppercase tracking-wider flex items-center gap-2",
-                !isMonthly ? "bg-black dark:bg-white text-white dark:text-black" : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
-              )}
-            >
-              Annual
-              <span className={cn(
-                "px-1.5 py-0.5 rounded text-[9px]",
-                !isMonthly ? "text-brand-accent bg-white dark:bg-black" : "text-brand-accent"
-              )}>Save 20%</span>
-            </button>
+          <div className="w-full sm:w-auto flex justify-start sm:justify-end">
+            <div className="flex items-center w-full sm:w-auto bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 p-1 rounded-lg transition-colors">
+              <button
+                onClick={() => handleToggle(true)}
+                className={cn(
+                  "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-2 rounded-md text-[10px] sm:text-xs font-bold transition-colors uppercase tracking-wider",
+                  isMonthly ? "bg-black dark:bg-white text-white dark:text-black" : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
+                )}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => handleToggle(false)}
+                className={cn(
+                  "flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-2 rounded-md text-[10px] sm:text-xs font-bold transition-colors uppercase tracking-wider flex items-center justify-center gap-1.5 sm:gap-2",
+                  !isMonthly ? "bg-black dark:bg-white text-white dark:text-black" : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
+                )}
+              >
+                Annual
+                <span className={cn(
+                  "px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[9px]",
+                  !isMonthly ? "text-brand-accent bg-white dark:bg-black" : "text-brand-accent"
+                )}>Save 20%</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>

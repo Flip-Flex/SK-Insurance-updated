@@ -196,10 +196,10 @@ export const Navbar = () => {
               socialItems={[]}
               displaySocials={false}
               displayItemNumbering={false}
-              menuButtonColor={isTransparent ? "#000000" : "#ffffff"}
-              openMenuButtonColor="#000000"
+              menuButtonColor={isTransparent ? "#000000" : (isDarkMode ? "#ffffff" : "#000000")}
+              openMenuButtonColor={isDarkMode ? "#ffffff" : "#000000"}
               changeMenuColorOnOpen={true}
-              colors={['#111111', '#F6FF00']}
+              colors={isDarkMode ? ['#111111', '#F6FF00'] : ['#EAEAEA', '#F6FF00']}
               accentColor="#F6FF00"
               isFixed={true}
               onMenuOpen={() => setIsOpen(true)}
@@ -210,7 +210,7 @@ export const Navbar = () => {
                   <div className="flex items-center justify-center space-x-8 mb-6">
                     <button
                       onClick={toggleTheme}
-                      className="flex items-center justify-center text-[18px] font-bold transition-colors cursor-pointer text-black hover:text-brand-accent"
+                      className="flex items-center justify-center text-[18px] font-bold transition-colors cursor-pointer text-black dark:text-white hover:text-brand-accent dark:hover:text-brand-accent"
                       aria-label="Toggle Theme"
                     >
                       {isDarkMode ? <FaSun /> : <FaMoon />}
@@ -219,7 +219,7 @@ export const Navbar = () => {
                     <div className="relative flex justify-center">
                     <button
                       onClick={() => setShowLangDropdown(!showLangDropdown)}
-                      className="flex items-center space-x-2 text-[16px] font-bold transition-colors cursor-pointer text-black hover:text-brand-accent"
+                      className="flex items-center space-x-2 text-[16px] font-bold transition-colors cursor-pointer text-black dark:text-white hover:text-brand-accent dark:hover:text-brand-accent"
                     >
                       <FaGlobe className="text-[18px]" />
                       <span>{languages.find(l => l.code === currentLang)?.label || 'EN'}</span>
@@ -233,7 +233,7 @@ export const Navbar = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full mt-4 w-40 bg-white border border-black/10 rounded-[12px] shadow-xl z-50 overflow-hidden text-center"
+                          className="absolute top-full mt-4 w-40 bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-[12px] shadow-xl z-50 overflow-hidden text-center"
                         >
                           {languages.map((lang) => (
                             <button
@@ -245,7 +245,7 @@ export const Navbar = () => {
                               className={`w-full px-4 py-3 text-[15px] transition-colors text-center font-medium cursor-pointer ${
                                 currentLang === lang.code 
                                   ? 'text-brand-accent font-bold bg-brand-accent/10' 
-                                  : 'text-black hover:bg-neutral-100 hover:text-brand-accent'
+                                  : 'text-black dark:text-white hover:bg-neutral-100 dark:hover:bg-white/5 hover:text-brand-accent dark:hover:text-brand-accent'
                               }`}
                             >
                               {lang.name}
@@ -260,7 +260,7 @@ export const Navbar = () => {
                     <>
                       <button
                         onClick={() => { closeMenu(); setIsOpen(false); navigate('/dashboard'); }}
-                        className="w-full py-4 text-black font-medium text-[16px] cursor-pointer hover:text-brand-accent transition-colors"
+                        className="w-full py-4 text-black dark:text-white font-medium text-[16px] cursor-pointer hover:text-brand-accent dark:hover:text-brand-accent transition-colors"
                       >
                         Dashboard
                       </button>
@@ -275,7 +275,7 @@ export const Navbar = () => {
                     <>
                       <button
                         onClick={() => { closeMenu(); setIsOpen(false); navigate('/appointment'); }}
-                        className="w-full py-4 rounded-xl border border-white/20 text-white font-medium text-[16px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black active:scale-95"
+                        className="w-full py-4 rounded-xl bg-brand-accent hover:bg-[#E5ED00] text-black font-bold text-[16px] cursor-pointer transition-all duration-300 shadow-sm active:scale-95"
                       >
                         Get Quote
                       </button>

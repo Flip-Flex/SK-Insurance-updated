@@ -485,27 +485,27 @@ export const About = () => {
                 className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-10 lg:gap-16 items-center`}
               >
                 {/* Photo */}
-                <div className="w-1/2 sm:w-2/5 lg:w-1/3 shrink-0">
-                  <div className="relative aspect-square max-h-[360px] rounded-2xl overflow-hidden bg-stone-200 dark:bg-stone-900 group">
+                <div className="w-[85%] max-w-[320px] sm:max-w-none sm:w-2/5 lg:w-1/3 shrink-0 mx-auto lg:mx-0">
+                  <div className="relative aspect-square sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-stone-200 dark:bg-stone-900 group border border-stone-200/50 dark:border-white/10">
                     <img
                       src={person.src}
                       alt={person.name}
-                      className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
+                      className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute bottom-5 left-5 right-5">
-                      <h4 className="text-xl font-bold text-white">{person.name}</h4>
-                      <p className="text-sm text-brand-accent font-medium mt-0.5">{person.designation}</p>
-                    </div>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="w-full lg:w-7/12">
-                  <p className="text-lg sm:text-xl text-stone-600 dark:text-stone-300 leading-relaxed italic mb-8">
+                <div className="w-full lg:w-7/12 flex flex-col mt-4 lg:mt-0">
+                  <div className="mb-6 lg:mb-8 text-left">
+                    <h4 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mb-2">{person.name}</h4>
+                    <p className="text-sm font-bold text-brand-accent uppercase tracking-widest">{person.designation}</p>
+                  </div>
+                  
+                  <p className="text-lg sm:text-xl text-stone-600 dark:text-stone-300 leading-relaxed italic mb-8 text-left">
                     "{person.quote}"
                   </p>
-                  <div className="w-12 h-0.5 bg-brand-accent mb-8" />
+                  <div className="w-12 h-1 bg-brand-accent mb-8 rounded-full" />
 
                   {person.highlights && (
                     <div className="space-y-4">

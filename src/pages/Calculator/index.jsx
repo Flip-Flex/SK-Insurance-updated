@@ -367,32 +367,55 @@ export const Calculator = () => {
           </motion.div>
         </div>
 
-        {/* ── Tab Bar ── */}
-        <div className="flex justify-center mb-10 overflow-x-auto pb-4">
-          <div className="inline-flex gap-2 p-1.5 bg-white dark:bg-[#0A0A0A] rounded-xl border border-black/10 dark:border-white/10 shadow-sm dark:shadow-none">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              const isActive = category === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setCategory(cat.id)}
-                  className={`relative flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-lg whitespace-nowrap ${
-                    isActive ? 'text-black dark:text-black' : 'text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute inset-0 bg-[#F6FF00] dark:bg-[#F6FF00] rounded-lg"
-                      transition={{ type: "spring", stiffness: 400, damping: 35 }}
-                    />
-                  )}
-                  <Icon className={`text-sm relative z-10 ${isActive ? 'text-black dark:text-black' : ''}`} />
-                  <span className="relative z-10">{cat.label}</span>
-                </button>
-              );
-            })}
+        {/* ── Category Selection ── */}
+        <div className="mb-10">
+          {/* Mobile Dropdown */}
+          <div className="block sm:hidden w-full max-w-sm mx-auto">
+            <div className="relative">
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="appearance-none w-full bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 text-black dark:text-white text-sm font-bold rounded-xl px-4 py-3.5 pr-10 focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors shadow-sm"
+              >
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                <svg className="w-4 h-4 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Tabs */}
+          <div className="hidden sm:flex justify-center overflow-x-auto pb-4">
+            <div className="inline-flex gap-2 p-1.5 bg-white dark:bg-[#0A0A0A] rounded-xl border border-black/10 dark:border-white/10 shadow-sm dark:shadow-none">
+              {categories.map((cat) => {
+                const Icon = cat.icon;
+                const isActive = category === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setCategory(cat.id)}
+                    className={`relative flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-lg whitespace-nowrap ${
+                      isActive ? 'text-black dark:text-black' : 'text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute inset-0 bg-[#F6FF00] dark:bg-[#F6FF00] rounded-lg"
+                        transition={{ type: "spring", stiffness: 400, damping: 35 }}
+                      />
+                    )}
+                    <Icon className={`text-sm relative z-10 ${isActive ? 'text-black dark:text-black' : ''}`} />
+                    <span className="relative z-10">{cat.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -777,13 +800,13 @@ export const Calculator = () => {
       </div>
 
       {/* ── Mobile Sticky Output Bar ── */}
-      <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-[#0A0A0A] border-t border-black/10 dark:border-white/10 p-4 xl:hidden z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.08)] dark:shadow-none">
-        <div className="flex justify-between items-center max-w-7xl mx-auto">
-          <div>
-            <p className="text-[10px] text-neutral-400 dark:text-neutral-500 font-bold uppercase tracking-widest mb-1">
-              {category === 'sip' ? 'Est. Total Value' : category === 'health' ? 'Annual Premium' : category === 'travel' ? 'Trip Premium' : 'Est. Monthly Premium'}
+      <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-[#0A0A0A] border-t border-black/10 dark:border-white/10 p-4 pr-[88px] xl:hidden z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.08)] dark:shadow-none">
+        <div className="flex justify-between items-center max-w-7xl mx-auto gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] text-neutral-400 dark:text-neutral-500 font-bold uppercase tracking-widest mb-1 truncate">
+              {category === 'sip' ? 'Total Value' : category === 'health' ? 'Annual Prem' : category === 'travel' ? 'Trip Prem' : 'Monthly Prem'}
             </p>
-            <p className="text-xl font-extrabold text-black dark:text-white">
+            <p className="text-lg sm:text-xl font-extrabold text-black dark:text-white truncate">
               ₹{category === 'sip' 
                   ? sipResults.total.toLocaleString('en-IN') 
                   : category === 'health' 
@@ -793,7 +816,7 @@ export const Calculator = () => {
           </div>
           <button 
             onClick={() => setShowBuyModal(true)} 
-            className="bg-[#F6FF00] dark:bg-[#F6FF00] text-black px-6 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black"
+            className="flex-shrink-0 bg-[#F6FF00] dark:bg-[#F6FF00] text-black px-4 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-lg transition-colors hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black"
           >
             {category === 'sip' ? 'Setup SIP' : 'Secure Now'}
           </button>

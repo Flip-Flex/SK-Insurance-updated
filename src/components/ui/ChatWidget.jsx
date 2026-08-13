@@ -7,7 +7,6 @@ import { Button } from './Button';
 export const ChatWidget = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isCalculatorPage = location.pathname === '/calculator';
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'bot', text: 'Hello! I am your SK Smart Assistant. How can I help you today?', time: 'Just now' }
@@ -93,7 +92,7 @@ export const ChatWidget = () => {
   };
 
   return (
-    <div className={`fixed ${isCalculatorPage ? 'bottom-24 lg:bottom-28 right-4 lg:right-8' : 'bottom-6 right-6 lg:bottom-8 lg:right-8'} z-[9999] font-sans`}>
+    <div className="fixed bottom-6 right-6 lg:bottom-8 lg:right-8 z-[9999] font-sans">
       <AnimatePresence>
         {isOpen && (
           <motion.div

@@ -424,7 +424,7 @@ export const StaggeredMenu = ({
         <aside
           id="staggered-menu-panel"
           ref={panelRef}
-          className="staggered-menu-panel fixed top-0 right-0 h-screen w-full sm:w-[420px] bg-white flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 backdrop-blur-[12px] pointer-events-auto shadow-2xl"
+          className="staggered-menu-panel fixed top-0 right-0 h-screen w-full sm:w-[420px] bg-white dark:bg-[#0A0A0A] flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 backdrop-blur-[12px] pointer-events-auto shadow-2xl"
           style={{ WebkitBackdropFilter: 'blur(12px)' }}
           aria-hidden={!open}
         >
@@ -440,7 +440,7 @@ export const StaggeredMenu = ({
                   return (
                     <li className="sm-panel-itemWrap relative overflow-hidden leading-none" key={it.label + idx}>
                       <Link
-                        className={`sm-panel-item relative font-[900] text-2xl sm:text-3xl cursor-pointer leading-none tracking-tight uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em] mb-4 ${isActive ? 'text-brand-accent' : 'text-black'}`}
+                        className={`sm-panel-item relative font-[900] text-2xl sm:text-3xl cursor-pointer leading-none tracking-tight uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em] mb-4 ${isActive ? 'text-brand-accent' : 'text-black dark:text-white'}`}
                         to={it.link}
                         onClick={() => closeMenu()}
                         aria-label={it.ariaLabel}
@@ -455,7 +455,7 @@ export const StaggeredMenu = ({
                 })
               ) : (
                 <li className="sm-panel-itemWrap relative overflow-hidden leading-none" aria-hidden="true">
-                  <span className="sm-panel-item relative text-black font-semibold text-xl sm:text-2xl cursor-pointer leading-none tracking-tight uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]">
+                  <span className="sm-panel-item relative text-black dark:text-white font-semibold text-xl sm:text-2xl cursor-pointer leading-none tracking-tight uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]">
                     <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
                       No items
                     </span>
@@ -465,14 +465,14 @@ export const StaggeredMenu = ({
             </ul>
 
             {bottomContent && (
-              <div className="mt-8 border-t border-black/10 pt-8">
+              <div className="mt-8 border-t border-black/10 dark:border-white/10 pt-8">
                 {typeof bottomContent === 'function' ? bottomContent(closeMenu) : bottomContent}
               </div>
             )}
 
             {displaySocials && socialItems && socialItems.length > 0 && (
-              <div className="sm-socials mt-auto pt-8 flex flex-col gap-3 border-t border-black/10" aria-label="Social links">
-                <h3 className="sm-socials-title m-0 text-xs font-black tracking-widest uppercase text-black">Connect With Us</h3>
+              <div className="sm-socials mt-auto pt-8 flex flex-col gap-3 border-t border-black/10 dark:border-white/10" aria-label="Social links">
+                <h3 className="sm-socials-title m-0 text-xs font-black tracking-widest uppercase text-black dark:text-white">Connect With Us</h3>
                 <ul
                   className="sm-socials-list list-none m-0 p-0 flex flex-row items-center gap-6 flex-wrap"
                   role="list"
@@ -483,7 +483,7 @@ export const StaggeredMenu = ({
                         href={s.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="sm-socials-link text-sm font-bold uppercase tracking-wider text-black no-underline relative inline-block py-[2px] transition-[color,opacity] duration-300 ease-linear hover:text-brand-accent"
+                        className="sm-socials-link text-sm font-bold uppercase tracking-wider text-black dark:text-white no-underline relative inline-block py-[2px] transition-[color,opacity] duration-300 ease-linear hover:text-brand-accent dark:hover:text-brand-accent"
                       >
                         {s.label}
                       </a>
@@ -507,7 +507,7 @@ export const StaggeredMenu = ({
 .sm-scope .sm-panel-itemWrap { position: relative; overflow: hidden; line-height: 1; }
 .sm-scope .sm-icon-line { position: absolute; left: 50%; top: 50%; width: 100%; height: 2px; background: currentColor; border-radius: 2px; transform: translate(-50%, -50%); will-change: transform; }
 .sm-scope .sm-line { display: none !important; }
-.sm-scope .staggered-menu-panel { position: absolute; top: 0; right: 0; width: clamp(260px, 38vw, 420px); height: 100vh; background: white; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; padding: 6em 2em 2em 2em; overflow-y: auto; z-index: 10; pointer-events: auto; }
+.sm-scope .staggered-menu-panel { position: absolute; top: 0; right: 0; width: clamp(260px, 38vw, 420px); height: 100vh; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; padding: 6em 2em 2em 2em; overflow-y: auto; z-index: 10; pointer-events: auto; }
 .sm-scope [data-position='left'] .staggered-menu-panel { right: auto; left: 0; }
 .sm-scope .sm-prelayers { position: absolute; top: 0; right: 0; bottom: 0; width: clamp(260px, 38vw, 420px); pointer-events: none; z-index: 5; }
 .sm-scope [data-position='left'] .sm-prelayers { right: auto; left: 0; }
@@ -521,15 +521,15 @@ export const StaggeredMenu = ({
 .sm-scope .sm-socials-list .sm-socials-link:hover,
 .sm-scope .sm-socials-list .sm-socials-link:focus-visible { opacity: 1; }
 .sm-scope .sm-socials-link:focus-visible { outline: 2px solid var(--sm-accent, #ff0000); outline-offset: 3px; }
-.sm-scope .sm-socials-link { font-size: 1.2rem; font-weight: 500; color: #111; text-decoration: none; position: relative; padding: 2px 0; display: inline-block; transition: color 0.3s ease, opacity 0.3s ease; }
+.sm-scope .sm-socials-link { font-size: 1.2rem; font-weight: 500; text-decoration: none; position: relative; padding: 2px 0; display: inline-block; transition: color 0.3s ease, opacity 0.3s ease; }
 .sm-scope .sm-socials-link:hover { color: var(--sm-accent, #ff0000); }
-.sm-scope .sm-panel-title { margin: 0; font-size: 1rem; font-weight: 600; color: #fff; text-transform: uppercase; }
+.sm-scope .sm-panel-title { margin: 0; font-size: 1rem; font-weight: 600; text-transform: uppercase; }
 .sm-scope .sm-panel-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .sm-scope .sm-panel-item { position: relative; cursor: pointer; line-height: 1.2; text-transform: uppercase; transition: background 0.25s, color 0.25s; display: inline-block; text-decoration: none; }
 .sm-scope .sm-panel-itemLabel { display: inline-block; will-change: transform; transform-origin: 50% 100%; }
 .sm-scope .sm-panel-item:hover { color: var(--sm-accent, #ff0000); }
 .sm-scope .sm-panel-list[data-numbering] { counter-reset: smItem; }
-.sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; left: 100%; margin-left: 12px; font-size: 14px; font-weight: 700; color: #000; opacity: 0.3; letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
+.sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.1em; left: 100%; margin-left: 12px; font-size: 14px; font-weight: 700; opacity: 0.3; letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
 @media (max-width: 1024px) { .sm-scope .staggered-menu-panel, .sm-scope .sm-prelayers { width: 100vw; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
 @media (max-width: 640px) { .sm-scope .staggered-menu-panel, .sm-scope .sm-prelayers { width: 100vw; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
       `}</style>
