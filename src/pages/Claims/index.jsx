@@ -89,28 +89,28 @@ export const Claims = () => {
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
         <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">Need to Make a Claim?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-10 flex flex-col justify-between hover:border-brand-accent/60 dark:hover:border-brand-accent/50 hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group">
+          <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
             <div>
-              <div className="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-accent/20 transition-colors">
-                <FaHeartbeat className="text-xl text-black dark:text-white group-hover:text-[#FFB300] dark:group-hover:text-brand-accent transition-colors" />
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
+                <FaHeartbeat className="text-xl text-blue-600 dark:text-blue-400 transition-colors" />
               </div>
               <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Health Claim</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Hospitalisation, treatment, medical expenses</p>
             </div>
           </div>
-          <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-10 flex flex-col justify-between hover:border-brand-accent/60 dark:hover:border-brand-accent/50 hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group">
+          <div className="bg-red-50/50 dark:bg-red-900/10 border border-red-200 dark:border-red-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
             <div>
-              <div className="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-accent/20 transition-colors">
-                <FaCar className="text-xl text-black dark:text-white group-hover:text-[#FFB300] dark:group-hover:text-brand-accent transition-colors" />
+              <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
+                <FaCar className="text-xl text-red-600 dark:text-red-400 transition-colors" />
               </div>
               <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Motor Claim</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Accident, damage, theft</p>
             </div>
           </div>
-          <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-10 flex flex-col justify-between hover:border-brand-accent/60 dark:hover:border-brand-accent/50 hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group">
+          <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
             <div>
-              <div className="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-accent/20 transition-colors">
-                <FaShieldAlt className="text-xl text-black dark:text-white group-hover:text-[#FFB300] dark:group-hover:text-brand-accent transition-colors" />
+              <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
+                <FaShieldAlt className="text-xl text-emerald-600 dark:text-emerald-400 transition-colors" />
               </div>
               <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Life & Other Claims</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Life, home, travel and business</p>
@@ -218,14 +218,14 @@ export const Claims = () => {
         <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16 text-center">What Type of Claims Can We Help With?</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 dark:bg-white/10">
           {[
-            { title: 'Health', desc: 'Medical emergencies and hospitalisation.' },
-            { title: 'Life', desc: 'Death and critical illness claims.' },
-            { title: 'Motor', desc: 'Vehicle accidents, damage, or theft.' },
-            { title: 'Home', desc: 'Property damage and natural disasters.' },
-            { title: 'Travel', desc: 'Trip cancellations and medical emergencies abroad.' },
-            { title: 'Business', desc: 'Commercial liability and property claims.' },
+            { title: 'Health', desc: 'Medical emergencies and hospitalisation.', bgClass: 'bg-blue-50 dark:bg-blue-900/10' },
+            { title: 'Life', desc: 'Death and critical illness claims.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/10' },
+            { title: 'Motor', desc: 'Vehicle accidents, damage, or theft.', bgClass: 'bg-red-50 dark:bg-red-900/10' },
+            { title: 'Home', desc: 'Property damage and natural disasters.', bgClass: 'bg-amber-50 dark:bg-amber-900/10' },
+            { title: 'Travel', desc: 'Trip cancellations and medical emergencies abroad.', bgClass: 'bg-purple-50 dark:bg-purple-900/10' },
+            { title: 'Business', desc: 'Commercial liability and property claims.', bgClass: 'bg-stone-50 dark:bg-stone-900/10' },
           ].map((item, i) => (
-            <div key={i} className="bg-[#F7F7F5] dark:bg-black p-12 hover:bg-white dark:hover:bg-neutral-900 transition-colors flex flex-col justify-between">
+            <div key={i} className={`p-12 transition-colors flex flex-col justify-between ${item.bgClass}`}>
               <div>
                 <h3 className="text-2xl font-bold text-black dark:text-white mb-3">{item.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-400">{item.desc}</p>

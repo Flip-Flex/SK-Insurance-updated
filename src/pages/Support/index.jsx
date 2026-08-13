@@ -67,8 +67,8 @@ export const Support = () => {
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Fastest response time</p>
           </a>
 
-          <a href="mailto:skinvestments2025@gmail.com" className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 hover:border-black/30 dark:hover:border-white/20 hover:shadow-lg dark:hover:shadow-none transition-all group shadow-sm dark:shadow-none">
-            <div className="w-11 h-11 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-center text-black dark:text-white mb-5 group-hover:bg-black dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black transition-colors">
+          <a href="mailto:skinvestments2025@gmail.com" className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 hover:shadow-lg dark:hover:shadow-none transition-all group shadow-sm dark:shadow-none">
+            <div className="w-11 h-11 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400 mb-5 transition-colors">
               <FaEnvelope />
             </div>
             <h3 className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1.5">Email Address</h3>
@@ -76,8 +76,8 @@ export const Support = () => {
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Replies within 24 hrs</p>
           </a>
 
-          <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 hover:border-[#E1306C]/50 hover:shadow-lg dark:hover:shadow-none transition-all group shadow-sm dark:shadow-none">
-            <div className="w-11 h-11 rounded-xl bg-[#E1306C]/10 flex items-center justify-center text-[#E1306C] mb-5 group-hover:bg-[#E1306C] group-hover:text-white transition-colors">
+          <a href="https://www.instagram.com/sk_smartinvestments/" target="_blank" rel="noopener noreferrer" className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 hover:shadow-lg dark:hover:shadow-none transition-all group shadow-sm dark:shadow-none">
+            <div className="w-11 h-11 rounded-xl bg-[#E1306C] flex items-center justify-center text-white mb-5 transition-colors">
               <FaInstagram />
             </div>
             <h3 className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1.5">Instagram</h3>

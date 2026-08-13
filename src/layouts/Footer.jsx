@@ -24,21 +24,23 @@ export const Footer = () => {
               {t('footer_desc')} Elevating your financial security with premium, tailored insurance solutions.
             </p>
             <div className="flex space-x-4 pt-2">
-              {[
-                { icon: FaInstagram, url: "https://www.instagram.com/sk_smartinvestments/", color: "hover:text-pink-500 hover:border-pink-500/50 hover:bg-pink-500/10" },
-                { icon: FaLinkedin, url: "https://www.linkedin.com/company/sksmartinvestments/", color: "hover:text-blue-500 hover:border-blue-500/50 hover:bg-blue-500/10" },
-                { icon: FaWhatsapp, url: "https://wa.me/919994451300?text=Hi", color: "hover:text-emerald-500 hover:border-emerald-500/50 hover:bg-emerald-500/10" }
-              ].map((social, idx) => (
-                <a 
-                  key={idx}
-                  href={social.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className={`w-10 h-10 flex items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-400 transition-all duration-300 ${social.color}`}
-                >
-                  <social.icon className="text-lg" />
-                </a>
-              ))}
+              {
+                [
+                  { icon: FaInstagram, url: "https://www.instagram.com/sk_smartinvestments/", color: "text-pink-500 border-pink-500/50 bg-pink-500/10" },
+                  { icon: FaLinkedin, url: "https://www.linkedin.com/company/sksmartinvestments/", color: "text-blue-500 border-blue-500/50 bg-blue-500/10" },
+                  { icon: FaWhatsapp, url: "https://wa.me/919994451300?text=Hi", color: "hover:text-emerald-500 hover:border-emerald-500/50 hover:bg-emerald-500/10" }
+                ].map((item, idx) => (
+                  <a
+                    key={idx}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center transition-all duration-300 ${item.color} hover:scale-110`}
+                  >
+                    <item.icon className="text-base" />
+                  </a>
+                ))
+              }
             </div>
           </div>
 

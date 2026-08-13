@@ -74,10 +74,10 @@ export const PremiumEditorialStats = ({ stats: propStats }: { stats?: Stat[] }) 
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-12 sm:gap-0 py-10 border-y border-black/10 dark:border-white/10 mt-12"
+        className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 md:gap-0 py-16 border-y border-black/10 dark:border-white/10 mt-16"
       >
         {propStats && propStats.map((s, i) => (
-          <div key={i} className={`flex flex-col items-center text-center flex-1 w-full ${i !== propStats.length - 1 ? 'sm:border-r border-black/10 dark:border-white/10' : ''}`}>
+          <div key={i} className={`flex flex-col items-center text-center flex-1 w-full px-4 sm:px-8 ${i !== propStats.length - 1 ? 'md:border-r border-black/10 dark:border-white/10' : ''}`}>
             <div className="text-4xl sm:text-5xl font-black text-black dark:text-white tabular-nums tracking-tight mb-2">
               {s.to !== undefined ? <Counter from={0} to={s.to} prefix={s.prefix || ''} suffix={s.suffix || ''} /> : s.number}
             </div>

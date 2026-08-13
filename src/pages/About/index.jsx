@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, useInView } from 'framer-motion';
 import { FaAward, FaShieldAlt, FaUsers, FaChartLine, FaTimes, FaSearchPlus, FaLinkedin, FaInstagram, FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
@@ -143,25 +144,25 @@ export const About = () => {
   }, []);
 
   const principles = [
-    { title: 'Absolute Transparency', desc: 'Zero hidden clauses, clear deductible guides, and upfront premium definitions for total peace of mind.', icon: FaShieldAlt, hoverBg: 'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-500/30', iconHover: 'group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 group-hover:text-blue-600 dark:group-hover:text-blue-400' },
-    { title: 'Actuarial Precision', desc: 'Goal-based wealth planners and SIP calculators designed using real-time market data indexes.', icon: FaChartLine, hoverBg: 'hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-200 dark:hover:border-emerald-500/30', iconHover: 'group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/40 group-hover:text-emerald-600 dark:group-hover:text-emerald-400' },
-    { title: 'Community Advocacy', desc: 'Providing Kanchipuram and wider Tamil Nadu with local, accessible, and personalized financial coaching.', icon: FaUsers, hoverBg: 'hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-200 dark:hover:border-amber-500/30', iconHover: 'group-hover:bg-amber-100 dark:group-hover:bg-amber-900/40 group-hover:text-amber-600 dark:group-hover:text-amber-400' },
-    { title: 'Dedicated Claims Desk', desc: 'Pre-sales advice and full post-sales filing support to ensure maximum claim clearance rates.', icon: FaAward, hoverBg: 'hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:border-purple-200 dark:hover:border-purple-500/30', iconHover: 'group-hover:bg-purple-100 dark:group-hover:bg-purple-900/40 group-hover:text-purple-600 dark:group-hover:text-purple-400' }
+    { title: 'Absolute Transparency', desc: 'Zero hidden clauses, clear deductible guides, and upfront premium definitions for total peace of mind.', icon: FaShieldAlt, hoverBg: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-500/30', iconHover: 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' },
+    { title: 'Actuarial Precision', desc: 'Goal-based wealth planners and SIP calculators designed using real-time market data indexes.', icon: FaChartLine, hoverBg: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30', iconHover: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' },
+    { title: 'Community Advocacy', desc: 'Providing Kanchipuram and wider Tamil Nadu with local, accessible, and personalized financial coaching.', icon: FaUsers, hoverBg: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-500/30', iconHover: 'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400' },
+    { title: 'Dedicated Claims Desk', desc: 'Pre-sales advice and full post-sales filing support to ensure maximum claim clearance rates.', icon: FaAward, hoverBg: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30', iconHover: 'bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400' }
   ];
 
   const milestones = [
-    { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.', colorClass: 'bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]', bgTextClass: 'group-hover:text-blue-500/10 dark:group-hover:text-blue-400/10' },
-    { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).', colorClass: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]', bgTextClass: 'group-hover:text-emerald-500/10 dark:group-hover:text-emerald-400/10' },
-    { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.', colorClass: 'bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400 group-hover:bg-amber-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(245,158,11,0.4)]', bgTextClass: 'group-hover:text-amber-500/10 dark:group-hover:text-amber-400/10' },
-    { year: '2025', title: 'MD Plaza HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.', colorClass: 'bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 group-hover:bg-purple-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]', bgTextClass: 'group-hover:text-purple-500/10 dark:group-hover:text-purple-400/10' }
+    { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.', colorClass: 'bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400', bgTextClass: 'text-blue-500/10 dark:text-blue-400/10', cardBgClass: 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-500/20' },
+    { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).', colorClass: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400', bgTextClass: 'text-emerald-500/10 dark:text-emerald-400/10', cardBgClass: 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-500/20' },
+    { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.', colorClass: 'bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400', bgTextClass: 'text-amber-500/10 dark:text-amber-400/10', cardBgClass: 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-500/20' },
+    { year: '2025', title: 'MD Plaza HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.', colorClass: 'bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400', bgTextClass: 'text-purple-500/10 dark:text-purple-400/10', cardBgClass: 'bg-purple-50 dark:bg-purple-900/10 border-purple-200 dark:border-purple-500/20' }
   ];
 
   const missions = [
-    { title: 'Personalized Solutions', text: 'Deliver tailored insurance and financial solutions to individual needs.', hoverBg: 'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-500/30' },
-    { title: 'Premium Products', text: 'Offer products from leading insurance companies with competitive pricing.', hoverBg: 'hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-500/30' },
-    { title: 'Expert Guidance', text: 'Simplify insurance through honest advice and professional guidance.', hoverBg: 'hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-200 dark:hover:border-emerald-500/30' },
-    { title: 'Seamless Support', text: 'Ensure quick policy issuance and seamless renewal support.', hoverBg: 'hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-200 dark:hover:border-amber-500/30' },
-    { title: 'Claims Advocacy', text: 'Provide dedicated claims assistance until successful settlement.', hoverBg: 'hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:border-purple-200 dark:hover:border-purple-500/30' }
+    { title: 'Personalized Solutions', text: 'Deliver tailored insurance and financial solutions to individual needs.', bgClass: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-500/30' },
+    { title: 'Premium Products', text: 'Offer products from leading insurance companies with competitive pricing.', bgClass: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-500/30' },
+    { title: 'Expert Guidance', text: 'Simplify insurance through honest advice and professional guidance.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30' },
+    { title: 'Seamless Support', text: 'Ensure quick policy issuance and seamless renewal support.', bgClass: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-500/30' },
+    { title: 'Claims Advocacy', text: 'Provide dedicated claims assistance until successful settlement.', bgClass: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30' }
   ];
 
   return (
@@ -337,7 +338,7 @@ export const About = () => {
               {missions.map((m, i) => (
                 <div
                   key={i}
-                  className={`group bg-stone-50 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-xl p-6 transition-colors duration-300 flex flex-col ${m.hoverBg}`}
+                  className={`group border rounded-xl p-6 transition-colors duration-300 flex flex-col ${m.bgClass}`}
                 >
                   <span className="text-3xl font-black text-brand-accent/20 dark:text-brand-accent/10 tabular-nums mb-3 group-hover:text-brand-accent/40 transition-colors">0{i + 1}</span>
                   <h4 className="text-base font-bold text-stone-900 dark:text-white leading-tight mb-3">{m.title}</h4>
@@ -369,10 +370,10 @@ export const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className={`group relative bg-white dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-2xl p-8 transition-all duration-400 ${p.hoverBg}`}
+                className={`group relative rounded-2xl p-8 border transition-all duration-400 ${p.hoverBg}`}
               >
                 <div className="flex items-start gap-5">
-                  <div className={`w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-300 text-xl shrink-0 transition-colors duration-400 ${p.iconHover}`}>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 transition-colors duration-400 ${p.iconHover}`}>
                     <Icon />
                   </div>
                   <div>
@@ -403,7 +404,7 @@ export const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group relative bg-white dark:bg-stone-900/60 p-8 lg:p-10 rounded-[2rem] border border-stone-200 dark:border-stone-800 hover:border-brand-accent/50 transition-all duration-300 shadow-sm overflow-hidden flex flex-col"
+                className={`group relative p-8 lg:p-10 rounded-[2rem] border transition-all duration-300 shadow-sm overflow-hidden flex flex-col ${m.cardBgClass}`}
               >
                 {/* Huge Faded Year Background */}
                 <div className={`absolute -bottom-4 -right-4 text-[110px] font-black text-stone-100 dark:text-stone-800/30 transition-colors duration-500 pointer-events-none select-none leading-none z-0 ${m.bgTextClass}`}>
@@ -539,8 +540,8 @@ export const About = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
             {/* Instagram */}
             <Hover3DCard href="https://www.instagram.com/sk_smartinvestments/" className="w-full rounded-xl">
-              <div className="flex items-center gap-4 p-5 bg-white dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-xl group-hover:border-pink-400/50 dark:group-hover:border-pink-500/30 transition-colors duration-400 h-full">
-                <div className="w-11 h-11 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-500 group-hover:bg-gradient-to-br group-hover:from-[#833ab4] group-hover:via-[#fd1d1d] group-hover:to-[#fcb045] group-hover:text-white transition-all duration-500 text-xl shrink-0">
+              <div className="flex items-center gap-4 p-5 bg-white dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-xl transition-colors duration-400 h-full">
+                <div className="w-11 h-11 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] transition-all duration-500 text-xl shrink-0">
                   <FaInstagram />
                 </div>
                 <div>
@@ -553,8 +554,8 @@ export const About = () => {
 
             {/* LinkedIn */}
             <Hover3DCard href="https://www.linkedin.com/company/sksmartinvestments/" className="w-full rounded-xl">
-              <div className="flex items-center gap-4 p-5 bg-white dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-xl group-hover:border-[#0077b5]/40 dark:group-hover:border-[#0077b5]/30 transition-colors duration-400 h-full">
-                <div className="w-11 h-11 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-500 group-hover:bg-[#0077b5] group-hover:text-white transition-all duration-500 text-xl shrink-0">
+              <div className="flex items-center gap-4 p-5 bg-white dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-xl transition-colors duration-400 h-full">
+                <div className="w-11 h-11 rounded-lg flex items-center justify-center text-white bg-[#0077b5] transition-all duration-500 text-xl shrink-0">
                   <FaLinkedin />
                 </div>
                 <div>
@@ -585,10 +586,10 @@ export const About = () => {
             <p className="text-base text-stone-400 max-w-lg mx-auto mb-8">
               Let's build your financial journey together with absolute transparency and unwavering trust.
             </p>
-            <button className="inline-flex items-center gap-3 bg-brand-accent text-stone-900 font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:scale-105 hover:shadow-lg transition-all duration-300">
-              Book Consultation
+            <Link to="/appointment" className="inline-flex items-center gap-3 bg-brand-accent text-stone-900 font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:scale-105 hover:shadow-lg transition-all duration-300">
+              Book a Free Financial Advisory
               <FaArrowRight className="text-xs" />
-            </button>
+            </Link>
           </div>
         </motion.div>
       </section>

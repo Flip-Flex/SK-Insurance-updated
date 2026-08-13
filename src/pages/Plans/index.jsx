@@ -64,15 +64,15 @@ const PlanSkeleton = () => (
   </div>
 );
 
-// Dynamic pastel hover background based on category
-const getCategoryHoverGlow = (category) => {
+// Dynamic pastel background based on category
+const getCategoryGlow = (category) => {
   const cat = (category || '').toLowerCase();
-  if (cat.includes('health')) return 'group-hover/card:bg-red-100 dark:group-hover/card:bg-red-500/10';
-  if (cat.includes('motor') || cat.includes('vehicle')) return 'group-hover/card:bg-blue-100 dark:group-hover/card:bg-blue-500/10';
-  if (cat.includes('life')) return 'group-hover/card:bg-emerald-100 dark:group-hover/card:bg-emerald-500/10';
-  if (cat.includes('home')) return 'group-hover/card:bg-amber-100 dark:group-hover/card:bg-amber-500/10';
-  if (cat.includes('travel')) return 'group-hover/card:bg-purple-100 dark:group-hover/card:bg-purple-500/10';
-  return 'group-hover/card:bg-stone-100 dark:group-hover/card:bg-stone-500/10';
+  if (cat.includes('health')) return 'bg-red-100 dark:bg-red-500/10';
+  if (cat.includes('motor') || cat.includes('vehicle')) return 'bg-blue-100 dark:bg-blue-500/10';
+  if (cat.includes('life')) return 'bg-emerald-100 dark:bg-emerald-500/10';
+  if (cat.includes('home')) return 'bg-amber-100 dark:bg-amber-500/10';
+  if (cat.includes('travel')) return 'bg-purple-100 dark:bg-purple-500/10';
+  return 'bg-orange-50 dark:bg-orange-500/10';
 };
 
 export const Plans = () => {
@@ -423,9 +423,9 @@ export const Plans = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: (idx % 3) * 0.1 }}
-                  className="rounded-xl border border-black/10 dark:border-white/10 bg-stone-50 dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 dark:hover:bg-[#111] flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden group/card"
+                  className="rounded-xl border border-black/10 dark:border-white/10 dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden group/card"
                 >
-                  <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getCategoryHoverGlow(plan.categoryTag || plan.category)}`} />
+                  <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getCategoryGlow(plan.categoryTag || plan.category)}`} />
                   {plan.thumbnailUrl && (
                     <div className="w-full h-32 border-b border-black/10 dark:border-white/10 relative shrink-0 z-10">
                       <img src={plan.thumbnailUrl} alt={plan.name || plan.title} className="w-full h-full object-cover" />

@@ -6,10 +6,10 @@ import { SimpleCard } from './SimpleCard';
 export const StickyStackedCards = () => {
   const { t } = useTranslation();
   const eduCards = [
-    { icon: FaShieldAlt, title: t('card_1_title'), desc: t('card_1_desc'), colorClass: 'group-hover:text-blue-500 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]', bgHoverClass: 'group-hover:bg-blue-100 dark:group-hover:bg-blue-500/10' },
-    { icon: FaHeartbeat, title: t('card_2_title'), desc: t('card_2_desc'), colorClass: 'group-hover:text-red-500 group-hover:drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]', bgHoverClass: 'group-hover:bg-red-100 dark:group-hover:bg-red-500/10' },
-    { icon: FaUserShield, title: t('card_3_title'), desc: t('card_3_desc'), colorClass: 'group-hover:text-emerald-500 group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]', bgHoverClass: 'group-hover:bg-emerald-100 dark:group-hover:bg-emerald-500/10' },
-    { icon: FaCar, title: t('card_4_title'), desc: t('card_4_desc'), colorClass: 'group-hover:text-amber-500 group-hover:drop-shadow-[0_0_15px_rgba(245,158,11,0.8)]', bgHoverClass: 'group-hover:bg-amber-100 dark:group-hover:bg-amber-500/10' },
+    { icon: FaShieldAlt, title: t('card_1_title'), desc: t('card_1_desc'), colorClass: 'text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]', bgHoverClass: 'bg-blue-50 dark:bg-blue-900/10' },
+    { icon: FaHeartbeat, title: t('card_2_title'), desc: t('card_2_desc'), colorClass: 'text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]', bgHoverClass: 'bg-red-50 dark:bg-red-900/10' },
+    { icon: FaUserShield, title: t('card_3_title'), desc: t('card_3_desc'), colorClass: 'text-emerald-500 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]', bgHoverClass: 'bg-emerald-50 dark:bg-emerald-900/10' },
+    { icon: FaCar, title: t('card_4_title'), desc: t('card_4_desc'), colorClass: 'text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]', bgHoverClass: 'bg-amber-50 dark:bg-amber-900/10' },
   ];
 
   return (

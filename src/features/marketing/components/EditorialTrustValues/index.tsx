@@ -56,14 +56,22 @@ export const EditorialTrustValues = ({ values }) => {
           animate={isInView ? "visible" : "hidden"}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
         >
-          {values.map((val, idx) => (
+          {values.map((val, idx) => {
+            const colors = [
+              { bg: 'from-blue-500/10 dark:from-blue-500/20', iconBg: 'bg-blue-50 dark:bg-blue-900/20', iconBorder: 'border-blue-200 dark:border-blue-500/30', iconColor: 'text-blue-600 dark:text-blue-400' },
+              { bg: 'from-emerald-500/10 dark:from-emerald-500/20', iconBg: 'bg-emerald-50 dark:bg-emerald-900/20', iconBorder: 'border-emerald-200 dark:border-emerald-500/30', iconColor: 'text-emerald-600 dark:text-emerald-400' },
+              { bg: 'from-amber-500/10 dark:from-amber-500/20', iconBg: 'bg-amber-50 dark:bg-amber-900/20', iconBorder: 'border-amber-200 dark:border-amber-500/30', iconColor: 'text-amber-600 dark:text-amber-400' },
+            ];
+            const color = colors[idx % colors.length];
+
+            return (
             <motion.div
               key={idx}
               variants={itemVariants}
-              className="group relative flex flex-col items-start p-10 lg:p-12 bg-white dark:bg-[#111] rounded-[2.5rem] border border-black/5 dark:border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] hover:border-brand-accent/50 transition-all duration-500 overflow-hidden"
+              className="group relative flex flex-col items-start p-10 lg:p-12 bg-white dark:bg-[#111] rounded-[2.5rem] border border-black/5 dark:border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] transition-all duration-500 overflow-hidden"
             >
-              {/* Subtle background glow on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              {/* Subtle background glow */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${color.bg} to-transparent pointer-events-none`} />
 
               {/* Large faded background number */}
               <div className="absolute top-4 right-6 lg:top-6 lg:right-8 text-[90px] lg:text-[110px] font-black text-black/[0.03] dark:text-white/[0.03] pointer-events-none leading-none select-none transition-transform duration-500 group-hover:scale-110 group-hover:-translate-x-4 group-hover:translate-y-4">
@@ -72,7 +80,7 @@ export const EditorialTrustValues = ({ values }) => {
 
               {/* Icon */}
               {val.icon && (
-                <div className="relative mb-10 w-16 h-16 flex items-center justify-center rounded-2xl bg-neutral-100 dark:bg-neutral-900 border border-black/10 dark:border-white/10 text-black dark:text-white group-hover:scale-110 group-hover:bg-brand-accent group-hover:text-black group-hover:border-brand-accent transition-all duration-500 shadow-sm">
+                <div className={`relative mb-10 w-16 h-16 flex items-center justify-center rounded-2xl ${color.iconBg} border ${color.iconBorder} ${color.iconColor} shadow-sm transition-transform duration-500 group-hover:scale-110`}>
                   <val.icon className="text-2xl" />
                 </div>
               )}
@@ -85,7 +93,8 @@ export const EditorialTrustValues = ({ values }) => {
                 {val.description}
               </p>
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
 
       </div>
