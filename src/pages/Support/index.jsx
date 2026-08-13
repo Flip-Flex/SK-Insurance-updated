@@ -22,22 +22,22 @@ export const Support = () => {
         <div className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-brand-accent/10 dark:bg-brand-accent/5 rounded-full blur-[120px] pointer-events-none" />
         <motion.div 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-          className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-end"
+          className="relative z-10 flex flex-col items-center text-center gap-8 max-w-3xl mx-auto"
         >
-          <div className="lg:col-span-8">
+          <div>
             <span className="text-xs text-[#FFB300] dark:text-[#FFB300] uppercase tracking-widest font-bold">We're Here to Help</span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl uppercase font-black text-black dark:text-white tracking-tight mt-4 leading-[1.05]">
               TALK TO A REAL<br />INSURANCE ADVISOR.
             </h1>
-            <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-medium max-w-xl mt-6">
-              {t('support_subtitle') || 'Whether it\'s a quick question, a claims concern, or planning your next policy — our team responds fast and explains things clearly.'}
+            <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-medium max-w-xl mx-auto mt-6">
+              {t('support_subtitle') || 'Browse our frequently asked questions, log a support ticket, or connect with our support underwriting agents directly.'}
             </p>
           </div>
-          <div className="lg:col-span-4 flex lg:justify-end">
+          <div>
             <a 
               href="https://wa.me/919994451300?text=Hi%20SK%20Smart%20Investments%2C%20I%20have%20a%20query%20about%20your%20services."
               target="_blank" rel="noopener noreferrer"
-              className="w-full lg:w-auto px-8 py-5 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-[#FFB300] dark:hover:bg-[#FFB300] hover:text-black transition-colors flex items-center justify-center gap-3 shadow-lg dark:shadow-none"
+              className="w-full sm:w-auto px-8 py-5 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-[#25D366] dark:hover:bg-[#25D366] hover:text-white dark:hover:text-white hover:shadow-[0_0_20px_rgba(37,211,102,0.6)] transition-all duration-300 flex items-center justify-center gap-3 shadow-lg dark:shadow-none"
             >
               <FaWhatsapp className="text-base" /> Chat With Us Now
             </a>

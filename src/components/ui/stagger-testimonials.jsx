@@ -71,11 +71,7 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
         <div className="absolute top-0 left-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white dark:from-neutral-1000 to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 right-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white dark:from-neutral-1000 to-transparent z-10 pointer-events-none" />
         
-        <motion.div 
-          className="flex w-max"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
-        >
+        <div className="flex w-max animate-marquee">
           {/* First Set */}
           <div className="flex gap-6 pr-6">
             {testimonials.map((testimonial, index) => (
@@ -145,7 +141,7 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </div>

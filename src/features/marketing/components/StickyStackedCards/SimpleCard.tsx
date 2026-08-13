@@ -8,6 +8,7 @@ interface CardData {
   title: string;
   desc: string;
   colorClass?: string;
+  bgHoverClass?: string;
 }
 
 interface SimpleCardProps {
@@ -38,9 +39,10 @@ export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
       <motion.div 
         layoutId={layoutId}
         onClick={() => setIsOpen(true)}
-        className="w-full aspect-square md:aspect-auto md:h-full rounded-[24px] p-6 sm:p-8 border border-black/[0.05] dark:border-white/[0.08] flex flex-col bg-white/80 dark:bg-[#18181b]/80 backdrop-blur-[20px] cursor-pointer hover:bg-white/95 dark:hover:bg-[#18181b]/95 transition-all group hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+        className="w-full relative aspect-square md:aspect-auto md:h-full rounded-[24px] p-6 sm:p-8 border border-black/[0.05] dark:border-white/[0.08] flex flex-col bg-stone-50/90 dark:bg-[#18181b]/80 backdrop-blur-[20px] cursor-pointer transition-all duration-500 group hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] overflow-hidden"
       >
-        <div className="flex flex-col items-start w-full h-full">
+        <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-[24px] ${card.bgHoverClass || ''}`} />
+        <div className="flex flex-col items-start w-full h-full relative z-10">
           <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white rounded-[16px] inline-block mb-6 shadow-sm transition-all duration-300">
             <card.icon className={`text-3xl lg:text-4xl text-black dark:text-white transition-all duration-300 ${card.colorClass || ''}`} />
           </motion.div>

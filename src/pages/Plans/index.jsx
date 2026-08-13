@@ -58,11 +58,22 @@ const PlanSkeleton = () => (
       <div className="w-4/5 h-3 bg-black/5 dark:bg-white/10 rounded"></div>
     </div>
     <div className="flex gap-4">
-      <div className="w-1/2 h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
-      <div className="w-1/2 h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
+      <div className="flex-1 h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
+      <div className="flex-1 h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
     </div>
   </div>
 );
+
+// Dynamic pastel hover background based on category
+const getCategoryHoverGlow = (category) => {
+  const cat = (category || '').toLowerCase();
+  if (cat.includes('health')) return 'group-hover/card:bg-red-100 dark:group-hover/card:bg-red-500/10';
+  if (cat.includes('motor') || cat.includes('vehicle')) return 'group-hover/card:bg-blue-100 dark:group-hover/card:bg-blue-500/10';
+  if (cat.includes('life')) return 'group-hover/card:bg-emerald-100 dark:group-hover/card:bg-emerald-500/10';
+  if (cat.includes('home')) return 'group-hover/card:bg-amber-100 dark:group-hover/card:bg-amber-500/10';
+  if (cat.includes('travel')) return 'group-hover/card:bg-purple-100 dark:group-hover/card:bg-purple-500/10';
+  return 'group-hover/card:bg-stone-100 dark:group-hover/card:bg-stone-500/10';
+};
 
 export const Plans = () => {
   const { t } = useTranslation();
@@ -412,15 +423,16 @@ export const Plans = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: (idx % 3) * 0.1 }}
-                  className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 dark:hover:bg-[#111] flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden"
+                  className="rounded-xl border border-black/10 dark:border-white/10 bg-stone-50 dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 dark:hover:bg-[#111] flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden group/card"
                 >
+                  <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getCategoryHoverGlow(plan.categoryTag || plan.category)}`} />
                   {plan.thumbnailUrl && (
-                    <div className="w-full h-32 border-b border-black/10 dark:border-white/10 relative shrink-0">
+                    <div className="w-full h-32 border-b border-black/10 dark:border-white/10 relative shrink-0 z-10">
                       <img src={plan.thumbnailUrl} alt={plan.name || plan.title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                     </div>
                   )}
-                  <div className="p-6 flex flex-col flex-1">
+                  <div className="p-6 flex flex-col flex-1 relative z-10">
                   {/* Card Header: Logo, Category, Compare Checkbox */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex gap-4 items-center">
@@ -649,111 +661,94 @@ export const Plans = () => {
         isOpen={!!planDetailsModal}
         onClose={() => setPlanDetailsModal(null)}
         title=""
-        size="md"
+        size="xl"
       >
         {planDetailsModal && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="bg-gradient-to-b from-white to-[#FAFAF9] dark:from-[#151515] dark:to-[#0A0A0A] text-black dark:text-white rounded-2xl p-5 -m-6 relative overflow-hidden border border-black/5 dark:border-white/5 shadow-2xl transition-colors"
-          >
-            {(planDetailsModal.bannerUrl || planDetailsModal.thumbnailUrl) ? (
-              <div className="w-auto h-32 -mt-5 -mx-5 mb-5 relative shrink-0">
-                <img src={planDetailsModal.bannerUrl || planDetailsModal.thumbnailUrl} alt="Banner" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              </div>
-            ) : (
-              <>
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-accent to-transparent opacity-70 dark:opacity-50" />
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand-accent/20 rounded-full blur-[80px] pointer-events-none" />
-              </>
-            )}
-
-            <div className="flex justify-between items-start mb-4 relative z-10">
-              <div className="w-20 h-10 bg-black/[0.03] dark:bg-white/5 rounded-lg flex items-center justify-center p-1.5 shadow-sm dark:shadow-lg ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">
-                <CompanyLogo company={planDetailsModal.company} />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent bg-brand-accent/10 border border-brand-accent/30 dark:border-brand-accent/20 px-2.5 py-1 rounded-lg backdrop-blur-md">
-                {planDetailsModal.categoryTag || planDetailsModal.category}
-              </span>
-            </div>
+          <div className="flex flex-col md:flex-row gap-8 md:gap-10 text-black dark:text-white px-2 pb-2">
             
-            <h3 className="text-2xl font-black text-black dark:text-white mb-1 tracking-tight relative z-10">
-              {planDetailsModal.name || planDetailsModal.title}
-            </h3>
-            
-            <div className="grid grid-cols-2 gap-3 my-4 p-3 bg-black/[0.02] dark:bg-white/[0.03] rounded-xl border border-black/10 dark:border-white/10 relative overflow-hidden backdrop-blur-sm group hover:border-black/20 dark:hover:border-white/20 transition-all duration-300">
-              <div className="absolute inset-0 bg-gradient-to-br from-black/[0.02] dark:from-white/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative z-10 border-r border-black/10 dark:border-white/10 pr-3">
-                <p className="text-[10px] text-black/50 dark:text-white/50 uppercase tracking-widest font-bold mb-1 flex items-center gap-1">
-                  Premium
-                </p>
-                <p className="text-xl font-black text-black dark:text-white drop-shadow-sm dark:drop-shadow-md">
-                  ₹{parseInt(planDetailsModal.premiumMonthly || planDetailsModal.premiumAmount || 0).toLocaleString('en-IN')}
-                  <span className="text-xs font-bold text-black/40 dark:text-white/40 ml-1">/mo</span>
+            {/* LEFT COLUMN: Plan Information */}
+            <div className="flex-1 flex flex-col gap-6 md:gap-8">
+              {/* Header: Logo & Tag */}
+              <div className="flex justify-between items-center -mt-2">
+                <div className="h-10 flex items-center justify-start">
+                  <CompanyLogo company={planDetailsModal.company} />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-3 py-1.5 rounded-lg">
+                  {planDetailsModal.categoryTag || planDetailsModal.category}
+                </span>
+              </div>
+              
+              {/* Title & Description */}
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-tight pr-4">
+                  {planDetailsModal.name || planDetailsModal.title}
+                </h2>
+                <p className="text-[14px] sm:text-[15px] text-black/60 dark:text-white/60 leading-relaxed max-w-2xl font-medium">
+                  {planDetailsModal.description}
                 </p>
               </div>
-              <div className="relative z-10 pl-2">
-                <p className="text-[10px] text-black/50 dark:text-white/50 uppercase tracking-widest font-bold mb-1 flex items-center gap-1">
-                  Coverage
-                </p>
-                <p className="text-xl font-black text-black dark:text-white drop-shadow-sm dark:drop-shadow-md">{planDetailsModal.coverageAmount}</p>
-              </div>
-            </div>
 
-            <div className="mb-4 relative z-10">
-              <div className="flex items-center gap-2 mb-2.5">
-                <div className="h-3 w-1 bg-brand-accent rounded-full" />
-                <h4 className="text-xs font-bold uppercase tracking-wider text-black dark:text-white">Key Benefits</h4>
-              </div>
-              <ul className="space-y-2">
-                {(planDetailsModal.features || []).map((feature, fIdx) => (
-                  <motion.li 
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + (fIdx * 0.1) }}
-                    key={fIdx} 
-                    className="flex items-start gap-2.5 group/item"
-                  >
-                    <div className="bg-brand-accent/20 p-1 rounded-full mt-0.5 group-hover/item:bg-brand-accent/40 transition-colors">
-                      <FaCheck className="h-2.5 w-2.5 text-brand-accent" />
+              {/* Key Benefits */}
+              <div className="mt-auto">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-black/80 dark:text-white/80 mb-4 flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-brand-accent" />
+                  Key Benefits Included
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
+                  {(planDetailsModal.features || []).map((feature, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-brand-accent/20 flex items-center justify-center shrink-0 mt-0.5">
+                        <FaCheck className="w-2.5 h-2.5 text-brand-accent" />
+                      </div>
+                      <span className="text-[14px] font-medium text-black/80 dark:text-white/80 leading-snug">{feature}</span>
                     </div>
-                    <span className="text-[13px] text-black/80 dark:text-white/80 leading-relaxed font-medium group-hover/item:text-black dark:group-hover/item:text-white transition-colors">{feature}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mb-4 relative z-10">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="h-3 w-1 bg-black/20 dark:bg-white/20 rounded-full" />
-                <h4 className="text-xs font-bold uppercase tracking-wider text-black/80 dark:text-white/80">Description</h4>
+                  ))}
+                </div>
               </div>
-              <p className="text-xs text-black/60 dark:text-white/60 leading-relaxed bg-black/[0.03] dark:bg-white/5 p-3 rounded-lg border border-black/5 dark:border-white/5">
-                {planDetailsModal.description}
-              </p>
             </div>
 
-            <div className="flex gap-3 relative z-10 pt-1">
-              <button 
-                onClick={() => setPlanDetailsModal(null)}
-                className="w-1/3 py-2.5 rounded-lg border border-black/20 dark:border-white/20 text-black dark:text-white font-bold text-[11px] uppercase tracking-wider hover:bg-black/5 dark:hover:bg-white/10 hover:border-black/30 dark:hover:border-white/30 transition-all active:scale-[0.98]"
-              >
-                Close
-              </button>
-              <button 
-                onClick={() => {
-                  setPlanDetailsModal(null);
-                  handleApply(planDetailsModal);
-                }}
-                className="w-2/3 py-2.5 rounded-lg bg-brand-accent text-black font-black text-[11px] uppercase tracking-wider hover:bg-[#E6A100] hover:shadow-[0_0_15px_rgba(229,237,0,0.4)] transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-              >
-                Apply Now <FaArrowRight className="h-2.5 w-2.5" />
-              </button>
+            {/* RIGHT COLUMN: Pricing & Actions */}
+            <div className="w-full md:w-[340px] flex flex-col gap-6 shrink-0">
+              
+              {/* Pricing Highlight Box */}
+              <div className="flex flex-col gap-6 p-6 sm:p-8 bg-stone-50 dark:bg-white/[0.03] rounded-[24px] border border-black/5 dark:border-white/5 h-full justify-center">
+                 <div>
+                   <p className="text-[11px] font-bold uppercase tracking-wider text-black/50 dark:text-white/50 mb-2">Monthly Premium</p>
+                   <p className="text-4xl font-black tracking-tight">
+                     ₹{parseInt(planDetailsModal.premiumMonthly || planDetailsModal.premiumAmount || 0).toLocaleString('en-IN')}
+                     <span className="text-base text-black/50 dark:text-white/50 font-bold ml-1">/mo</span>
+                   </p>
+                 </div>
+                 
+                 <div className="w-full h-px bg-black/10 dark:bg-white/10" />
+                 
+                 <div>
+                   <p className="text-[11px] font-bold uppercase tracking-wider text-black/50 dark:text-white/50 mb-2">Standard Coverage</p>
+                   <p className="text-3xl font-black tracking-tight">{planDetailsModal.coverageAmount}</p>
+                 </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={() => {
+                    setPlanDetailsModal(null);
+                    handleApply(planDetailsModal);
+                  }}
+                  className="w-full py-4 rounded-xl bg-brand-accent text-black font-extrabold uppercase tracking-wider text-[13px] hover:bg-[#E6A100] transition-colors shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                >
+                  Apply Now <FaArrowRight className="h-3 w-3" />
+                </button>
+                <button 
+                  onClick={() => setPlanDetailsModal(null)}
+                  className="w-full py-3 rounded-xl border-2 border-black/10 dark:border-white/10 font-bold uppercase tracking-wider text-[12px] hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
             </div>
-          </motion.div>
+            
+          </div>
         )}
       </Modal>
 

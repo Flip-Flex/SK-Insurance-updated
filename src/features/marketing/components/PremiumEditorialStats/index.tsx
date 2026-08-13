@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
-const Counter = ({ from, to, suffix = "", duration = 2 }: { from: number, to: number, suffix?: string, duration?: number }) => {
+const Counter = ({ from, to, prefix = "", suffix = "", duration = 2 }: { from: number, to: number, prefix?: string, suffix?: string, duration?: number }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -9,22 +9,29 @@ const Counter = ({ from, to, suffix = "", duration = 2 }: { from: number, to: nu
     if (!inView) return;
     let start: number | undefined;
     let raf: number;
+    const isFloat = to % 1 !== 0;
     const step = (ts: number) => {
       if (!start) start = ts;
       const p = Math.min((ts - start) / (duration * 1000), 1);
-      if (ref.current) ref.current.textContent = Math.floor(from + (to - from) * p) + suffix;
+      const current = from + (to - from) * p;
+      if (ref.current) {
+        ref.current.textContent = prefix + (isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString('en-US')) + suffix;
+      }
       if (p < 1) raf = requestAnimationFrame(step);
-      else if (ref.current) ref.current.textContent = to + suffix;
+      else if (ref.current) ref.current.textContent = prefix + (isFloat ? to.toFixed(1) : to.toLocaleString('en-US')) + suffix;
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [inView, from, to, suffix, duration]);
+  }, [inView, from, to, prefix, suffix, duration]);
 
-  return <span ref={ref}>{from}{suffix}</span>;
+  return <span ref={ref}>{prefix}{from}{suffix}</span>;
 };
 
 interface Stat {
-  number: string;
+  number?: string;
+  to?: number;
+  prefix?: string;
+  suffix?: string;
   label: string;
   icon?: any;
   size?: string;
@@ -69,16 +76,12 @@ export const PremiumEditorialStats = ({ stats: propStats }: { stats?: Stat[] }) 
         transition={{ delay: 0.2, duration: 0.8 }}
         className="w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-12 sm:gap-0 py-10 border-y border-black/10 dark:border-white/10 mt-12"
       >
-        {[
-          { n: 22, s: '+', l: 'Years of Trust' },
-          { n: 5000, s: '+', l: 'Families Protected' },
-          { n: 150, s: 'Cr+', l: 'AUM Managed' },
-        ].map((s, i) => (
-          <div key={i} className={`flex flex-col items-center text-center flex-1 w-full ${i !== 2 ? 'sm:border-r border-black/10 dark:border-white/10' : ''}`}>
+        {propStats && propStats.map((s, i) => (
+          <div key={i} className={`flex flex-col items-center text-center flex-1 w-full ${i !== propStats.length - 1 ? 'sm:border-r border-black/10 dark:border-white/10' : ''}`}>
             <div className="text-4xl sm:text-5xl font-black text-black dark:text-white tabular-nums tracking-tight mb-2">
-              <Counter from={0} to={s.n} suffix={s.s} />
+              {s.to !== undefined ? <Counter from={0} to={s.to} prefix={s.prefix || ''} suffix={s.suffix || ''} /> : s.number}
             </div>
-            <div className="text-xs sm:text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">{s.l}</div>
+            <div className="text-xs sm:text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">{s.label}</div>
           </div>
         ))}
       </motion.div>

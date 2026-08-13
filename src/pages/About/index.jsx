@@ -46,12 +46,11 @@ const AwardCard = ({ aw, onClick, index = 0 }) => {
         y.set(e.clientY - r.top - r.height / 2);
       }}
       onMouseLeave={() => { x.set(0); y.set(0); }}
-      onClick={() => onClick(index)}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
-      className="group cursor-pointer relative rounded-2xl overflow-hidden break-inside-avoid mb-6 bg-stone-100 dark:bg-neutral-900 border border-stone-200 dark:border-white/8 hover:border-stone-400 dark:hover:border-brand-accent/40 transition-all duration-500 shadow-sm hover:shadow-lg dark:shadow-none"
+      className="group relative rounded-2xl overflow-hidden break-inside-avoid mb-6 bg-stone-100 dark:bg-neutral-900 border border-stone-200 dark:border-white/8 hover:border-stone-400 dark:hover:border-brand-accent/40 transition-all duration-500 shadow-sm hover:shadow-lg dark:shadow-none"
     >
       <div
         className="relative w-full overflow-hidden"
@@ -62,15 +61,12 @@ const AwardCard = ({ aw, onClick, index = 0 }) => {
           alt={aw.title}
           loading="lazy"
           decoding="async"
-          className="w-full h-auto object-contain group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+          className="w-full h-auto object-contain transition-transform duration-700 ease-out"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         <div className="absolute bottom-3 left-0 w-full px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <h3 className="text-xs font-semibold text-white text-center leading-tight drop-shadow-md">{aw.title}</h3>
-        </div>
-        <div className="absolute top-3 right-3 w-8 h-8 bg-white/80 dark:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <FaSearchPlus className="text-stone-700 dark:text-white text-sm" />
         </div>
       </div>
     </motion.div>
@@ -147,25 +143,25 @@ export const About = () => {
   }, []);
 
   const principles = [
-    { title: 'Absolute Transparency', desc: 'Zero hidden clauses, clear deductible guides, and upfront premium definitions for total peace of mind.', icon: FaShieldAlt },
-    { title: 'Actuarial Precision', desc: 'Goal-based wealth planners and SIP calculators designed using real-time market data indexes.', icon: FaChartLine },
-    { title: 'Community Advocacy', desc: 'Providing Kanchipuram and wider Tamil Nadu with local, accessible, and personalized financial coaching.', icon: FaUsers },
-    { title: 'Dedicated Claims Desk', desc: 'Pre-sales advice and full post-sales filing support to ensure maximum claim clearance rates.', icon: FaAward }
+    { title: 'Absolute Transparency', desc: 'Zero hidden clauses, clear deductible guides, and upfront premium definitions for total peace of mind.', icon: FaShieldAlt, hoverBg: 'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-500/30', iconHover: 'group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 group-hover:text-blue-600 dark:group-hover:text-blue-400' },
+    { title: 'Actuarial Precision', desc: 'Goal-based wealth planners and SIP calculators designed using real-time market data indexes.', icon: FaChartLine, hoverBg: 'hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-200 dark:hover:border-emerald-500/30', iconHover: 'group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/40 group-hover:text-emerald-600 dark:group-hover:text-emerald-400' },
+    { title: 'Community Advocacy', desc: 'Providing Kanchipuram and wider Tamil Nadu with local, accessible, and personalized financial coaching.', icon: FaUsers, hoverBg: 'hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-200 dark:hover:border-amber-500/30', iconHover: 'group-hover:bg-amber-100 dark:group-hover:bg-amber-900/40 group-hover:text-amber-600 dark:group-hover:text-amber-400' },
+    { title: 'Dedicated Claims Desk', desc: 'Pre-sales advice and full post-sales filing support to ensure maximum claim clearance rates.', icon: FaAward, hoverBg: 'hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:border-purple-200 dark:hover:border-purple-500/30', iconHover: 'group-hover:bg-purple-100 dark:group-hover:bg-purple-900/40 group-hover:text-purple-600 dark:group-hover:text-purple-400' }
   ];
 
   const milestones = [
-    { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' },
-    { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' },
-    { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' },
-    { year: '2025', title: 'MD Plaza HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.', colorClass: 'group-hover:bg-brand-accent group-hover:text-stone-900 group-hover:shadow-[0_0_20px_rgba(255,179,0,0.6)]' }
+    { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.', colorClass: 'bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]', bgTextClass: 'group-hover:text-blue-500/10 dark:group-hover:text-blue-400/10' },
+    { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).', colorClass: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]', bgTextClass: 'group-hover:text-emerald-500/10 dark:group-hover:text-emerald-400/10' },
+    { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.', colorClass: 'bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400 group-hover:bg-amber-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(245,158,11,0.4)]', bgTextClass: 'group-hover:text-amber-500/10 dark:group-hover:text-amber-400/10' },
+    { year: '2025', title: 'MD Plaza HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.', colorClass: 'bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 group-hover:bg-purple-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]', bgTextClass: 'group-hover:text-purple-500/10 dark:group-hover:text-purple-400/10' }
   ];
 
   const missions = [
-    { title: 'Personalized Solutions', text: 'Deliver tailored insurance and financial solutions to individual needs.' },
-    { title: 'Premium Products', text: 'Offer products from leading insurance companies with competitive pricing.' },
-    { title: 'Expert Guidance', text: 'Simplify insurance through honest advice and professional guidance.' },
-    { title: 'Seamless Support', text: 'Ensure quick policy issuance and seamless renewal support.' },
-    { title: 'Claims Advocacy', text: 'Provide dedicated claims assistance until successful settlement.' }
+    { title: 'Personalized Solutions', text: 'Deliver tailored insurance and financial solutions to individual needs.', hoverBg: 'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-200 dark:hover:border-blue-500/30' },
+    { title: 'Premium Products', text: 'Offer products from leading insurance companies with competitive pricing.', hoverBg: 'hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-500/30' },
+    { title: 'Expert Guidance', text: 'Simplify insurance through honest advice and professional guidance.', hoverBg: 'hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-200 dark:hover:border-emerald-500/30' },
+    { title: 'Seamless Support', text: 'Ensure quick policy issuance and seamless renewal support.', hoverBg: 'hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-200 dark:hover:border-amber-500/30' },
+    { title: 'Claims Advocacy', text: 'Provide dedicated claims assistance until successful settlement.', hoverBg: 'hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:border-purple-200 dark:hover:border-purple-500/30' }
   ];
 
   return (
@@ -281,13 +277,13 @@ export const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.35 }}
-              className="flex-1 bg-brand-accent rounded-2xl p-7 hover:shadow-lg transition-shadow duration-500"
+              className="flex-1 bg-amber-50 dark:bg-amber-900/10 border border-amber-200/50 dark:border-brand-accent/20 rounded-2xl p-7 hover:shadow-md dark:hover:shadow-none transition-shadow duration-500"
             >
-              <div className="w-10 h-10 rounded-xl bg-black/10 flex items-center justify-center text-stone-900 mb-5">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-5">
                 <FaShieldAlt className="text-lg" />
               </div>
-              <h4 className="text-lg font-bold text-stone-900 mb-2">Assurance</h4>
-              <p className="text-sm text-stone-800/80 leading-relaxed font-medium">The right balance of protection, affordability, and long-term value.</p>
+              <h4 className="text-lg font-bold text-stone-900 dark:text-white mb-2">Assurance</h4>
+              <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed font-medium">The right balance of protection, affordability, and long-term value.</p>
             </motion.div>
           </div>
         </div>
@@ -341,7 +337,7 @@ export const About = () => {
               {missions.map((m, i) => (
                 <div
                   key={i}
-                  className="group bg-stone-50 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-xl p-6 hover:border-brand-accent/50 transition-colors duration-300 flex flex-col"
+                  className={`group bg-stone-50 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-xl p-6 transition-colors duration-300 flex flex-col ${m.hoverBg}`}
                 >
                   <span className="text-3xl font-black text-brand-accent/20 dark:text-brand-accent/10 tabular-nums mb-3 group-hover:text-brand-accent/40 transition-colors">0{i + 1}</span>
                   <h4 className="text-base font-bold text-stone-900 dark:text-white leading-tight mb-3">{m.title}</h4>
@@ -373,10 +369,10 @@ export const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group relative bg-white dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-2xl p-8 hover:border-stone-400 dark:hover:border-stone-600 transition-all duration-400"
+                className={`group relative bg-white dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 rounded-2xl p-8 transition-all duration-400 ${p.hoverBg}`}
               >
                 <div className="flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-300 text-xl shrink-0 group-hover:bg-brand-accent group-hover:text-stone-900 transition-colors duration-400">
+                  <div className={`w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-300 text-xl shrink-0 transition-colors duration-400 ${p.iconHover}`}>
                     <Icon />
                   </div>
                   <div>
@@ -410,12 +406,12 @@ export const About = () => {
                 className="group relative bg-white dark:bg-stone-900/60 p-8 lg:p-10 rounded-[2rem] border border-stone-200 dark:border-stone-800 hover:border-brand-accent/50 transition-all duration-300 shadow-sm overflow-hidden flex flex-col"
               >
                 {/* Huge Faded Year Background */}
-                <div className="absolute -bottom-4 -right-4 text-[110px] font-black text-stone-100 dark:text-stone-800/30 group-hover:text-brand-accent/5 transition-colors duration-500 pointer-events-none select-none leading-none z-0">
+                <div className={`absolute -bottom-4 -right-4 text-[110px] font-black text-stone-100 dark:text-stone-800/30 transition-colors duration-500 pointer-events-none select-none leading-none z-0 ${m.bgTextClass}`}>
                   {m.year}
                 </div>
                 
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className={`inline-flex items-center justify-center px-5 py-2 rounded-full bg-brand-accent/10 text-brand-accent font-black text-lg tracking-wider mb-6 self-start transition-all duration-300 ${m.colorClass || ''}`}>
+                  <div className={`inline-flex items-center justify-center px-5 py-2 rounded-full font-black text-lg tracking-wider mb-6 self-start transition-all duration-300 ${m.colorClass}`}>
                     {m.year}
                   </div>
                   <h3 className="text-xl font-bold text-stone-900 dark:text-white mb-4">{m.title}</h3>
@@ -600,75 +596,7 @@ export const About = () => {
       {/* ═══════════════════════════════════════════════
           LIGHTBOX
       ═══════════════════════════════════════════════ */}
-      <AnimatePresence>
-        {selectedAwardIndex !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 sm:p-8 cursor-zoom-out"
-            onClick={() => setSelectedAwardIndex(null)}
-          >
-            {/* Nav arrows */}
-            <button
-              onClick={(e) => { e.stopPropagation(); setSelectedAwardIndex(p => Math.max(p - 1, 0)); }}
-              disabled={selectedAwardIndex === 0}
-              className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 backdrop-blur flex items-center justify-center text-white hover:bg-white hover:text-black disabled:opacity-0 transition-all z-[110]"
-            >
-              <FaArrowLeft />
-            </button>
-            <button
-              onClick={(e) => { e.stopPropagation(); setSelectedAwardIndex(p => Math.min(p + 1, awards.length - 1)); }}
-              disabled={selectedAwardIndex === awards.length - 1}
-              className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 backdrop-blur flex items-center justify-center text-white hover:bg-white hover:text-black disabled:opacity-0 transition-all z-[110]"
-            >
-              <FaArrowRight />
-            </button>
-
-            <motion.div
-              key={selectedAwardIndex}
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="max-w-4xl w-full bg-stone-900 rounded-2xl overflow-hidden shadow-2xl border border-stone-700/50 flex flex-col md:flex-row cursor-default"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setSelectedAwardIndex(null)}
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 backdrop-blur flex items-center justify-center text-white hover:bg-brand-accent hover:text-black transition-all z-50"
-              >
-                <FaTimes />
-              </button>
-
-              <div className="w-full md:w-1/2 bg-black/30 flex items-center justify-center p-8 min-h-[40vh]">
-                <img
-                  src={awards[selectedAwardIndex].img}
-                  className="w-full h-full object-contain max-h-[60vh]"
-                  alt={awards[selectedAwardIndex].title}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-
-              <div className="w-full md:w-1/2 p-8 sm:p-12 flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-4">
-                  <FaAward className="text-brand-accent text-sm" />
-                  <span className="text-xs text-brand-accent uppercase tracking-widest font-semibold">{awards[selectedAwardIndex].tag}</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight">{awards[selectedAwardIndex].title}</h3>
-                <div className="w-10 h-0.5 bg-brand-accent mb-4" />
-                <p className="text-sm text-stone-400 leading-relaxed mb-8">{awards[selectedAwardIndex].desc}</p>
-                <div className="mt-auto flex items-center gap-3 text-stone-500 text-xs font-medium tracking-widest">
-                  <span className="text-white">{String(selectedAwardIndex + 1).padStart(2, '0')}</span>
-                  <span className="w-8 h-px bg-stone-700" />
-                  <span>{String(awards.length).padStart(2, '0')}</span>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* End of Page */}
 
     </div>
   );

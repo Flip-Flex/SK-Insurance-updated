@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../features/auth/contexts/AuthContext';
 import { useTranslation } from '../context/LanguageContext';
@@ -24,6 +24,18 @@ export const Navbar = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const langDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
+        setShowLangDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Theme toggle is handled by ThemeContext
@@ -83,20 +95,13 @@ export const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`relative group py-2 text-[15px] font-medium transition-colors duration-300 ${
+                  className={`relative px-2 py-2 text-[15px] font-medium transition-all duration-300 inline-block transform hover:scale-110 ${
                     active 
-                      ? (isTransparent ? 'text-black font-bold' : 'text-brand-accent') 
-                      : (isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent')
+                      ? (isTransparent ? 'text-black font-bold scale-105' : 'text-brand-accent font-bold scale-105 drop-shadow-[0_0_8px_rgba(255,179,0,0.6)]') 
+                      : (isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent hover:drop-shadow-[0_0_8px_rgba(255,179,0,0.4)]')
                   }`}
                 >
                   {link.name}
-                  <span
-                    className={`absolute bottom-0 h-[2px] transition-all duration-300 left-1/2 -translate-x-1/2 ${
-                      isTransparent ? 'bg-black' : 'bg-brand-accent'
-                    } ${
-                      active ? 'w-full' : 'w-0 group-hover:w-full'
-                    }`}
-                  />
                 </Link>
               );
             })}
@@ -105,7 +110,7 @@ export const Navbar = () => {
           {/* Right: Actions */}
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
             {/* Language Selector */}
-            <div className="relative">
+            <div className="relative" ref={langDropdownRef}>
                 <button
                   onClick={() => setShowLangDropdown(!showLangDropdown)}
                   className={`flex items-center space-x-1.5 text-[14px] font-medium transition-colors cursor-pointer ${isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent'}`}

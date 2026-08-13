@@ -66,7 +66,7 @@ export const EditorialTrustValues = ({ values }) => {
               <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
               {/* Large faded background number */}
-              <div className="absolute -top-6 -right-6 text-[150px] font-black text-black/[0.03] dark:text-white/[0.03] pointer-events-none leading-none select-none transition-transform duration-500 group-hover:scale-110 group-hover:-translate-x-4 group-hover:translate-y-4">
+              <div className="absolute top-4 right-6 lg:top-6 lg:right-8 text-[90px] lg:text-[110px] font-black text-black/[0.03] dark:text-white/[0.03] pointer-events-none leading-none select-none transition-transform duration-500 group-hover:scale-110 group-hover:-translate-x-4 group-hover:translate-y-4">
                 0{idx + 1}
               </div>
 

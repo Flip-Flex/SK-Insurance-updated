@@ -149,9 +149,6 @@ export const Appointment = () => {
   const handleServiceSelect = (serviceName) => {
     setFormData(prev => ({ ...prev, service: serviceName }));
     setErrors(prev => ({ ...prev, service: null }));
-    setTimeout(() => {
-      setCurrentStep(2);
-    }, 300); // Auto advance after a slight delay
   };
 
   const handleTimeSelect = (slot) => {
@@ -228,7 +225,7 @@ Hi SK Smart Investments, please confirm my appointment slot. Thank you!`;
   const minDateStr = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="dark min-h-screen bg-black text-white py-12 px-4 sm:px-6 lg:px-8 text-left transition-colors duration-500 relative overflow-hidden">
+    <div className="dark min-h-screen bg-black text-white pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-left transition-colors duration-500 relative overflow-hidden">
       
       {/* Background Animated Blobs for Glassmorphism Effect */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">

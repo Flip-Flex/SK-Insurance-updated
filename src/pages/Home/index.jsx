@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform, useScroll } from 'framer-motion';
 import { useTranslation } from '../../context/LanguageContext';
 import { Button } from '../../components/ui/Button';
-import { FaShieldAlt, FaHeartbeat, FaCar, FaUserShield, FaHandshake, FaAward, FaStar, FaTrophy, FaChevronDown } from 'react-icons/fa';
+import { FaShieldAlt, FaHeartbeat, FaCar, FaUserShield, FaHandshake, FaAward, FaStar, FaTrophy, FaChevronDown, FaUsers } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
 
 import { useRef } from 'react';
@@ -473,10 +473,10 @@ export const Home = () => {
   };
 
   const stats = [
-    { number: '98.7%', label: t('claims_rate'), icon: FaShieldAlt, size: 'text-[54px]' },
-    { number: '₹420L+', label: t('claims_disbursed'), icon: FaHandshake, size: 'text-[52px]' },
-    { number: '150,000+', label: t('clients_protected'), icon: FaUserShield, size: 'text-[50px]' },
-    { number: '4.9 / 5', label: t('avg_rating'), icon: FaAward, size: 'text-[48px]' }
+    { number: '98.7%', label: 'Claims Settlement Rate', icon: FaShieldAlt, size: 'text-[54px]' },
+    { number: '₹420L+', label: 'Claims Disbursed', icon: FaUserShield, size: 'text-[52px]' },
+    { number: '150,000+', label: 'Lives Secured', icon: FaUsers, size: 'text-[50px]' },
+    { number: '4.9 / 5', label: 'Customer Rating', icon: FaAward, size: 'text-[50px]' }
   ];
 
   const values = [
