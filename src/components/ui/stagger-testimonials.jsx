@@ -274,7 +274,7 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
             )}
             aria-label="Previous testimonial"
           >
-            <ChevronLeft />
+            <FaChevronLeft />
           </button>
           <button
             onClick={() => handleMove(1)}
@@ -285,7 +285,7 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
             )}
             aria-label="Next testimonial"
           >
-            <ChevronRight />
+            <FaChevronRight />
           </button>
         </div>
       </div>
