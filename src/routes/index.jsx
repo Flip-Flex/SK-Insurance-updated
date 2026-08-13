@@ -18,6 +18,7 @@ const Dashboard = lazy(() => import('../pages/Dashboard').then(module => ({ defa
 const Claims = lazy(() => import('../pages/Claims').then(module => ({ default: module.Claims })));
 const NotFound = lazy(() => import('../pages/Errors/NotFound').then(module => ({ default: module.NotFound })));
 const PrivacyPolicy = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPolicy })));
+const TermsOfService = lazy(() => import('../pages/Terms').then(module => ({ default: module.TermsOfService })));
 const Appointment = lazy(() => import('../pages/Appointment').then(module => ({ default: module.Appointment })));
 
 const FallbackLoader = () => (
@@ -67,6 +68,7 @@ export const AppRoutes = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/login" element={<Auth />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
         <Route path="/appointment" element={<Appointment />} />
         <Route path="*" element={<NotFound />} />
       </Route>
