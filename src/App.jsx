@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './features/auth/contexts/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { AppRoutes } from './routes';
 import { ChatWidget } from './components/ui/ChatWidget';

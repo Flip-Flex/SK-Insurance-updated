@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { cn } from '../../utils/cn';
 
 const SQRT_5000 = Math.sqrt(5000);

@@ -1,4 +1,5 @@
-import { db, isFirebaseConfigured } from '../config/firebase';
+import { db } from '../firebase/firestore';
+import { isFirebaseConfigured } from '../firebase/config';
 import { 
   collection, 
   doc, 
@@ -39,65 +40,7 @@ export const getSettings = async (settingName) => {
   }
 };
 
-export const getPlans = async (lastVisibleDoc = null, pageSize = 20) => {
-  if (!isFirebaseConfigured) throw new Error('Firebase is not configured.');
-  
-  try {
-    const plansCol = collection(db, 'plans');
-    let q = query(plansCol, orderBy('createdAt', 'desc'), limit(pageSize));
-    if (lastVisibleDoc) {
-      q = query(plansCol, orderBy('createdAt', 'desc'), startAfter(lastVisibleDoc), limit(pageSize));
-    }
-    const plansSnapshot = await getDocs(q);
-    const plansList = plansSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
-    return {
-      plans: plansList,
-      lastVisible: plansSnapshot.docs[plansSnapshot.docs.length - 1]
-    };
-  } catch (error) {
-    logger.error("Failed to fetch plans from Firestore", { error: error.message });
-    throw error;
-  }
-};
 
-export const createPlan = async (planData, user = null) => {
-  try {
-    const docRef = await addDocWithAudit('plans', planData, user);
-    logger.info("Successfully created new plan", { planId: docRef.id });
-    return { success: true, id: docRef.id };
-  } catch (error) {
-    logger.error("Firestore create failed", { error: error.message });
-    throw error;
-  }
-};
-
-export const updatePlan = async (planId, planData, user = null) => {
-  try {
-    const planRef = doc(db, 'plans', planId);
-    const updatePayload = { ...planData, updatedAt: new Date().toISOString() };
-    if (user) updatePayload.updatedBy = user.email || user.username || 'system';
-
-    await updateDoc(planRef, updatePayload);
-    logger.info("Successfully updated plan", { planId });
-    return { success: true };
-  } catch (error) {
-    logger.error("Firestore update failed", { error: error.message });
-    throw error;
-  }
-};
-
-export const deletePlan = async (planId) => {
-  try {
-    const planRef = doc(db, 'plans', planId);
-    await deleteDoc(planRef);
-    logger.info("Successfully deleted plan", { planId });
-    return { success: true };
-  } catch (error) {
-    logger.error("Firestore delete failed", { error: error.message });
-    throw error;
-  }
-};
 
 // -------------------------------------------------------------
 // INQUIRIES & TICKETS CRUD
@@ -131,41 +74,7 @@ export const saveAppointment = async (appointmentData, user = null) => {
   }
 };
 
-// -------------------------------------------------------------
-// USER PROFILES COLLECTION CRUD
-// -------------------------------------------------------------
-export const getUserProfile = async (uid) => {
-  try {
-    const userDoc = await getDoc(doc(db, 'users', uid));
-    if (userDoc.exists()) {
-      return userDoc.data();
-    }
-    return null;
-  } catch (error) {
-    logger.error("Error retrieving user profile from Firestore", { uid, error: error.message });
-    return null;
-  }
-};
 
-export const createUserProfile = async (uid, profileData) => {
-  try {
-    const userDocRef = doc(db, 'users', uid);
-    const newProfile = {
-      ...profileData,
-      id: profileData.id || `USR-${Math.floor(100 + Math.random() * 900)}`,
-      uid,
-      active: profileData.active !== false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    await setDoc(userDocRef, newProfile);
-    logger.info("Created user profile inside Firestore", { uid, role: profileData.role });
-    return true;
-  } catch (error) {
-    logger.error("Failed to create user profile inside Firestore", { uid, error: error.message });
-    return false;
-  }
-};
 
 // -------------------------------------------------------------
 // PREMIUM CALCULATOR HISTORY CRUD
@@ -181,30 +90,7 @@ export const saveCalculation = async (calcData, user = null) => {
   }
 };
 
-// -------------------------------------------------------------
-// POLICIES & CLAIMS OPERATIONS
-// -------------------------------------------------------------
-export const getUserPolicies = async (uid) => {
-  try {
-    const q = query(collection(db, 'policies'), where('userId', '==', uid));
-    const snap = await getDocs(q);
-    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  } catch (error) {
-    logger.error("Error fetching user policies", { uid, error: error.message });
-    return [];
-  }
-};
 
-export const getUserClaims = async (uid) => {
-  try {
-    const q = query(collection(db, 'claims'), where('userId', '==', uid));
-    const snap = await getDocs(q);
-    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  } catch (error) {
-    logger.error("Error fetching user claims", { uid, error: error.message });
-    return [];
-  }
-};
 
 // -------------------------------------------------------------
 // AUDIT LOGGING UTILITY

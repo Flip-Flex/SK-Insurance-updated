@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaShieldAlt, FaHeartbeat, FaUserShield, FaCar } from 'react-icons/fa';
-import { useTranslation } from '../../context/LanguageContext';
+import { useTranslation } from '../../../../context/LanguageContext';
 import { SimpleCard } from './SimpleCard';
 
 export const StickyStackedCards = () => {

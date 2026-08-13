@@ -1,7 +1,4 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,26 +10,17 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const isFirebaseConfigured = 
+export const isFirebaseConfigured = 
   !!import.meta.env.VITE_FIREBASE_API_KEY && 
   import.meta.env.VITE_FIREBASE_API_KEY !== 'your-api-key-here' &&
   import.meta.env.VITE_FIREBASE_API_KEY !== '';
 
 let app;
-let auth;
-let db;
-let storage;
 
 if (isFirebaseConfigured) {
   app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-  auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
 } else {
-  console.warn("Firebase configuration credentials not set in environment. Running in sandbox mode.");
+  console.warn("Firebase configuration credentials not set in environment.");
 }
 
-export { auth, db, storage, isFirebaseConfigured };
-
-
-
+export { app };

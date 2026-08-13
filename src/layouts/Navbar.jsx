@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { useTranslation } from '../../context/LanguageContext';
-import { useTheme } from '../../context/ThemeContext';
-import { Logo } from '../ui/Logo';
+import { useAuth } from '../features/auth/contexts/AuthContext';
+import { useTranslation } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
+import { Logo } from '../components/ui/Logo';
 import { FaGlobe, FaChevronDown, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import { StaggeredMenu } from '../ui/StaggeredMenu';
+import { StaggeredMenu } from '../components/ui/StaggeredMenu';
 
 export const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();

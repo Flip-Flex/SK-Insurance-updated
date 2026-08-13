@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth, db, isFirebaseConfigured } from '../config/firebase';
+import { auth } from '../../../firebase/auth';
+import { db } from '../../../firebase/firestore';
+import { isFirebaseConfigured } from '../../../firebase/config';
 import { 
   signInWithEmailAndPassword, 
   signOut, 
@@ -11,7 +13,7 @@ import {
   browserSessionPersistence
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { logger } from '../services/logger';
+import { logger } from '../../../services/logger';
 
 const AuthContext = createContext();
 
@@ -45,20 +47,10 @@ export const AuthProvider = ({ children }) => {
           }
           
           if (!profile) {
-            const emailPart = firebaseUser.email.split('@')[0];
-            profile = {
-              username: emailPart,
-              name: emailPart.replace('_', ' ').toUpperCase(),
-              role: 'customer',
-              email: firebaseUser.email,
-              id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
-            };
-            try {
-              await setDoc(userDocRef, profile);
-              console.log('Created new customer profile in Firestore');
-            } catch (writeErr) {
-              console.warn('Firestore write failed, using local profile:', writeErr.message);
-            }
+            logger.warn('User has auth account but no Firestore profile', { uid: firebaseUser.uid });
+            setUser(null);
+            setLoading(false);
+            return;
           }
           
           profile.emailVerified = firebaseUser.emailVerified;
@@ -108,14 +100,8 @@ export const AuthProvider = ({ children }) => {
         if (userDoc.exists()) {
           profile = userDoc.data();
         } else {
-          profile = {
-            username: cleanedEmail.split('@')[0],
-            name: cleanedEmail.split('@')[0].toUpperCase(),
-            role: 'customer',
-            email: cleanedEmail,
-            id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
-          };
-          await setDoc(userDocRef, profile);
+          logger.warn('User logged in but no Firestore profile exists', { uid: userCredential.user.uid });
+          throw new Error('Access Denied: No manager profile found.');
         }
         profile.emailVerified = userCredential.user.emailVerified;
         profile.uid = userCredential.user.uid;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { Logo } from '../ui/Logo';
+import { useAuth } from '../features/auth/contexts/AuthContext';
+import { Logo } from '../components/ui/Logo';
 import * as FaIcons from 'react-icons/fa';
 
 

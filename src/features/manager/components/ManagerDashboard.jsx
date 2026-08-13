@@ -5,10 +5,9 @@ import {
   FaCheckCircle, FaTimesCircle, FaArrowLeft, FaSave, 
   FaBox, FaBuilding, FaTags, FaExclamationCircle, FaTimes, FaImage, FaPowerOff, FaEye, FaUpload, FaSpinner
 } from 'react-icons/fa';
-import { 
-  getPlans, createPlan, updatePlan, deletePlan, getSettings
-} from '../services/api';
-import { uploadMediaFile } from '../services/firebaseService';
+import { getSettings } from '../../../services/api';
+import { getPlans, createPlan, updatePlan, deletePlan } from '../../../features/plans/services/planService';
+import { uploadMediaFile } from '../../../services/firebaseService';
 import { z } from 'zod';
 import imageCompression from 'browser-image-compression';
 

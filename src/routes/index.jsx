@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation, Outlet } from 'react-router-dom';
-import { Navbar } from '../components/layout/Navbar';
-import { Footer } from '../components/layout/Footer';
+import { Navbar } from '../layouts/Navbar';
+import { Footer } from '../layouts/Footer';
 import { Loader } from '../components/ui/Loader';
 import { ProtectedRoute } from '../components/common/ProtectedRoute';
 
@@ -14,7 +14,7 @@ const Careers = lazy(() => import('../pages/Careers').then(module => ({ default:
 const Support = lazy(() => import('../pages/Support').then(module => ({ default: module.Support })));
 const Blog = lazy(() => import('../pages/Blog').then(module => ({ default: module.Blog })));
 const Auth = lazy(() => import('../pages/Auth').then(module => ({ default: module.Auth })));
-const Dashboard = lazy(() => import('../pages/Dashboard').then(module => ({ default: module.Dashboard })));
+const Dashboard = lazy(() => import('../pages/manager').then(m => ({ default: m.Dashboard })));
 const Claims = lazy(() => import('../pages/Claims').then(module => ({ default: module.Claims })));
 const NotFound = lazy(() => import('../pages/Errors/NotFound').then(module => ({ default: module.NotFound })));
 const PrivacyPolicy = lazy(() => import('../pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPolicy })));

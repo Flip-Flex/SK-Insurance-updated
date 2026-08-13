@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, useInView, animate } from 'framer-motion';
-import { useTranslation } from '../../context/LanguageContext';
+import { useTranslation } from '../../../../context/LanguageContext';
 
 const formatValue = (latest: number, original: string) => {
   if (original === '98.7%') return latest.toFixed(1) + '%';

@@ -4,7 +4,7 @@ import { Modal } from '../../components/ui/Modal';
 
 import { FaBriefcase, FaMapMarkerAlt, FaClock, FaCheckCircle, FaInbox } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
-import { db } from '../../config/firebase';
+import { db } from '../../firebase/firestore';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 export const Careers = () => {

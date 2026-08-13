@@ -7,9 +7,9 @@ import { FaShieldAlt, FaHeartbeat, FaCar, FaUserShield, FaHandshake, FaAward, Fa
 import { subscribeToCollection } from '../../services/firebaseService';
 
 import { useRef } from 'react';
-import { StickyStackedCards } from '../../components/StickyStackedCards';
-import { PremiumEditorialStats } from '../../components/PremiumEditorialStats';
-import { EditorialTrustValues } from '../../components/EditorialTrustValues';
+import { StickyStackedCards } from '../../features/marketing/components/StickyStackedCards';
+import { PremiumEditorialStats } from '../../features/marketing/components/PremiumEditorialStats';
+import { EditorialTrustValues } from '../../features/marketing/components/EditorialTrustValues';
 import { StaggerTestimonials } from '../../components/ui/stagger-testimonials';
 const AnimatedCounter = ({ value, duration = 1.5 }) => {
   const [displayValue, setDisplayValue] = React.useState('');

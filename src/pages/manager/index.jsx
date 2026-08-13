@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../features/auth/contexts/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { Sidebar } from '../../components/layout/Sidebar';
-import { ManagerDashboard } from '../../dashboards/ManagerDashboard';
+import { Sidebar } from '../../layouts/Sidebar';
+import { ManagerDashboard } from '../../features/manager/components/ManagerDashboard';
 import { getNotifications } from '../../services/api';
 import { FaBell, FaChevronDown, FaUserCircle, FaCheckCircle, FaTrash } from 'react-icons/fa';
-import { isFirebaseConfigured } from '../../config/firebase';
+import { isFirebaseConfigured } from '../../firebase/config';
 
 export const Dashboard = () => {
   const { user } = useAuth();

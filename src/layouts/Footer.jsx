@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Logo } from '../ui/Logo';
-import { useTranslation } from '../../context/LanguageContext';
+import { Logo } from '../components/ui/Logo';
+import { useTranslation } from '../context/LanguageContext';
 import { FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaInstagram, FaWhatsapp, FaPhoneAlt, FaArrowRight } from 'react-icons/fa';
 
 export const Footer = () => {
