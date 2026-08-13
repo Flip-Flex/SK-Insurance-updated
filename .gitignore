@@ -23,5 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 .env
-resources/credentials.md  
- 
+.env.*
+!.env.example
+*.pem
+*.key
+accounts*.json
+serviceAccountKey.json
+service-account*.json
+credentials*.json
+resources/credentials.md

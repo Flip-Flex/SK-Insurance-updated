@@ -49,13 +49,13 @@ export const AuthProvider = ({ children }) => {
             profile = {
               username: emailPart,
               name: emailPart.replace('_', ' ').toUpperCase(),
-              role: 'manager',
+              role: 'customer',
               email: firebaseUser.email,
               id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
             };
             try {
               await setDoc(userDocRef, profile);
-              console.log('Created new manager profile in Firestore');
+              console.log('Created new customer profile in Firestore');
             } catch (writeErr) {
               console.warn('Firestore write failed, using local profile:', writeErr.message);
             }
@@ -66,19 +66,10 @@ export const AuthProvider = ({ children }) => {
           setUser(profile);
           logger.auth(`User signed in via Firebase`, true, { email: firebaseUser.email });
         } catch (error) {
-          // Even if Firestore completely fails, still set a basic user so they can access dashboard
+          // Strictly fail secure: If Firestore fails, DO NOT grant access.
           console.error("Auth state change error:", error.message);
-          const fallbackProfile = {
-            username: firebaseUser.email.split('@')[0],
-            name: firebaseUser.email.split('@')[0].toUpperCase(),
-            role: 'manager',
-            email: firebaseUser.email,
-            uid: firebaseUser.uid,
-            emailVerified: firebaseUser.emailVerified,
-            id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
-          };
-          setUser(fallbackProfile);
-          logger.error("Used fallback profile due to Firestore error", { error: error.message });
+          setUser(null);
+          logger.error("Authentication rejected due to Firestore error", { error: error.message });
         }
       } else {
         setUser(null);
@@ -120,7 +111,7 @@ export const AuthProvider = ({ children }) => {
           profile = {
             username: cleanedEmail.split('@')[0],
             name: cleanedEmail.split('@')[0].toUpperCase(),
-            role: 'manager',
+            role: 'customer',
             email: cleanedEmail,
             id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
           };
@@ -130,17 +121,9 @@ export const AuthProvider = ({ children }) => {
         profile.uid = userCredential.user.uid;
         setUser(profile);
       } catch (firestoreErr) {
-        console.warn('Firestore profile error during login, using fallback:', firestoreErr.message);
-        // Still set user with fallback profile so dashboard works
-        setUser({
-          username: cleanedEmail.split('@')[0],
-          name: cleanedEmail.split('@')[0].toUpperCase(),
-          role: 'manager',
-          email: cleanedEmail,
-          uid: userCredential.user.uid,
-          emailVerified: userCredential.user.emailVerified,
-          id: `USER-${Math.floor(1000 + Math.random() * 9000)}`
-        });
+        console.warn('Firestore profile error during login, failing securely:', firestoreErr.message);
+        // Fail secure: reject login if we cannot verify role from Firestore
+        throw new Error('Database access failed. Could not verify user role.');
       }
       return true;
     } catch (error) {
@@ -161,7 +144,7 @@ export const AuthProvider = ({ children }) => {
       const profile = {
         username: email.split('@')[0],
         name: name,
-        role: 'manager',
+        role: 'customer',
         email: email,
         id: `CUST-${Math.floor(1000 + Math.random() * 9000)}`
       };

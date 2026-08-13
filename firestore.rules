@@ -35,9 +35,17 @@ service cloud.firestore {
 
     // User Profiles
     match /users/{userId} {
-      // Users can read their own profile to verify role, but only Managers can write/manage all users
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Users can read their own profile, but only Managers can read/manage all users
+      allow read: if request.auth != null && request.auth.uid == userId;
       allow read, write: if isManager();
+      
+      // Allow creation of profile only if role is NOT 'manager'
+      allow create: if request.auth != null && request.auth.uid == userId
+                    && request.resource.data.role != 'manager';
+                    
+      // Allow updates to own profile only if role is unchanged
+      allow update: if request.auth != null && request.auth.uid == userId
+                    && request.resource.data.role == resource.data.role;
     }
 
     // Private Business Data (Strictly Manager Only)
