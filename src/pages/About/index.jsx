@@ -60,6 +60,8 @@ const AwardCard = ({ aw, onClick, index = 0 }) => {
         <img
           src={aw.img}
           alt={aw.title}
+          loading="lazy"
+          decoding="async"
           className="w-full h-auto object-contain group-hover:scale-[1.03] transition-transform duration-700 ease-out"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
@@ -657,6 +659,8 @@ export const About = () => {
                   src={awards[selectedAwardIndex].img}
                   className="w-full h-full object-contain max-h-[60vh]"
                   alt={awards[selectedAwardIndex].title}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 
