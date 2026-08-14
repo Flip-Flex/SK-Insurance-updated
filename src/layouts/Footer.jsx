@@ -28,7 +28,7 @@ export const Footer = () => {
                 [
                   { icon: FaInstagram, url: "https://www.instagram.com/sk_smartinvestments/", color: "text-pink-500 border-pink-500/50 bg-pink-500/10" },
                   { icon: FaLinkedin, url: "https://www.linkedin.com/company/sksmartinvestments/", color: "text-blue-500 border-blue-500/50 bg-blue-500/10" },
-                  { icon: FaWhatsapp, url: "https://wa.me/919994451300?text=Hi", color: "hover:text-emerald-500 hover:border-emerald-500/50 hover:bg-emerald-500/10" }
+                  { icon: FaWhatsapp, url: "https://wa.me/919994451300?text=Hi", color: "text-emerald-500 border-emerald-500/50 bg-emerald-500/10" }
                 ].map((item, idx) => (
                   <a
                     key={idx}
