@@ -469,10 +469,10 @@ export const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8 }}
-                className="flex flex-col md:flex-row gap-10 md:gap-8 lg:gap-16 items-center md:items-start lg:items-center"
+                className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center lg:items-start"
               >
                 {/* Photo */}
-                <div className="order-1 w-[85%] max-w-[320px] sm:max-w-none sm:w-2/5 lg:w-1/3 shrink-0 mx-auto md:mx-0">
+                <div className="order-1 w-full max-w-[420px] lg:max-w-none lg:w-1/3 shrink-0 mx-auto lg:mx-0">
                   <div className="relative aspect-square sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-stone-200 dark:bg-stone-900 group border border-stone-200/50 dark:border-white/10">
                     <img
                       src={person.src}
@@ -483,7 +483,7 @@ export const About = () => {
                 </div>
 
                 {/* Content */}
-                <div className="order-2 w-full md:w-3/5 lg:w-7/12 flex flex-col mt-4 md:mt-0">
+                <div className="order-2 w-full lg:w-7/12 flex flex-col mt-4 lg:mt-0 text-center lg:text-left">
                   <div className="mb-6 lg:mb-8 text-left">
                     <h4 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mb-2">{person.name}</h4>
                     <p className="text-sm font-bold text-brand-accent uppercase tracking-widest">{person.designation}</p>
