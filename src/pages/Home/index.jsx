@@ -182,60 +182,84 @@ export const Home = () => {
   const { t } = useTranslation();
   const [monthlyInvest, setMonthlyInvest] = useState(5000);
   
-  const desktopVideoRef = useRef(null);
-  const [videoSrc, setVideoSrc] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return '/newskvid.mp4';
-    }
+  const heroVideoRef = useRef(null);
+
+  // Detect tablet/iPad vs desktop and choose appropriate video
+  const getVideoSrc = () => {
+    if (typeof window === 'undefined') return '/newskvid.mp4';
+    const w = window.innerWidth;
+    const isTablet = w >= 768 && w <= 1024;
+    const isIPad = /iPad|Macintosh/i.test(navigator.userAgent) && 'ontouchend' in document;
+    if (isIPad || isTablet) return '/Tablet.mp4';
     return '/newskvid.mp4';
-  });
+  };
+
+  const [videoSrc, setVideoSrc] = useState(getVideoSrc);
 
   useEffect(() => {
-    // Update video source on resize
-    const updateVideoSrc = () => {
-      setVideoSrc('/newskvid.mp4');
-    };
-    
-    updateVideoSrc();
+    const updateVideoSrc = () => setVideoSrc(getVideoSrc());
     window.addEventListener('resize', updateVideoSrc);
     return () => window.removeEventListener('resize', updateVideoSrc);
   }, []);
 
+  // Robust autoplay for iPad Safari
   useEffect(() => {
-    if (!videoSrc) return;
+    const vid = heroVideoRef.current;
+    if (!vid) return;
 
-    const playVideos = () => {
-      const vid = document.getElementById('hero-video');
-      if (vid) {
-        vid.muted = true;
-        vid.defaultMuted = true;
-        vid.play().catch(e => console.log('Autoplay prevented:', e));
-      }
+    const attemptPlay = () => {
+      if (!vid) return;
+      vid.muted = true;
+      vid.setAttribute('muted', '');
+      vid.setAttribute('playsinline', '');
+      const p = vid.play();
+      if (p && p.catch) p.catch(() => {});
     };
-    
-    // Attempt to play immediately on mount
-    playVideos();
-    
-    // Attempt to play on visibility change (sometimes helps with mobile restrictions)
-    const handleVisibilityChange = () => {
-      if (!document.hidden) playVideos();
-    };
-    
-    // Attempt to play on first user interaction as a fallback
+
+    // Try immediately
+    attemptPlay();
+
+    // Try again after a short delay (helps on iPad)
+    const t1 = setTimeout(attemptPlay, 300);
+    const t2 = setTimeout(attemptPlay, 1000);
+
+    // Try on first user interaction (ultimate fallback for strict Safari)
     const handleInteraction = () => {
-      playVideos();
+      attemptPlay();
       document.removeEventListener('touchstart', handleInteraction);
       document.removeEventListener('click', handleInteraction);
+      document.removeEventListener('scroll', handleInteraction);
     };
+    document.addEventListener('touchstart', handleInteraction, { once: true, passive: true });
+    document.addEventListener('click', handleInteraction, { once: true });
+    document.addEventListener('scroll', handleInteraction, { once: true, passive: true });
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    document.addEventListener("touchstart", handleInteraction, { once: true });
-    document.addEventListener("click", handleInteraction, { once: true });
+    // Try when video becomes visible (IntersectionObserver)
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) attemptPlay();
+    }, { threshold: 0.1 });
+    observer.observe(vid);
+
+    // Try on visibility change
+    const handleVisibility = () => { if (!document.hidden) attemptPlay(); };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    // Try when video data is ready
+    vid.addEventListener('loadeddata', attemptPlay);
+    vid.addEventListener('canplay', attemptPlay);
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      document.removeEventListener("touchstart", handleInteraction);
-      document.removeEventListener("click", handleInteraction);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibility);
+      document.removeEventListener('touchstart', handleInteraction);
+      document.removeEventListener('click', handleInteraction);
+      document.removeEventListener('scroll', handleInteraction);
+      if (vid) {
+        vid.removeEventListener('loadeddata', attemptPlay);
+        vid.removeEventListener('canplay', attemptPlay);
+      }
     };
   }, [videoSrc]);
 
@@ -496,29 +520,19 @@ export const Home = () => {
     <div className="relative">
       {/* Full-width Background Video Banner at the Top */}
       <section className="relative w-full h-screen overflow-hidden bg-black">
-        {/* Dynamic Responsive Video using dangerouslySetInnerHTML to bypass React iOS bugs */}
-        {videoSrc && (
-          <div 
-            key={videoSrc}
-            className="absolute inset-0 z-0"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <video 
-                  id="hero-video"
-                  class="absolute top-0 left-0 w-full h-full object-cover" 
-                  style="display: block;"
-                  autoplay 
-                  loop 
-                  muted 
-                  playsinline
-                  webkit-playsinline="true"
-                  preload="auto"
-                  src="${videoSrc}"
-                ></video>
-              `
-            }}
-          />
-        )}
+        {/* Proper React video element for iPad compatibility */}
+        <video 
+          ref={heroVideoRef}
+          key={videoSrc}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="/casual/insurancepolicy.jpg"
+          src={videoSrc}
+        />
 
         {/* Scroll Indicator */}
         <motion.div 
