@@ -40,7 +40,7 @@ const AwardCard = ({ aw, onClick, index = 0 }) => {
 
   return (
     <motion.div
-      style={{ rotateX: sx, rotateY: sy, transformStyle: "preserve-3d" }}
+      style={{ rotateX: sx, rotateY: sy }}
       onMouseMove={(e) => {
         const r = e.currentTarget.getBoundingClientRect();
         x.set(e.clientX - r.left - r.width / 2);
@@ -51,12 +51,9 @@ const AwardCard = ({ aw, onClick, index = 0 }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
-      className="group relative rounded-2xl overflow-hidden break-inside-avoid mb-6 bg-stone-100 dark:bg-neutral-900 border border-stone-200 dark:border-white/8 hover:border-stone-400 dark:hover:border-brand-accent/40 transition-all duration-500 shadow-sm hover:shadow-lg dark:shadow-none"
+      className="group relative rounded-2xl overflow-hidden mb-6 bg-stone-100 dark:bg-neutral-900 border border-stone-200 dark:border-white/8 hover:border-stone-400 dark:hover:border-brand-accent/40 transition-all duration-500 shadow-sm hover:shadow-lg dark:shadow-none"
     >
-      <div
-        className="relative w-full overflow-hidden"
-        style={{ transform: "translateZ(20px)" }}
-      >
+      <div className="relative w-full overflow-hidden">
         <img
           src={aw.img}
           alt={aw.title}
@@ -439,7 +436,7 @@ export const About = () => {
           </p>
         </div>
 
-        <div className="columns-1 sm:columns-2 lg:columns-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
           {awards.map((aw, idx) => (
             <AwardCard key={idx} aw={aw} onClick={setSelectedAwardIndex} index={idx} />
           ))}
