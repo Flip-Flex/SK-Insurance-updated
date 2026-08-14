@@ -164,7 +164,7 @@ export const Plans = () => {
     { label: 'Pension Plan', value: 'Pension Plan' },
     { label: 'Child Plan', value: 'Child Plan' },
     { label: 'Health Care', value: 'Health' },
-    { label: 'Motor & Home', value: 'Motor' }
+    { label: 'General Insurance', value: 'General' }
   ];
 
   const ALL_SIXTEEN_COMPANIES = [
@@ -192,8 +192,8 @@ export const Plans = () => {
 
     let categoryMatch = true;
     if (activeFilter !== 'ALL') {
-      if (activeFilter === 'Motor') {
-        categoryMatch = plan.category === 'Motor' || plan.category === 'Home' || plan.category === 'Travel';
+      if (activeFilter === 'General') {
+        categoryMatch = plan.category === 'General' || plan.category === 'Travel';
       } else {
         categoryMatch = plan.category === activeFilter || plan.categoryTag === activeFilter;
       }

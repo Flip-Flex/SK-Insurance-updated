@@ -315,9 +315,6 @@ export const Calculator = () => {
   const categories = [
     { id: 'health', label: 'Health', icon: FaHeartbeat },
     { id: 'life', label: 'Life', icon: FaShieldAlt },
-    { id: 'motor', label: 'Motor', icon: FaCar },
-    { id: 'home', label: 'Home', icon: FaHome },
-    { id: 'travel', label: 'Travel', icon: FaPlane },
     { id: 'sip', label: 'SIP Calc', icon: FaCalculator }
   ];
 

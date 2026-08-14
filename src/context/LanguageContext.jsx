@@ -39,8 +39,8 @@ const translations = {
     card_2_desc: "Guards against medical emergencies by paying for hospitalization, operations, and diagnostics directly.",
     card_3_title: "LIFE INSURANCE",
     card_3_desc: "Secures your family's future financially in your absence, paying out a death benefit or savings.",
-    card_4_title: "MOTOR & GENERAL",
-    card_4_desc: "Protects your physical assets (cars, homes) from collisions, fires, natural disasters, or liabilities.",
+    card_4_title: "GENERAL INSURANCE",
+    card_4_desc: "Protects your physical assets and covers travel, business, fire, and property.",
 
     // SIP
     sip_title: "Systematic Investment Plan (SIP) Calculator",

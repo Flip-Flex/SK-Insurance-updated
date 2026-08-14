@@ -54,8 +54,9 @@ export const Footer = () => {
               {[
                 { name: "Health Insurance", path: "/plans?category=Health" },
                 { name: "Life Insurance", path: "/plans?category=Life" },
-                { name: "Motor Insurance", path: "/plans?category=Motor" },
-                { name: "Home Insurance", path: "/plans?category=Home" },
+                { name: "General Insurance", path: "/plans?category=General" },
+                { name: "Retirement Plans", path: "/plans?category=Retirement" },
+                { name: "Child Plans", path: "/plans?category=Child" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <Link to={link.path} className="group flex items-center gap-2 text-sm text-neutral-400 font-medium hover:text-white transition-colors">

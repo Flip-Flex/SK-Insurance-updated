@@ -30,15 +30,13 @@ export const Claims = () => {
   const docTabs = [
     { id: 'health', label: 'Health Claim' },
     { id: 'life', label: 'Life Claim' },
-    { id: 'motor', label: 'Motor Claim' },
-    { id: 'home', label: 'Home Claim' },
+    { id: 'general', label: 'General Claim' },
   ];
 
   const docsData = {
     health: ['Policy document', 'Hospital bills', 'Discharge summary', 'Medical reports', 'Identity proof'],
     life: ['Policy document', 'Death certificate', 'Nominee ID proof', 'Bank details', 'Claim form'],
-    motor: ['RC book', 'Driving licence', 'FIR if applicable', 'Vehicle photos', 'Claim form'],
-    home: ['Policy document', 'Property damage photos', 'Estimate report', 'Identity proof'],
+    general: ['Policy document', 'Incident report / FIR', 'Photographs of damage', 'Claim form', 'Identity proof'],
   };
 
   const faqs = [
@@ -101,19 +99,19 @@ export const Claims = () => {
           <div className="bg-red-50/50 dark:bg-red-900/10 border border-red-200 dark:border-red-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
             <div>
               <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
-                <FaCar className="text-xl text-red-600 dark:text-red-400 transition-colors" />
+                <FaShieldAlt className="text-xl text-red-600 dark:text-red-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">MOTOR CLAIM</h3>
-              <p className="text-neutral-600 dark:text-neutral-400">Accident, damage, theft</p>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">LIFE CLAIM</h3>
+              <p className="text-neutral-600 dark:text-neutral-400">Death and critical illness</p>
             </div>
           </div>
           <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
             <div>
               <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
-                <FaShieldAlt className="text-xl text-emerald-600 dark:text-emerald-400 transition-colors" />
+                <FaBriefcase className="text-xl text-emerald-600 dark:text-emerald-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">LIFE & OTHER CLAIMS</h3>
-              <p className="text-neutral-600 dark:text-neutral-400">Life, home, travel and business</p>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">GENERAL CLAIM</h3>
+              <p className="text-neutral-600 dark:text-neutral-400">Travel, business, property, etc.</p>
             </div>
           </div>
         </div>
@@ -133,7 +131,7 @@ export const Claims = () => {
               </div>
               <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-6">IMMEDIATE CLAIM ASSISTANCE</h2>
               <p className="text-xl text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
-                Whether you're facing a medical emergency or an urgent motor accident, our dedicated rapid-response team is on standby to coordinate with hospitals and surveyors immediately.
+                Whether you're facing a medical emergency or an urgent accident, our dedicated rapid-response team is on standby to coordinate with hospitals and surveyors immediately.
               </p>
             </div>
             
@@ -220,10 +218,7 @@ export const Claims = () => {
           {[
             { title: 'HEALTH', desc: 'Medical emergencies and hospitalisation.', bgClass: 'bg-blue-50 dark:bg-blue-900/10' },
             { title: 'LIFE', desc: 'Death and critical illness claims.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/10' },
-            { title: 'MOTOR', desc: 'Vehicle accidents, damage, or theft.', bgClass: 'bg-red-50 dark:bg-red-900/10' },
-            { title: 'HOME', desc: 'Property damage and natural disasters.', bgClass: 'bg-amber-50 dark:bg-amber-900/10' },
-            { title: 'TRAVEL', desc: 'Trip cancellations and medical emergencies abroad.', bgClass: 'bg-purple-50 dark:bg-purple-900/10' },
-            { title: 'BUSINESS', desc: 'Commercial liability and property claims.', bgClass: 'bg-stone-50 dark:bg-stone-900/10' },
+            { title: 'GENERAL', desc: 'Travel, business, property, and more.', bgClass: 'bg-amber-50 dark:bg-amber-900/10' },
           ].map((item, i) => (
             <div key={i} className={`p-12 transition-colors flex flex-col justify-between ${item.bgClass}`}>
               <div>
@@ -290,7 +285,7 @@ export const Claims = () => {
               "When my car was involved in an accident, I just had to make one call. They arranged the towing, surveyor inspection, and ensured the cashless repair was completed without me having to visit the garage constantly. Exceptional service."
             </p>
             <h4 className="text-black dark:text-white font-bold uppercase tracking-wider text-sm">Anita Desai</h4>
-            <p className="text-neutral-500 text-sm">Motor Claim</p>
+            <p className="text-neutral-500 text-sm">General Claim</p>
           </div>
         </div>
       </section>

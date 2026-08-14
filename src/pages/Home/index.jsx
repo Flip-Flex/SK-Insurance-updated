@@ -273,11 +273,11 @@ export const Home = () => {
     },
     {
       name: 'Bajaj Allianz',
-      type: 'General & Motor',
+      type: 'General Insurance',
       logo: '/logos/bajaj_allianz.png',
       onlineLogo: 'https://logo.clearbit.com/bajajallianz.com',
       tag: 'GLOBAL ASSIST',
-      desc: 'Worldwide emergency care, motor zero-dep, & personal accident cover.'
+      desc: 'Worldwide emergency care, travel, & personal accident cover.'
     },
     {
       name: 'Aditya Birla Sun Life',
@@ -293,7 +293,7 @@ export const Home = () => {
       logo: '/logos/oriental_insurance.png',
       onlineLogo: '/logos/oriental_insurance.png',
       tag: 'PUBLIC SECTOR TRUST',
-      desc: 'Premier PSU insurer providing comprehensive home, fire, motor & commercial coverage.'
+      desc: 'Premier PSU insurer providing comprehensive fire, commercial & property coverage.'
     },
     {
       name: 'Tata AIA Life',
@@ -407,7 +407,7 @@ export const Home = () => {
       role: "Verified Client"
     },
     {
-      quote: "Excellent customer service and very transparent processes. Getting my motor insurance renewed took less than 10 minutes online with their assistance.",
+      quote: "Excellent customer service and very transparent processes. Getting my general insurance renewed took less than 10 minutes online with their assistance.",
       author: "Arun Venkatesh",
       role: "Verified Client"
     },

@@ -18,7 +18,7 @@ const DEFAULT_COMPANIES = [
 
 const DEFAULT_CATEGORIES = [
   'Health Insurance', 'Family Health', 'Life Insurance', 'Term Insurance', 
-  'Motor Insurance', 'Home Insurance', 'Travel Insurance', 'Business Insurance', 'Investment Plans'
+  'General Insurance', 'Investment Plans', 'Savings Plan', 'Pension Plan', 'Child Plan'
 ];
 
 const BILLING_TYPES = ['Monthly', 'Quarterly', 'Half Yearly', 'Yearly'];

@@ -5,9 +5,7 @@ const defaultIcons = {
   ALL: FaShieldAlt,
   Health: FaHeartbeat,
   Life: FaUserShield,
-  Motor: FaCar,
-  Home: FaHome,
-  Travel: FaPlane
+  General: FaShieldAlt
 };
 
 export const Filters = ({ options, activeFilter, onChange, className = '' }) => {
