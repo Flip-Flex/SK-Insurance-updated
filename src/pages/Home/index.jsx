@@ -207,6 +207,8 @@ export const Home = () => {
     const playVideos = () => {
       const vid = document.getElementById('hero-video');
       if (vid) {
+        vid.muted = true;
+        vid.defaultMuted = true;
         vid.play().catch(e => console.log('Autoplay prevented:', e));
       }
     };
@@ -236,6 +238,7 @@ export const Home = () => {
       document.removeEventListener("click", handleInteraction);
     };
   }, [videoSrc]);
+
   const [expectedReturn, setExpectedReturn] = useState(12);
   const [years, setYears] = useState(10);
   const [partnerFilter, setPartnerFilter] = useState('ALL');
@@ -506,7 +509,8 @@ export const Home = () => {
                   autoplay 
                   loop 
                   muted 
-                  playsinline 
+                  playsinline
+                  webkit-playsinline="true"
                   preload="auto"
                   src="${videoSrc}"
                 ></video>
@@ -514,6 +518,7 @@ export const Home = () => {
             }}
           />
         )}
+
         {/* Scroll Indicator */}
         <motion.div 
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 cursor-pointer"
@@ -542,7 +547,6 @@ export const Home = () => {
 
       {/* Trust Values Section */}
       <EditorialTrustValues values={values} />
-
 
       {/* Testimonials Strip */}
       <StaggerTestimonials testimonials={testimonials} />

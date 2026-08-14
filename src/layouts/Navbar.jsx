@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { StaggeredMenu } from '../components/ui/StaggeredMenu';
 
 export const Navbar = () => {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, isManager } = useAuth();
   const { locale: currentLang, setLocale: setCurrentLang, t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -160,27 +160,32 @@ export const Navbar = () => {
             </button>
 
             {/* Auth Buttons */}
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-6">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={logout}
+            <div className="flex items-center space-x-4">
+              {isManager && (
+                <button
+                  onClick={() => navigate('/dashboard')}
                   className="px-6 py-2.5 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[15px] cursor-pointer"
                 >
+                  Dashboard
+                </button>
+              )}
+              {isAuthenticated && (
+                <button
+                  onClick={logout}
+                  className={`px-4 py-2.5 rounded-[14px] font-medium text-[14px] transition-colors ${isTransparent ? 'text-black hover:bg-black/10' : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'}`}
+                >
                   Logout
-                </motion.button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-6">
+                </button>
+              )}
+              {!isManager && (
                 <button
                   onClick={() => navigate('/appointment')}
                   className={`px-7 py-2.5 rounded-xl backdrop-blur-md font-medium text-[15px] cursor-pointer transition-all duration-300 hover:border-brand-accent hover:bg-brand-accent hover:text-black hover:shadow-[0_0_15px_rgba(255, 179, 0,0.3)] ${isTransparent ? 'bg-black/5 border-black/20 text-black' : 'bg-black/5 dark:bg-black/40 border-black/10 dark:border-white/10 text-black dark:text-white'}`}
                 >
                   Get Started
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Mobile GSAP StaggeredMenu (Handles its own toggle) */}
@@ -257,9 +262,25 @@ export const Navbar = () => {
                 </div>
                   {isAuthenticated ? (
                     <>
+                      {isManager && (
+                        <button
+                          onClick={() => { closeMenu(); setIsOpen(false); navigate('/dashboard'); }}
+                          className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
+                        >
+                          Dashboard
+                        </button>
+                      )}
+                      {!isManager && (
+                        <button
+                          onClick={() => { closeMenu(); setIsOpen(false); navigate('/appointment'); }}
+                          className="w-full py-4 rounded-xl bg-brand-accent hover:bg-[#E6A100] text-black font-bold text-[16px] cursor-pointer transition-all duration-300 shadow-sm active:scale-95"
+                        >
+                          Get Started
+                        </button>
+                      )}
                       <button
                         onClick={() => { closeMenu(); setIsOpen(false); logout(); }}
-                        className="w-full py-4 rounded-[14px] bg-brand-accent hover:bg-brand-hover text-black font-bold text-[16px] cursor-pointer"
+                        className="w-full py-4 mt-4 rounded-[14px] border border-red-500/30 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 font-bold text-[16px] cursor-pointer"
                       >
                         Logout
                       </button>

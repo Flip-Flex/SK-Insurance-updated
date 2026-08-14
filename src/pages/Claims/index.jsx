@@ -49,10 +49,10 @@ export const Claims = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F7F5] dark:bg-black text-neutral-800 dark:text-neutral-200 overflow-x-hidden font-sans pt-24 selection:bg-brand-accent selection:text-black transition-colors duration-300">
+    <div className="min-h-screen bg-[#F7F7F5] dark:bg-black text-neutral-800 dark:text-neutral-200 overflow-x-hidden font-sans pt-20 selection:bg-brand-accent selection:text-black transition-colors duration-300">
       
       {/* 1. HERO — We Help You Through the Claim. */}
-      <section className="relative px-6 lg:px-12 pt-16 pb-24 lg:pt-24 lg:pb-32 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10 overflow-hidden lg:min-h-[60vh] flex items-center">
+      <section className="relative px-6 lg:px-12 pt-8 pb-24 lg:pt-12 lg:pb-32 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10 overflow-hidden lg:min-h-[60vh] flex items-center">
         {/* Subtle Background Glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-brand-accent/10 dark:bg-brand-accent/5 rounded-full blur-[100px]" />
@@ -120,33 +120,49 @@ export const Claims = () => {
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
         <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">NEED TO MAKE A CLAIM?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
-            <div>
+          
+          <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 flex flex-col hover:shadow-xl dark:hover:shadow-none transition-all cursor-pointer group rounded-2xl overflow-hidden">
+            <div className="w-full h-48 overflow-hidden relative">
+              <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10" />
+              <img src="/casual/healthinsurance.jpg" alt="Health Claim" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div className="p-8 flex-1 flex flex-col bg-blue-50/30 dark:bg-blue-900/10">
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
                 <FaHeartbeat className="text-xl text-blue-600 dark:text-blue-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">HEALTH CLAIM</h3>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-3">HEALTH CLAIM</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Hospitalisation, treatment, medical expenses</p>
             </div>
           </div>
-          <div className="bg-red-50/50 dark:bg-red-900/10 border border-red-200 dark:border-red-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
-            <div>
+
+          <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 flex flex-col hover:shadow-xl dark:hover:shadow-none transition-all cursor-pointer group rounded-2xl overflow-hidden">
+            <div className="w-full h-48 overflow-hidden relative">
+              <div className="absolute inset-0 bg-red-900/20 group-hover:bg-transparent transition-colors z-10" />
+              <img src="/casual/lifeinsurancepolicy.jpg" alt="Life Claim" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div className="p-8 flex-1 flex flex-col bg-red-50/30 dark:bg-red-900/10">
               <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
                 <FaShieldAlt className="text-xl text-red-600 dark:text-red-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">LIFE CLAIM</h3>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-3">LIFE CLAIM</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Death and critical illness</p>
             </div>
           </div>
-          <div className="bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
-            <div>
+
+          <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 flex flex-col hover:shadow-xl dark:hover:shadow-none transition-all cursor-pointer group rounded-2xl overflow-hidden">
+            <div className="w-full h-48 overflow-hidden relative">
+              <div className="absolute inset-0 bg-emerald-900/20 group-hover:bg-transparent transition-colors z-10" />
+              <img src="/casual/insurancepolicy.jpg" alt="General Claim" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div className="p-8 flex-1 flex flex-col bg-emerald-50/30 dark:bg-emerald-900/10">
               <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
                 <FaBriefcase className="text-xl text-emerald-600 dark:text-emerald-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">GENERAL CLAIM</h3>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-3">GENERAL CLAIM</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Travel, business, property, etc.</p>
             </div>
           </div>
+
         </div>
       </section>
 
