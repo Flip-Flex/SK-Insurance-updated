@@ -270,12 +270,13 @@ export const ManagerDashboard = () => {
       fetchPlans();
     } catch (err) {
       if (err instanceof z.ZodError) {
-        setFormError(err.errors[0].message);
+        setFormError(err.issues?.[0]?.message || 'Validation failed');
       } else {
         setFormError(`An error occurred: ${err.message}`);
       }
+    } finally {
+      setFormSaving(false);
     }
-    setFormSaving(false);
   };
 
   return (

@@ -8,7 +8,7 @@ import { FaCheck, FaShieldAlt, FaUserShield, FaBriefcase, FaFileSignature, FaHea
 import { cn } from '../../utils/cn';
 
 // Clean Professional Company Logo Component
-const CompanyLogo = ({ company, thumbnailUrl }) => {
+export const CompanyLogo = ({ company, thumbnailUrl }) => {
   if (thumbnailUrl) {
     return (
       <div className="w-full h-full flex items-center justify-center p-1 rounded-lg bg-white dark:bg-stone-200 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-black/5 dark:border-none">
