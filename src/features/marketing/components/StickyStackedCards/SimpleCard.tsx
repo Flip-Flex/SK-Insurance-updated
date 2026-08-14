@@ -20,7 +20,10 @@ interface SimpleCardProps {
 export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const layoutId = `simple-card-${idx}`;
+  
+  // Disable layout morphing on touch devices to prevent lag
+  const isTouchDevice = typeof window !== 'undefined' && ('ontouchend' in document || navigator.maxTouchPoints > 0);
+  const layoutId = isTouchDevice ? undefined : `simple-card-${idx}`;
 
   useEffect(() => {
     setMounted(true);

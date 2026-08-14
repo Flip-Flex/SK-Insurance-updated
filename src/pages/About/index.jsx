@@ -461,7 +461,7 @@ export const About = () => {
             </p>
           </div>
 
-          <div className="space-y-20 lg:space-y-28">
+          <div className="space-y-20 xl:space-y-28">
             {peopleData.map((person, idx) => (
               <motion.div
                 key={idx}
@@ -469,10 +469,10 @@ export const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8 }}
-                className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center lg:items-start"
+                className="flex flex-col xl:flex-row gap-10 xl:gap-16 items-center xl:items-start"
               >
                 {/* Photo */}
-                <div className="order-1 w-full max-w-[420px] lg:max-w-none lg:w-1/3 shrink-0 mx-auto lg:mx-0">
+                <div className="order-1 w-full max-w-[420px] xl:max-w-none xl:w-1/3 shrink-0 mx-auto xl:mx-0">
                   <div className="relative aspect-square sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-stone-200 dark:bg-stone-900 group border border-stone-200/50 dark:border-white/10">
                     <img
                       src={person.src}
@@ -483,7 +483,7 @@ export const About = () => {
                 </div>
 
                 {/* Content */}
-                <div className="order-2 w-full lg:w-7/12 flex flex-col mt-4 lg:mt-0 text-center lg:text-left">
+                <div className="order-2 w-full xl:w-7/12 flex flex-col mt-4 xl:mt-0 text-center xl:text-left">
                   <div className="mb-6 lg:mb-8 text-left">
                     <h4 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mb-2">{person.name}</h4>
                     <p className="text-sm font-bold text-brand-accent uppercase tracking-widest">{person.designation}</p>

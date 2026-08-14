@@ -119,7 +119,7 @@ export const Claims = () => {
       {/* 2. Need to Make a Claim? */}
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
         <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">NEED TO MAKE A CLAIM?</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           
           <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 flex flex-col hover:shadow-xl dark:hover:shadow-none transition-all cursor-pointer group rounded-2xl overflow-hidden">
             <div className="w-full h-48 overflow-hidden relative">
