@@ -184,23 +184,7 @@ export const Home = () => {
   
   const heroVideoRef = useRef(null);
 
-  // Detect tablet/iPad vs desktop and choose appropriate video
-  const getVideoSrc = () => {
-    if (typeof window === 'undefined') return '/newskvid.mp4';
-    const w = window.innerWidth;
-    const isTablet = w >= 768 && w <= 1024;
-    const isIPad = /iPad|Macintosh/i.test(navigator.userAgent) && 'ontouchend' in document;
-    if (isIPad || isTablet) return '/Tablet.mp4';
-    return '/newskvid.mp4';
-  };
-
-  const [videoSrc, setVideoSrc] = useState(getVideoSrc);
-
-  useEffect(() => {
-    const updateVideoSrc = () => setVideoSrc(getVideoSrc());
-    window.addEventListener('resize', updateVideoSrc);
-    return () => window.removeEventListener('resize', updateVideoSrc);
-  }, []);
+  const videoSrc = '/newskvid.mp4';
 
   // Robust autoplay for iPad Safari
   useEffect(() => {
@@ -523,16 +507,15 @@ export const Home = () => {
         {/* Proper React video element for iPad compatibility */}
         <video 
           ref={heroVideoRef}
-          key={videoSrc}
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           loop
           muted
           playsInline
           preload="auto"
-          poster="/casual/insurancepolicy.jpg"
-          src={videoSrc}
-        />
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
 
         {/* Scroll Indicator */}
         <motion.div 
