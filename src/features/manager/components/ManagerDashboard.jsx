@@ -10,6 +10,7 @@ import { getPlans, createPlan, updatePlan, deletePlan } from '../../../features/
 import { uploadMediaFile } from '../../../services/firebaseService';
 import { z } from 'zod';
 import imageCompression from 'browser-image-compression';
+import { CompanyLogo } from '../../../pages/Plans/index';
 
 const DEFAULT_COMPANIES = [
   'SBI Life Insurance', 'LIC', 'Tata AIA', 'HDFC Life', 
@@ -418,13 +419,9 @@ export const ManagerDashboard = () => {
                       {filteredPlans.map(plan => (
                         <tr key={plan.id} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors group">
                           <td className="px-6 py-4">
-                            {plan.thumbnailUrl ? (
-                              <img src={plan.thumbnailUrl} alt={plan.title} className="w-10 h-10 rounded-lg bg-slate-200 object-cover border border-slate-200 dark:border-white/10" />
-                            ) : (
-                              <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-white/5 flex items-center justify-center border border-slate-200 dark:border-white/10 text-slate-400">
-                                <FaImage />
-                              </div>
-                            )}
+                            <div className="w-16 h-10">
+                              <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} />
+                            </div>
                           </td>
                           <td className="px-6 py-4">
                             <div className="font-bold text-neutral-950 dark:text-white text-sm">{plan.title || plan.name}</div>
