@@ -172,7 +172,7 @@ export const About = () => {
       {/* ═══════════════════════════════════════════════
           HERO
       ═══════════════════════════════════════════════ */}
-      <section className="relative min-h-[90vh] flex items-end pb-16 sm:pb-24 pt-32 sm:pt-40 overflow-hidden">
+      <section className="relative flex flex-col justify-center pb-16 sm:pb-24 pt-32 sm:pt-40 overflow-hidden min-h-[50vh]">
         {/* Warm ambient wash */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-0 w-[60%] h-[70%] bg-amber-100/60 dark:bg-brand-accent/[0.06] rounded-bl-[40%] blur-3xl" />

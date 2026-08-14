@@ -44,13 +44,13 @@ export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
       >
         <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-[24px] ${card.bgHoverClass || ''}`} />
         <div className="flex flex-col items-start w-full h-full relative z-10">
-          <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white rounded-[16px] inline-block mb-6 shadow-sm transition-all duration-300">
+          <motion.div className="p-4 bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white rounded-[16px] inline-block mb-6 shadow-sm transition-all duration-300">
             <card.icon className={`text-3xl lg:text-4xl text-black dark:text-white transition-all duration-300 ${card.colorClass || ''}`} />
           </motion.div>
-          <motion.h3 layoutId={`title-${layoutId}`} className="text-xl lg:text-2xl font-bold text-black dark:text-white tracking-tight mb-3">
+          <motion.h3 className="text-xl lg:text-2xl font-bold text-black dark:text-white tracking-tight mb-3">
             {card.title}
           </motion.h3>
-          <motion.p layoutId={`desc-${layoutId}`} className="text-[14px] lg:text-[15px] text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow">
+          <motion.p className="text-[14px] lg:text-[15px] text-neutral-600 dark:text-neutral-400 leading-relaxed flex-grow">
             {card.desc}
           </motion.p>
           <div className="mt-6 flex items-center justify-end w-full text-brand-accent">
@@ -87,14 +87,14 @@ export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
                 </button>
                 
                 <div className="p-6 sm:p-12 w-full flex flex-col overflow-y-auto">
-                  <motion.div layoutId={`icon-box-${layoutId}`} className="p-4 bg-neutral-200 dark:bg-neutral-800 text-black dark:text-white rounded-[16px] inline-block shadow-sm w-max mb-6">
+                  <motion.div className="p-4 bg-neutral-200 dark:bg-neutral-800 text-black dark:text-white rounded-[16px] inline-block shadow-sm w-max mb-6">
                     <card.icon className={`text-3xl lg:text-4xl text-black dark:text-white ${card.colorClass ? card.colorClass.replace(/group-hover:/g, '') : ''}`} />
                   </motion.div>
 
-                  <motion.h3 layoutId={`title-${layoutId}`} className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
+                  <motion.h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
                     {card.title}
                   </motion.h3>
-                  <motion.p layoutId={`desc-${layoutId}`} className="text-[15px] sm:text-[17px] text-neutral-600 dark:text-neutral-400 leading-relaxed pb-6 mb-6 border-b border-black/10 dark:border-white/10">
+                  <motion.p className="text-[15px] sm:text-[17px] text-neutral-600 dark:text-neutral-400 leading-relaxed pb-6 mb-6 border-b border-black/10 dark:border-white/10">
                     {card.desc}
                   </motion.p>
                   
