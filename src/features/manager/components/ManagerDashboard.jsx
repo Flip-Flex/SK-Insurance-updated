@@ -32,6 +32,28 @@ const DEFAULT_LOGOS = [
   '/logos/ManipalCigna Health.png', '/logos/axis_max.png', '/logos/Postal Office.png'
 ];
 
+const COMMON_FEATURES = [
+  "Cashless Treatment Network",
+  "Pre & Post Hospitalization Cover",
+  "No Claim Bonus",
+  "Free Health Checkup",
+  "Lifetime Renewability",
+  "Tax Benefits under 80D",
+  "Day Care Procedures Covered",
+  "Maternity Benefits",
+  "Critical Illness Cover",
+  "Global Coverage",
+  "Accidental Death Benefit",
+  "High Life Cover",
+  "Return of Premium",
+  "Flexible Premium Payment Options",
+  "Policy Loan Facility",
+  "Cashless Garages Network",
+  "Zero Depreciation Cover",
+  "Engine Protection Cover",
+  "24x7 Roadside Assistance"
+];
+
 const planSchema = z.object({
   title: z.string().min(3, 'Plan name must be at least 3 characters'),
   company: z.string().min(1, 'Please select a company'),
@@ -598,6 +620,7 @@ export const ManagerDashboard = () => {
                         <div className="flex-1 relative">
                           <input 
                             type="text" 
+                            list="commonFeatures"
                             placeholder="e.g. Cashless Treatment" 
                             value={feature} 
                             onChange={e => handleFeatureChange(index, e.target.value)} 
@@ -612,6 +635,11 @@ export const ManagerDashboard = () => {
                       </div>
                     ))}
                   </div>
+                  <datalist id="commonFeatures">
+                    {COMMON_FEATURES.map(f => (
+                      <option key={f} value={f} />
+                    ))}
+                  </datalist>
                 </div>
 
               </div>
