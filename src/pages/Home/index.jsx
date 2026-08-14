@@ -495,17 +495,18 @@ export const Home = () => {
   return (
     <div className="relative">
       {/* Full-width Background Video Banner at the Top */}
-      <section className="relative w-full h-screen overflow-hidden">
+      <section className="relative w-full h-screen overflow-hidden bg-black">
         {/* Dynamic Responsive Video using dangerouslySetInnerHTML to bypass React iOS bugs */}
         {videoSrc && (
           <div 
             key={videoSrc}
+            className="absolute inset-0 z-0"
             dangerouslySetInnerHTML={{
               __html: `
                 <video 
                   id="hero-video"
-                  class="absolute top-0 left-0 w-full h-full object-cover -z-20 pointer-events-none" 
-                  style="will-change: transform; transform: translateZ(0); backface-visibility: hidden; -webkit-transform: translateZ(0);"
+                  class="absolute top-0 left-0 w-full h-full object-cover" 
+                  style="display: block;"
                   autoplay 
                   loop 
                   muted 
@@ -521,7 +522,7 @@ export const Home = () => {
 
         {/* Scroll Indicator */}
         <motion.div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 cursor-pointer"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-20 cursor-pointer"
           animate={{ y: [0, 12, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
