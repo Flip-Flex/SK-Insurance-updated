@@ -52,14 +52,14 @@ export const Claims = () => {
     <div className="min-h-screen bg-[#F7F7F5] dark:bg-black text-neutral-800 dark:text-neutral-200 overflow-x-hidden font-sans pt-24 selection:bg-brand-accent selection:text-black transition-colors duration-300">
       
       {/* 1. HERO — We Help You Through the Claim. */}
-      <section className="relative px-6 lg:px-12 pt-16 pb-24 lg:pt-24 lg:pb-32 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10 overflow-hidden">
+      <section className="relative px-6 lg:px-12 pt-16 pb-24 lg:pt-24 lg:pb-32 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10 overflow-hidden lg:min-h-[60vh] flex items-center">
         {/* Subtle Background Glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-brand-accent/10 dark:bg-brand-accent/5 rounded-full blur-[100px]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#F7F7F5] dark:from-black via-[#F7F7F5]/80 dark:via-black/80 to-transparent" />
         </div>
 
-        <div className="relative z-10 w-full max-w-5xl">
+        <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
             <h1 className="text-5xl sm:text-6xl lg:text-[80px] font-black text-black dark:text-white leading-[1] tracking-tighter mb-8 uppercase">
               We Help You <br />
@@ -79,6 +79,39 @@ export const Claims = () => {
                 <FaPhoneAlt /> Emergency Support
               </button>
             </div>
+          </motion.div>
+
+          {/* Right Side - Simple Elegant Image */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative hidden lg:block"
+          >
+            <div className="rounded-2xl overflow-hidden shadow-2xl relative">
+              <div className="absolute inset-0 bg-black/10 mix-blend-multiply pointer-events-none"></div>
+              <img 
+                src="/claim.jpg" 
+                alt="Claims Support Team" 
+                className="w-full h-auto max-h-[450px] object-cover" 
+              />
+            </div>
+            
+            {/* Simple stats card overlapping */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="absolute -bottom-6 -left-6 bg-white dark:bg-neutral-900 p-6 rounded-xl shadow-xl border border-black/5 dark:border-white/10 flex items-center gap-4"
+            >
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400">
+                <FaCheckSquare className="text-xl" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-black dark:text-white leading-none mb-1">24/7</p>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 font-medium">Claims Assistance</p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
