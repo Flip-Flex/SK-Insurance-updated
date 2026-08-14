@@ -14,8 +14,8 @@ export const defaultPlans = [
   {
     name: 'Secure Shield Term',
     company: 'HDFC Life',
-    category: 'Term Insurance',
-    categoryTag: 'Life Cover',
+    category: 'Life',
+    categoryTag: 'Term',
     coverageAmount: '₹2 Crores',
     premiumMonthly: 950,
     features: ['Critical Illness Cover', 'Accidental Death Benefit', 'Tax Benefits'],
@@ -26,7 +26,7 @@ export const defaultPlans = [
   {
     name: 'Wealth Maximizer ULIP',
     company: 'ICICI Prudential',
-    category: 'ULIP',
+    category: 'Life',
     categoryTag: 'Investment',
     coverageAmount: 'Market Linked',
     premiumMonthly: 5000,
@@ -38,7 +38,7 @@ export const defaultPlans = [
   {
     name: 'MahaLife Gold Premium',
     company: 'Tata AIA',
-    category: 'Life & Term',
+    category: 'Life',
     categoryTag: 'Endowment',
     coverageAmount: '₹75 Lakhs',
     premiumMonthly: 2100,
@@ -48,14 +48,14 @@ export const defaultPlans = [
     displayOrder: 4
   },
   {
-    name: 'Fortune Pro Retirement',
+    name: 'General Travel Protect',
     company: 'Tata AIA',
-    category: 'Pension Plan',
-    categoryTag: 'Retirement',
+    category: 'General',
+    categoryTag: 'Travel',
     coverageAmount: '₹1.5 Crores',
     premiumMonthly: 3500,
-    features: ['Flexible Vesting Age', 'Market Linked Growth', 'Annuity Options'],
-    description: 'Build a robust retirement corpus with smart market-linked wealth creation.',
+    features: ['Medical Emergencies', 'Trip Cancellation', 'Lost Baggage Cover'],
+    description: 'Complete protection for your worldwide travel.',
     isVisible: true,
     displayOrder: 5
   }

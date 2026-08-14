@@ -53,7 +53,6 @@ export const Appointment = () => {
     { id: 'health', name: 'Health & Medical Insurance', icon: FaHeartbeat, color: 'text-brand-accent', bg: 'bg-brand-accent/10' },
     { id: 'life', name: 'Term Life & Family Protection', icon: FaShieldAlt, color: 'text-brand-accent', bg: 'bg-brand-accent/10' },
     { id: 'sip', name: 'Mutual Funds & SIP Investment', icon: FaChartLine, color: 'text-brand-accent', bg: 'bg-brand-accent/10' },
-    { id: 'retirement', name: 'Retirement & Pension Solutions', icon: FaPiggyBank, color: 'text-brand-accent', bg: 'bg-brand-accent/10' },
     { id: 'general', name: 'General Financial Audit', icon: FaRegListAlt, color: 'text-brand-accent', bg: 'bg-brand-accent/10' }
   ];
 

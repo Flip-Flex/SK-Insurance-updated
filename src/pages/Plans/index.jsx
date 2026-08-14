@@ -158,11 +158,7 @@ export const Plans = () => {
 
   const filterOptions = [
     { label: 'All Plans', value: 'ALL' },
-    { label: 'Term Insurance', value: 'Term Insurance' },
-    { label: 'ULIP', value: 'ULIP' },
-    { label: 'Savings Plan', value: 'Savings Plan' },
-    { label: 'Pension Plan', value: 'Pension Plan' },
-    { label: 'Child Plan', value: 'Child Plan' },
+    { label: 'Life Insurance', value: 'Life' },
     { label: 'Health Care', value: 'Health' },
     { label: 'General Insurance', value: 'General' }
   ];

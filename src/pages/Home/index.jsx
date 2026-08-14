@@ -345,19 +345,19 @@ export const Home = () => {
     },
     {
       name: 'Kotak Mahindra Life',
-      type: 'Life & Retirement',
+      type: 'Life Insurance',
       logo: '/logos/Kotak Mahindra Life.jpg',
       onlineLogo: '/logos/Kotak Mahindra Life.jpg',
-      tag: 'SMART RETIREMENT',
+      tag: 'WEALTH PROTECTION',
       desc: 'Guaranteed income plans for lifelong financial independence & security.'
     },
     {
       name: 'PNB MetLife',
-      type: 'Life & Child',
+      type: 'Life Insurance',
       logo: '/logos/PNB MetLife.png',
       onlineLogo: '/logos/PNB MetLife.png',
-      tag: 'CHILD FUTURE',
-      desc: 'Tailored education and milestone security plans for growing children.'
+      tag: 'FUTURE SECURITY',
+      desc: 'Tailored financial security plans for you and your family.'
     },
     {
       name: 'ManipalCigna Health',
