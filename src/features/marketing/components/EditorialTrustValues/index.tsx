@@ -45,7 +45,7 @@ export const EditorialTrustValues = ({ values }) => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-black dark:text-white leading-[1.1]"
           >
-            Why SK Smart is Chosen
+            WHY SK SMART IS CHOSEN
           </motion.h2>
         </div>
 

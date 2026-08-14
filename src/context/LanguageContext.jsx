@@ -31,15 +31,15 @@ const translations = {
 
     // What is Insurance
     fl_101: "Premium Advisory",
-    what_is_ins_title: "Mastering Wealth & Protection",
+    what_is_ins_title: "MASTERING WEALTH & PROTECTION",
     what_is_ins_desc: "Elevate your financial security with bespoke insurance and investment strategies meticulously designed to safeguard your legacy.",
-    card_1_title: "What is Insurance?",
+    card_1_title: "WHAT IS INSURANCE?",
     card_1_desc: "A risk management tool where an individual pays a small premium in exchange for protection against major losses.",
-    card_2_title: "Health Cover",
+    card_2_title: "HEALTH COVER",
     card_2_desc: "Guards against medical emergencies by paying for hospitalization, operations, and diagnostics directly.",
-    card_3_title: "Life Insurance",
+    card_3_title: "LIFE INSURANCE",
     card_3_desc: "Secures your family's future financially in your absence, paying out a death benefit or savings.",
-    card_4_title: "Motor & General",
+    card_4_title: "MOTOR & GENERAL",
     card_4_desc: "Protects your physical assets (cars, homes) from collisions, fires, natural disasters, or liabilities.",
 
     // SIP

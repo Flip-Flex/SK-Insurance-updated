@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IconType } from 'react-icons';
 
@@ -117,9 +118,9 @@ export const SimpleCard: React.FC<SimpleCardProps> = ({ card, idx }) => {
                         </ul>
                       </div>
                       
-                      <button className="mt-2 px-8 py-3 md:px-10 md:py-4 bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(255, 179, 0,0.4)] text-sm">
+                      <Link to="/plans" className="mt-2 px-8 py-3 md:px-10 md:py-4 bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(255, 179, 0,0.4)] text-sm text-center inline-block">
                         Explore Plans
-                      </button>
+                      </Link>
                     </div>
                   </motion.div>
                 </div>

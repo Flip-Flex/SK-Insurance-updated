@@ -65,7 +65,7 @@ export const PremiumEditorialStats = ({ stats: propStats }: { stats?: Stat[] }) 
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-black dark:text-white leading-[1.1]"
         >
-          A Legacy Measured <br className="hidden sm:block" /> in Trust
+          A LEGACY MEASURED IN TRUST
         </motion.h2>
       </div>
 

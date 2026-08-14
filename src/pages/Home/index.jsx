@@ -481,17 +481,17 @@ export const Home = () => {
 
   const values = [
     {
-      title: 'Digital-First Simplicity',
+      title: 'DIGITAL-FIRST SIMPLICITY',
       description: 'Scans, quotes, and payouts managed seamlessly via client portals with instant status tracker feeds.',
       icon: FaUserShield
     },
     {
-      title: 'Underwriting Integrity',
+      title: 'UNDERWRITING INTEGRITY',
       description: 'Transparent calculators reflecting genuine actuarial risk tables with zero surprise charges.',
       icon: FaHandshake
     },
     {
-      title: 'Award-Winning Underwriting',
+      title: 'AWARD-WINNING UNDERWRITING',
       description: 'Highly commended boutique operations recognized globally for custom risk modeling options.',
       icon: FaAward
     }

@@ -227,27 +227,7 @@ export const Auth = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between text-xs font-bold text-neutral-500 px-1 pt-2">
-                      <label className="flex items-center space-x-2 cursor-pointer group">
-                        <div className="relative flex items-center justify-center">
-                          <input 
-                            type="checkbox" 
-                            checked={rememberMe} 
-                            onChange={(e) => setRememberMe(e.target.checked)}
-                            className="peer appearance-none w-5 h-5 rounded border border-white/20 bg-black/50 checked:bg-brand-accent checked:border-brand-accent transition-colors cursor-pointer"
-                          />
-                          <FaCheckCircle className="absolute text-black text-[10px] opacity-0 peer-checked:opacity-100 pointer-events-none" />
-                        </div>
-                        <span className="group-hover:text-white transition-colors">Remember Me</span>
-                      </label>
-                      <button 
-                        type="button" 
-                        onClick={() => { setIsForgot(true); setErrorMsg(''); }}
-                        className="text-neutral-400 hover:text-brand-accent transition-colors cursor-pointer"
-                      >
-                        Forgot Password?
-                      </button>
-                    </div>
+
 
                     <div className="pt-6">
                       <button type="submit" className="w-full py-4 bg-brand-accent text-black rounded-2xl font-bold text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255, 179, 0,0.15)] cursor-pointer">

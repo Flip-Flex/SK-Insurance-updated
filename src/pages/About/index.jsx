@@ -144,25 +144,25 @@ export const About = () => {
   }, []);
 
   const principles = [
-    { title: 'Absolute Transparency', desc: 'Zero hidden clauses, clear deductible guides, and upfront premium definitions for total peace of mind.', icon: FaShieldAlt, hoverBg: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-500/30', iconHover: 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' },
-    { title: 'Actuarial Precision', desc: 'Goal-based wealth planners and SIP calculators designed using real-time market data indexes.', icon: FaChartLine, hoverBg: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30', iconHover: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' },
-    { title: 'Community Advocacy', desc: 'Providing Kanchipuram and wider Tamil Nadu with local, accessible, and personalized financial coaching.', icon: FaUsers, hoverBg: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-500/30', iconHover: 'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400' },
-    { title: 'Dedicated Claims Desk', desc: 'Pre-sales advice and full post-sales filing support to ensure maximum claim clearance rates.', icon: FaAward, hoverBg: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30', iconHover: 'bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400' }
+    { title: 'ABSOLUTE TRANSPARENCY', desc: 'Zero hidden clauses, clear deductible guides, and upfront premium definitions for total peace of mind.', icon: FaShieldAlt, hoverBg: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-500/30', iconHover: 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' },
+    { title: 'ACTUARIAL PRECISION', desc: 'Goal-based wealth planners and SIP calculators designed using real-time market data indexes.', icon: FaChartLine, hoverBg: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30', iconHover: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' },
+    { title: 'COMMUNITY ADVOCACY', desc: 'Providing Kanchipuram and wider Tamil Nadu with local, accessible, and personalized financial coaching.', icon: FaUsers, hoverBg: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-500/30', iconHover: 'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400' },
+    { title: 'DEDICATED CLAIMS DESK', desc: 'Pre-sales advice and full post-sales filing support to ensure maximum claim clearance rates.', icon: FaAward, hoverBg: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30', iconHover: 'bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400' }
   ];
 
   const milestones = [
-    { year: '2004', title: 'Independent Advisory', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.', colorClass: 'bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400', bgTextClass: 'text-blue-500/10 dark:text-blue-400/10', cardBgClass: 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-500/20' },
-    { year: '2012', title: 'Portfolio Expansion', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).', colorClass: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400', bgTextClass: 'text-emerald-500/10 dark:text-emerald-400/10', cardBgClass: 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-500/20' },
-    { year: '2018', title: 'AUM Milestones', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.', colorClass: 'bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400', bgTextClass: 'text-amber-500/10 dark:text-amber-400/10', cardBgClass: 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-500/20' },
-    { year: '2025', title: 'MD Plaza HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.', colorClass: 'bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400', bgTextClass: 'text-purple-500/10 dark:text-purple-400/10', cardBgClass: 'bg-purple-50 dark:bg-purple-900/10 border-purple-200 dark:border-purple-500/20' }
+    { year: '2004', title: 'INDEPENDENT ADVISORY', desc: 'Managing Director Prakash Gajendiran starts independent financial planning services in Kanchipuram.', colorClass: 'bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400', bgTextClass: 'text-blue-500/30 dark:text-blue-400/10', cardBgClass: 'bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-500/20' },
+    { year: '2012', title: 'PORTFOLIO EXPANSION', desc: 'Secures primary partnership certifications with India’s leading life insurers (LIC, Tata AIA).', colorClass: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400', bgTextClass: 'text-emerald-500/30 dark:text-emerald-400/10', cardBgClass: 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-500/20' },
+    { year: '2018', title: 'AUM MILESTONES', desc: 'Protects over 2,500 local families and manages significant long-term portfolios.', colorClass: 'bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400', bgTextClass: 'text-amber-500/30 dark:text-amber-400/10', cardBgClass: 'bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-500/20' },
+    { year: '2025', title: 'MD PLAZA HQ', desc: 'Establishes state-of-the-art office at #104, West Raja Street, launching digital portals.', colorClass: 'bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400', bgTextClass: 'text-purple-500/30 dark:text-purple-400/10', cardBgClass: 'bg-purple-50 dark:bg-purple-900/10 border-purple-200 dark:border-purple-500/20' }
   ];
 
   const missions = [
-    { title: 'Personalized Solutions', text: 'Deliver tailored insurance and financial solutions to individual needs.', bgClass: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-500/30' },
-    { title: 'Premium Products', text: 'Offer products from leading insurance companies with competitive pricing.', bgClass: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-500/30' },
-    { title: 'Expert Guidance', text: 'Simplify insurance through honest advice and professional guidance.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30' },
-    { title: 'Seamless Support', text: 'Ensure quick policy issuance and seamless renewal support.', bgClass: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-500/30' },
-    { title: 'Claims Advocacy', text: 'Provide dedicated claims assistance until successful settlement.', bgClass: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30' }
+    { title: 'PERSONALIZED SOLUTIONS', text: 'Deliver tailored insurance and financial solutions to individual needs.', bgClass: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-500/30' },
+    { title: 'PREMIUM PRODUCTS', text: 'Offer products from leading insurance companies with competitive pricing.', bgClass: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-500/30' },
+    { title: 'EXPERT GUIDANCE', text: 'Simplify insurance through honest advice and professional guidance.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30' },
+    { title: 'SEAMLESS SUPPORT', text: 'Ensure quick policy issuance and seamless renewal support.', bgClass: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-500/30' },
+    { title: 'CLAIMS ADVOCACY', text: 'Provide dedicated claims assistance until successful settlement.', bgClass: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30' }
   ];
 
   return (
@@ -242,7 +242,7 @@ export const About = () => {
           >
             <SectionTag>Who We Are</SectionTag>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-stone-900 dark:text-white mb-8">
-              The Foundation of Our Legacy
+              THE FOUNDATION OF OUR LEGACY
             </h2>
             <div className="space-y-5 text-base sm:text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
               <p>
@@ -269,7 +269,7 @@ export const About = () => {
               <div className="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-brand-accent mb-5">
                 <FaUsers className="text-lg" />
               </div>
-              <h4 className="text-lg font-bold text-stone-900 dark:text-white mb-2">Tailored</h4>
+              <h4 className="text-lg font-bold text-stone-900 dark:text-white mb-2">TAILORED</h4>
               <p className="text-sm text-stone-500 dark:text-stone-400 leading-relaxed">Every customer has different priorities and aspirations.</p>
             </motion.div>
 
@@ -283,7 +283,7 @@ export const About = () => {
               <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-5">
                 <FaShieldAlt className="text-lg" />
               </div>
-              <h4 className="text-lg font-bold text-stone-900 dark:text-white mb-2">Assurance</h4>
+              <h4 className="text-lg font-bold text-stone-900 dark:text-white mb-2">ASSURANCE</h4>
               <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed font-medium">The right balance of protection, affordability, and long-term value.</p>
             </motion.div>
           </div>
@@ -306,7 +306,7 @@ export const About = () => {
             <div className="lg:w-1/3 shrink-0">
               <SectionTag>Our Vision</SectionTag>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white leading-tight">
-                Where We're Headed
+                WHERE WE'RE HEADED
               </h2>
             </div>
             <div className="lg:w-2/3 lg:border-l border-stone-200 dark:border-stone-800 lg:pl-12">
@@ -330,7 +330,7 @@ export const About = () => {
             <div className="text-center mb-10">
               <SectionTag>Our Mission</SectionTag>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white leading-tight">
-                What Drives Us
+                WHAT DRIVES US
               </h2>
             </div>
             
@@ -357,7 +357,7 @@ export const About = () => {
         <div className="text-center mb-16 flex flex-col items-center">
           <SectionTag>How We Work</SectionTag>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white leading-tight">
-            Our Guiding Principles
+            OUR GUIDING PRINCIPLES
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -392,7 +392,7 @@ export const About = () => {
           <div className="text-center mb-16 md:mb-20 flex flex-col items-center">
             <SectionTag>Our Journey</SectionTag>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white leading-tight">
-              Milestones That Matter
+              MILESTONES THAT MATTER
             </h2>
           </div>
 
@@ -407,7 +407,7 @@ export const About = () => {
                 className={`group relative p-8 lg:p-10 rounded-[2rem] border transition-all duration-300 shadow-sm overflow-hidden flex flex-col ${m.cardBgClass}`}
               >
                 {/* Huge Faded Year Background */}
-                <div className={`absolute -bottom-4 -right-4 text-[110px] font-black text-stone-100 dark:text-stone-800/30 transition-colors duration-500 pointer-events-none select-none leading-none z-0 ${m.bgTextClass}`}>
+                <div className={`absolute -bottom-4 right-0 text-[80px] font-black transition-colors duration-500 pointer-events-none select-none leading-none z-0 ${m.bgTextClass}`}>
                   {m.year}
                 </div>
                 
@@ -431,7 +431,7 @@ export const About = () => {
         <div className="text-center mb-16">
           <SectionTag>Industry Recognition</SectionTag>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white mb-5 leading-tight">
-            Awards & Achievements
+            AWARDS & ACHIEVEMENTS
           </h2>
           <p className="text-base text-stone-500 dark:text-stone-400 max-w-2xl mx-auto leading-relaxed">
             Every recognition represents our unwavering commitment to delivering trusted financial guidance, exceptional client service, and consistent excellence.
@@ -453,7 +453,7 @@ export const About = () => {
           <div className="text-center mb-16">
             <SectionTag>Our Leadership</SectionTag>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white mb-5 leading-tight">
-              Visionary Leadership
+              VISIONARY LEADERSHIP
             </h2>
             <p className="text-base text-stone-500 dark:text-stone-400 max-w-2xl mx-auto leading-relaxed">
               Meet the visionaries who guide SK Smart Investments with unwavering integrity and a commitment to securing your financial future.
@@ -531,7 +531,7 @@ export const About = () => {
         <div>
           <div className="text-center mb-10">
             <SectionTag>Connect With Us</SectionTag>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white">Join Our Network</h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white">JOIN OUR NETWORK</h2>
             <p className="text-base text-stone-500 dark:text-stone-400 mt-3 max-w-xl mx-auto">
               Stay updated with our latest insights, company news, and financial strategies.
             </p>
@@ -581,7 +581,7 @@ export const About = () => {
           <div className="relative z-10">
             <span className="inline-block text-xs font-semibold text-brand-accent tracking-widest uppercase mb-4">The Next Step</span>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
-              Ready to Secure Your Future?
+              READY TO SECURE YOUR FUTURE?
             </h2>
             <p className="text-base text-stone-400 max-w-lg mx-auto mb-8">
               Let's build your financial journey together with absolute transparency and unwavering trust.

@@ -54,7 +54,7 @@ export const Support = () => {
               <FaPhoneAlt />
             </div>
             <h3 className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1.5">Call Us Directly</h3>
-            <p className="text-base font-bold text-black dark:text-white">+91 99944 51300</p>
+            <p className="text-base font-bold text-black dark:text-white">Speak to an Advisor</p>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Mon – Sat, closes 6:30 pm</p>
           </a>
 
@@ -72,7 +72,7 @@ export const Support = () => {
               <FaEnvelope />
             </div>
             <h3 className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1.5">Email Address</h3>
-            <p className="text-sm font-bold text-black dark:text-white break-all">skinvestments2025@gmail.com</p>
+            <p className="text-sm font-bold text-black dark:text-white truncate">Send an Email</p>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Replies within 24 hrs</p>
           </a>
 
@@ -81,7 +81,7 @@ export const Support = () => {
               <FaInstagram />
             </div>
             <h3 className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1.5">Instagram</h3>
-            <p className="text-base font-bold text-black dark:text-white">@sk_smartinvestments</p>
+            <p className="text-base font-bold text-black dark:text-white">View our Profile</p>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Follow for updates</p>
           </a>
 
@@ -125,7 +125,7 @@ export const Support = () => {
                 <span className="text-[#FFB300] dark:text-[#FFB300] text-xs font-bold uppercase tracking-widest">Book a Session</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4 leading-snug text-white">
-                Prefer a Scheduled 1-on-1 Consultation?
+                PREFER A SCHEDULED 1-ON-1 CONSULTATION?
               </h2>
               <p className="text-neutral-300 dark:text-neutral-400 text-sm font-medium max-w-md mb-8">
                 Pick a date and time that works for you, and we'll walk through your policy options or claims in detail.
@@ -150,7 +150,7 @@ export const Support = () => {
               <FaShieldAlt />
             </div>
             <div>
-              <h4 className="text-base font-bold text-black dark:text-white mb-1">Licensed & Trusted</h4>
+              <h4 className="text-base font-bold text-black dark:text-white mb-1">LICENSED & TRUSTED</h4>
               <p className="text-sm text-neutral-600 dark:text-neutral-400">Working with 16+ leading insurers to get you the right cover.</p>
             </div>
           </div>
@@ -159,7 +159,7 @@ export const Support = () => {
               <FaHeadset />
             </div>
             <div>
-              <h4 className="text-base font-bold text-black dark:text-white mb-1">Real Human Support</h4>
+              <h4 className="text-base font-bold text-black dark:text-white mb-1">REAL HUMAN SUPPORT</h4>
               <p className="text-sm text-neutral-600 dark:text-neutral-400">No bots, no call centres — you speak directly with our advisors.</p>
             </div>
           </div>
@@ -211,7 +211,7 @@ export const Support = () => {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-[#FFB300]/15 dark:bg-[#FFB300]/5 rounded-full blur-[100px] pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4 text-white">
-              Still Have Questions?
+              STILL HAVE QUESTIONS?
             </h2>
             <p className="text-neutral-300 dark:text-neutral-400 text-sm sm:text-base font-medium mb-8">
               Our team is one message away. Reach out and we'll get back to you the same day.

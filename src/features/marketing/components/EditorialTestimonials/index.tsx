@@ -150,7 +150,7 @@ export const EditorialTestimonials: React.FC<EditorialTestimonialsProps> = ({ te
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-[900] tracking-[-1px] text-black dark:text-white leading-tight uppercase mt-2">
-              What our clients say
+              WHAT OUR CLIENTS SAY
             </h2>
           </div>
           <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-sm leading-relaxed font-normal tracking-wide text-center md:text-right md:pb-2">

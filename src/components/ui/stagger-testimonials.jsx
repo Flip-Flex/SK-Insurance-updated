@@ -58,7 +58,7 @@ export const StaggerTestimonials = ({ testimonials = defaultTestimonials }) => {
 
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 mb-12 md:mb-16 text-center">
         <h2 className="text-4xl md:text-5xl font-black text-black dark:text-white mb-6 tracking-tight">
-          What Our <span className="text-brand-accent">Clients Say</span>
+          WHAT OUR <span className="text-brand-accent">CLIENTS SAY</span>
         </h2>
         <p className="text-neutral-600 dark:text-neutral-400 text-lg max-w-2xl mx-auto">
           Hear from the people who have experienced our services first-hand.

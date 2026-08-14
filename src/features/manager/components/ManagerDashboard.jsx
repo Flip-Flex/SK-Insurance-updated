@@ -32,7 +32,7 @@ const planSchema = z.object({
   premiumAmount: z.string().min(1, 'Premium amount is required'),
   billingCycle: z.string(),
   coverageAmount: z.string().min(1, 'Coverage amount is required'),
-  features: z.array(z.string().min(1)).min(1, 'At least one valid feature is required'),
+  features: z.array(z.string()).refine(arr => arr.filter(f => f.trim()).length > 0, 'At least one valid feature is required'),
   status: z.string(),
   priority: z.string(),
   thumbnailUrl: z.string().optional(),
@@ -160,9 +160,9 @@ export const ManagerDashboard = () => {
       company: plan.company || '',
       category: plan.category || '',
       description: plan.description || '',
-      premiumAmount: plan.premiumAmount || plan.premiumMonthly || '',
+      premiumAmount: (plan.premiumAmount || plan.premiumMonthly || '').toString(),
       billingCycle: plan.billingCycle || 'Monthly',
-      coverageAmount: plan.coverageAmount || '',
+      coverageAmount: (plan.coverageAmount || '').toString(),
       features: plan.features?.length ? [...plan.features] : [''],
       status: plan.status || 'Active',
       priority: plan.priority?.toString() || '1',
@@ -645,41 +645,7 @@ export const ManagerDashboard = () => {
                     )}
                   </div>
 
-                  <div className="flex gap-4 flex-col border-t border-slate-100 dark:border-white/5 pt-5">
-                    <div className="flex-1">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Banner Image (Optional)</label>
-                      <div className="relative">
-                        <label className="w-full flex items-center justify-center py-3 bg-slate-50 dark:bg-black/50 border border-dashed border-slate-300 dark:border-white/20 rounded-xl text-xs font-bold cursor-pointer hover:border-brand-accent transition-colors text-slate-500 dark:text-slate-400">
-                          <FaUpload className="mr-2" /> Upload Banner
-                          <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'bannerUrl')} className="hidden" />
-                        </label>
-                      </div>
-                    </div>
-                    {formData.bannerUrl && (
-                      <div className="w-full h-32 shrink-0 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
-                        <img src={formData.bannerUrl} alt="Preview" className="w-full h-full object-cover" />
-                      </div>
-                    )}
-                  </div>
-                </div>
 
-                <div className="glass-panel p-6 rounded-3xl border border-slate-200/50 dark:border-white/5">
-                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">SEO Details</h3>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Meta Title</label>
-                      <input type="text" placeholder="SEO Title" value={formData.metaTitle} onChange={e => setFormData({...formData, metaTitle: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Slug (URL)</label>
-                      <input type="text" placeholder="smart-health-premium" value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Meta Description</label>
-                      <textarea rows="2" placeholder="SEO Description..." value={formData.metaDescription} onChange={e => setFormData({...formData, metaDescription: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white resize-none" />
-                    </div>
-                  </div>
                 </div>
 
               </div>

@@ -64,15 +64,34 @@ const PlanSkeleton = () => (
   </div>
 );
 
-// Dynamic pastel background based on category
-const getCategoryGlow = (category) => {
-  const cat = (category || '').toLowerCase();
-  if (cat.includes('health')) return 'bg-red-100 dark:bg-red-500/10';
-  if (cat.includes('motor') || cat.includes('vehicle')) return 'bg-blue-100 dark:bg-blue-500/10';
-  if (cat.includes('life')) return 'bg-emerald-100 dark:bg-emerald-500/10';
-  if (cat.includes('home')) return 'bg-amber-100 dark:bg-amber-500/10';
-  if (cat.includes('travel')) return 'bg-purple-100 dark:bg-purple-500/10';
-  return 'bg-orange-50 dark:bg-orange-500/10';
+// Dynamic pastel background based on plan name hash
+const getPlanGlow = (title) => {
+  const colors = [
+    'bg-red-100 dark:bg-red-500/10',
+    'bg-orange-100 dark:bg-orange-500/10',
+    'bg-amber-100 dark:bg-amber-500/10',
+    'bg-yellow-100 dark:bg-yellow-500/10',
+    'bg-lime-100 dark:bg-lime-500/10',
+    'bg-green-100 dark:bg-green-500/10',
+    'bg-emerald-100 dark:bg-emerald-500/10',
+    'bg-teal-100 dark:bg-teal-500/10',
+    'bg-cyan-100 dark:bg-cyan-500/10',
+    'bg-sky-100 dark:bg-sky-500/10',
+    'bg-blue-100 dark:bg-blue-500/10',
+    'bg-indigo-100 dark:bg-indigo-500/10',
+    'bg-violet-100 dark:bg-violet-500/10',
+    'bg-purple-100 dark:bg-purple-500/10',
+    'bg-fuchsia-100 dark:bg-fuchsia-500/10',
+    'bg-pink-100 dark:bg-pink-500/10',
+    'bg-rose-100 dark:bg-rose-500/10'
+  ];
+  let hash = 0;
+  const str = (title || '').toLowerCase();
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % colors.length;
+  return colors[index];
 };
 
 export const Plans = () => {
@@ -425,7 +444,7 @@ export const Plans = () => {
                   transition={{ duration: 0.4, delay: (idx % 3) * 0.1 }}
                   className="rounded-xl border border-black/10 dark:border-white/10 dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden group/card"
                 >
-                  <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getCategoryGlow(plan.categoryTag || plan.category)}`} />
+                  <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getPlanGlow(plan.name || plan.title)}`} />
                   {plan.thumbnailUrl && (
                     <div className="w-full h-32 border-b border-black/10 dark:border-white/10 relative shrink-0 z-10">
                       <img src={plan.thumbnailUrl} alt={plan.name || plan.title} className="w-full h-full object-cover" />
@@ -461,7 +480,7 @@ export const Plans = () => {
                   </div>
 
                   {/* Plan Name */}
-                  <h3 className="text-xl font-bold text-black dark:text-white mb-6 line-clamp-2 min-h-[56px]">
+                  <h3 className="text-xl font-bold text-black dark:text-white mb-6 line-clamp-2 min-h-[56px] uppercase">
                     {plan.name || plan.title}
                   </h3>
 

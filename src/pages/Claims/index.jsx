@@ -87,14 +87,14 @@ export const Claims = () => {
 
       {/* 2. Need to Make a Claim? */}
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
-        <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">Need to Make a Claim?</h2>
+        <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">NEED TO MAKE A CLAIM?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-500/20 p-10 flex flex-col justify-between hover:shadow-lg dark:hover:shadow-none transition-all cursor-pointer group rounded-xl">
             <div>
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
                 <FaHeartbeat className="text-xl text-blue-600 dark:text-blue-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Health Claim</h3>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">HEALTH CLAIM</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Hospitalisation, treatment, medical expenses</p>
             </div>
           </div>
@@ -103,7 +103,7 @@ export const Claims = () => {
               <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
                 <FaCar className="text-xl text-red-600 dark:text-red-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Motor Claim</h3>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">MOTOR CLAIM</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Accident, damage, theft</p>
             </div>
           </div>
@@ -112,7 +112,7 @@ export const Claims = () => {
               <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6 transition-colors">
                 <FaShieldAlt className="text-xl text-emerald-600 dark:text-emerald-400 transition-colors" />
               </div>
-              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">Life & Other Claims</h3>
+              <h3 className="text-2xl font-bold text-black dark:text-white mb-4">LIFE & OTHER CLAIMS</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Life, home, travel and business</p>
             </div>
           </div>
@@ -131,7 +131,7 @@ export const Claims = () => {
                 <div className="w-12 h-px bg-brand-accent"></div>
                 <span className="text-[#FFB300] dark:text-brand-accent font-bold tracking-[0.2em] uppercase text-xs">Priority Access</span>
               </div>
-              <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-6">Immediate Claim Assistance</h2>
+              <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-6">IMMEDIATE CLAIM ASSISTANCE</h2>
               <p className="text-xl text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
                 Whether you're facing a medical emergency or an urgent motor accident, our dedicated rapid-response team is on standby to coordinate with hospitals and surveyors immediately.
               </p>
@@ -153,14 +153,14 @@ export const Claims = () => {
 
       {/* 3. What Happens After You Contact Us? */}
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
-        <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">What Happens After You Contact Us?</h2>
+        <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">WHAT HAPPENS AFTER YOU CONTACT US?</h2>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {[
-            { step: '01', title: 'Tell Us About the Claim', desc: 'Call, WhatsApp or email us and tell us what happened.' },
-            { step: '02', title: 'Share Your Documents', desc: "We'll tell you exactly what documents are needed." },
-            { step: '03', title: 'We Check Everything', desc: 'Our team reviews your documents before submitting them.' },
-            { step: '04', title: 'We Follow Up', desc: 'We coordinate with the insurance company and track your claim.' },
-            { step: '05', title: 'Claim Settlement', desc: 'We stay with you until the claim reaches its final stage.' }
+            { step: '01', title: 'TELL US ABOUT THE CLAIM', desc: 'Call, WhatsApp or email us and tell us what happened.' },
+            { step: '02', title: 'SHARE YOUR DOCUMENTS', desc: "We'll tell you exactly what documents are needed." },
+            { step: '03', title: 'WE CHECK EVERYTHING', desc: 'Our team reviews your documents before submitting them.' },
+            { step: '04', title: 'WE FOLLOW UP', desc: 'We coordinate with the insurance company and track your claim.' },
+            { step: '05', title: 'CLAIM SETTLEMENT', desc: 'We stay with you until the claim reaches its final stage.' }
           ].map((item, i) => (
             <div key={i} className="flex flex-col">
               <div className="text-3xl font-black text-[#FFB300] dark:text-brand-accent mb-6 font-serif italic border-b border-black/10 dark:border-white/10 pb-4">
@@ -177,7 +177,7 @@ export const Claims = () => {
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-4">
-            <h2 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-8">What Documents Will I Need?</h2>
+            <h2 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-8">WHAT DOCUMENTS WILL I NEED?</h2>
             <div className="flex flex-col gap-2">
               {docTabs.map((tab) => (
                 <button
@@ -197,7 +197,7 @@ export const Claims = () => {
           
           <div className="lg:col-span-8">
              <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 p-10 lg:p-16 min-h-full shadow-sm dark:shadow-none">
-                <h3 className="text-2xl font-bold text-black dark:text-white mb-8 border-b border-black/10 dark:border-white/10 pb-6">{docTabs.find(t => t.id === activeDocTab)?.label} Checklist</h3>
+                <h3 className="text-2xl font-bold text-black dark:text-white mb-8 border-b border-black/10 dark:border-white/10 pb-6">{docTabs.find(t => t.id === activeDocTab)?.label.toUpperCase()} CHECKLIST</h3>
                 <ul className="space-y-4 mb-12">
                   {docsData[activeDocTab].map((doc, i) => (
                     <li key={i} className="flex items-center gap-4 text-lg text-black dark:text-white font-medium bg-black/[0.02] dark:bg-black/40 p-4 border border-black/5 dark:border-white/5">
@@ -215,15 +215,15 @@ export const Claims = () => {
 
       {/* 4. What Type of Claims Can We Help With? */}
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
-        <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16 text-center">What Type of Claims Can We Help With?</h2>
+        <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16 text-center">WHAT TYPE OF CLAIMS CAN WE HELP WITH?</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 dark:bg-white/10">
           {[
-            { title: 'Health', desc: 'Medical emergencies and hospitalisation.', bgClass: 'bg-blue-50 dark:bg-blue-900/10' },
-            { title: 'Life', desc: 'Death and critical illness claims.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/10' },
-            { title: 'Motor', desc: 'Vehicle accidents, damage, or theft.', bgClass: 'bg-red-50 dark:bg-red-900/10' },
-            { title: 'Home', desc: 'Property damage and natural disasters.', bgClass: 'bg-amber-50 dark:bg-amber-900/10' },
-            { title: 'Travel', desc: 'Trip cancellations and medical emergencies abroad.', bgClass: 'bg-purple-50 dark:bg-purple-900/10' },
-            { title: 'Business', desc: 'Commercial liability and property claims.', bgClass: 'bg-stone-50 dark:bg-stone-900/10' },
+            { title: 'HEALTH', desc: 'Medical emergencies and hospitalisation.', bgClass: 'bg-blue-50 dark:bg-blue-900/10' },
+            { title: 'LIFE', desc: 'Death and critical illness claims.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/10' },
+            { title: 'MOTOR', desc: 'Vehicle accidents, damage, or theft.', bgClass: 'bg-red-50 dark:bg-red-900/10' },
+            { title: 'HOME', desc: 'Property damage and natural disasters.', bgClass: 'bg-amber-50 dark:bg-amber-900/10' },
+            { title: 'TRAVEL', desc: 'Trip cancellations and medical emergencies abroad.', bgClass: 'bg-purple-50 dark:bg-purple-900/10' },
+            { title: 'BUSINESS', desc: 'Commercial liability and property claims.', bgClass: 'bg-stone-50 dark:bg-stone-900/10' },
           ].map((item, i) => (
             <div key={i} className={`p-12 transition-colors flex flex-col justify-between ${item.bgClass}`}>
               <div>
@@ -240,14 +240,14 @@ export const Claims = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
            
            <div>
-             <h2 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-12">Why Have Us Handle Your Claim?</h2>
+             <h2 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-12">WHY HAVE US HANDLE YOUR CLAIM?</h2>
              <ul className="space-y-10">
                {[
-                 { title: 'One Dedicated Executive', desc: 'One person follows your case.' },
-                 { title: 'End-to-End Assistance', desc: 'From documentation to settlement.' },
-                 { title: 'Clear Updates', desc: 'We explain what is happening without confusing insurance jargon.' },
-                 { title: 'Claim Tracking', desc: 'We keep you updated on your claim status.' },
-                 { title: 'Insurer Coordination', desc: 'We communicate with the insurance company on your behalf.' },
+                 { title: 'ONE DEDICATED EXECUTIVE', desc: 'One person follows your case.' },
+                 { title: 'END-TO-END ASSISTANCE', desc: 'From documentation to settlement.' },
+                 { title: 'CLEAR UPDATES', desc: 'We explain what is happening without confusing insurance jargon.' },
+                 { title: 'CLAIM TRACKING', desc: 'We keep you updated on your claim status.' },
+                 { title: 'INSURER COORDINATION', desc: 'We communicate with the insurance company on your behalf.' },
                ].map((item, i) => (
                  <li key={i} className="border-l-2 border-brand-accent pl-6">
                    <h4 className="text-xl font-bold text-black dark:text-white mb-2">{item.title}</h4>
@@ -276,7 +276,7 @@ export const Claims = () => {
 
       {/* 10. CLIENT EXPERIENCES - Real Support When It Matters */}
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
-        <h2 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-16">Real Support When It Matters</h2>
+        <h2 className="text-4xl font-bold text-black dark:text-white tracking-tight mb-16">REAL SUPPORT WHEN IT MATTERS</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="border-t-4 border-black/20 dark:border-white/20 pt-8">
             <p className="text-xl text-neutral-700 dark:text-neutral-300 leading-relaxed mb-8">

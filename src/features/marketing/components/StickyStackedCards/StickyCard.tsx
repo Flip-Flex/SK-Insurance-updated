@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import { motion, useTransform, MotionValue, AnimatePresence } from 'framer-motion';
 import { IconType } from 'react-icons';
 
@@ -181,9 +182,9 @@ export const StickyCard: React.FC<StickyCardProps> = ({ card, idx, totalCards, a
                         </ul>
                       </div>
                       
-                      <button className="mt-4 px-8 py-4 md:px-10 md:py-5 md:text-lg bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(255, 179, 0,0.4)]">
+                      <Link to="/plans" className="mt-4 px-8 py-4 md:px-10 md:py-5 md:text-lg bg-brand-accent text-black font-bold uppercase tracking-widest rounded-full hover:brightness-110 transition-all self-start shadow-[0_0_15px_rgba(255, 179, 0,0.4)] text-center inline-block">
                         Explore Plans
-                      </button>
+                      </Link>
                     </div>
                   </motion.div>
                 </div>
