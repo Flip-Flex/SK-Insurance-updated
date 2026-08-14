@@ -425,76 +425,133 @@ export const ManagerDashboard = () => {
                   <p>No plans found matching your criteria.</p>
                 </div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse min-w-[800px]">
-                    <thead>
-                      <tr className="bg-slate-50 dark:bg-black/40 text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
-                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 w-16">Image</th>
-                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Plan Name</th>
-                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 hidden md:table-cell">Company</th>
-                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 hidden lg:table-cell">Category</th>
-                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Premium</th>
-                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Status</th>
-                        <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200 dark:divide-white/5">
-                      {filteredPlans.map(plan => (
-                        <tr key={plan.id} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors group">
-                          <td className="px-6 py-4">
-                            <div className="w-16 h-10">
+                <div>
+                  {/* Desktop Table View */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left border-collapse min-w-[800px]">
+                      <thead>
+                        <tr className="bg-slate-50 dark:bg-black/40 text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                          <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 w-16">Image</th>
+                          <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Plan Name</th>
+                          <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Company</th>
+                          <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Category</th>
+                          <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Premium</th>
+                          <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5">Status</th>
+                          <th className="px-6 py-4 font-bold border-b border-slate-200 dark:border-white/5 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 dark:divide-white/5">
+                        {filteredPlans.map(plan => (
+                          <tr key={plan.id} className="hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors group">
+                            <td className="px-6 py-4">
+                              <div className="w-16 h-10">
+                                <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} />
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="font-bold text-neutral-950 dark:text-white text-sm">{plan.title || plan.name}</div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 dark:bg-white/5 rounded-lg text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                                {plan.company}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-xs font-medium text-slate-600 dark:text-slate-400">
+                              {plan.category}
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-sm font-black text-brand-accent dark:text-brand-accent">₹{plan.premiumAmount || plan.premiumMonthly}</div>
+                              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{plan.billingCycle || 'Monthly'}</div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex gap-2 items-center">
+                                {plan.status === 'Inactive' ? (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400">
+                                    HIDDEN
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                    {plan.status === 'Active' || plan.status === 'Standard' || !plan.status ? 'STANDARD' : plan.status.toUpperCase()}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <div className="flex items-center justify-end gap-2 opacity-100 transition-opacity">
+                                <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:bg-slate-700 hover:text-white transition-colors cursor-pointer" title="View">
+                                  <FaEye className="text-xs" />
+                                </button>
+                                <button onClick={() => handleToggleStatus(plan)} className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer ${plan.status !== 'Inactive' ? 'bg-amber-100 text-amber-600 hover:bg-amber-500 hover:text-white dark:bg-amber-500/10' : 'bg-green-100 text-green-600 hover:bg-green-500 hover:text-white dark:bg-green-500/10'}`} title={plan.status !== 'Inactive' ? 'Deactivate' : 'Activate'}>
+                                  <FaPowerOff className="text-xs" />
+                                </button>
+                                <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white transition-colors cursor-pointer" title="Edit">
+                                  <FaEdit className="text-xs" />
+                                </button>
+                                <button onClick={() => setDeleteModal(plan.id)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-colors cursor-pointer" title="Delete">
+                                  <FaTrash className="text-xs" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Mobile Card View */}
+                  <div className="md:hidden flex flex-col divide-y divide-slate-200 dark:divide-white/5">
+                    {filteredPlans.map(plan => (
+                      <div key={plan.id} className="p-4 flex flex-col gap-4 hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors">
+                        <div className="flex justify-between items-start gap-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-xl overflow-hidden bg-white shrink-0 border border-slate-100 dark:border-white/10 flex items-center justify-center p-1">
                               <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} />
                             </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="font-bold text-neutral-950 dark:text-white text-sm">{plan.title || plan.name}</div>
-                            <div className="text-xs text-slate-500 md:hidden mt-1">{plan.company} • {plan.category}</div>
-                          </td>
-                          <td className="px-6 py-4 hidden md:table-cell">
-                            <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 dark:bg-white/5 rounded-lg text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
-                              {plan.company}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 hidden lg:table-cell text-xs font-medium text-slate-600 dark:text-slate-400">
-                            {plan.category}
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="text-sm font-black text-brand-accent dark:text-brand-accent">₹{plan.premiumAmount || plan.premiumMonthly}</div>
-                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{plan.billingCycle || 'Monthly'}</div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="flex gap-2 items-center">
-                              {plan.status === 'Inactive' ? (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400">
-                                  HIDDEN
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                                  {plan.status === 'Active' || plan.status === 'Standard' || !plan.status ? 'STANDARD' : plan.status.toUpperCase()}
-                                </span>
-                              )}
+                            <div className="min-w-0">
+                              <div className="font-black text-neutral-950 dark:text-white text-sm leading-tight truncate">{plan.title || plan.name}</div>
+                              <div className="text-xs text-slate-500 font-bold mt-0.5 truncate">{plan.company} • {plan.category}</div>
                             </div>
-                          </td>
-                          <td className="px-6 py-4 text-right">
-                            <div className="flex items-center justify-end gap-2 opacity-100 transition-opacity">
-                              <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:bg-slate-700 hover:text-white transition-colors cursor-pointer" title="View">
-                                <FaEye className="text-xs" />
-                              </button>
-                              <button onClick={() => handleToggleStatus(plan)} className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer ${plan.status !== 'Inactive' ? 'bg-amber-100 text-amber-600 hover:bg-amber-500 hover:text-white dark:bg-amber-500/10' : 'bg-green-100 text-green-600 hover:bg-green-500 hover:text-white dark:bg-green-500/10'}`} title={plan.status !== 'Inactive' ? 'Deactivate' : 'Activate'}>
-                                <FaPowerOff className="text-xs" />
-                              </button>
-                              <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-blue-500 hover:bg-blue-500 hover:text-white transition-colors cursor-pointer" title="Edit">
-                                <FaEdit className="text-xs" />
-                              </button>
-                              <button onClick={() => setDeleteModal(plan.id)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-colors cursor-pointer" title="Delete">
-                                <FaTrash className="text-xs" />
-                              </button>
+                          </div>
+                          <div className="shrink-0">
+                            {plan.status === 'Inactive' ? (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400">
+                                HIDDEN
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                {plan.status === 'Active' || plan.status === 'Standard' || !plan.status ? 'STANDARD' : plan.status.toUpperCase()}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between bg-slate-50 dark:bg-white/5 rounded-xl p-3 border border-slate-100 dark:border-white/5">
+                          <div>
+                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Premium</div>
+                            <div className="text-base font-black text-brand-accent dark:text-brand-accent flex items-baseline gap-1">
+                              ₹{plan.premiumAmount || plan.premiumMonthly}
+                              <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">/{plan.billingCycle || 'Monthly'}</span>
                             </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                          </div>
+                          
+                          <div className="flex items-center gap-1.5">
+                            <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-brand-accent transition-colors cursor-pointer" title="View">
+                              <FaEye className="text-xs" />
+                            </button>
+                            <button onClick={() => handleToggleStatus(plan)} className={`w-8 h-8 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${plan.status !== 'Inactive' ? 'bg-white dark:bg-neutral-900 border-amber-200 text-amber-500 dark:border-amber-500/20' : 'bg-white dark:bg-neutral-900 border-green-200 text-green-500 dark:border-green-500/20'}`} title={plan.status !== 'Inactive' ? 'Deactivate' : 'Activate'}>
+                              <FaPowerOff className="text-[10px]" />
+                            </button>
+                            <button onClick={() => openEditForm(plan)} className="w-8 h-8 rounded-full bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 flex items-center justify-center text-blue-500 transition-colors cursor-pointer" title="Edit">
+                              <FaEdit className="text-[10px]" />
+                            </button>
+                            <button onClick={() => setDeleteModal(plan.id)} className="w-8 h-8 rounded-full bg-white dark:bg-neutral-900 border border-red-200 dark:border-red-500/20 flex items-center justify-center text-red-500 transition-colors cursor-pointer" title="Delete">
+                              <FaTrash className="text-[10px]" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                   
                   {hasMore && (
                     <div className="p-4 border-t border-slate-200 dark:border-white/5 flex justify-center">
