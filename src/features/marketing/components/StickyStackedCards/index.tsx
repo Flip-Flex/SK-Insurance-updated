@@ -18,7 +18,7 @@ export const StickyStackedCards = () => {
         {/* Header */}
         <div className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-4 lg:space-y-6 flex flex-col items-center max-w-3xl mx-auto">
 
-          <h2 className="text-[28px] sm:text-[36px] md:text-[48px] font-[900] tracking-[-1px] text-black dark:text-white leading-[1.1] sm:leading-[1.15] drop-shadow-sm">
+          <h2 className="text-[20px] sm:text-[28px] md:text-[36px] lg:text-[48px] font-[900] tracking-[-1px] text-black dark:text-white leading-[1.1] sm:leading-[1.15] drop-shadow-sm whitespace-nowrap">
             {t('what_is_ins_title')}
           </h2>
           <p className="text-[13px] sm:text-[15px] lg:text-[17px] text-neutral-600 dark:text-neutral-400 leading-[1.6] sm:leading-[1.8] font-medium tracking-wide">
