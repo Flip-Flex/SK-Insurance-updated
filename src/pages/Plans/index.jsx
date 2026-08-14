@@ -152,12 +152,6 @@ export const Plans = () => {
       if (data && data.length > 0) {
         const activePlans = data.filter(plan => plan.status !== 'Inactive');
         const sorted = [...activePlans].sort((a, b) => {
-          const isTataA = (a.company || '').toLowerCase().includes('tata');
-          const isTataB = (b.company || '').toLowerCase().includes('tata');
-          
-          if (isTataA && !isTataB) return -1;
-          if (!isTataA && isTataB) return 1;
-
           const orderA = a.priority !== undefined ? parseInt(a.priority) : 999;
           const orderB = b.priority !== undefined ? parseInt(b.priority) : 999;
           return orderA - orderB;
@@ -445,12 +439,7 @@ export const Plans = () => {
                 >
                   <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getPlanGlow(plan.name || plan.title)}`} />
                   
-                  {/* Tags */}
-                  {plan.status && plan.status !== 'Standard' && plan.status !== 'Active' && plan.status !== 'Inactive' && (
-                    <div className="absolute top-4 left-4 bg-brand-accent text-black text-[9px] font-black px-2.5 py-1 rounded-full shadow-sm z-20 uppercase tracking-widest">
-                      {plan.status}
-                    </div>
-                  )}
+                  {/* Removed absolute tag */}
 
                   {/* Removed banner rendering */}
                   <div className="p-6 flex flex-col flex-1 relative z-10">
@@ -481,10 +470,17 @@ export const Plans = () => {
                     </label>
                   </div>
 
-                  {/* Plan Name */}
-                  <h3 className="text-xl font-bold text-black dark:text-white mb-6 line-clamp-2 min-h-[56px] uppercase">
-                    {plan.name || plan.title}
-                  </h3>
+                  {/* Plan Name & Tag */}
+                  <div className="mb-6 min-h-[64px]">
+                    {plan.status && plan.status !== 'Standard' && plan.status !== 'Active' && plan.status !== 'Inactive' && (
+                      <div className="inline-block bg-brand-accent text-black text-[9px] font-black px-2 py-0.5 rounded shadow-sm uppercase tracking-widest mb-2">
+                        {plan.status}
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold text-black dark:text-white line-clamp-2 uppercase">
+                      {plan.name || plan.title}
+                    </h3>
+                  </div>
 
                   {/* Financial Details */}
                   <div className="flex flex-col gap-2 mb-8">

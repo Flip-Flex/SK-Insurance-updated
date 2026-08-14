@@ -154,7 +154,7 @@ export const ManagerDashboard = () => {
     setFormData({
       title: '', company: '', category: '', description: '',
       premiumAmount: '', billingCycle: 'Monthly', coverageAmount: '',
-      features: [''], status: 'Active', priority: '1',
+      features: [''], status: 'Standard', priority: '1',
       thumbnailUrl: '', bannerUrl: '', metaTitle: '', metaDescription: '', slug: ''
     });
     setFormError('');
@@ -172,7 +172,7 @@ export const ManagerDashboard = () => {
       billingCycle: plan.billingCycle || 'Monthly',
       coverageAmount: (plan.coverageAmount || '').toString(),
       features: plan.features?.length ? [...plan.features] : [''],
-      status: plan.status || 'Active',
+      status: plan.status || 'Standard',
       priority: plan.priority?.toString() || '1',
       thumbnailUrl: plan.thumbnailUrl || '',
       bannerUrl: plan.bannerUrl || '',
