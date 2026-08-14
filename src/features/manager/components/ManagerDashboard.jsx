@@ -386,7 +386,7 @@ export const ManagerDashboard = () => {
 
             <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/50 dark:bg-neutral-900/30 p-2 rounded-2xl border border-slate-200/50 dark:border-white/5 backdrop-blur-md">
               <div className="flex flex-wrap items-center gap-2 w-full md:w-auto p-2">
-                <div className="relative">
+                <div className="relative w-full sm:w-auto">
                   <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input 
                     type="text" 
@@ -395,15 +395,15 @@ export const ManagerDashboard = () => {
                     className="pl-9 pr-4 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent transition-colors w-full md:w-48 text-neutral-950 dark:text-white"
                   />
                 </div>
-                <select value={filterCompany} onChange={(e) => setFilterCompany(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                <select value={filterCompany} onChange={(e) => setFilterCompany(e.target.value)} className="w-full sm:w-auto px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                   <option value="">All Companies</option>
                   {companies.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
-                <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} className="w-full sm:w-auto px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                   <option value="">All Categories</option>
                   {categories.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
-                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="w-full sm:w-auto px-3 py-2 bg-white dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
                   <option value="Newest">Newest</option>
                   <option value="Premium">Premium</option>
                 </select>
@@ -514,29 +514,29 @@ export const ManagerDashboard = () => {
           </motion.div>
         ) : (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="pb-10">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+              <div className="flex items-center gap-4 w-full md:w-auto">
                 <button 
                   onClick={() => setView('list')}
-                  className="w-10 h-10 rounded-full bg-white dark:bg-neutral-900 shadow-sm border border-slate-200 dark:border-white/5 flex items-center justify-center text-slate-500 hover:text-brand-accent transition-colors cursor-pointer"
+                  className="w-10 h-10 shrink-0 rounded-full bg-white dark:bg-neutral-900 shadow-sm border border-slate-200 dark:border-white/5 flex items-center justify-center text-slate-500 hover:text-brand-accent transition-colors cursor-pointer"
                 >
                   <FaArrowLeft />
                 </button>
-                <div>
-                  <h2 className="text-2xl font-black text-neutral-950 dark:text-white uppercase tracking-tight">
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-xl sm:text-2xl font-black text-neutral-950 dark:text-white uppercase tracking-tight truncate">
                     {editingId ? 'Edit Insurance Plan' : 'Create New Plan'}
                   </h2>
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Configure plan parameters</p>
+                  <p className="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Configure plan parameters</p>
                 </div>
               </div>
-              <div className="flex gap-3">
-                <button onClick={() => setView('list')} className="px-5 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors uppercase tracking-wider cursor-pointer">
+              <div className="flex gap-3 w-full md:w-auto">
+                <button onClick={() => setView('list')} className="flex-1 md:flex-none px-5 py-3 md:py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors uppercase tracking-wider cursor-pointer border border-slate-200 dark:border-white/10 text-center">
                   Cancel
                 </button>
                 <button 
                   onClick={saveForm}
                   disabled={formSaving || uploadingImage}
-                  className="px-6 py-2 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255, 179, 0,0.2)] flex items-center gap-2 disabled:opacity-50 disabled:scale-100 cursor-pointer"
+                  className="flex-1 md:flex-none px-6 py-3 md:py-2 bg-brand-accent text-black font-black uppercase tracking-wider text-xs rounded-xl hover:scale-105 transition-transform shadow-[0_0_15px_rgba(255, 179, 0,0.2)] flex items-center justify-center gap-2 disabled:opacity-50 disabled:scale-100 cursor-pointer"
                 >
                   <FaSave />
                   {formSaving ? 'Saving...' : (editingId ? 'Update Plan' : 'Publish Plan')}
