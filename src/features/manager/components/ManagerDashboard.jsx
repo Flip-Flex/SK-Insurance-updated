@@ -23,6 +23,14 @@ const DEFAULT_CATEGORIES = [
 const BILLING_TYPES = ['Monthly', 'Quarterly', 'Half Yearly', 'Yearly'];
 const STATUSES = ['Active', 'Inactive', 'Featured Plan', 'Recommended Plan', 'Popular Plan'];
 
+const DEFAULT_LOGOS = [
+  '/logos/sbi_life.png', '/logos/lic.png', '/logos/tata_aia.png', '/logos/hdfc_life.png',
+  '/logos/icici_prudential.png', '/logos/star_health.png', '/logos/niva_bupa.png',
+  '/logos/bajaj_allianz.png', '/logos/Future Generali.jpg', '/logos/Aditya Birla Sun Life.jpg',
+  '/logos/oriental_insurance.png', '/logos/Kotak Mahindra Life.jpg', '/logos/PNB MetLife.png',
+  '/logos/ManipalCigna Health.png', '/logos/axis_max.png', '/logos/Postal Office.png'
+];
+
 const planSchema = z.object({
   title: z.string().min(3, 'Plan name must be at least 3 characters'),
   company: z.string().min(1, 'Please select a company'),
@@ -631,16 +639,33 @@ export const ManagerDashboard = () => {
                   <div className="flex gap-4 mb-5 flex-col">
                     <div className="flex-1">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Plan Logo (Thumbnail)</label>
-                      <div className="relative">
+                      <div className="relative mb-3">
                         <label className="w-full flex items-center justify-center py-3 bg-slate-50 dark:bg-black/50 border border-dashed border-slate-300 dark:border-white/20 rounded-xl text-xs font-bold cursor-pointer hover:border-brand-accent transition-colors text-slate-500 dark:text-slate-400">
                           <FaUpload className="mr-2" /> Upload Image
                           <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'thumbnailUrl')} className="hidden" />
                         </label>
                       </div>
+                      
+                      <div className="mb-3">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Or Select Official Logo</p>
+                        <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl">
+                          {DEFAULT_LOGOS.map((logo, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => setFormData({...formData, thumbnailUrl: logo})}
+                              className={`w-12 h-12 rounded-lg border p-1 bg-white flex items-center justify-center hover:border-brand-accent transition-colors ${formData.thumbnailUrl === logo ? 'border-brand-accent border-2 ring-2 ring-brand-accent/20' : 'border-slate-200 dark:border-white/10'}`}
+                            >
+                              <img src={logo} alt="logo" className="w-full h-full object-contain mix-blend-multiply" />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
                     </div>
                     {formData.thumbnailUrl && (
-                      <div className="w-full h-32 shrink-0 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-black/50">
-                        <img src={formData.thumbnailUrl} alt="Preview" className="w-full h-full object-cover" />
+                      <div className="w-full h-32 shrink-0 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50 dark:bg-white flex items-center justify-center p-2">
+                        <img src={formData.thumbnailUrl} alt="Preview" className="w-full h-full object-contain mix-blend-multiply" />
                       </div>
                     )}
                   </div>
