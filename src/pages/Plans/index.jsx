@@ -67,22 +67,10 @@ const PlanSkeleton = () => (
 // Dynamic pastel background based on plan name hash
 const getPlanGlow = (title) => {
   const colors = [
-    'bg-red-100 dark:bg-red-500/10',
-    'bg-orange-100 dark:bg-orange-500/10',
-    'bg-amber-100 dark:bg-amber-500/10',
-    'bg-yellow-100 dark:bg-yellow-500/10',
-    'bg-lime-100 dark:bg-lime-500/10',
-    'bg-green-100 dark:bg-green-500/10',
-    'bg-emerald-100 dark:bg-emerald-500/10',
-    'bg-teal-100 dark:bg-teal-500/10',
-    'bg-cyan-100 dark:bg-cyan-500/10',
-    'bg-sky-100 dark:bg-sky-500/10',
     'bg-blue-100 dark:bg-blue-500/10',
-    'bg-indigo-100 dark:bg-indigo-500/10',
-    'bg-violet-100 dark:bg-violet-500/10',
+    'bg-emerald-100 dark:bg-emerald-500/10',
+    'bg-amber-100 dark:bg-amber-500/10',
     'bg-purple-100 dark:bg-purple-500/10',
-    'bg-fuchsia-100 dark:bg-fuchsia-500/10',
-    'bg-pink-100 dark:bg-pink-500/10',
     'bg-rose-100 dark:bg-rose-500/10'
   ];
   let hash = 0;
