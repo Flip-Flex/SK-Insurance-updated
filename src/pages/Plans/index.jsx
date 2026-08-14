@@ -126,6 +126,7 @@ export const Plans = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const params = new URLSearchParams(location.search);
     const category = params.get('category');
     if (category) setActiveFilter(category);
