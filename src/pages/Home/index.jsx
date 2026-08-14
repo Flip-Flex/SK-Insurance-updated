@@ -185,7 +185,9 @@ export const Home = () => {
   const heroVideoRef = useRef(null);
   const [videoPlaying, setVideoPlaying] = useState(false);
 
-  const videoSrc = '/newskvid.mp4';
+  // Use compressed video for tablets/mobile (tiny 0.26MB file), full video for desktop
+  const isTouchDevice = typeof window !== 'undefined' && ('ontouchend' in document || navigator.maxTouchPoints > 0);
+  const videoSrc = isTouchDevice ? '/sk_mobile_compressed.mp4' : '/newskvid.mp4';
 
   // Robust autoplay for iPad Safari
   useEffect(() => {
