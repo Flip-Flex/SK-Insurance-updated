@@ -150,15 +150,16 @@ export const Plans = () => {
     setLoading(true);
     const unsubscribe = subscribeToCollection('plans', (data) => {
       if (data && data.length > 0) {
-        const sorted = [...data].sort((a, b) => {
+        const activePlans = data.filter(plan => plan.status !== 'Inactive');
+        const sorted = [...activePlans].sort((a, b) => {
           const isTataA = (a.company || '').toLowerCase().includes('tata');
           const isTataB = (b.company || '').toLowerCase().includes('tata');
           
           if (isTataA && !isTataB) return -1;
           if (!isTataA && isTataB) return 1;
 
-          const orderA = a.displayOrder !== undefined ? parseInt(a.displayOrder) : 999;
-          const orderB = b.displayOrder !== undefined ? parseInt(b.displayOrder) : 999;
+          const orderA = a.priority !== undefined ? parseInt(a.priority) : 999;
+          const orderB = b.priority !== undefined ? parseInt(b.priority) : 999;
           return orderA - orderB;
         });
         setPlans(sorted);
@@ -443,6 +444,14 @@ export const Plans = () => {
                   className="rounded-xl border border-black/10 dark:border-white/10 dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden group/card"
                 >
                   <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getPlanGlow(plan.name || plan.title)}`} />
+                  
+                  {/* Tags */}
+                  {plan.status && plan.status !== 'Standard' && plan.status !== 'Active' && plan.status !== 'Inactive' && (
+                    <div className="absolute top-4 left-4 bg-brand-accent text-black text-[9px] font-black px-2.5 py-1 rounded-full shadow-sm z-20 uppercase tracking-widest">
+                      {plan.status}
+                    </div>
+                  )}
+
                   {/* Removed banner rendering */}
                   <div className="p-6 flex flex-col flex-1 relative z-10">
                   {/* Card Header: Logo, Category, Compare Checkbox */}

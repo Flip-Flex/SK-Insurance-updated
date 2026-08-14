@@ -441,13 +441,17 @@ export const ManagerDashboard = () => {
                             <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{plan.billingCycle || 'Monthly'}</div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md flex items-center w-max gap-1.5 ${
-                              plan.status === 'Inactive' ? 'bg-red-100 text-red-600 dark:bg-red-500/10 dark:text-red-400' 
-                              : 'bg-green-100 text-green-600 dark:bg-green-500/10 dark:text-green-400'
-                            }`}>
-                              {plan.status === 'Inactive' ? <FaTimesCircle /> : <FaCheckCircle />}
-                              {plan.status}
-                            </span>
+                            <div className="flex gap-2 items-center">
+                              {plan.status === 'Inactive' ? (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400">
+                                  HIDDEN
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                  {plan.status === 'Active' || plan.status === 'Standard' || !plan.status ? 'STANDARD' : plan.status.toUpperCase()}
+                                </span>
+                              )}
+                            </div>
                           </td>
                           <td className="px-6 py-4 text-right">
                             <div className="flex items-center justify-end gap-2 opacity-100 transition-opacity">
@@ -618,9 +622,14 @@ export const ManagerDashboard = () => {
                   <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 dark:text-white mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Display Settings</h3>
                   
                   <div className="mb-6">
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Status</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Plan Tag (Public Website)</label>
                     <select value={formData.status} onChange={e => setFormData({...formData, status: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl text-sm font-medium focus:outline-none focus:border-brand-accent text-neutral-950 dark:text-white cursor-pointer">
-                      {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                      <option value="Standard">Standard (No Tag)</option>
+                      <option value="Popular">Popular</option>
+                      <option value="Recommended">Recommended</option>
+                      <option value="Best Value">Best Value</option>
+                      <option value="New">New</option>
+                      <option value="Inactive">Hidden / Inactive</option>
                     </select>
                   </div>
 
