@@ -227,6 +227,7 @@ export const ManagerDashboard = () => {
       setFormData({ ...formData, [field]: url });
       showToast('Image uploaded successfully');
     } catch (error) {
+      console.error("Image Upload Error:", error);
       setFormError('Failed to upload image. Please try again.');
     } finally {
       setUploadingImage(false);

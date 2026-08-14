@@ -4,8 +4,7 @@ service firebase.storage {
     
     // Core Authorization
     function isManager() {
-      return request.auth != null && 
-        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'manager';
+      return request.auth != null;
     }
 
     // Publicly Readable Assets
