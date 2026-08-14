@@ -162,7 +162,8 @@ export const About = () => {
     { title: 'PREMIUM PRODUCTS', text: 'Offer products from leading insurance companies with competitive pricing.', bgClass: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-500/30' },
     { title: 'EXPERT GUIDANCE', text: 'Simplify insurance through honest advice and professional guidance.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30' },
     { title: 'SEAMLESS SUPPORT', text: 'Ensure quick policy issuance and seamless renewal support.', bgClass: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-500/30' },
-    { title: 'CLAIMS ADVOCACY', text: 'Provide dedicated claims assistance until successful settlement.', bgClass: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30' }
+    { title: 'CLAIMS ADVOCACY', text: 'Provide dedicated claims assistance until successful settlement.', bgClass: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-500/30' },
+    { title: 'VISIONARY LEADERSHIP', text: 'Lead with integrity, innovation, and a strong commitment to empowering your future.', bgClass: 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-500/30' }
   ];
 
   return (
@@ -334,7 +335,7 @@ export const About = () => {
               </h2>
             </div>
             
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
               {missions.map((m, i) => (
                 <div
                   key={i}
@@ -468,10 +469,10 @@ export const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8 }}
-                className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center"
+                className="flex flex-col md:flex-row gap-10 md:gap-8 lg:gap-16 items-center md:items-start lg:items-center"
               >
                 {/* Photo */}
-                <div className="order-1 w-[85%] max-w-[320px] sm:max-w-none sm:w-2/5 lg:w-1/3 shrink-0 mx-auto lg:mx-0">
+                <div className="order-1 w-[85%] max-w-[320px] sm:max-w-none sm:w-2/5 lg:w-1/3 shrink-0 mx-auto md:mx-0">
                   <div className="relative aspect-square sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-stone-200 dark:bg-stone-900 group border border-stone-200/50 dark:border-white/10">
                     <img
                       src={person.src}
@@ -482,7 +483,7 @@ export const About = () => {
                 </div>
 
                 {/* Content */}
-                <div className="order-2 w-full lg:w-7/12 flex flex-col mt-4 lg:mt-0">
+                <div className="order-2 w-full md:w-3/5 lg:w-7/12 flex flex-col mt-4 md:mt-0">
                   <div className="mb-6 lg:mb-8 text-left">
                     <h4 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mb-2">{person.name}</h4>
                     <p className="text-sm font-bold text-brand-accent uppercase tracking-widest">{person.designation}</p>

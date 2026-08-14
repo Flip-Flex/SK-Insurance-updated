@@ -119,7 +119,7 @@ export const Claims = () => {
       {/* 2. Need to Make a Claim? */}
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
         <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16">NEED TO MAKE A CLAIM?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           <div className="bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 flex flex-col hover:shadow-xl dark:hover:shadow-none transition-all cursor-pointer group rounded-2xl overflow-hidden">
             <div className="w-full h-48 overflow-hidden relative">
@@ -263,7 +263,7 @@ export const Claims = () => {
       {/* 4. What Type of Claims Can We Help With? */}
       <section className="py-24 px-6 lg:px-12 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10">
         <h2 className="text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight mb-16 text-center">WHAT TYPE OF CLAIMS CAN WE HELP WITH?</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 dark:bg-white/10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-black/10 dark:bg-white/10">
           {[
             { title: 'HEALTH', desc: 'Medical emergencies and hospitalisation.', bgClass: 'bg-blue-50 dark:bg-blue-900/10' },
             { title: 'LIFE', desc: 'Death and critical illness claims.', bgClass: 'bg-emerald-50 dark:bg-emerald-900/10' },

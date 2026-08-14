@@ -200,7 +200,7 @@ export const Navbar = () => {
               socialItems={[]}
               displaySocials={false}
               displayItemNumbering={false}
-              menuButtonColor={isTransparent ? "#000000" : (isDarkMode ? "#ffffff" : "#000000")}
+              menuButtonColor={isDarkMode ? "#ffffff" : "#000000"}
               openMenuButtonColor={isDarkMode ? "#ffffff" : "#000000"}
               changeMenuColorOnOpen={true}
               colors={isDarkMode ? ['#111111', '#FFB300'] : ['#EAEAEA', '#FFB300']}
