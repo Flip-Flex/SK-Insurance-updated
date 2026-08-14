@@ -630,7 +630,7 @@ export const ManagerDashboard = () => {
                   
                   <div className="flex gap-4 mb-5 flex-col">
                     <div className="flex-1">
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Plan Card Image (Thumbnail)</label>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Plan Logo (Thumbnail)</label>
                       <div className="relative">
                         <label className="w-full flex items-center justify-center py-3 bg-slate-50 dark:bg-black/50 border border-dashed border-slate-300 dark:border-white/20 rounded-xl text-xs font-bold cursor-pointer hover:border-brand-accent transition-colors text-slate-500 dark:text-slate-400">
                           <FaUpload className="mr-2" /> Upload Image

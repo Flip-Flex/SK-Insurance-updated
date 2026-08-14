@@ -8,7 +8,20 @@ import { FaCheck, FaShieldAlt, FaUserShield, FaBriefcase, FaFileSignature, FaHea
 import { cn } from '../../utils/cn';
 
 // Clean Professional Company Logo Component
-const CompanyLogo = ({ company }) => {
+const CompanyLogo = ({ company, thumbnailUrl }) => {
+  if (thumbnailUrl) {
+    return (
+      <div className="w-full h-full flex items-center justify-center p-1 rounded-lg bg-white dark:bg-stone-200 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-black/5 dark:border-none">
+        <img
+          src={thumbnailUrl}
+          alt={company}
+          className="w-full h-full object-contain mix-blend-multiply"
+          onError={(e) => { e.target.style.display = 'none'; }}
+        />
+      </div>
+    );
+  }
+
   const comp = (company || '').toLowerCase();
   let logoUrl = '/logos/lic.png';
   let scaleClass = 'scale-100';
@@ -430,18 +443,13 @@ export const Plans = () => {
                   className="rounded-xl border border-black/10 dark:border-white/10 dark:bg-[#0A0A0A] hover:shadow-lg dark:hover:shadow-none hover:border-black/20 flex flex-col relative transition-all duration-300 shadow-sm dark:shadow-none overflow-hidden group/card"
                 >
                   <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 rounded-xl ${getPlanGlow(plan.name || plan.title)}`} />
-                  {plan.thumbnailUrl && (
-                    <div className="w-full h-32 border-b border-black/10 dark:border-white/10 relative shrink-0 z-10">
-                      <img src={plan.thumbnailUrl} alt={plan.name || plan.title} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                    </div>
-                  )}
+                  {/* Removed banner rendering */}
                   <div className="p-6 flex flex-col flex-1 relative z-10">
                   {/* Card Header: Logo, Category, Compare Checkbox */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex gap-4 items-center">
                       <div className="w-[72px] h-12">
-                        <CompanyLogo company={plan.company} />
+                        <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} />
                       </div>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-black/80 dark:text-white/80 bg-black/5 dark:bg-white/10 px-2 py-1 rounded">
                         {plan.categoryTag || plan.category}
@@ -535,7 +543,7 @@ export const Plans = () => {
                 <div className="flex -space-x-4">
                   {compareList.map((p, i) => (
                     <div key={i} className="w-10 h-10 rounded-full bg-white border-2 border-white dark:border-[#0A0A0A] p-1.5 flex items-center justify-center overflow-hidden z-10 relative shadow-md dark:shadow-none">
-                      <CompanyLogo company={p.company} />
+                      <CompanyLogo company={p.company} thumbnailUrl={p.thumbnailUrl} />
                       <button 
                         onClick={(e) => { e.stopPropagation(); toggleCompare(p); }} 
                         className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
@@ -586,7 +594,7 @@ export const Plans = () => {
                   <th key={plan.id} className="p-4 border-b border-black/10 dark:border-white/10 w-1/4 align-top">
                     <div className="flex justify-between items-start mb-4">
                       <div className="w-16 h-10">
-                        <CompanyLogo company={plan.company} />
+                        <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} />
                       </div>
                       <button onClick={() => {
                         toggleCompare(plan);
@@ -675,7 +683,7 @@ export const Plans = () => {
               {/* Header: Logo & Tag */}
               <div className="flex justify-between items-center -mt-2">
                 <div className="h-10 flex items-center justify-start">
-                  <CompanyLogo company={planDetailsModal.company} />
+                  <CompanyLogo company={planDetailsModal.company} thumbnailUrl={planDetailsModal.thumbnailUrl} />
                 </div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-3 py-1.5 rounded-lg">
                   {planDetailsModal.categoryTag || planDetailsModal.category}
