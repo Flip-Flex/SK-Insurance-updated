@@ -168,14 +168,14 @@ export const Claims = () => {
               </p>
             </div>
             
-            <div className="flex flex-col gap-8 min-w-[300px]">
+            <div className="flex flex-col gap-8 w-full md:min-w-[300px] md:w-auto">
               <div className="border-l-2 border-brand-accent pl-6">
                 <p className="text-neutral-500 text-sm font-bold uppercase tracking-wider mb-2">24/7 Dedicated Hotline</p>
                 <p className="text-3xl font-light text-black dark:text-white tracking-wider">+91 99944 51300</p>
               </div>
               <div className="border-l-2 border-black/20 dark:border-white/20 pl-6">
                 <p className="text-neutral-500 text-sm font-bold uppercase tracking-wider mb-2">Priority Email</p>
-                <p className="text-xl font-light text-black dark:text-white tracking-wider">skinvestments2025@gmail.com</p>
+                <p className="text-lg md:text-xl font-light text-black dark:text-white tracking-wider break-all sm:break-words">skinvestments2025@gmail.com</p>
               </div>
             </div>
           </div>
