@@ -52,15 +52,14 @@ export const Claims = () => {
     <div className="min-h-screen bg-[#F7F7F5] dark:bg-black text-neutral-800 dark:text-neutral-200 overflow-x-hidden font-sans pt-24 selection:bg-brand-accent selection:text-black transition-colors duration-300">
       
       {/* 1. HERO — We Help You Through the Claim. */}
-      <section className="relative px-6 lg:px-12 pt-16 pb-24 lg:pt-24 lg:pb-32 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10 overflow-hidden lg:min-h-[70vh] flex items-center">
+      <section className="relative px-6 lg:px-12 pt-16 pb-24 lg:pt-24 lg:pb-32 max-w-[1440px] mx-auto border-b border-black/10 dark:border-white/10 overflow-hidden">
         {/* Subtle Background Glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-brand-accent/10 dark:bg-brand-accent/5 rounded-full blur-[100px]" />
-          <div className="absolute bottom-10 right-10 w-[30vw] h-[30vw] max-w-[400px] max-h-[400px] bg-red-500/10 dark:bg-red-500/5 rounded-full blur-[100px]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#F7F7F5] dark:from-black via-[#F7F7F5]/90 dark:via-black/90 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F7F7F5] dark:from-black via-[#F7F7F5]/80 dark:via-black/80 to-transparent" />
         </div>
 
-        <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 w-full max-w-5xl">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
             <h1 className="text-5xl sm:text-6xl lg:text-[80px] font-black text-black dark:text-white leading-[1] tracking-tighter mb-8 uppercase">
               We Help You <br />
@@ -80,43 +79,6 @@ export const Claims = () => {
                 <FaPhoneAlt /> Emergency Support
               </button>
             </div>
-          </motion.div>
-
-          {/* Right Side - Image with Special Effect */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, rotate: -2 }} 
-            animate={{ opacity: 1, scale: 1, rotate: 0 }} 
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative hidden lg:block"
-          >
-            <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative z-10 rounded-[40px] overflow-hidden border-4 border-white/50 dark:border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] bg-white/10 backdrop-blur-sm p-4"
-            >
-              <div className="rounded-[28px] overflow-hidden relative group">
-                {/* Image Overlay/Glow */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand-accent/20 to-transparent mix-blend-overlay z-10 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <img 
-                  src="/claim.jpg" 
-                  alt="Claims Support" 
-                  className="w-full h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700" 
-                />
-              </div>
-            </motion.div>
-
-            {/* Decorative background elements behind image */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gradient-to-tr from-brand-accent/20 to-red-500/20 rounded-full blur-[60px] -z-10" />
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="absolute -bottom-8 -right-8 w-32 h-32 border border-black/10 dark:border-white/10 rounded-full border-dashed -z-10"
-            />
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              className="absolute -top-12 -left-4 w-24 h-24 border-2 border-brand-accent/30 rounded-full -z-10"
-            />
           </motion.div>
         </div>
       </section>
