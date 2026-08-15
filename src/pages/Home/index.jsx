@@ -516,17 +516,10 @@ export const Home = () => {
     <div className="relative">
       {/* Full-width Background Video Banner at the Top */}
       <section className="relative w-full h-screen overflow-hidden bg-black">
-        {/* Fallback background image — always present behind the video */}
-        <img 
-          src="/casual/insurancepolicy.jpg" 
-          alt="SK Smart Investments" 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        
-        {/* Video element — covers the image when playing */}
+        {/* Video element */}
         <video 
           ref={heroVideoRef}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${videoPlaying ? 'opacity-100' : 'opacity-0'}`}
+          className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           loop
           muted
@@ -536,31 +529,7 @@ export const Home = () => {
           <source src={videoSrc} type="video/mp4" />
         </video>
 
-        {/* Overlay gradient + branding (shows on fallback image) */}
-        {!videoPlaying && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-black/60 via-black/30 to-black/70">
-            <img src="/logo.png" alt="SK Smart Investments" className="h-20 sm:h-28 w-auto mb-6 drop-shadow-2xl" />
-            <h1 className="text-white text-3xl sm:text-5xl font-extrabold tracking-tight text-center uppercase drop-shadow-lg px-6">
-              SK Smart Investments
-            </h1>
-            <p className="text-white/70 text-base sm:text-lg mt-3 text-center px-8">
-              Insurance & Financial Advisory
-            </p>
-            <button 
-              onClick={() => {
-                const vid = heroVideoRef.current;
-                if (vid) {
-                  vid.muted = true;
-                  vid.play().then(() => setVideoPlaying(true)).catch(() => {});
-                }
-              }}
-              className="mt-8 flex items-center gap-3 px-6 py-3 bg-white/15 backdrop-blur-md border border-white/30 rounded-full text-white font-semibold text-sm hover:bg-white/25 transition-all active:scale-95"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              Tap to Play
-            </button>
-          </div>
-        )}
+
 
         {/* Scroll Indicator */}
         <motion.div 
