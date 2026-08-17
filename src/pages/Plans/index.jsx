@@ -213,14 +213,19 @@ export const Plans = () => {
 
     let categoryMatch = true;
     if (activeFilter !== 'ALL') {
+      const planCategory = (plan.category || '').toLowerCase();
+      const planCategoryTag = (plan.categoryTag || '').toLowerCase();
+      
       if (activeFilter === 'General') {
         if (activeSubFilter === 'General') {
-          categoryMatch = plan.category === 'General' || plan.category === 'Travel' || plan.category === 'Health' || plan.category === 'Motor';
+          categoryMatch = planCategory.includes('general') || planCategory.includes('travel') || planCategory.includes('health') || planCategory.includes('motor');
         } else {
-          categoryMatch = plan.category === activeSubFilter || plan.categoryTag === activeSubFilter;
+          const subLower = activeSubFilter.toLowerCase();
+          categoryMatch = planCategory.includes(subLower) || planCategoryTag.includes(subLower);
         }
       } else {
-        categoryMatch = plan.category === activeFilter || plan.categoryTag === activeFilter;
+        const activeLower = activeFilter.toLowerCase();
+        categoryMatch = planCategory.includes(activeLower) || planCategoryTag.includes(activeLower);
       }
     }
 
