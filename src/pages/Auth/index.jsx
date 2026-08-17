@@ -196,6 +196,7 @@ export const Auth = () => {
                           placeholder="Enter your email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
+                          autoComplete="off"
                           className="w-full pl-11 pr-4 py-4 bg-black/50 border border-white/10 rounded-2xl text-white placeholder-neutral-600 focus:outline-none focus:border-brand-accent focus:bg-black transition-colors font-medium text-sm"
                         />
                       </div>
@@ -212,9 +213,10 @@ export const Auth = () => {
                         <input
                           required
                           type={showPassword ? 'text' : 'password'}
-                          placeholder="••••••••"
+                          placeholder="Enter password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
+                          autoComplete="new-password"
                           className="w-full pl-11 pr-12 py-4 bg-black/50 border border-white/10 rounded-2xl text-white placeholder-neutral-600 focus:outline-none focus:border-brand-accent focus:bg-black transition-colors font-medium text-sm"
                         />
                         <button
