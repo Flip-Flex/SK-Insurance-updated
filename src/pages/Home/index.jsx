@@ -352,7 +352,7 @@ export const Home = () => {
     },
     {
       name: 'Niva Bupa Health',
-      type: 'Health Care',
+      type: 'Health Insurance',
       logo: '/logos/niva_bupa.png',
       onlineLogo: 'https://logo.clearbit.com/nivabupa.com',
       tag: 'CRITICAL SHIELD',
@@ -384,7 +384,7 @@ export const Home = () => {
     },
     {
       name: 'ManipalCigna Health',
-      type: 'Health Care',
+      type: 'Health Insurance',
       logo: '/logos/ManipalCigna Health.png',
       onlineLogo: '/logos/ManipalCigna Health.png',
       tag: 'WELLNESS FIRST',
@@ -392,7 +392,7 @@ export const Home = () => {
     },
     {
       name: 'Star Health Insurance',
-      type: 'Health Care',
+      type: 'Health Insurance',
       logo: '/logos/star_health.png',
       onlineLogo: 'https://logo.clearbit.com/starhealth.in',
       tag: 'CASHLESS CARE',

@@ -95,7 +95,7 @@ export const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`relative px-2 py-2 text-[15px] font-medium transition-all duration-300 inline-block transform hover:scale-110 ${
+                  className={`relative px-2 py-2 text-[15px] font-medium whitespace-nowrap transition-all duration-300 inline-block transform hover:scale-110 ${
                     active 
                       ? (isTransparent ? 'text-black font-bold scale-105' : 'text-brand-accent font-bold scale-105 drop-shadow-[0_0_8px_rgba(255,179,0,0.6)]') 
                       : (isTransparent ? 'text-black hover:text-black/70' : 'text-black dark:text-white hover:text-brand-accent hover:drop-shadow-[0_0_8px_rgba(255,179,0,0.4)]')
@@ -169,14 +169,7 @@ export const Navbar = () => {
                   Dashboard
                 </button>
               )}
-              {isAuthenticated && (
-                <button
-                  onClick={logout}
-                  className={`px-4 py-2.5 rounded-[14px] font-medium text-[14px] transition-colors ${isTransparent ? 'text-black hover:bg-black/10' : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'}`}
-                >
-                  Logout
-                </button>
-              )}
+ 
               {!isManager && (
                 <button
                   onClick={() => navigate('/appointment')}
@@ -278,12 +271,7 @@ export const Navbar = () => {
                           Get Started
                         </button>
                       )}
-                      <button
-                        onClick={() => { closeMenu(); setIsOpen(false); logout(); }}
-                        className="w-full py-4 mt-4 rounded-[14px] border border-red-500/30 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 font-bold text-[16px] cursor-pointer"
-                      >
-                        Logout
-                      </button>
+ 
                     </>
                   ) : (
                     <>

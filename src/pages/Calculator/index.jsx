@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, animate } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 // Animated Counter Component
 const AnimatedCounter = ({ value, prefix = "", suffix = "" }) => {
@@ -75,6 +76,7 @@ const GlassToggle = ({ label, sublabel, checked, onChange }) => (
       ? 'bg-[#FFB300]/10 dark:bg-[#FFB300]/5 border-[#FFB300]/40 dark:border-[#FFB300]/30' 
       : 'bg-white dark:bg-[#0A0A0A] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/[0.02] dark:hover:bg-[#111111]'
   }`}>
+    <input type="checkbox" className="hidden" checked={checked} onChange={(e) => onChange(e.target.checked)} />
     <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-200 ${checked ? 'bg-[#FFB300] dark:bg-[#FFB300]' : 'bg-neutral-300 dark:bg-neutral-600'}`}>
       <span className={`inline-block h-3 w-3 transform rounded-full bg-white dark:bg-black transition duration-200 ${checked ? 'translate-x-5' : 'translate-x-1'}`} />
     </div>
@@ -104,6 +106,7 @@ const ConditionChip = ({ label, checked, onChange }) => (
 
 export const Calculator = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [category, setCategory] = useState('health');
   const [premium, setPremium] = useState(0);
   const [showBuyModal, setShowBuyModal] = useState(false);
@@ -672,10 +675,10 @@ export const Calculator = () => {
                   </div>
 
                   <button 
-                    onClick={() => setShowBuyModal(true)}
-                    className="w-full bg-black dark:bg-white text-white dark:text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-[#FFB300] dark:hover:bg-[#FFB300] hover:text-black dark:hover:text-black transition-colors flex items-center justify-center gap-2"
+                    onClick={() => navigate('/appointment')}
+                    className="w-full bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2"
                   >
-                    <FaCalculator /> Setup Auto-SIP
+                    <FaShieldAlt /> Secure Now
                   </button>
                 </div>
               ) : category === 'health' ? (
@@ -739,7 +742,7 @@ export const Calculator = () => {
                   </div>
 
                   <button 
-                    onClick={() => setShowBuyModal(true)}
+                    onClick={() => navigate('/appointment')}
                     className="w-full bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2 mb-4"
                   >
                     <FaShieldAlt /> Secure Now
@@ -784,7 +787,7 @@ export const Calculator = () => {
                   </div>
 
                   <button 
-                    onClick={() => setShowBuyModal(true)}
+                    onClick={() => navigate('/appointment')}
                     className="w-full bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold py-4 text-sm uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors flex items-center justify-center gap-2"
                   >
                     <FaShieldAlt /> Secure Now
@@ -812,70 +815,15 @@ export const Calculator = () => {
             </p>
           </div>
           <button 
-            onClick={() => setShowBuyModal(true)} 
+            onClick={() => navigate('/appointment')} 
             className="flex-shrink-0 bg-[#FFB300] dark:bg-[#FFB300] text-black px-4 py-2.5 sm:px-6 sm:py-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-lg transition-colors hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black"
           >
-            {category === 'sip' ? 'Setup SIP' : 'Secure Now'}
+            Secure Now
           </button>
         </div>
       </div>
 
-      {/* ── Buy Flow Modal ── */}
-      <AnimatePresence>
-        {showBuyModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm" onClick={() => setShowBuyModal(false)} />
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }} 
-              animate={{ scale: 1, opacity: 1 }} 
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-md bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-8 shadow-2xl overflow-hidden"
-            >
-              
-              <h2 className="text-xl font-bold text-black dark:text-white mb-6 relative z-10">
-                {category === 'sip' ? "SIP Auto-Debit Setup" : "Premium Activation"}
-              </h2>
-
-              {successBuy ? (
-                <div className="text-center py-8 relative z-10">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-[#FFB300]/15 dark:bg-[#FFB300]/10 text-[#FFB300] dark:text-[#FFB300] rounded-2xl mb-4">
-                    <FaUserCheck className="text-3xl" />
-                  </div>
-                  <h3 className="text-2xl font-extrabold text-black dark:text-white mb-2">Activated!</h3>
-                  <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                    {category === 'sip' ? 'Your auto-debit SIP mandate is registered.' : 'Your policy has been successfully issued.'}
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handlePurchaseMock} className="space-y-5 relative z-10">
-                  <GlassInput label="Legal Name">
-                    <input required type="text" value={buyName} onChange={(e) => setBuyName(e.target.value)} className={inputClasses} placeholder="John Doe" />
-                  </GlassInput>
-                  <GlassInput label="Email">
-                    <input required type="email" value={buyEmail} onChange={(e) => setBuyEmail(e.target.value)} className={inputClasses} placeholder="john@example.com" />
-                  </GlassInput>
-                  
-                  <div className="p-4 bg-black/[0.02] dark:bg-[#111111] border border-black/5 dark:border-white/5 rounded-xl">
-                    <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 mb-3 uppercase tracking-widest">Summary</p>
-                    <div className="flex justify-between text-sm text-black dark:text-white font-bold mb-1">
-                      <span>{category === 'sip' ? 'Monthly SIP' : 'Monthly Premium'}</span>
-                      <span className="text-[#FFB300] dark:text-[#FFB300]">₹{category === 'sip' ? sipMonthly.toLocaleString() : premium.toLocaleString()}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3 pt-4">
-                    <button type="button" onClick={() => setShowBuyModal(false)} className="flex-1 py-3 text-sm font-bold text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors rounded-xl hover:bg-black/[0.02] dark:hover:bg-[#111111]">Cancel</button>
-                    <button type="submit" className="flex-1 py-3 bg-[#FFB300] dark:bg-[#FFB300] text-black font-bold uppercase tracking-widest rounded-xl hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors">
-                      Confirm
-                    </button>
-                  </div>
-                </form>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+ 
     </div>
   );
 };

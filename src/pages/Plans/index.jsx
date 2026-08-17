@@ -168,7 +168,7 @@ export const Plans = () => {
   const filterOptions = [
     { label: 'All Plans', value: 'ALL' },
     { label: 'Life Insurance', value: 'Life' },
-    { label: 'Health Care', value: 'Health' },
+    { label: 'Health Insurance', value: 'Health' },
     { label: 'General Insurance', value: 'General' }
   ];
 
@@ -446,7 +446,7 @@ export const Plans = () => {
                   {/* Card Header: Logo, Category, Compare Checkbox */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex gap-4 items-center">
-                      <div className="w-[72px] h-12">
+                      <div className="w-[100px] h-[56px]">
                         <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} />
                       </div>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-black/80 dark:text-white/80 bg-black/5 dark:bg-white/10 px-2 py-1 rounded">

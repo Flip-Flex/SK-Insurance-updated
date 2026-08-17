@@ -5,7 +5,7 @@ import { useTranslation } from '../../context/LanguageContext';
 import { 
   FaClock, FaEnvelope, FaMapMarkerAlt, 
   FaWhatsapp, FaInstagram, FaCalendarAlt, FaChevronDown, 
-  FaPhoneAlt, FaArrowRight, FaShieldAlt, FaHeadset
+  FaPhoneAlt, FaArrowRight, FaShieldAlt, FaHeadset, FaFacebook
 } from 'react-icons/fa';
 import { subscribeToCollection } from '../../services/firebaseService';
 
@@ -47,8 +47,17 @@ export const Support = () => {
 
       {/* ── QUICK CONTACT STRIP ── */}
       <section className="px-4 sm:px-8 max-w-7xl mx-auto py-16 border-b border-black/10 dark:border-white/10 transition-colors">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           
+          <a href="https://www.facebook.com/profile.php?id=61592452371528" target="_blank" rel="noopener noreferrer" className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 hover:shadow-lg dark:hover:shadow-none transition-all group shadow-sm dark:shadow-none">
+            <div className="w-11 h-11 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-600 mb-5 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+              <FaFacebook />
+            </div>
+            <h3 className="text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1.5">Facebook</h3>
+            <p className="text-base font-bold text-black dark:text-white">Join Community</p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Connect with us</p>
+          </a>
+
           <a href="tel:+919994451300" className="bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 rounded-2xl p-6 hover:border-black/30 dark:hover:border-white/20 hover:shadow-lg dark:hover:shadow-none transition-all group shadow-sm dark:shadow-none">
             <div className="w-11 h-11 rounded-xl bg-[#FFB300]/15 dark:bg-[#FFB300]/10 flex items-center justify-center text-[#FFB300] dark:text-[#FFB300] mb-5 group-hover:bg-[#FFB300] dark:group-hover:bg-[#FFB300] group-hover:text-black transition-colors">
               <FaPhoneAlt />

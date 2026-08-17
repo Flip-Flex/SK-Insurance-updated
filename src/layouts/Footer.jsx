@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../components/ui/Logo';
 import { useTranslation } from '../context/LanguageContext';
-import { FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaInstagram, FaWhatsapp, FaPhoneAlt, FaArrowRight } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaInstagram, FaWhatsapp, FaPhoneAlt, FaArrowRight, FaFacebook } from 'react-icons/fa';
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -26,6 +26,7 @@ export const Footer = () => {
             <div className="flex space-x-4 pt-2">
               {
                 [
+                  { icon: FaFacebook, url: "https://www.facebook.com/profile.php?id=61592452371528", color: "text-blue-600 border-blue-600/50 bg-blue-600/10" },
                   { icon: FaInstagram, url: "https://www.instagram.com/sk_smartinvestments/", color: "text-pink-500 border-pink-500/50 bg-pink-500/10" },
                   { icon: FaLinkedin, url: "https://www.linkedin.com/company/sksmartinvestments/", color: "text-blue-500 border-blue-500/50 bg-blue-500/10" },
                   { icon: FaWhatsapp, url: "https://wa.me/919994451300?text=Hi", color: "text-emerald-500 border-emerald-500/50 bg-emerald-500/10" }
@@ -100,40 +101,46 @@ export const Footer = () => {
             </h4>
             <ul className="space-y-6">
               
-              <li className="flex items-start gap-4 group cursor-pointer">
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-accent/10 group-hover:border-brand-accent/30 transition-all duration-300 shadow-xl">
-                  <FaMapMarkerAlt className="text-neutral-400 group-hover:text-brand-accent transition-colors" />
-                </div>
-                <div>
-                  <p className="font-[900] text-white text-[10px] uppercase tracking-widest mb-1">Corporate Office</p>
-                  <a href="https://maps.google.com/?q=MD+Plaza+West+Raja+Street+Kanchipuram" target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-400 font-medium leading-relaxed group-hover:text-white transition-colors block">
-                    # 104, MD Plaza, 1st Floor, West Raja Street, Kanchipuram - 631502.
-                  </a>
-                </div>
+              <li>
+                <a href="https://maps.google.com/?q=MD+Plaza+West+Raja+Street+Kanchipuram" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group cursor-pointer block">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-accent/10 group-hover:border-brand-accent/30 transition-all duration-300 shadow-xl">
+                    <FaMapMarkerAlt className="text-neutral-400 group-hover:text-brand-accent transition-colors" />
+                  </div>
+                  <div>
+                    <p className="font-[900] text-white text-[10px] uppercase tracking-widest mb-1">Corporate Office</p>
+                    <span className="text-sm text-neutral-400 font-medium leading-relaxed group-hover:text-white transition-colors block">
+                      # 104, MD Plaza, 1st Floor, West Raja Street, Kanchipuram - 631502.
+                    </span>
+                  </div>
+                </a>
               </li>
 
-              <li className="flex items-start gap-4 group cursor-pointer">
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-accent/10 group-hover:border-brand-accent/30 transition-all duration-300 shadow-xl">
-                  <FaEnvelope className="text-neutral-400 group-hover:text-brand-accent transition-colors" />
-                </div>
-                <div>
-                  <p className="font-[900] text-white text-[10px] uppercase tracking-widest mb-1">{t('footer_email')}</p>
-                  <a href="mailto:skinvestments2025@gmail.com" className="text-sm text-neutral-400 font-medium group-hover:text-white transition-colors block">
-                    skinvestments2025@gmail.com
-                  </a>
-                </div>
+              <li>
+                <a href="mailto:skinvestments2025@gmail.com" className="flex items-start gap-4 group cursor-pointer block">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-accent/10 group-hover:border-brand-accent/30 transition-all duration-300 shadow-xl">
+                    <FaEnvelope className="text-neutral-400 group-hover:text-brand-accent transition-colors" />
+                  </div>
+                  <div>
+                    <p className="font-[900] text-white text-[10px] uppercase tracking-widest mb-1">{t('footer_email')}</p>
+                    <span className="text-sm text-neutral-400 font-medium group-hover:text-white transition-colors block">
+                      skinvestments2025@gmail.com
+                    </span>
+                  </div>
+                </a>
               </li>
 
-              <li className="flex items-start gap-4 group cursor-pointer">
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-accent/10 group-hover:border-brand-accent/30 transition-all duration-300 shadow-xl">
-                  <FaPhoneAlt className="text-neutral-400 group-hover:text-brand-accent transition-colors" />
-                </div>
-                <div>
-                  <p className="font-[900] text-white text-[10px] uppercase tracking-widest mb-1">Phone Hotline</p>
-                  <a href="tel:+919994451300" className="text-sm text-neutral-400 font-medium group-hover:text-white transition-colors block font-sans">
-                    +91 99944 51300
-                  </a>
-                </div>
+              <li>
+                <a href="tel:+919994451300" className="flex items-start gap-4 group cursor-pointer block">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-accent/10 group-hover:border-brand-accent/30 transition-all duration-300 shadow-xl">
+                    <FaPhoneAlt className="text-neutral-400 group-hover:text-brand-accent transition-colors" />
+                  </div>
+                  <div>
+                    <p className="font-[900] text-white text-[10px] uppercase tracking-widest mb-1">Phone Hotline</p>
+                    <span className="text-sm text-neutral-400 font-medium group-hover:text-white transition-colors block font-sans">
+                      +91 99944 51300
+                    </span>
+                  </div>
+                </a>
               </li>
 
             </ul>
