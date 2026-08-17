@@ -18,7 +18,7 @@ const DEFAULT_COMPANIES = [
 ];
 
 const DEFAULT_CATEGORIES = [
-  'Health Insurance', 'Life Insurance', 'General Insurance'
+  'Health Insurance', 'Life Insurance', 'General Insurance', 'Motor Insurance'
 ];
 
 const BILLING_TYPES = ['Monthly', 'Quarterly', 'Half Yearly', 'Yearly'];

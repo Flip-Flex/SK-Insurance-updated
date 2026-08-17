@@ -99,6 +99,7 @@ export const Plans = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [activeFilter, setActiveFilter] = useState('ALL');
+  const [activeSubFilter, setActiveSubFilter] = useState('General');
   const [activeCompanyFilter, setActiveCompanyFilter] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -142,8 +143,18 @@ export const Plans = () => {
     window.scrollTo(0, 0);
     const params = new URLSearchParams(location.search);
     const category = params.get('category');
-    if (category) setActiveFilter(category);
-    else setActiveFilter('ALL');
+    if (category) {
+      if (['Health', 'Motor'].includes(category)) {
+        setActiveFilter('General');
+        setActiveSubFilter(category);
+      } else {
+        setActiveFilter(category);
+        setActiveSubFilter('General');
+      }
+    } else {
+      setActiveFilter('ALL');
+      setActiveSubFilter('General');
+    }
   }, [location.search]);
 
   useEffect(() => {
@@ -165,11 +176,16 @@ export const Plans = () => {
     return () => unsubscribe();
   }, []);
 
-  const filterOptions = [
+  const mainFilterOptions = [
     { label: 'All Plans', value: 'ALL' },
     { label: 'Life Insurance', value: 'Life' },
-    { label: 'Health Insurance', value: 'Health' },
     { label: 'General Insurance', value: 'General' }
+  ];
+
+  const subFilterOptions = [
+    { label: 'All General', value: 'General' },
+    { label: 'Health Insurance', value: 'Health' },
+    { label: 'Motor Insurance', value: 'Motor' }
   ];
 
   const ALL_SIXTEEN_COMPANIES = [
@@ -198,7 +214,11 @@ export const Plans = () => {
     let categoryMatch = true;
     if (activeFilter !== 'ALL') {
       if (activeFilter === 'General') {
-        categoryMatch = plan.category === 'General' || plan.category === 'Travel';
+        if (activeSubFilter === 'General') {
+          categoryMatch = plan.category === 'General' || plan.category === 'Travel' || plan.category === 'Health' || plan.category === 'Motor';
+        } else {
+          categoryMatch = plan.category === activeSubFilter || plan.categoryTag === activeSubFilter;
+        }
       } else {
         categoryMatch = plan.category === activeFilter || plan.categoryTag === activeFilter;
       }
@@ -295,12 +315,15 @@ export const Plans = () => {
         
         {/* Categories - Desktop Tabs */}
         <div className="hidden sm:flex overflow-x-auto pb-2 sm:mx-0 sm:px-0 gap-2 hide-scrollbar whitespace-nowrap border-b border-black/5 dark:border-white/5">
-          {filterOptions.map((opt) => {
+          {mainFilterOptions.map((opt) => {
             const isActive = activeFilter === opt.value;
             return (
               <button
                 key={opt.value}
-                onClick={() => setActiveFilter(opt.value)}
+                onClick={() => {
+                  setActiveFilter(opt.value);
+                  if (opt.value === 'General') setActiveSubFilter('General');
+                }}
                 className={cn(
                   "px-5 py-3 text-sm font-semibold transition-colors relative",
                   isActive ? "text-brand-accent" : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
@@ -315,6 +338,27 @@ export const Plans = () => {
           })}
         </div>
 
+        {/* Sub Categories - Desktop Tabs */}
+        {activeFilter === 'General' && (
+          <div className="hidden sm:flex overflow-x-auto pb-2 sm:mx-0 sm:px-0 gap-2 hide-scrollbar whitespace-nowrap mt-2">
+            {subFilterOptions.map((opt) => {
+              const isActive = activeSubFilter === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => setActiveSubFilter(opt.value)}
+                  className={cn(
+                    "px-4 py-2 text-xs font-semibold transition-colors rounded-full",
+                    isActive ? "bg-black dark:bg-white text-white dark:text-black" : "bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
+                  )}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {/* Filter Controls Row */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           
@@ -326,15 +370,24 @@ export const Plans = () => {
                 <span className="text-[10px] font-bold text-black/40 dark:text-white/40 uppercase tracking-wider pl-1">Category</span>
                 <div className="relative h-full">
                   <select
-                    value={activeFilter}
-                    onChange={(e) => setActiveFilter(e.target.value)}
+                    value={activeFilter === 'General' && activeSubFilter !== 'General' ? activeSubFilter : activeFilter}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (['Health', 'Motor'].includes(val)) {
+                        setActiveFilter('General');
+                        setActiveSubFilter(val);
+                      } else {
+                        setActiveFilter(val);
+                        setActiveSubFilter('General');
+                      }
+                    }}
                     className="appearance-none w-full h-full min-h-[44px] bg-white dark:bg-[#0A0A0A] border border-black/10 dark:border-white/10 text-black dark:text-white text-xs font-bold rounded-lg px-3 py-2.5 pr-8 focus:outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors shadow-sm"
                   >
-                    {filterOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
+                    <option value="ALL">All Plans</option>
+                    <option value="Life">Life Insurance</option>
+                    <option value="General">General Insurance</option>
+                    <option value="Health">&nbsp;&nbsp;↳ Health Insurance</option>
+                    <option value="Motor">&nbsp;&nbsp;↳ Motor Insurance</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                     <svg className="w-4 h-4 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>

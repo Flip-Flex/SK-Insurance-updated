@@ -55,7 +55,8 @@ export const Footer = () => {
               {[
                 { name: "Health Insurance", path: "/plans?category=Health" },
                 { name: "Life Insurance", path: "/plans?category=Life" },
-                { name: "General Insurance", path: "/plans?category=General" }
+                { name: "General Insurance", path: "/plans?category=General" },
+                { name: "Motor Insurance", path: "/plans?category=Motor" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <Link to={link.path} className="group flex items-center gap-2 text-sm text-neutral-400 font-medium hover:text-white transition-colors">
