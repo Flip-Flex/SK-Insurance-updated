@@ -8,10 +8,14 @@ import { FaCheck, FaShieldAlt, FaUserShield, FaBriefcase, FaFileSignature, FaHea
 import { cn } from '../../utils/cn';
 
 // Clean Professional Company Logo Component
-export const CompanyLogo = ({ company, thumbnailUrl }) => {
+export const CompanyLogo = ({ company, thumbnailUrl, isHeader }) => {
+  const containerClass = isHeader 
+    ? "w-full h-full flex items-center justify-center p-4" 
+    : "w-full h-full flex items-center justify-center p-1 rounded-lg bg-white dark:bg-stone-200 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-black/5 dark:border-none";
+
   if (thumbnailUrl) {
     return (
-      <div className="w-full h-full flex items-center justify-center p-1 rounded-lg bg-white dark:bg-stone-200 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-black/5 dark:border-none">
+      <div className={containerClass}>
         <img
           src={thumbnailUrl}
           alt={company}
@@ -44,7 +48,7 @@ export const CompanyLogo = ({ company, thumbnailUrl }) => {
   else if (comp.includes('max') || comp.includes('axis')) { logoUrl = '/logos/axis_max.png'; scaleClass = 'scale-[1.4]'; }
 
   return (
-    <div className="w-full h-full flex items-center justify-center p-1 rounded-lg bg-white dark:bg-stone-200 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-black/5 dark:border-none">
+    <div className={containerClass}>
       <img
         src={logoUrl}
         alt={company}
@@ -57,10 +61,12 @@ export const CompanyLogo = ({ company, thumbnailUrl }) => {
 
 // Skeleton Loader Component
 const PlanSkeleton = () => (
-  <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0A0A0A] p-6 flex flex-col relative overflow-hidden animate-pulse shadow-sm dark:shadow-none">
+  <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#0A0A0A] flex flex-col relative overflow-hidden animate-pulse shadow-sm dark:shadow-none">
+    <div className="w-full h-24 sm:h-28 bg-black/5 dark:bg-white/10"></div>
+    <div className="p-6 flex flex-col flex-1">
     <div className="flex justify-between items-start mb-6">
-      <div className="w-20 h-10 bg-black/5 dark:bg-white/10 rounded-lg"></div>
       <div className="w-24 h-6 bg-black/5 dark:bg-white/10 rounded-full"></div>
+      <div className="w-16 h-6 bg-black/5 dark:bg-white/10 rounded"></div>
     </div>
     <div className="w-3/4 h-6 bg-black/5 dark:bg-white/10 rounded mb-6"></div>
     <div className="w-1/2 h-10 bg-black/5 dark:bg-white/10 rounded mb-4"></div>
@@ -70,9 +76,10 @@ const PlanSkeleton = () => (
       <div className="w-5/6 h-3 bg-black/5 dark:bg-white/10 rounded"></div>
       <div className="w-4/5 h-3 bg-black/5 dark:bg-white/10 rounded"></div>
     </div>
-    <div className="flex gap-4">
-      <div className="flex-1 h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
-      <div className="flex-1 h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
+    <div className="grid grid-cols-2 gap-3 mt-auto">
+      <div className="h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
+      <div className="h-12 bg-black/5 dark:bg-white/10 rounded-lg"></div>
+    </div>
     </div>
   </div>
 );
@@ -500,13 +507,16 @@ export const Plans = () => {
                   {/* Removed absolute tag */}
 
                   {/* Removed banner rendering */}
+                  
+                  {/* Brand Icon Header */}
+                  <div className="w-full h-24 sm:h-28 bg-white dark:bg-stone-200 border-b border-black/10 dark:border-white/10 relative z-10">
+                    <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} isHeader={true} />
+                  </div>
+
                   <div className="p-6 flex flex-col flex-1 relative z-10">
-                  {/* Card Header: Logo, Category, Compare Checkbox */}
+                  {/* Card Header: Category, Compare Checkbox */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex gap-4 items-center">
-                      <div className="w-[100px] h-[56px]">
-                        <CompanyLogo company={plan.company} thumbnailUrl={plan.thumbnailUrl} />
-                      </div>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-black/80 dark:text-white/80 bg-black/5 dark:bg-white/10 px-2 py-1 rounded">
                         {plan.categoryTag || plan.category}
                       </span>
